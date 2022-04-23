@@ -1,0 +1,332 @@
+{% extends 'adminlte/base.html' %}
+
+{% block content %}
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Landing Page - Start Bootstrap Theme</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+<!--        <link href="admin-lte/dist/css/styles_index.css" rel="stylesheet" />-->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+    </head>
+    <body>
+              <!-- Masthead-->
+        <header class="masthead" style="background: url('static/admin-lte/dist/img/bg-masthead.jpg') no-repeat center center;">
+            <div class="container position-relative">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6">
+                        <div class="text-center text-white">
+                            <!-- Page heading-->
+                            <h1 class="mb-5">Watershed Management System</h1>
+                            <h3 class="">Predict · Visualize</h3>
+                            <!-- Signup form-->
+                            <!-- * * * * * * * * * * * * * * *-->
+                            <!-- * * SB Forms Contact Form * *-->
+                            <!-- * * * * * * * * * * * * * * *-->
+                            <!-- This form is pre-integrated with SB Forms.-->
+                            <!-- To make this form functional, sign up at-->
+                            <!-- https://startbootstrap.com/solution/contact-forms-->
+                            <!-- to get an API token!-->
+<!--                            <form class="form-subscribe" id="contactForm" data-sb-form-api-token="API_TOKEN">-->
+<!--                                &lt;!&ndash; Email address input&ndash;&gt;-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col">-->
+<!--                                        <input class="form-control form-control-lg" id="emailAddress" type="email" placeholder="Email Address" data-sb-validations="required,email" />-->
+<!--                                        <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:required">Email Address is required.</div>-->
+<!--                                        <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:email">Email Address Email is not valid.</div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button></div>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash; Submit success message&ndash;&gt;-->
+<!--                                &lt;!&ndash;&ndash;&gt;-->
+<!--                                &lt;!&ndash; This is what your users will see when the form&ndash;&gt;-->
+<!--                                &lt;!&ndash; has successfully submitted&ndash;&gt;-->
+<!--                                <div class="d-none" id="submitSuccessMessage">-->
+<!--                                    <div class="text-center mb-3">-->
+<!--                                        <div class="fw-bolder">Form submission successful!</div>-->
+<!--                                        <p>To activate this form, sign up at</p>-->
+<!--                                        <a class="text-white" href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash; Submit error message&ndash;&gt;-->
+<!--                                &lt;!&ndash;&ndash;&gt;-->
+<!--                                &lt;!&ndash; This is what your users will see when there is&ndash;&gt;-->
+<!--                                &lt;!&ndash; an error submitting the form&ndash;&gt;-->
+<!--                                <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>-->
+<!--                            </form>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Icons Grid-->
+        <section class="features-icons bg-light text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <a href="/upload_file" style="text-decoration: none; color: black">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <div class="features-icons-icon d-flex"><i class="fas fa-file-upload m-auto text-secondary"></i></div>
+                            <h3>Upload</h3>
+                            <p class="lead mb-0">Drop excel sheet with required features!</p>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="/models" style="text-decoration: none; color: black">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <div class="features-icons-icon d-flex"><i class="fas fa-tasks m-auto text-secondary"></i></i></div>
+                            <h3>Prediction</h3>
+                            <p class="lead mb-0">Predict Phosphorus with around 85% accuracy</p>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="/advanced" style="text-decoration: none; color: black">
+                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                            <div class="features-icons-icon d-flex"><i class="fas fa-chart-pie m-auto text-secondary"></i></div>
+                            <h3>Visualization</h3>
+                            <p class="lead mb-0">Filter features and visualize graphs or map.</p>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+              <section class="bg-light">
+                <div class="container">
+                    <div class="row">
+                        <h2 class="font-weight-bold">Introduction</h2>
+                        <p class=" ml-3">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </div>
+                    
+                    <div class="row">
+                        <h2 class="font-weight-bold">Dataset</h2>
+
+                        <div class="row ml-3">
+                        <h5 class="font-weight-bold">Combining datasets</h5>
+                            <p class=" ml-3">
+                                Land cover (MODIS 2001-2019; TRCA/CLOCA current), soils (Ontario Detailed Soil Survey),
+Statistics
+Canada
+census tract (1996 2001.
+2006, 2011, 2016), and ECCC weather (2000- ZU20) data were
+combined with the water quality data and the sampling site's respective drainage basin.
+                            </p>
+
+                        <h5 class="font-weight-bold">MODIS</h5>
+                            <p class=" ml-3">
+                                The drainage basin is used to clip the MODIS land cover raster (250 m resolution). The remaining pixels
+are summed to give a count of each land cover toe for the given drainage basin. This clippina is done
+for each of the 19 MODIS land cover rasters (2001-2019), to provide the relative area of each land cover
+type tor each drainage basin over the 19-year period.
+                            </p>
+
+                        <h5 class="font-weight-bold">TRCA/CLOCA</h5>
+                            <p class=" ml-3">
+                                The IRCA/CLUCA land use shape files are merged into a single shaperile, and subsequently
+are
+converted to a single raster tile with a resolution or 10m. The land use/cover categories are recorded as
+unique pixel values. This raster file is clipped using the drainage basin and again the relative area of each
+land cover type is recorded.
+                            </p>
+                        <h5 class="font-weight-bold">Detailed Soil Survey</h5>
+                            <p class="ml-3">
+                                The Detailed Soil Survey shape file is rasterized to a resolution of 10m. The shapefile is accompanied
+with various additional attributes tiles containing information about sol components and sol layers
+These data are combined to calculate weighted means based on relative component areas and soil
+deon lavers
+- over the entire depth of the recorded soil column. The values we have extracted are:
+percent clay, silt, sand, other and unknown, and saturated hydraulic conductivity. Again, these rasters are
+clipped using the drainage basin and the resulting values are representative of the mean in the entire
+drainage basin for the entire recorded soil depth.
+                            </p>
+                        <h5 class="font-weight-bold">Statistics Canada</h5>
+                            <p class=" ml-3">
+                                To determine the socioeconomic influence on the water quality in the drainage basin, we used Statistics
+Canada Census data at the highest spatial resolution Census Tract (CT) scale. Onlv those CTs that
+intersect the drainage basin are included. The CT-level data (e.g.,
+Dopulation. dwellinas. emplovment) for
+all CTs within the drainage basin are aggregated using data from the closest Census year. I.e., a 2005
+collection date uses data from the 2006 Census.
+                            </p>
+                        <h5 class="font-weight-bold">Environment and Climate Change Canada</h5>
+                            <p class="ml-3">
+                                We downloaded daily data from weather stations within 50 km of Oshawa for all days between 2000 and
+2020. For each collection site and date, we extract data from the closest
+                            </p>
+                        <h5 class="font-weight-bold">National Pollutant Release Inventory</h5>
+                            <p class="ml-3">
+                                Considered NPRI data to track the pollutants and changes in water quality. Data is from 2000 to 2019,
+this data includes various disposals elimination and transfer, and rejected pollutants from the field areas.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+              </section>
+        <!-- Image Showcases-->
+        <section class="showcase">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <div class="col-lg-6 order-lg-2 showcase-img" id="map" ></div>
+                    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+
+                        <h2>Study Region</h2>
+                        <p class="lead mb-0">60 tributary sites in the Durham region and 48 from RCA jurisdiction, covering subwatersheds within the
+municipalities, over twenty-one years (2000-2020) for a total of over 7,800 water quality samples.
+Each of the sites are connected to a unique drainage basin.This drainage basin defines a geospatial area of
+Int uence on the samping ocation.</p>
+                    </div>
+                </div>
+                <div class="row g-0 mt-4">
+                    <div class="col-lg-6 order-lg-1 text-white showcase-img" id="plotAtHome1" ></div>
+                    <div class="col-lg-6 order-lg-2 my-auto showcase-text">
+                        <h2>Phosphorus amount in water</h2>
+                        <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 5!</p>
+                    </div>
+                </div>
+                <div class="row g-0">
+                    <div class="col-lg-6 order-lg-2 text-white showcase-img" id="plotAtHome2"></div>
+                    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                        <h2>Nitrogen amount in water</h2>
+                        <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!</p>
+                         <a href="/advanced">Explore dataset</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Testimonials-->
+<!--        <section class="testimonials text-center bg-light">-->
+<!--            <div class="container">-->
+<!--                <h2 class="mb-5">What people are saying...</h2>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="testimonial-item mx-auto mb-5 mb-lg-0">-->
+<!--                            <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-1.jpg" alt="..." />-->
+<!--                            <h5>Margaret E.</h5>-->
+<!--                            <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="testimonial-item mx-auto mb-5 mb-lg-0">-->
+<!--                            <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-2.jpg" alt="..." />-->
+<!--                            <h5>Fred S.</h5>-->
+<!--                            <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="testimonial-item mx-auto mb-5 mb-lg-0">-->
+<!--                            <img class="img-fluid rounded-circle mb-3" src="assets/img/testimonials-3.jpg" alt="..." />-->
+<!--                            <h5>Sarah W.</h5>-->
+<!--                            <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+        <!-- Call to Action-->
+<!--        <section class="call-to-action text-white text-center" id="signup">-->
+<!--            <div class="container position-relative">-->
+<!--                <div class="row justify-content-center">-->
+<!--                    <div class="col-xl-6">-->
+<!--                        <h2 class="mb-4">Ready to get started? Sign up now!</h2>-->
+<!--                        &lt;!&ndash; Signup form&ndash;&gt;-->
+<!--                        &lt;!&ndash; * * * * * * * * * * * * * * *&ndash;&gt;-->
+<!--                        &lt;!&ndash; * * SB Forms Contact Form * *&ndash;&gt;-->
+<!--                        &lt;!&ndash; * * * * * * * * * * * * * * *&ndash;&gt;-->
+<!--                        &lt;!&ndash; This form is pre-integrated with SB Forms.&ndash;&gt;-->
+<!--                        &lt;!&ndash; To make this form functional, sign up at&ndash;&gt;-->
+<!--                        &lt;!&ndash; https://startbootstrap.com/solution/contact-forms&ndash;&gt;-->
+<!--                        &lt;!&ndash; to get an API token!&ndash;&gt;-->
+<!--                        <form class="form-subscribe" id="contactFormFooter" data-sb-form-api-token="API_TOKEN">-->
+<!--                            &lt;!&ndash; Email address input&ndash;&gt;-->
+<!--                            <div class="row">-->
+<!--                                <div class="col">-->
+<!--                                    <input class="form-control form-control-lg" id="emailAddressBelow" type="email" placeholder="Email Address" data-sb-validations="required,email" />-->
+<!--                                    <div class="invalid-feedback text-white" data-sb-feedback="emailAddressBelow:required">Email Address is required.</div>-->
+<!--                                    <div class="invalid-feedback text-white" data-sb-feedback="emailAddressBelow:email">Email Address Email is not valid.</div>-->
+<!--                                </div>-->
+<!--                                <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button></div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; Submit success message&ndash;&gt;-->
+<!--                            &lt;!&ndash;&ndash;&gt;-->
+<!--                            &lt;!&ndash; This is what your users will see when the form&ndash;&gt;-->
+<!--                            &lt;!&ndash; has successfully submitted&ndash;&gt;-->
+<!--                            <div class="d-none" id="submitSuccessMessage">-->
+<!--                                <div class="text-center mb-3">-->
+<!--                                    <div class="fw-bolder">Form submission successful!</div>-->
+<!--                                    <p>To activate this form, sign up at</p>-->
+<!--                                    <a class="text-white" href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; Submit error message&ndash;&gt;-->
+<!--                            &lt;!&ndash;&ndash;&gt;-->
+<!--                            &lt;!&ndash; This is what your users will see when there is&ndash;&gt;-->
+<!--                            &lt;!&ndash; an error submitting the form&ndash;&gt;-->
+<!--                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+        <!-- Footer-->
+        <footer class="footer bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
+                        <ul class="list-inline mb-2">
+                            <li class="list-inline-item"><a href="#!">About</a></li>
+                            <li class="list-inline-item">⋅</li>
+                            <li class="list-inline-item"><a href="#!">Contact</a></li>
+                            <li class="list-inline-item">⋅</li>
+                            <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
+                            <li class="list-inline-item">⋅</li>
+                            <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
+                        </ul>
+                        <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2021. All Rights Reserved.</p>
+                    </div>
+                    <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item me-4">
+                                <a href="#!"><i class="bi-facebook fs-3"></i></a>
+                            </li>
+                            <li class="list-inline-item me-4">
+                                <a href="#!"><i class="bi-twitter fs-3"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!"><i class="bi-instagram fs-3"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts_index.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+
+{% endblock %}

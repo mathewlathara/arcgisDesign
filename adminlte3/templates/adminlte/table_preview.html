@@ -1,0 +1,65 @@
+{% extends 'adminlte/base.html' %}
+
+
+{% block content %}
+
+<style>
+table {
+  border-collapse: collapse;
+  border-radius: 5px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  font-family: "Quicksand", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+th {
+  background: #0d6efd;
+  color: #ffffff;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 10px 20px;
+}
+
+tr:nth-child(even) {
+  background: #eeeeee;
+}
+
+
+</style>
+
+
+<!-- <input type="file" id="csvFileInput" class="mb-3" /> -->
+<table id="csvRoot"></table>
+<script>
+  //         tutorial link : https://www.youtube.com/watch?v=gnqHNJNc_0A
+          onload = fetch("static/admin-lte/dist/js/data/recently_predicted.csv").then(res => {
+              return res.text()
+          }).then(data => {
+              let result = data.split(/\r?\n|\r/).map(e => {
+                  return e.split(",")
+              })
+              result.forEach(e => {
+                  let m = e.map(e => {
+                      return `<td>${e}</td>`;
+                  }).join("")
+                  let ce = document.createElement("tr");
+                  ce.innerHTML = m;
+                  if (ce.innerText != "") {
+                      document.querySelector("table").appendChild(ce);
+                  }
+                  // console.log(m);
+  
+              })
+          })
+      </script>
+  
+<!-- <script type="text/javascript" src="/static/admin-lte/dist/js/papaparse.min.js"></script>
+<script type="module" src="/static/admin-lte/dist/js/main.js"></script> -->
+<!-- <script data-main="adminlte3/static/admin-lte/dist/js/main.js" src="/static/admin-lte/dist/js/node_modules/requirejs/require.js"></script> -->
+
+{% endblock %}

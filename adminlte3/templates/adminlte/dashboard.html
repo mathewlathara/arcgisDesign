@@ -1,0 +1,155 @@
+{% extends 'adminlte/base.html' %}
+{% block content %}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+    <div class="container" style="width:100%">
+        <div class="row">
+            <div class="col">
+                <div id="container" style="width:100%">
+                    <canvas id="Yearly-chart" data-url="{% url 'Yearly-chart' %}"></canvas>
+                    <canvas id="Census-chart" data-url="{% url 'Census-chart' %}"></canvas>
+                </div>
+                <script>
+                    $(function () {
+
+                        var $YearlyChart = $("#Yearly-chart");
+                        $.ajax({
+                            url: $YearlyChart.data("url"),
+                            success: function (data) {
+
+                                var ctx = $YearlyChart[0].getContext("2d");
+                                {#console.log('Data:::' + data)#}
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: data.labels,
+                                        datasets: [{
+                                            label: 'Phosphorus (mg/L)',
+                                            backgroundColor: '#696969',
+                                            data: data.data
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        legend: {
+                                            position: 'top',
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: 'Total Phosphorous Chart'
+                                        }
+                                    }
+                                });
+
+                            }
+                        });
+
+                    });
+
+
+                </script>
+            </div>
+        </div>
+
+        <div class="container" style="width:100%">
+        {#    <div class="container">#}
+        <div class="row">
+
+            <div class="flexBox" style="justify-content: center; width:25%">
+                <div id="container">
+                    <canvas id="Yearly-chart" data-url="{% url 'Yearly-chart' %}"></canvas>
+                    <canvas id="Census-chart" data-url="{% url 'Census-chart' %}"></canvas>
+                </div>
+
+                <script>
+                    $(function () {
+
+                        var $CensusChart = $("#Census-chart");
+                        $.ajax({
+                            url: $CensusChart.data("url"),
+                            success: function (data) {
+
+                                var ctx = $CensusChart[0].getContext("2d");
+                                {#console.log('Data:::' + data)#}
+                                new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: data.labels,
+                                        datasets: [{
+                                            label: 'Phosphorus (mg/L)',
+                                            backgroundColor: '#696969',
+                                            data: data.data
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        legend: {
+                                            position: 'top',
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: 'Total Phosphorous Chart'
+                                        }
+                                    }
+                                });
+
+                            }
+                        });
+
+                    });
+                </script>
+            </div>
+        </div>
+            <div class="row">
+            <div class = "col">
+
+                <div id="container"  style="width: 75%;">
+                    <canvas id="pie-chart"></canvas>
+                </div>
+
+                <script>
+
+                    var config = {
+                        type: 'pie',
+                        data: {
+                            datasets: [{
+                                data: {{ data|safe }},
+                                backgroundColor: [
+                                    '#696969', '#808080', '#A9A9A9', '#C0C0C0'
+                                ],
+                                label: 'labels'
+                            }],
+                            labels: {{ labels|safe }}
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    };
+
+                    window.onload = function () {
+                        var ctx = document.getElementById('pie-chart').getContext('2d');
+                        window.myPie = new Chart(ctx, config);
+                    };
+
+                </script>
+            </div>
+            {% comment %}<div class="col-sm">
+      One of three columns
+    </div>{% endcomment %}
+        </div>
+        </div>
+    </div>
+
+    {##}
+    {##}
+    {##}
+    {##}
+    {##}
+    {##}
+    {##}
+    {##}
+    {##}
+
+{% endblock %}

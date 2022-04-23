@@ -1,0 +1,10 @@
+{
+  "name": "d3n1z",
+  "version": "1.0.0",
+  "description": "django adminlte3",
+  "dependencies": {
+    "admin-lte": "^3.0.0",
+    "heatmap.js": "^2.0.5",
+    "requirejs": "^2.3.6"
+  }
+}
