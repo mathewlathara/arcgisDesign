@@ -677,6 +677,6 @@ def about(request):
     return render(request, "adminlte/about.html")
 
 @api_view(('GET',))
-def arcgisMap(request):
-    methodtype = request.GET.get('methodtype')
-    return Response({"status": "success"})
+def arcgisMapParametersDurhamRegion(request):
+    stationid = request.GET.get('stationid')
+    return Response({"status": "success", "stationid" : stationid})

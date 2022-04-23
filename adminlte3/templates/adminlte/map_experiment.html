@@ -214,7 +214,7 @@
                             }
                         ]
                     }
-                ],
+                ]
             };
 
             const TRCALanduseRenderer = {
@@ -244,10 +244,29 @@
                 image: "static/admin-lte/dist/img/adddetailsimg.png" // this section is for adding additional details button
             };
 
+            function durhamregCustomRegion(feature) {
+                var stationid = feature.graphic.attributes.UniqueID;
+                const div = document.createElement("div");
+                console.log("I am here ------>" + JSON.stringify(stationid));
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid,
+                    success: function(data) {
+                        console.log(JSON.stringify(data));
+                        div.innerHTML = data.stationid;
+                    },
+                    error: function(error) {
+                        alert("error");
+                    }
+                });
+                return div;
+            }
+
             const durhamtemplate = {
                 // autocasts as new PopupTemplate()
                 title: "Durham region",
-                actions: [durhamAdditionalDetials]
+                outFields: ["UniqueID"],
+                content: durhamregCustomRegion
                 // content: [
                 //     {
                 //         // It is also possible to set the fieldInfos outside of the content
@@ -284,7 +303,8 @@
                 url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/durham_edited/FeatureServer/0",
                 popupTemplate: durhamtemplate,
                 renderer: DurhamRenderer,
-                opacity: 0.5
+                opacity: 0.5,
+                title: "Durham region"
             });
 
             function createFillSymbol(value, color) {
@@ -441,13 +461,6 @@
                 map: map,
                 center: [-78.8911306275, 43.9299554612],
                 zoom: 9
-            });
-
-            view.popup.on("trigger-action", (event) => {
-            // Execute the measureThis() function if the measure-this action is clicked
-                if (event.action.id === "detail-this") {
-                    alert("Click here");
-                }
             });
 
             const legend = new Legend({
