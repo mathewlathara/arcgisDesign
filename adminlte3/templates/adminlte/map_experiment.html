@@ -221,7 +221,7 @@
                 type: "simple", // autocasts as new SimpleRenderer()
                 symbol: {
                     type: "simple-fill", // autocasts as new SimpleFillSymbol()
-                    color: "rgb(135, 137, 189)",
+                    color: "rgb(213, 210, 210)",
                     outline: {
                         color: "rgb(0, 0, 0)",
                         width: 0.01
@@ -258,9 +258,9 @@
 
             const TRCABASEtemplate = {
                 // autocasts as new PopupTemplate()
-                title: "Durham region",
+                title: "TRCA region",
                 outFields: ["UniqueID"],
-                content: durhamregCustomRegion
+                content: TRCACustomRegion
                 // content: [
                 //     {
                 //         // It is also possible to set the fieldInfos outside of the content
@@ -297,7 +297,7 @@
                 url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/newtrcaregion/FeatureServer/0",
                 popupTemplate: TRCABASEtemplate,
                 renderer: TRCARenderer,
-                opacity: 0.2,
+                opacity: 0.01,
                 title: "TRCA region"
             });
 
@@ -368,7 +368,7 @@
                 url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/durham_edited/FeatureServer/0",
                 popupTemplate: durhamtemplate,
                 renderer: DurhamRenderer,
-                opacity: 0.2,
+                opacity: 0.09,
                 title: "Durham region"
             });
 
@@ -392,13 +392,18 @@
                 type: "unique-value",
                 field: "Landuse_Fu",
                 uniqueValueInfos: [
-                    createFillSymbol("Agricultural", "#AAFB05"),
+                    createFillSymbol("Agricultural", "#3282bd"),
                     createFillSymbol("Institutional", "#EBF90D"),
-                    createFillSymbol("Roads", "#149ECE"),
+                    createFillSymbol("Roads", "#FB1102"),
                     createFillSymbol("Lacustrine", "#F9AA0D"),
                     createFillSymbol("Airport", "#09F4F5"),
-                    createFillSymbol("Medium Density Residential", "#E40FEA"),
-                    createFillSymbol("Forest", "#05FB1A")
+                    createFillSymbol("Medium Density Residential", "#E5550E"),
+                    createFillSymbol("Forest", "#08B22B"),
+                    createFillSymbol("Commercial", "#766bb3"),
+                    createFillSymbol("Industrial", "#766bb3"),
+                    createFillSymbol("Meadow", "#48FB12"),
+                    createFillSymbol("Estate Residential", "#0752F6"),
+                    createFillSymbol("Mixed Commercial Entertainment", "#CB07F6")
                 ],
                 outline: {
                     color: "rgb(0, 0, 2)",
@@ -411,7 +416,7 @@
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
                 renderer: openSpacesRenderer,
                 popupTemplate: template,
-                opacity: 0.9,
+                // opacity: 0.9,
                 title: "TRCA Landuse 2017 demographics"
             });
 
@@ -457,7 +462,7 @@
                 type: "simple", // autocasts as new SimpleRenderer()
                 symbol: {
                     type: "simple-fill", // autocasts as new SimpleFillSymbol()
-                    color: "rgb(153, 58, 210)",
+                    color: "rgb(218, 210, 220)",
                     outline: {
                         color: "rgb(0, 0, 0)",
                         width: 0.1
