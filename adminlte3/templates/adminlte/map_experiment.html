@@ -236,6 +236,71 @@
                 title: "TRCA Landuse 2017 base"
             });
 
+            /*-------------------------------- TRCA base land ----------------------------------------------------------------*/
+
+            function TRCACustomRegion(feature) {
+                var stationid = feature.graphic.attributes.UniqueID;
+                const div = document.createElement("div");
+                console.log("I am here ------>" + JSON.stringify(stationid));
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid,
+                    success: function(data) {
+                        console.log(JSON.stringify(data));
+                        div.innerHTML = "<p><u>Region ID: "+ stationid +"</u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
+                    },
+                    error: function(error) {
+                        alert("error");
+                    }
+                });
+                return div;
+            }
+
+            const TRCABASEtemplate = {
+                // autocasts as new PopupTemplate()
+                title: "Durham region",
+                outFields: ["UniqueID"],
+                content: durhamregCustomRegion
+                // content: [
+                //     {
+                //         // It is also possible to set the fieldInfos outside of the content
+                //         // directly in the popupTemplate. If no fieldInfos is specifically set
+                //         // in the content, it defaults to whatever may be set within the popupTemplate.
+                //         type: "fields",
+                //         fieldInfos: [
+                //             {
+                //                 fieldName: "layer",
+                //                 label: "Layer",
+                //                 format: {
+                //                     digitSeparator: true,
+                //                     places: 0
+                //                 }
+                //             },
+                //         ]
+                //     }
+                // ]
+            };
+
+            const TRCARenderer = {
+                type: "simple", // autocasts as new SimpleRenderer()
+                symbol: {
+                    type: "simple-fill", // autocasts as new SimpleFillSymbol()
+                    color: "rgb(79, 102, 68)",
+                    outline: {
+                        color: "rgb(255, 255, 255)",
+                        width: 0.5
+                    }
+                }
+            };
+
+            const TRCABaseLayer = new FeatureLayer({
+                url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/newtrcaregion/FeatureServer/0",
+                popupTemplate: TRCABASEtemplate,
+                renderer: TRCARenderer,
+                opacity: 0.2,
+                title: "TRCA region"
+            });
+
             /* ---------------------------------- Durham region -------------------------------------------------*/
 
             const durhamAdditionalDetials = {
@@ -303,7 +368,7 @@
                 url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/durham_edited/FeatureServer/0",
                 popupTemplate: durhamtemplate,
                 renderer: DurhamRenderer,
-                opacity: 0.5,
+                opacity: 0.2,
                 title: "Durham region"
             });
 
@@ -409,7 +474,7 @@
 
             const map = new Map({
                 basemap: "gray-vector",
-                layers: [featureLayer, induvidualLayers, ELCTRCA, CLOCALandcoverBase, ECOLOGLANDClassificBase, DurhamLayer]
+                layers: [featureLayer, induvidualLayers, ELCTRCA, CLOCALandcoverBase, ECOLOGLANDClassificBase, DurhamLayer, TRCABaseLayer]
             });
 
             const graphicsLayer = new GraphicsLayer({
