@@ -253,7 +253,7 @@
                     url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid,
                     success: function(data) {
                         console.log(JSON.stringify(data));
-                        div.innerHTML = data.stationid;
+                        div.innerHTML = "<p><u>Region ID: "+ stationid +"</u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
                     },
                     error: function(error) {
                         alert("error");

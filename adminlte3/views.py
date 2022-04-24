@@ -1,5 +1,6 @@
 import mimetypes
 import os
+import re
 
 import branca
 import numpy as np
@@ -679,4 +680,26 @@ def about(request):
 @api_view(('GET',))
 def arcgisMapParametersDurhamRegion(request):
     stationid = request.GET.get('stationid')
-    return Response({"status": "success", "stationid" : stationid})
+    print(f"stationid----->{stationid}")
+    col_list = ["DATE", "Chloride", "Population", "TotalPhosphorus", "TotalNitrogen", "STATION"]
+    # masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", header = 0, index_col = False)
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",")
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01")].fillna(0)
+    print(f"Exist or not--->{ masterdatafile.count().STATION} ")
+    if(masterdatafile.count().STATION > 0):
+        avgchloride = round(masterdatafile["Chloride"].mean(),2)
+        populationdata = masterdatafile["Population"].str.replace(',','').fillna(masterdatafile["Population"])
+        avgpopulation = round(populationdata.apply(lambda x: float(x)).mean(),2)
+        avgphosphorus = round(masterdatafile["TotalPhosphorus"].mean(),2)
+        avgnitrogen = round(masterdatafile["TotalNitrogen"].mean(),2)
+        # print(totchloride)
+
+        json_return = []
+        # for index, row in uniquecolumnfile.iterrows():
+        #     # print(f"Index : {index} row : {row[2]}")
+        #     loopvalue = {"station":row[0], "latitude":row[1],"longitude":row[2]}
+        #     json_return.append(loopvalue)
+        # json_return = json.dumps(json_return)
+        return Response({"status": "success", "avgchloride":avgchloride, "avgpopulation":avgpopulation, "avgphosphorus":avgphosphorus,"avgnitrogen":avgnitrogen})
+    else:
+        return Response({"status":"notfound"})
