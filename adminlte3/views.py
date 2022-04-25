@@ -681,10 +681,13 @@ def about(request):
 def arcgisMapParametersDurhamRegion(request):
     stationid = request.GET.get('stationid')
     print(f"stationid----->{stationid}")
+    if(stationid.startswith("0")):
+        stationid = stationid[1:]
+        print(f"station id in if----->{stationid}")
     col_list = ["DATE", "Chloride", "Population", "TotalPhosphorus", "TotalNitrogen", "STATION"]
     # masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", header = 0, index_col = False)
-    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",")
-    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01")].fillna(0)
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "Chloride": float, "Population":"string", "TotalPhosphorus":float, "TotalNitrogen": float})
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
     print(f"Exist or not--->{ masterdatafile.count().STATION} ")
     if(masterdatafile.count().STATION > 0):
         avgchloride = round(masterdatafile["Chloride"].mean(),2)
@@ -700,6 +703,28 @@ def arcgisMapParametersDurhamRegion(request):
         #     loopvalue = {"station":row[0], "latitude":row[1],"longitude":row[2]}
         #     json_return.append(loopvalue)
         # json_return = json.dumps(json_return)
-        return Response({"status": "success", "avgchloride":avgchloride, "avgpopulation":avgpopulation, "avgphosphorus":avgphosphorus,"avgnitrogen":avgnitrogen})
+        return Response({"status": "success", "avgchloride":avgchloride, "avgpopulation":avgpopulation, "avgphosphorus":avgphosphorus,"avgnitrogen":avgnitrogen, "stationid":stationid})
+    else:
+        return Response({"status": "notfound", "avgchloride":"NA", "avgpopulation":"NA", "avgphosphorus":"NA","avgnitrogen":"NA", "stationid":stationid})
+    
+
+@api_view(('GET',))
+def arcgisMapSoilDetailsAPI(request):
+    stationid = request.GET.get('stationid')
+    if(stationid.startswith("0")):
+        stationid = stationid[1:]
+    print(f"stationid----->{stationid}")
+    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float})
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
+    print(masterdatafile)
+    if(masterdatafile.count().STATION > 0):
+        totalTCLAYwtd = masterdatafile["DSS_ClaySiltSand_TCLAYwtd"].unique()
+        totalTOTHERwtd = masterdatafile["DSS_ClaySiltSand_TOTHERwtd"].unique()
+        totalTSANDwtd = masterdatafile["DSS_ClaySiltSand_TSANDwtd"].unique()
+        totalTSILTwtd = masterdatafile["DSS_ClaySiltSand_TSILTwtd"].unique()
+        totalTUNKNOWNwtd = masterdatafile["DSS_ClaySiltSand_TUNKNOWNwtd"].unique()
+        print(f"totalclaywtd------>{totalTCLAYwtd}")
+        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd})
     else:
         return Response({"status":"notfound"})

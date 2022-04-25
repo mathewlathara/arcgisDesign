@@ -161,11 +161,34 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 </div>
 
+<div class="modal fade" id="demographicsGraphModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Station ID: <span id="stationdisplaymodalbox"></span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 {% endblock %}
 
 {% block javascript %}
-<script src="https://js.arcgis.com/4.23/"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js "></script>
+<script src="https://js.arcgis.com/4.23/"></script>
 <script>
     var jsonpointfile = {{ jsonvalue|safe }}
     $(document).ready(function () {
@@ -249,7 +272,7 @@
                     url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid,
                     success: function(data) {
                         console.log(JSON.stringify(data));
-                        div.innerHTML = "<p><u><b>Station ID: "+ stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
+                        div.innerHTML = "<p><u><b>Station ID: "+ data.stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
                     },
                     error: function(error) {
                         alert("error");
@@ -321,7 +344,7 @@
                     success: function(data) {
                         console.log(JSON.stringify(data));
                         $("#stationid").val(stationid);
-                        div.innerHTML = "<p><u><b>Station ID: "+ stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
+                        div.innerHTML = "<p><u><b>Station ID: "+ data.stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
                     },
                     error: function(error) {
                         alert("error");
@@ -537,11 +560,50 @@
                 zoom: 9
             });
 
+            function piechart(xvalues, yvalues, colorneeded, displaytext){
+                var xValues = xvalues;
+                var yValues = yvalues;
+                var barColors = colorneeded;
+
+                new Chart("myChart", {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                    }]
+                },
+                options: {
+                    title: {
+                    display: true,
+                    text: displaytext
+                    }
+                }
+                });
+            }
+
             view.popup.on("trigger-action", (event) => {
             // Execute the measureThis() function if the measure-this action is clicked
                 if (event.action.id === "detail-this") {
                     let stationid = $("#stationid").val();
-                    alert(stationid);
+                    $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid,
+                        success: function(data) {
+                            $("#stationdisplaymodalbox").html(stationid);
+                            $('#demographicsGraphModal').modal('show');
+                            if(data.status === "success"){
+                                piechart(["CSS/with clay", "CSS/All together", "CSS/with sand", "CSS/with silt", "CSS/unknown"], [data.totalTCLAYwtd, data.totalTOTHERwtd, data.totalTSANDwtd, data.totalTSILTwtd, data.totalTUNKNOWNwtd], [ "#F2900B", "#F2D20B", "#DDFE04", "#A9F20A", "#D7DCCC"], "Soil/Sand data")
+                            }else{
+                                alert("Proper data not present");
+                            }
+                        },
+                        error: function(error) {
+                            alert("error");
+                        }
+                    });
+                    // alert(stationid);
                 }
             });
 
