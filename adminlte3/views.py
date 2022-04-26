@@ -1,7 +1,7 @@
 import mimetypes
 import os
 import re
-
+import random
 import branca
 import numpy as np
 import pandas as pd
@@ -691,14 +691,16 @@ def about(request):
 @api_view(('GET',))
 def arcgisMapParametersDurhamRegion(request):
     stationid = request.GET.get('stationid')
-    print(f"stationid----->{stationid}")
+    dateselected = request.GET.get('dateselected')
+    print(f"stationid----->{stationid} & dateselected ---> {dateselected}")
     if(stationid.startswith("0")):
         stationid = stationid[1:]
         print(f"station id in if----->{stationid}")
     col_list = ["DATE", "Chloride", "Population", "TotalPhosphorus", "TotalNitrogen", "STATION"]
     # masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", header = 0, index_col = False)
     masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "Chloride": float, "Population":"string", "TotalPhosphorus":float, "TotalNitrogen": float})
-    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
+    masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > dateselected + "-01-01") & (masterdatafile['DATE'] < dateselected + "-12-31") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
     print(f"Exist or not--->{ masterdatafile.count().STATION} ")
     if(masterdatafile.count().STATION > 0):
         avgchloride = round(masterdatafile["Chloride"].mean(),2)
@@ -722,13 +724,14 @@ def arcgisMapParametersDurhamRegion(request):
 @api_view(('GET',))
 def arcgisMapSoilDetailsAPI(request):
     stationid = request.GET.get('stationid')
+    dateselected = request.GET.get('dateselected')
     if(stationid.startswith("0")):
         stationid = stationid[1:]
-    print(f"stationid----->{stationid}")
-    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MaxTemp14dayMean", "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean"]
-    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MaxTemp14dayMean" : float, "MaxTemp1dayMean" : float, "MaxTemp28dayMean" : float, "MaxTemp3dayMean" : float, "MaxTemp56dayMean" : float, "MaxTemp7dayMean" : float, "MaxTemp0dayMean" : float})
+    print(f"stationid----->{stationid}  dateselected------> {dateselected}")
+    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MaxTemp14dayMean", "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean", "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MaxTemp14dayMean" : float, "MaxTemp1dayMean" : float, "MaxTemp28dayMean" : float, "MaxTemp3dayMean" : float, "MaxTemp56dayMean" : float, "MaxTemp7dayMean" : float, "MaxTemp0dayMean" : float, "TotalRain14dayTotal" : float, "TotalRain1dayTotal" : float, "TotalRain28dayTotal" : float, "TotalRain3dayTotal" : float, "TotalRain56dayTotal" : float, "TotalRain7dayTotal" : float, "TotalRain0dayTotal" : float})
     masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
-    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01") & (masterdatafile['DATE'] < "2017-12-31") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > dateselected +"-01-01") & (masterdatafile['DATE'] < dateselected + "-12-31") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
     print(masterdatafile)
     if(masterdatafile.count().STATION > 0):
         masterdatafile = masterdatafile.reset_index()
@@ -738,14 +741,18 @@ def arcgisMapSoilDetailsAPI(request):
         totalTSILTwtd = masterdatafile["DSS_ClaySiltSand_TSILTwtd"].unique()
         totalTUNKNOWNwtd = masterdatafile["DSS_ClaySiltSand_TUNKNOWNwtd"].unique()
         linegraphreturnlist = []
+        bargraphRainfall = []
         for index, row in masterdatafile.iterrows():
-            json_string = {"x":["56","28","7","3","1"], "y":[row["MaxTemp56dayMean"], row["MaxTemp28dayMean"], row["MaxTemp7dayMean"], row["MaxTemp3dayMean"], row["MaxTemp1dayMean"]], "type": 'scatter'}
+            color = "%06x" % random.randint(0, 0xFFFFFF)
+            json_string = {"data":[row["MaxTemp56dayMean"], row["MaxTemp28dayMean"], row["MaxTemp7dayMean"], row["MaxTemp3dayMean"], row["MaxTemp1dayMean"]], "borderColor": '#' + color, "fill":"false"}
             linegraphreturnlist.append(json_string)
+            rainfalljsonstring = {"x":["56","28","14","7","3","1","0"], "y":[row["TotalRain56dayTotal"], row["TotalRain28dayTotal"], row["TotalRain14dayTotal"], row["TotalRain7dayTotal"], row["TotalRain3dayTotal"], row["TotalRain1dayTotal"], row["TotalRain0dayTotal"]], "type": 'bar', "width": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8], "name":pd.to_datetime(row["DATE"]).date()}
+            bargraphRainfall.append(rainfalljsonstring)
             # print(row["MaxTemp14dayMean"], row["MaxTemp28dayMean"])
         print(linegraphreturnlist)
         # MaxTemp14dayMean = masterdatafile["MaxTemp14dayMean"].to_list()
         # "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean"
         print(f"totalclaywtd------>{totalTCLAYwtd}")
-        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist})
+        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall})
     else:
         return Response({"status":"notfound"})

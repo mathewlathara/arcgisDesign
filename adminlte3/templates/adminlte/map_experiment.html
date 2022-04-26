@@ -104,14 +104,17 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Station ID: <span id="stationdisplaymodalbox"></span></h4>
+                <h4 class="modal-title">Station ID: <span id="stationdisplaymodalbox"></span><span>, Year:{{yearselected}}</span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div id="tester" class="col-lg-12"></div>
+                    <div class="col-lg-12"><canvas id="meantemperaturedivision" style="width:100%;max-width:600px"></canvas></div>
+                </div>
+                <div class="row">
+                    <div id="meanmaxrainfalldivision" class="col-lg-12"></div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -228,7 +231,7 @@
                 console.log("I am here ------>" + JSON.stringify(stationid));
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid,
+                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
                     success: function(data) {
                         console.log(JSON.stringify(data));
                         div.innerHTML = "<p><u><b>Station ID: "+ data.stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
@@ -299,7 +302,7 @@
                 console.log("I am here ------>" + JSON.stringify(stationid));
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid,
+                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
                     success: function(data) {
                         console.log(JSON.stringify(data));
                         $("#stationid").val(stationid);
@@ -314,7 +317,7 @@
 
             const durhamtemplate = {
                 // autocasts as new PopupTemplate()
-                title: "Durham region",
+                title: "Durham region, Year:{{yearselected}}",
                 outFields: ["UniqueID"],
                 content: durhamregCustomRegion,
                 actions: [durhamAdditionalDetials]
@@ -355,7 +358,7 @@
                 popupTemplate: durhamtemplate,
                 renderer: DurhamRenderer,
                 opacity: 0.4,
-                title: "Durham region",
+                title: "Durham region, Year:{{yearselected}}",
             });
 
             function createFillSymbol(value, color) {
@@ -570,7 +573,7 @@
                     let stationid = $("#stationid").val();
                     $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid,
+                    url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
                         success: function(data) {
                             if(data.status === "success"){
                                 $("#stationdisplaymodalbox").html(stationid);
@@ -588,14 +591,46 @@
                                 //     type: 'bar'
                                 // };
                                 var listarrayvalue = [];
+                                var rainfallbargraph = [];
                                 for(var i = 0; i < data.linegraphreturnlist.length; i++){
                                     console.log(data.linegraphreturnlist[i]);
-                                    listarrayvalue.push(data.linegraphreturnlist[i])
+                                    listarrayvalue.push(data.linegraphreturnlist[i]);
+                                    rainfallbargraph.push(data.bargraphRainfall[i]);
                                 }
 
+                                var xValues = [56,28,7,3,1];
+
+                                new Chart("meantemperaturedivision", {
+                                type: "line",
+                                    data: {
+                                        labels: xValues,
+                                        datasets: data.linegraphreturnlist
+                                    },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: 'Integrted mean temperature(\xB0C)'
+                                            }
+                                            }],
+                                            xAxes: [{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: 'Days preceding collection'
+                                            }
+                                            }]
+                                        },
+                                        legend: {display: false}
+                                    }
+                                });
+
+                                var layout = {barmode: 'group', xaxis: {tickmode: "array", tickvals: [56, 28, 14, 7, 1, 0], ticktext: ['56', '28', '14', '7', '1', '0'], title: 'Days preceding collection'}, yaxis:{title: 'Integrated precipitation'}};
+
+                                Plotly.newPlot('meanmaxrainfalldivision', rainfallbargraph, layout);
+
                                 // var data = [trace1, trace2];
-                                var layout = {xaxis: {autorange: 'reversed', title: 'Days preceeding collection'}, yaxis: {title: 'Precipitated mean temperature(\xB0C)'}};
-                                Plotly.newPlot('tester', listarrayvalue, layout);
+                                
                             }else{
                                 alert("Proper data not present");
                             }
