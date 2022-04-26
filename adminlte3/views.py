@@ -714,17 +714,27 @@ def arcgisMapSoilDetailsAPI(request):
     if(stationid.startswith("0")):
         stationid = stationid[1:]
     print(f"stationid----->{stationid}")
-    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION"]
-    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float})
-    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
+    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MaxTemp14dayMean", "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MaxTemp14dayMean" : float, "MaxTemp1dayMean" : float, "MaxTemp28dayMean" : float, "MaxTemp3dayMean" : float, "MaxTemp56dayMean" : float, "MaxTemp7dayMean" : float, "MaxTemp0dayMean" : float})
+    masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > "2017-01-01") & (masterdatafile['DATE'] < "2017-12-31") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
     print(masterdatafile)
     if(masterdatafile.count().STATION > 0):
+        masterdatafile = masterdatafile.reset_index()
         totalTCLAYwtd = masterdatafile["DSS_ClaySiltSand_TCLAYwtd"].unique()
         totalTOTHERwtd = masterdatafile["DSS_ClaySiltSand_TOTHERwtd"].unique()
         totalTSANDwtd = masterdatafile["DSS_ClaySiltSand_TSANDwtd"].unique()
         totalTSILTwtd = masterdatafile["DSS_ClaySiltSand_TSILTwtd"].unique()
         totalTUNKNOWNwtd = masterdatafile["DSS_ClaySiltSand_TUNKNOWNwtd"].unique()
+        linegraphreturnlist = []
+        for index, row in masterdatafile.iterrows():
+            json_string = {"x":["56","28","7","3","1"], "y":[row["MaxTemp56dayMean"], row["MaxTemp28dayMean"], row["MaxTemp7dayMean"], row["MaxTemp3dayMean"], row["MaxTemp1dayMean"]], "type": 'scatter'}
+            linegraphreturnlist.append(json_string)
+            # print(row["MaxTemp14dayMean"], row["MaxTemp28dayMean"])
+        print(linegraphreturnlist)
+        # MaxTemp14dayMean = masterdatafile["MaxTemp14dayMean"].to_list()
+        # "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean"
         print(f"totalclaywtd------>{totalTCLAYwtd}")
-        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd})
+        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist})
     else:
         return Response({"status":"notfound"})

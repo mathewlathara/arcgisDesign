@@ -51,105 +51,42 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-2">
             <ul class="list-group">
                 <li class="list-group-item">
                     <span>
-                        <select class="custom-select" name="year" id="yearFrom" value="2021"
-                            onclick="yearFromSelect();">
+                        <select class="custom-select" name="year" id="yearFrom" value="2021">
                             <option value="2021">From</option>
                         </select>
                     </span>
-                    <span>
-                        <label for="year"></label>
-                        <select class="custom-select mt-2" name="year" id="yearTo" onclick="yearToSelect();">
-                            <option value="2021"> To </option>
-                        </select>
-                    </span>
-
                 </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="o2_div">
-                            <input class="form-check-input" name="o2" type="checkbox"
-                                value="Oxygen, Dissolved (% Saturation)" id="o2" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Disolved O2(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="depth" type="checkbox" value="Depth, Sample (Field)"
-                                id="depth" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Sample Depth
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="n" type="checkbox" value="Nitrite" id="n" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Nitrite(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="nk" type="checkbox"
-                                value="Nitrogen, Total Kjeldahl (TKN)" id="nk" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Nitrogen Kjeldahl(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="tss" type="checkbox" value="Solids, Suspended (TSS)"
-                                id="tss" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Total Suspended Solids(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="p" type="checkbox" value="Phosphorus, Total" id="p"
-                                onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Predicted Phosphorus(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-                    <form method="POST" action="/map_ex">
-                        {% csrf_token %}
-                        <span>
-                            <button class="btn btn-outline-primary btn-sm" id="getValue"
-                                onclick="filtero2();">Get</button>
-                        </span>
-                    </form>
-                </li>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
 
         </div>
-        <div class="col-md-11">
+        <div class="col-md-10">
             <div id="viewDiv"></div>
         </div>
     </div>
@@ -162,7 +99,7 @@
 </div>
 
 <div class="modal fade" id="demographicsGraphModal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Station ID: <span id="stationdisplaymodalbox"></span></h4>
@@ -171,7 +108,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                <div class="row">
+                    <div id="tester" class="col-lg-12"></div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -187,6 +126,7 @@
 {% block javascript %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+<script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js "></script>
 <script src="https://js.arcgis.com/4.23/"></script>
 <script>
@@ -256,7 +196,7 @@
 
             const featureLayer = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: TRCALanduseRenderer,
                 title: "TRCA Landuse 2017 base"
             });
@@ -395,7 +335,7 @@
                 url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/durham_edited/FeatureServer/0",
                 popupTemplate: durhamtemplate,
                 renderer: DurhamRenderer,
-                opacity: 0.8,
+                opacity: 0.4,
                 title: "Durham region",
             });
 
@@ -442,7 +382,7 @@
             const induvidualLayers = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
                 renderer: openSpacesRenderer,
-                popupTemplate: template,
+                // popupTemplate: template,
                 // opacity: 0.9,
                 title: "TRCA Landuse 2017 demographics"
             });
@@ -461,7 +401,7 @@
 
             const ELCTRCA = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/elc_trca_shp/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: ELCTRCARenderer,
                 title: "ELC TRCA"
             });
@@ -480,7 +420,7 @@
 
             const CLOCALandcoverBase = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/cloca_land_covershp/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: CLOCALandcoverRender,
                 title: "CLOCA Land cover"
             });
@@ -499,7 +439,7 @@
 
             const ECOLOGLANDClassificBase = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/cloca_land_covershp/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: ECOLOGLANDClassificRender,
                 title: "Ecological land classification"
             });
@@ -591,10 +531,30 @@
                     type: 'GET',
                     url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid,
                         success: function(data) {
-                            $("#stationdisplaymodalbox").html(stationid);
-                            $('#demographicsGraphModal').modal('show');
                             if(data.status === "success"){
-                                piechart(["CSS/with clay", "CSS/All together", "CSS/with sand", "CSS/with silt", "CSS/unknown"], [data.totalTCLAYwtd, data.totalTOTHERwtd, data.totalTSANDwtd, data.totalTSILTwtd, data.totalTUNKNOWNwtd], [ "#F2900B", "#F2D20B", "#DDFE04", "#A9F20A", "#D7DCCC"], "Soil/Sand data")
+                                $("#stationdisplaymodalbox").html(stationid);
+                                $('#demographicsGraphModal').modal('show');
+                                // piechart(["CSS/with clay", "CSS/All together", "CSS/with sand", "CSS/with silt", "CSS/unknown"], [data.totalTCLAYwtd, data.totalTOTHERwtd, data.totalTSANDwtd, data.totalTSILTwtd, data.totalTUNKNOWNwtd], [ "#F2900B", "#F2D20B", "#DDFE04", "#A9F20A", "#D7DCCC"], "Soil/Sand data")
+                                // var trace1 = {
+                                //     x: [0, 1, 2, 3, 4, 5],
+                                //     y: [1.5, 1, 1.3, 0.7, 0.8, 0.9],
+                                //     type: 'scatter'
+                                // };
+
+                                // var trace2 = {
+                                //     x: [0, 1, 2, 3, 4, 5],
+                                //     y: [1, 0.5, 0.7, -1.2, 0.3, 0.4],
+                                //     type: 'bar'
+                                // };
+                                var listarrayvalue = [];
+                                for(var i = 0; i < data.linegraphreturnlist.length; i++){
+                                    console.log(data.linegraphreturnlist[i]);
+                                    listarrayvalue.push(data.linegraphreturnlist[i])
+                                }
+
+                                // var data = [trace1, trace2];
+                                var layout = {xaxis: {autorange: 'reversed', title: 'Days preceeding collection'}, yaxis: {title: 'Precipitated mean temperature(\xB0C)'}};
+                                Plotly.newPlot('tester', listarrayvalue, layout);
                             }else{
                                 alert("Proper data not present");
                             }
