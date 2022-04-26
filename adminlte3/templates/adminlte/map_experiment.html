@@ -54,9 +54,10 @@
         <div class="col-md-2">
             <ul class="list-group">
                 <li class="list-group-item">
+                    <label>Select a year</label>
                     <span>
-                        <select class="custom-select" name="year" id="yearFrom" value="2021">
-                            <option value="2021">From</option>
+                        <select class="custom-select yearFrom">
+                            
                         </select>
                     </span>
                 </li>
@@ -93,6 +94,7 @@
 </div>
 
 <input type="hidden" id="stationid">
+<input type="hidden" id="yearselectedinputhidden" value="{{yearselected}}">
 
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -133,6 +135,23 @@
     var jsonpointfile = {{ jsonvalue|safe }}
     $(document).ready(function () {
         loadmapvalues(1);
+
+        var yearlist = ["2017", "2013", "2008", "2007", "2002"];
+        yearselectbox = "<option value='' disabled selected>Select a year</option>";
+        for(let j = 0; j < yearlist.length; j++){
+            if(yearlist[j] == "{{yearselected}}"){
+                yearselectbox += "<option value="+yearlist[j]+" selected>"+yearlist[j]+"</option>";
+            }else{
+                yearselectbox += "<option value="+yearlist[j]+">"+yearlist[j]+"</option>";
+            }
+        }
+
+        $(".yearFrom").html(yearselectbox);
+
+        $(document).on('change', '.yearFrom', function(){
+            var yearselected = $(this).val();
+            window.location.href='map_ex?yearid=' + yearselected;
+        });
     });
     function loadmapvalues(filtertype) {
         require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend) {
@@ -198,7 +217,7 @@
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
                 // popupTemplate: template,
                 renderer: TRCALanduseRenderer,
-                title: "TRCA Landuse 2017 base"
+                title: "TRCA Landuse base map"
             });
 
             /*-------------------------------- TRCA base land ----------------------------------------------------------------*/
@@ -355,7 +374,7 @@
                 };
             }
 
-            const openSpacesRenderer = {
+            const SpacesRenderer2017 = {
                 type: "unique-value",
                 field: "Landuse_Fu",
                 uniqueValueInfos: [
@@ -378,13 +397,35 @@
                 }
             };
 
+            const SpaceRenderOtherThan2017 = {
+                type: "unique-value",
+                field: "HABITAT",
+                uniqueValueInfos: [
+                    createFillSymbol("forest", "#08B22B"),
+                    createFillSymbol("wetland", "#EBF90D"),
+                    createFillSymbol("meadow", "#48FB12"),
+                    createFillSymbol("succ", "#766bb3")
+                ],
+                outline: {
+                    color: "rgb(0, 0, 2)",
+                    width: 0.1
+                }
+            };
+
             // Create the layer and set the renderer
+            var yearselectedinputhidden = $("#yearselectedinputhidden").val();
+            var openspacerendererselected = null
+            if(yearselectedinputhidden == "2017"){
+                openspacerendererselected = SpacesRenderer2017;
+            }else{
+                openspacerendererselected = SpaceRenderOtherThan2017;
+            }
             const induvidualLayers = new FeatureLayer({
-                url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
-                renderer: openSpacesRenderer,
+                url: "{{regiondemographicrenderurl|safe}}",
+                renderer: openspacerendererselected,
                 // popupTemplate: template,
                 // opacity: 0.9,
-                title: "TRCA Landuse 2017 demographics"
+                title: "TRCA Landuse {{yearselected}} demographics"
             });
 
             const ELCTRCARenderer = {

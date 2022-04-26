@@ -632,6 +632,7 @@ def plotMap(featuresSelected):
 
 features = []
 def map_experiment(request):
+    yearslected = request.GET.get('yearid')
     # create map
     featuresSelected = []
     # (b.append(a) if a is not None else None)
@@ -658,10 +659,20 @@ def map_experiment(request):
         # print(f"Index : {index} row : {row[2]}")
         loopvalue = {"station":row[0], "latitude":row[1],"longitude":row[2]}
         json_return.append(loopvalue)
+    print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
+    regiondemographicrenderurl = ""
+    if yearslected == "2017":
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
+    elif yearslected == "2013":
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2013_trcashp/FeatureServer/0"
+    elif yearslected == "2007" or yearslected == "2008":
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2007_2008_trcashp/FeatureServer/0"
+    elif yearslected == "2002":
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2002_trcashp/FeatureServer/0"
     # print(json_return)
     # context = plotMap(featuresSelected)
-    return render(request, "adminlte/map_experiment.html", {"jsonvalue":json_return})
+    return render(request, "adminlte/map_experiment.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
 
 def advanced(request):
     # yearFrom = request.GET.get('yearFrom')
