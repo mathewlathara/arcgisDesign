@@ -746,7 +746,7 @@ def arcgisMapSoilDetailsAPI(request):
             color = "%06x" % random.randint(0, 0xFFFFFF)
             json_string = {"data":[row["MaxTemp56dayMean"], row["MaxTemp28dayMean"], row["MaxTemp7dayMean"], row["MaxTemp3dayMean"], row["MaxTemp1dayMean"]], "borderColor": '#' + color, "fill":"false"}
             linegraphreturnlist.append(json_string)
-            rainfalljsonstring = {"x":["56","28","14","7","3","1","0"], "y":[row["TotalRain56dayTotal"], row["TotalRain28dayTotal"], row["TotalRain14dayTotal"], row["TotalRain7dayTotal"], row["TotalRain3dayTotal"], row["TotalRain1dayTotal"], row["TotalRain0dayTotal"]], "type": 'bar', "width": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8], "name":pd.to_datetime(row["DATE"]).date()}
+            rainfalljsonstring = {"x":["fiftysix","twentyeight","forteen","seven","three","one","zero"], "y":[row["TotalRain56dayTotal"], row["TotalRain28dayTotal"], row["TotalRain14dayTotal"], row["TotalRain7dayTotal"], row["TotalRain3dayTotal"], row["TotalRain1dayTotal"], row["TotalRain0dayTotal"]], "type": 'bar', "name":pd.to_datetime(row["DATE"]).date()}
             bargraphRainfall.append(rainfalljsonstring)
             # print(row["MaxTemp14dayMean"], row["MaxTemp28dayMean"])
         print(linegraphreturnlist)

@@ -291,7 +291,7 @@
             /* ---------------------------------- Durham region -------------------------------------------------*/
 
             const durhamAdditionalDetials = {
-                title: "Show details",
+                title: "Show graphs",
                 id: "detail-this",
                 image: "static/admin-lte/dist/img/adddetailsimg.png" // this section is for adding additional details button
             };
@@ -625,7 +625,7 @@
                                     }
                                 });
 
-                                var layout = {barmode: 'group', xaxis: {tickmode: "array", tickvals: [56, 28, 14, 7, 1, 0], ticktext: ['56', '28', '14', '7', '1', '0'], title: 'Days preceding collection'}, yaxis:{title: 'Integrated precipitation'}};
+                                var layout = {barmode: 'group', xaxis: {title: 'Days preceding collection'}, yaxis:{title: 'Integrated precipitation'}, bargap :0.01};
 
                                 Plotly.newPlot('meanmaxrainfalldivision', rainfallbargraph, layout);
 
