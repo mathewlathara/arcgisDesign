@@ -634,30 +634,35 @@ features = []
 def map_experiment(request):
     yearslected = request.GET.get('yearid')
     # create map
-    featuresSelected = []
-    # (b.append(a) if a is not None else None)
-    if request.GET.get("o2")!= None:
-        featuresSelected.append(request.GET.get("o2"))
-    if request.GET.get("depth")!= None:
-        featuresSelected.append(request.GET.get("depth"))
-    if request.GET.get("n")!= None:
-        featuresSelected.append(request.GET.get("n"))
-    if request.GET.get("nk") != None:
-        featuresSelected.append(request.GET.get("nk"))
-    if request.GET.get("tss") != None:
-        featuresSelected.append(request.GET.get("tss"))
-    if request.GET.get("p") != None:
-        featuresSelected.append(request.GET.get("p"))
-    print(featuresSelected)
-    global features
-    features = featuresSelected
-    col_list = ["STATION", "Latitude", "Longitude"]
-    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", header = 0, index_col = False)
+    
+    col_list = ["STATION", "Latitude", "Longitude", "DATE", "TotalPhosphorus", "TotalNitrogen"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",")
+    masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > yearslected + "-01-01") & (masterdatafile['DATE'] < yearslected + "-12-31")].fillna(0)
+    avgphosphorus = 0
+    avgnitrogen = 0
+    if(masterdatafile.count().STATION > 0):
+        avgphosphorus = round(masterdatafile["TotalPhosphorus"].mean(),2)
+        avgnitrogen = round(masterdatafile["TotalNitrogen"].mean(),2)
+    stationiconlink = "star.png"
+    if avgphosphorus > 0.02 or avgnitrogen > 10:
+        stationiconlink = "star.png"
+    masterdatafileduplicate = masterdatafile
+    masterdatafile = masterdatafile.drop(columns=['DATE'])
     uniquecolumnfile = masterdatafile.drop_duplicates()
     json_return = []
     for index, row in uniquecolumnfile.iterrows():
-        # print(f"Index : {index} row : {row[2]}")
-        loopvalue = {"station":row[0], "latitude":row[1],"longitude":row[2]}
+        # masterdatafileduplicate = masterdatafileduplicate[(masterdatafileduplicate['DATE'] > yearslected + "-01-01") & (masterdatafileduplicate['DATE'] < yearslected + "-12-31") & (masterdatafileduplicate['STATION'] == row[0])].fillna(0)
+        # print(f"{masterdatafileduplicate}")
+        # avgphosphorus = 0
+        # avgnitrogen = 0
+        # if(masterdatafile.count().STATION > 0):
+        #     avgphosphorus = round(masterdatafile["TotalPhosphorus"].mean(),2)
+        #     avgnitrogen = round(masterdatafile["TotalNitrogen"].mean(),2)
+        # stationiconlink = "star.png"
+        # if avgphosphorus > 0.02 or avgnitrogen > 10:
+        #     stationiconlink = "star.png"
+        loopvalue = {"station":row[0], "latitude":row[1],"longitude":row[2], "stationiconlink":stationiconlink}
         json_return.append(loopvalue)
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
@@ -728,8 +733,8 @@ def arcgisMapSoilDetailsAPI(request):
     if(stationid.startswith("0")):
         stationid = stationid[1:]
     print(f"stationid----->{stationid}  dateselected------> {dateselected}")
-    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MaxTemp14dayMean", "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean", "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal"]
-    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MaxTemp14dayMean" : float, "MaxTemp1dayMean" : float, "MaxTemp28dayMean" : float, "MaxTemp3dayMean" : float, "MaxTemp56dayMean" : float, "MaxTemp7dayMean" : float, "MaxTemp0dayMean" : float, "TotalRain14dayTotal" : float, "TotalRain1dayTotal" : float, "TotalRain28dayTotal" : float, "TotalRain3dayTotal" : float, "TotalRain56dayTotal" : float, "TotalRain7dayTotal" : float, "TotalRain0dayTotal" : float})
+    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MaxTemp14dayMean", "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean", "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal", "250mLandCover_Agricultural", "250mLandCover_Anthropogenic", "250mLandCover_Natural"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MaxTemp14dayMean" : float, "MaxTemp1dayMean" : float, "MaxTemp28dayMean" : float, "MaxTemp3dayMean" : float, "MaxTemp56dayMean" : float, "MaxTemp7dayMean" : float, "MaxTemp0dayMean" : float, "TotalRain14dayTotal" : float, "TotalRain1dayTotal" : float, "TotalRain28dayTotal" : float, "TotalRain3dayTotal" : float, "TotalRain56dayTotal" : float, "TotalRain7dayTotal" : float, "TotalRain0dayTotal" : float, "250mLandCover_Agricultural" : float, "250mLandCover_Anthropogenic" : float, "250mLandCover_Natural" : float})
     masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
     masterdatafile = masterdatafile[(masterdatafile['DATE'] > dateselected +"-01-01") & (masterdatafile['DATE'] < dateselected + "-12-31") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
     print(masterdatafile)
@@ -740,6 +745,9 @@ def arcgisMapSoilDetailsAPI(request):
         totalTSANDwtd = masterdatafile["DSS_ClaySiltSand_TSANDwtd"].unique()
         totalTSILTwtd = masterdatafile["DSS_ClaySiltSand_TSILTwtd"].unique()
         totalTUNKNOWNwtd = masterdatafile["DSS_ClaySiltSand_TUNKNOWNwtd"].unique()
+        totalagricultural = masterdatafile["250mLandCover_Agricultural"].unique()
+        totalanthropogenic = masterdatafile["250mLandCover_Anthropogenic"].unique()
+        totalnatural = masterdatafile["250mLandCover_Natural"].unique()
         linegraphreturnlist = []
         bargraphRainfall = []
         for index, row in masterdatafile.iterrows():
@@ -753,6 +761,6 @@ def arcgisMapSoilDetailsAPI(request):
         # MaxTemp14dayMean = masterdatafile["MaxTemp14dayMean"].to_list()
         # "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean"
         print(f"totalclaywtd------>{totalTCLAYwtd}")
-        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall})
+        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall, "totalagricultural" : totalagricultural, "totalanthropogenic" : totalanthropogenic, "totalnatural" : totalnatural})
     else:
         return Response({"status":"notfound"})

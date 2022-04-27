@@ -111,6 +111,12 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-lg-12" id="land-usechart"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="soildatagraph"></div>
+                </div>
+                <div class="row">
                     <div class="col-lg-12"><canvas id="meantemperaturedivision" style="width:100%;max-width:600px"></canvas></div>
                 </div>
                 <div class="row">
@@ -498,20 +504,20 @@
             });
             map.add(graphicsLayer);
 
-            const simpleMarkerSymbol = {
-                // type: "simple-marker",
-                // color: [226, 119, 40],  // Orange
-                // outline: {
-                //     color: [255, 255, 255], // White
-                //     width: 1
-                // }
-                type: "picture-marker",
-                url: "static/admin-lte/dist/img/star.png",
-                width: "25px",
-                height: "25px"
-            };
-
             for(var i = 0; i < jsonpointfile.length; i++){
+                console.log(jsonpointfile[i].stationiconlink);
+                const simpleMarkerSymbol = {
+                    // type: "simple-marker",
+                    // color: [226, 119, 40],  // Orange
+                    // outline: {
+                    //     color: [255, 255, 255], // White
+                    //     width: 1
+                    // }
+                    type: "picture-marker",
+                    url: "static/admin-lte/dist/img/" + jsonpointfile[i].stationiconlink,
+                    width: "25px",
+                    height: "25px"
+                };
                 // console.log(jsonpointfile[i])
                 const point = { //Create a point
                     type: "point",
@@ -628,6 +634,115 @@
                                 var layout = {barmode: 'group', xaxis: {title: 'Days preceding collection'}, yaxis:{title: 'Integrated precipitation'}, bargap :0.01};
 
                                 Plotly.newPlot('meanmaxrainfalldivision', rainfallbargraph, layout);
+
+                                var areawiseuseagevalues = [{
+                                        values: [data.totalagricultural[0], data.totalanthropogenic[0], data.totalnatural[0]],
+                                        labels: ['Agricultural', 'Urban', 'Natural' ],
+                                        domain: {column: 0},
+                                        name: 'GHG Emissions',
+                                        hoverinfo: 'label+percent+name',
+                                        hole: .4,
+                                        marker: {
+                                            colors: ['#3282bd', '#E5550E', '#08B22B'],
+                                            line: {
+                                            color: 'white',
+                                            width: 1
+                                            }
+                                        },
+                                        type: 'pie'
+                                        }];
+                                var areawiseusagelayout = {
+                                    title: "Land usage"
+                                };
+                                Plotly.newPlot("land-usechart", areawiseuseagevalues,areawiseusagelayout);
+
+                                var claylayer = {
+                                    x: [data.totalTCLAYwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Clay',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#987D48',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var siltlayer = {
+                                    x: [data.totalTSILTwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Silt',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#BE9D3C',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var sandlayer = {
+                                    x: [data.totalTSANDwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Sand',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#EABA56',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var otherlayer = {
+                                    x: [data.totalTOTHERwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Other',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#E8CB91',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var unknownlayer = {
+                                    x: [data.totalTUNKNOWNwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Unknown',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#853A35',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var soilwisedata = [claylayer, siltlayer, sandlayer, otherlayer, unknownlayer];
+
+                                var soilwiselayout = {barmode: 'stack', title : "Soil layer data",  xaxis: {
+                                                                                                    autorange: true,
+                                                                                                    showgrid: false,
+                                                                                                    zeroline: false,
+                                                                                                    showline: false,
+                                                                                                    autotick: true,
+                                                                                                    ticks: '',
+                                                                                                    showticklabels: false
+                                                                                                },
+                                                                                                yaxis: {
+                                                                                                    autorange: true,
+                                                                                                    showgrid: false,
+                                                                                                    zeroline: false,
+                                                                                                    showline: false,
+                                                                                                    autotick: true,
+                                                                                                    ticks: '',
+                                                                                                    showticklabels: false
+                                                                                                }};
+
+                                Plotly.newPlot('soildatagraph', soilwisedata, soilwiselayout);
 
                                 // var data = [trace1, trace2];
                                 
