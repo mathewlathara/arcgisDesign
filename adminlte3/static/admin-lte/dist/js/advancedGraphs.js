@@ -53,6 +53,7 @@ function yearToSelect() {
         currentYear -= 1;
     }
     $("#yearTo").change(function () {
+        console.log($('#yearFrom').val());
         console.log($(this).val());
         var yearTo = $(this).val();
         $.ajax({
@@ -67,7 +68,20 @@ function yearToSelect() {
                 }
             }
         });
-
+        $.ajax({
+            url: '/launch_map',
+            setCookies: yearTo+yearFrom,
+            data: {
+                'yearTo': yearTo,
+                'yearFrom': yearFrom
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.is_taken) {
+                    alert("A user with this username already exists.");
+                }
+            }
+        });
     });
 }
 
@@ -234,7 +248,7 @@ function processData(allRows) {
         y = years[i];
         p = phosphorus[i];
         n = nitrogen[i];
-        x.push(y);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]); 
+        x.push(y);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
         y1.push(p);
         y2.push(n);
         i += 1;
@@ -706,7 +720,7 @@ function processDataForNP(rows) {
     while (i < rows.length) {
         x1[i] = rows[i]["Chloride"];
         y1[i] = rows[i]["Phosphorus"];
-        x.push(x1);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]); 
+        x.push(x1);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
         y.push(y1);
         i += 1;
     }
@@ -757,3 +771,121 @@ function makePlotForNP(x, y){
 
 }
 // plot_np();
+
+// filtering data by year on view map page
+$('#yearFrom').change(function(){
+    console.log("yearto changed");
+    const yearFrom = $('#yearFrom').val();
+    // const yearTo = $('#yearTo').val();
+    const data = {'yearFrom': yearFrom};
+    $.ajax({
+        type: 'GET',
+        url: 'launch_map',
+        data: data,
+        setCookies: data,
+    });
+})
+$('#filter_by_year').click(function() {
+    console.log("inside button click");
+    var yearFrom = $('#yearFrom').val();
+    var yearTo = $('#yearTo').val();
+    const data = {'yearFrom': yearFrom, 'yearTo':yearTo};
+    console.log('data:',data);
+    document.cookie = yearFrom;
+    $.ajax({
+        type: 'GET',
+        url: 'launch_map',
+        data: data,
+        setCookies: yearFrom,
+        // success: function(response){
+        //     document.getElementsById("json_res").innerHTML = JSON.parse(response["output"]);
+
+        // }
+    });
+  console.log("Ajax called");
+})
+function fetchCSV() {
+    const csv_file = "static/admin-lte/dist/js/data/data_all_cols.csv";
+    d3.csv(csv_file, function (csv_data) {
+        getCSVData(csv_data);
+    });
+}
+function getCSVData(csv_data) {
+    //getting selected year from cookies
+    var ca = document.cookie.split(';');
+    year = parseInt(ca[ca.length-1]);
+    let filtered_by_year_data = [];
+    let i = 0;
+    if (csv_data["Year"] == year) {
+        filtered_by_year_data= csv_data;
+    }
+    while (i < csv_data.length) {
+        if (csv_data[i]["Year"] == year) {
+            filtered_by_year_data[i] = csv_data[i];
+        }
+        i += 1;
+    }
+    // console.log("year: ", csv_data["Year"][3]);
+    console.log("filtered: ",filtered_by_year_data);
+}
+
+function launch_map_graphs(){
+
+
+    //processing data according to year selected
+        const csv_file = "static/admin-lte/dist/js/data/data_all_cols.csv";
+        // const csv_file = "static/admin-lte/dist/js/data/high_p.csv";
+        let csv_data;
+        fetchCSV();
+
+
+var data = [{
+    values: [19, 26, 55],
+    labels: ['Residential', 'Non-Residential', 'Utility'],
+    type: 'pie'
+}];
+
+Plotly.newPlot("g1", data);
+//------------------------------------------------------------
+var trace1 = {
+    x: [1, 2, 3, 4],
+    y: [10, 15, 13, 17],
+    mode: 'markers',
+    type: 'scatter'
+  };
+
+  var trace2 = {
+    x: [2, 3, 4, 5],
+    y: [16, 5, 11, 9],
+    mode: 'lines',
+    type: 'scatter'
+  };
+
+  var trace3 = {
+    x: [1, 2, 3, 4],
+    y: [12, 9, 15, 12],
+    mode: 'lines+markers',
+    type: 'scatter'
+  };
+
+  var data = [trace1, trace2, trace3];
+
+  Plotly.newPlot('g2', data);
+//------------------------------------------------------------
+var trace1 = {
+    x: [1, 2, 3, 4],
+    y: [10, 15, 13, 17],
+    type: 'scatter'
+  };
+
+  var trace2 = {
+    x: [1, 2, 3, 4],
+    y: [16, 5, 11, 9],
+    type: 'scatter'
+  };
+
+  var data = [trace1, trace2];
+
+  Plotly.newPlot('g3', data);
+
+}

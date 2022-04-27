@@ -558,6 +558,9 @@ function launchLMap(json_data) {
     var baseLayer = L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=zkrxIWCyYW9xbPkW5wuj', {
         attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
     }).addTo(map_L);
+    var darker = L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=zkrxIWCyYW9xbPkW5wuj', {
+        attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+    }).addTo(map_L);
     var cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         "radius": 2,
@@ -569,11 +572,11 @@ function launchLMap(json_data) {
         //   (there will always be a red spot with useLocalExtremas true)
         "useLocalExtrema": true,
         // which field name in your data represents the latitude - default "lat"
-        latField: 'LATITUDE',
+        latField: 'lat',
         // which field name in your data represents the longitude - default "lng"
-        lngField: 'LONGITUDE',
+        lngField: 'lng',
         // which field name in your data represents the data value - default "value"
-        valueField: 'Phosphorus, Total'
+        valueField: 'count'
     };
 
     var heatmapLayer = new HeatmapOverlay(cfg);
@@ -586,6 +589,8 @@ function launchLMap(json_data) {
     // var map_L = L.map('map_L').setView([43.651070, -79.347015], 10, [baseLayer, heatmapLayer]);
 
     heatmapLayer.setData({
+        min: 1,
+        max: 2,
         data: testData
     });
 
@@ -648,6 +653,35 @@ function launchLMap(json_data) {
         // console.log(json_data.LATITUDE[i]);
     }
 
+    // try: adding layer icon on map
+    var firstLayers = {
+        "Heat map": heatmapLayer,
+        "OpenStreetMap": darker
+    };
+    
+    var overlays = {
+        // "Marker": marker,
+        // "Roads": roadsLayer
+    };
+    
+    L.control.layers(firstLayers, overlays).addTo(map_L);
 }
 //launchLMap();
 
+function callPython(){
+    $("#test").click(function () {
+        console.log("Clicked");
+        $.ajax({
+          url: '/test_ajax',
+          data: {
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.is_taken) {
+              alert("A user with this username already exists.");
+            }
+          }
+        });
+  
+      });
+}

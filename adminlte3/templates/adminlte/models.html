@@ -109,7 +109,7 @@
               <option value="Models">Select ML Models</option>
               <option id="random_forest" value="XGBoost 5F">Level I(5 Features)</option>
               <option id="xgboost" value="Random Forest 16F" onclick="">Level II(16 Features)</option>
-              <option id="xgboost" value="XGBoost 19F" onclick="">Level III(19 Features)</option>
+              <!-- <option id="xgboost" value="XGBoost 19F" onclick="">Level III(19 Features)</option> -->
             </select>
           </span>
           <span id="forN" style="display: none;">
@@ -130,11 +130,7 @@
         <li class="list-group-item" id="test_ac">Test score: {{ac4}} %</li>
         <li class="list-group-item">
           <p>Select file</p>
-          {% if error %}
-          <div class="alert alert-danger" role="alert">
-            {{error}}
-          </div>
-          {% endif %}
+
           <div class="Prediction" id="Prediction">
             <div class="mx-auto">
               <!--              <form method="post" enctype="multipart/form-data" id="predictForm" onsubmit="return OnSubmitForm();">-->
@@ -145,6 +141,12 @@
                 <!-- <button type="submit" class="button btn-link btn-sm mt-2" onclick="OnSubmitForm();">Predict -->
                 <button type="submit" class="button btn-link btn-sm mt-2" onclick="">Predict</button>
             </div>
+            {% if error %}
+          <div class="alert alert-danger" role="alert">
+            {{error}}
+          </div>
+          {% endif %}.
+          ++
         </li>
 
         {% if file_ready %}

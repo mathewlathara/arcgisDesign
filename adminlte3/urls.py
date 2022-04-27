@@ -1,9 +1,9 @@
 from django.urls import path
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
-    censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
-    predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMap, predictedYearlyNitrogen  # , predictedVariable
+    censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, plotMap, \
+    predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, predictedYearlyNitrogen, \
+    google_earth, arcgis_map  # , predictedVariable
 from django.views.generic import TemplateView
-from django.conf.urls import include, url
 
 urlpatterns = [
     # path('', home, name='home'),
@@ -14,11 +14,13 @@ urlpatterns = [
     path('models', result, name='models'),
     path('upload', upload, name='upload'),
     path('predictN', predictN, name="predictN"),
-    path('models', showMap),
+    path('showMap', showMap, name="showMap"),
     path('advanced', advanced, name='advanced'),
-    path('map_ex', map_experiment, name="map_ex"),
+    path('launch_map', plotMap, name="launch_map"),
+    path('google_earth', google_earth, name="google_earth"),
+    path('arcgis_map', arcgis_map, name="arcgis_map"),
     path('about', about, name="about"),
-    
+
     path('table-preview', table_preview, name="table-preview"),
     path('download_p', download_p, name='download_phosphorus'),
     path('download_n', download_n, name='download_nitrogen'),
@@ -33,9 +35,7 @@ urlpatterns = [
     path('Census-pie-chart/', censusPieChart, name='Census-pie-chart'),
     path('Census-chart/', censusBarChart, name='Census-chart'),
     path('result/', result, name='result'),
-    path('gisArcApi/', arcgisMap)
     # path('upload_file/', upload_file, name="upload_file"),
-# path('/upload_file/', TemplateView.as_view(template_name='adminlte/models.html')),
-
+    # path('/upload_file/', TemplateView.as_view(template_name='adminlte/models.html')),
 
 ]
