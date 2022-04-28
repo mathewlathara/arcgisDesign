@@ -111,6 +111,13 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-lg-12">
+                        <span style="font-weight: bold;">Total sq.km : </span><span id="totalsqkmid" style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
+                        <span style="font-weight: bold;">Drainage basin : </span><span id="drainagebasinid" style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
+                        <span style="font-weight: bold;">Population : </span><span id="populationid" style="font-weight: bold;"></span>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-12" id="land-usechart"></div>
                 </div>
                 <div class="row">
@@ -353,8 +360,8 @@
                     type: "simple-fill", // autocasts as new SimpleFillSymbol()
                     color: "rgb(209, 213, 187)",
                     outline: {
-                        color: "rgb(255, 255, 255)",
-                        width: 0.5
+                        color: "rgb(0, 0, 0)",
+                        width: 1
                     }
                 }
             };
@@ -363,7 +370,7 @@
                 url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/durham_edited/FeatureServer/0",
                 popupTemplate: durhamtemplate,
                 renderer: DurhamRenderer,
-                opacity: 0.4,
+                opacity: 0.3,
                 title: "Durham region, Year:{{yearselected}}",
             });
 
@@ -516,7 +523,7 @@
                     type: "picture-marker",
                     url: "static/admin-lte/dist/img/" + jsonpointfile[i].stationiconlink,
                     width: "25px",
-                    height: "25px"
+                    height: "60px"
                 };
                 // console.log(jsonpointfile[i])
                 const point = { //Create a point
@@ -596,6 +603,9 @@
                                 //     y: [1, 0.5, 0.7, -1.2, 0.3, 0.4],
                                 //     type: 'bar'
                                 // };
+                                $("#totalsqkmid").html(data.totalareasqkm[0] + " km");
+                                $("#drainagebasinid").html(data.totaldrainagebasinsqkm + " km");
+                                $("#populationid").html(data.totalpopulation);
                                 var listarrayvalue = [];
                                 var rainfallbargraph = [];
                                 for(var i = 0; i < data.linegraphreturnlist.length; i++){

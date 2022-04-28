@@ -635,23 +635,36 @@ def map_experiment(request):
     yearslected = request.GET.get('yearid')
     # create map
     
+    if yearslected == "":
+        yearslected = "2017"
     col_list = ["STATION", "Latitude", "Longitude", "DATE", "TotalPhosphorus", "TotalNitrogen"]
     masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",")
     masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
     masterdatafile = masterdatafile[(masterdatafile['DATE'] > yearslected + "-01-01") & (masterdatafile['DATE'] < yearslected + "-12-31")].fillna(0)
-    avgphosphorus = 0
-    avgnitrogen = 0
     if(masterdatafile.count().STATION > 0):
         avgphosphorus = round(masterdatafile["TotalPhosphorus"].mean(),2)
         avgnitrogen = round(masterdatafile["TotalNitrogen"].mean(),2)
-    stationiconlink = "star.png"
-    if avgphosphorus > 0.02 or avgnitrogen > 10:
-        stationiconlink = "star.png"
-    masterdatafileduplicate = masterdatafile
+    stationiconlink = "normalregion.png"
+    # if avgphosphorus > 0.02 or avgnitrogen > 10:
+    #     stationiconlink = "star.png"
+    
     masterdatafile = masterdatafile.drop(columns=['DATE'])
     uniquecolumnfile = masterdatafile.drop_duplicates()
+    print(uniquecolumnfile)
     json_return = []
+    stationforloop = ""
+    phosphorusnumber = 0
+    nitrogernnumber = 0
     for index, row in uniquecolumnfile.iterrows():
+        if stationforloop != row[0]:
+            filterhotspots = uniquecolumnfile[(uniquecolumnfile["STATION"] == row[0])]
+            if(filterhotspots.count().STATION > 0):
+                phosphorusnumber = round(filterhotspots["TotalPhosphorus"].mean(),2)
+                nitrogernnumber = round(filterhotspots["TotalNitrogen"].mean(),2)
+                if phosphorusnumber > 0.05 or nitrogernnumber > 10:
+                    stationiconlink = "hotspot.png"
+            # print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber}")
+        stationforloop = row[0]
         # masterdatafileduplicate = masterdatafileduplicate[(masterdatafileduplicate['DATE'] > yearslected + "-01-01") & (masterdatafileduplicate['DATE'] < yearslected + "-12-31") & (masterdatafileduplicate['STATION'] == row[0])].fillna(0)
         # print(f"{masterdatafileduplicate}")
         # avgphosphorus = 0
@@ -733,8 +746,8 @@ def arcgisMapSoilDetailsAPI(request):
     if(stationid.startswith("0")):
         stationid = stationid[1:]
     print(f"stationid----->{stationid}  dateselected------> {dateselected}")
-    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MaxTemp14dayMean", "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean", "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal", "250mLandCover_Agricultural", "250mLandCover_Anthropogenic", "250mLandCover_Natural"]
-    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MaxTemp14dayMean" : float, "MaxTemp1dayMean" : float, "MaxTemp28dayMean" : float, "MaxTemp3dayMean" : float, "MaxTemp56dayMean" : float, "MaxTemp7dayMean" : float, "MaxTemp0dayMean" : float, "TotalRain14dayTotal" : float, "TotalRain1dayTotal" : float, "TotalRain28dayTotal" : float, "TotalRain3dayTotal" : float, "TotalRain56dayTotal" : float, "TotalRain7dayTotal" : float, "TotalRain0dayTotal" : float, "250mLandCover_Agricultural" : float, "250mLandCover_Anthropogenic" : float, "250mLandCover_Natural" : float})
+    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MeanTemp14dayMean", "MeanTemp1dayMean", "MeanTemp28dayMean", "MeanTemp3dayMean", "MeanTemp56dayMean", "MeanTemp7dayMean", "MeanTemp0dayMean", "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal", "250mLandCover_Agricultural", "250mLandCover_Anthropogenic", "250mLandCover_Natural", "DrainageBasinArea_sqkm", "LandAreaSqkm", "Population"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MeanTemp14dayMean" : float, "MeanTemp1dayMean" : float, "MeanTemp28dayMean" : float, "MeanTemp3dayMean" : float, "MeanTemp56dayMean" : float, "MeanTemp7dayMean" : float, "MeanTemp0dayMean" : float, "TotalRain14dayTotal" : float, "TotalRain1dayTotal" : float, "TotalRain28dayTotal" : float, "TotalRain3dayTotal" : float, "TotalRain56dayTotal" : float, "TotalRain7dayTotal" : float, "TotalRain0dayTotal" : float, "250mLandCover_Agricultural" : float, "250mLandCover_Anthropogenic" : float, "250mLandCover_Natural" : float, "DrainageBasinArea_sqkm" : float, "LandAreaSqkm" : float, "Population" : "string"})
     masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
     masterdatafile = masterdatafile[(masterdatafile['DATE'] > dateselected +"-01-01") & (masterdatafile['DATE'] < dateselected + "-12-31") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
     print(masterdatafile)
@@ -748,11 +761,14 @@ def arcgisMapSoilDetailsAPI(request):
         totalagricultural = masterdatafile["250mLandCover_Agricultural"].unique()
         totalanthropogenic = masterdatafile["250mLandCover_Anthropogenic"].unique()
         totalnatural = masterdatafile["250mLandCover_Natural"].unique()
+        totaldrainagebasinsqkm = masterdatafile["DrainageBasinArea_sqkm"].unique()
+        totalareasqkm = masterdatafile["LandAreaSqkm"].unique()
+        totalpopulation = masterdatafile["Population"].str.replace(',','').fillna(masterdatafile["Population"])
         linegraphreturnlist = []
         bargraphRainfall = []
         for index, row in masterdatafile.iterrows():
             color = "%06x" % random.randint(0, 0xFFFFFF)
-            json_string = {"data":[row["MaxTemp56dayMean"], row["MaxTemp28dayMean"], row["MaxTemp7dayMean"], row["MaxTemp3dayMean"], row["MaxTemp1dayMean"]], "borderColor": '#' + color, "fill":"false"}
+            json_string = {"data":[row["MeanTemp56dayMean"], row["MeanTemp28dayMean"], row["MeanTemp7dayMean"], row["MeanTemp3dayMean"], row["MeanTemp1dayMean"]], "borderColor": '#' + color, "fill":"false"}
             linegraphreturnlist.append(json_string)
             rainfalljsonstring = {"x":["fiftysix","twentyeight","forteen","seven","three","one","zero"], "y":[row["TotalRain56dayTotal"], row["TotalRain28dayTotal"], row["TotalRain14dayTotal"], row["TotalRain7dayTotal"], row["TotalRain3dayTotal"], row["TotalRain1dayTotal"], row["TotalRain0dayTotal"]], "type": 'bar', "name":pd.to_datetime(row["DATE"]).date()}
             bargraphRainfall.append(rainfalljsonstring)
@@ -761,6 +777,6 @@ def arcgisMapSoilDetailsAPI(request):
         # MaxTemp14dayMean = masterdatafile["MaxTemp14dayMean"].to_list()
         # "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean"
         print(f"totalclaywtd------>{totalTCLAYwtd}")
-        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall, "totalagricultural" : totalagricultural, "totalanthropogenic" : totalanthropogenic, "totalnatural" : totalnatural})
+        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall, "totalagricultural" : totalagricultural, "totalanthropogenic" : totalanthropogenic, "totalnatural" : totalnatural, "totaldrainagebasinsqkm" : totaldrainagebasinsqkm, "totalareasqkm" : totalareasqkm, "totalpopulation" : totalpopulation[0]})
     else:
         return Response({"status":"notfound"})
