@@ -170,7 +170,7 @@
         });
     });
     function loadmapvalues(filtertype) {
-        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend) {
+        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend", "esri/widgets/Expand"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend, Expand) {
 
             esriConfig.apiKey = "AAPKfb2205b571aa464b8280e4e744e3bde7rK2eQbS-fVv05DUtFVJUqBVoJjMIQGIMHK7rqQR-In8y-qSZSmNtobECX3jGCzGG";
 
@@ -772,15 +772,26 @@
                 view: view,
                 style: "card"
             });
-            view.ui.add(legend, "bottom-left");
+
+            const legendbgExpand = new Expand({
+                view: view,
+                content: legend
+            });
+
+            view.ui.add(legendbgExpand, "bottom-left");
 
             view.when(() => {
                 const layerList = new LayerList({
                     view: view
                 });
 
+                const layerListdbgExpand = new Expand({
+                    view: view,
+                    content: layerList
+                });
+
                 // Add widget to the top right corner of the view
-                view.ui.add(layerList, "top-right");
+                view.ui.add(layerListdbgExpand, "top-right");
             });
             
 
