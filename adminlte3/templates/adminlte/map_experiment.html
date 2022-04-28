@@ -112,6 +112,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
+                        <span style="font-weight: bold;">Sampling site : </span><span id="totalsamplingsitelatitudeid" style="font-weight: bold;"></span><span style="font-weight: bold;">&#176;N</span><span id="totalsamplingsitelongitudeid" style="font-weight: bold; padding-left:5px; "></span><span style="font-weight: bold;">&#176;W</span><br>
                         <span style="font-weight: bold;">Total sq.km : </span><span id="totalsqkmid" style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
                         <span style="font-weight: bold;">Drainage basin : </span><span id="drainagebasinid" style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
                         <span style="font-weight: bold;">Population : </span><span id="populationid" style="font-weight: bold;"></span>
@@ -603,6 +604,8 @@
                                 //     y: [1, 0.5, 0.7, -1.2, 0.3, 0.4],
                                 //     type: 'bar'
                                 // };
+                                $("#totalsamplingsitelatitudeid").html(data.latitude);
+                                $("#totalsamplingsitelongitudeid").html(data.longitude);
                                 $("#totalsqkmid").html(data.totalareasqkm[0] + " km");
                                 $("#drainagebasinid").html(data.totaldrainagebasinsqkm + " km");
                                 $("#populationid").html(data.totalpopulation);

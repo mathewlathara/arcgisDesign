@@ -746,8 +746,8 @@ def arcgisMapSoilDetailsAPI(request):
     if(stationid.startswith("0")):
         stationid = stationid[1:]
     print(f"stationid----->{stationid}  dateselected------> {dateselected}")
-    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MeanTemp14dayMean", "MeanTemp1dayMean", "MeanTemp28dayMean", "MeanTemp3dayMean", "MeanTemp56dayMean", "MeanTemp7dayMean", "MeanTemp0dayMean", "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal", "250mLandCover_Agricultural", "250mLandCover_Anthropogenic", "250mLandCover_Natural", "DrainageBasinArea_sqkm", "LandAreaSqkm", "Population"]
-    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MeanTemp14dayMean" : float, "MeanTemp1dayMean" : float, "MeanTemp28dayMean" : float, "MeanTemp3dayMean" : float, "MeanTemp56dayMean" : float, "MeanTemp7dayMean" : float, "MeanTemp0dayMean" : float, "TotalRain14dayTotal" : float, "TotalRain1dayTotal" : float, "TotalRain28dayTotal" : float, "TotalRain3dayTotal" : float, "TotalRain56dayTotal" : float, "TotalRain7dayTotal" : float, "TotalRain0dayTotal" : float, "250mLandCover_Agricultural" : float, "250mLandCover_Anthropogenic" : float, "250mLandCover_Natural" : float, "DrainageBasinArea_sqkm" : float, "LandAreaSqkm" : float, "Population" : "string"})
+    col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MeanTemp14dayMean", "MeanTemp1dayMean", "MeanTemp28dayMean", "MeanTemp3dayMean", "MeanTemp56dayMean", "MeanTemp7dayMean", "MeanTemp0dayMean", "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal", "250mLandCover_Agricultural", "250mLandCover_Anthropogenic", "250mLandCover_Natural", "DrainageBasinArea_sqkm", "LandAreaSqkm", "Population", "Latitude", "Longitude"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",", dtype={"STATION": "string", "DATE":"string", "DSS_ClaySiltSand_TCLAYwtd":float, "DSS_ClaySiltSand_TOTHERwtd":float, "DSS_ClaySiltSand_TSILTwtd":float, "DSS_ClaySiltSand_TUNKNOWNwtd":float, "MeanTemp14dayMean" : float, "MeanTemp1dayMean" : float, "MeanTemp28dayMean" : float, "MeanTemp3dayMean" : float, "MeanTemp56dayMean" : float, "MeanTemp7dayMean" : float, "MeanTemp0dayMean" : float, "TotalRain14dayTotal" : float, "TotalRain1dayTotal" : float, "TotalRain28dayTotal" : float, "TotalRain3dayTotal" : float, "TotalRain56dayTotal" : float, "TotalRain7dayTotal" : float, "TotalRain0dayTotal" : float, "250mLandCover_Agricultural" : float, "250mLandCover_Anthropogenic" : float, "250mLandCover_Natural" : float, "DrainageBasinArea_sqkm" : float, "LandAreaSqkm" : float, "Population" : "string", "Latitude" : float, "Longitude" : float})
     masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
     masterdatafile = masterdatafile[(masterdatafile['DATE'] > dateselected +"-01-01") & (masterdatafile['DATE'] < dateselected + "-12-31") & (masterdatafile['STATION'].str.contains(stationid)==True)].fillna(0)
     print(masterdatafile)
@@ -764,6 +764,10 @@ def arcgisMapSoilDetailsAPI(request):
         totaldrainagebasinsqkm = masterdatafile["DrainageBasinArea_sqkm"].unique()
         totalareasqkm = masterdatafile["LandAreaSqkm"].unique()
         totalpopulation = masterdatafile["Population"].str.replace(',','').fillna(masterdatafile["Population"])
+        latitude = masterdatafile["Latitude"].unique()
+        longitude = masterdatafile["Longitude"].unique()
+        longitudestring = str(longitude[0])
+        print(longitudestring[1:])
         linegraphreturnlist = []
         bargraphRainfall = []
         for index, row in masterdatafile.iterrows():
@@ -777,6 +781,6 @@ def arcgisMapSoilDetailsAPI(request):
         # MaxTemp14dayMean = masterdatafile["MaxTemp14dayMean"].to_list()
         # "MaxTemp1dayMean", "MaxTemp28dayMean", "MaxTemp3dayMean", "MaxTemp56dayMean", "MaxTemp7dayMean", "MaxTemp0dayMean"
         print(f"totalclaywtd------>{totalTCLAYwtd}")
-        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall, "totalagricultural" : totalagricultural, "totalanthropogenic" : totalanthropogenic, "totalnatural" : totalnatural, "totaldrainagebasinsqkm" : totaldrainagebasinsqkm, "totalareasqkm" : totalareasqkm, "totalpopulation" : totalpopulation[0]})
+        return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall, "totalagricultural" : totalagricultural, "totalanthropogenic" : totalanthropogenic, "totalnatural" : totalnatural, "totaldrainagebasinsqkm" : totaldrainagebasinsqkm, "totalareasqkm" : totalareasqkm, "totalpopulation" : totalpopulation[0], "latitude" : latitude, "longitude" : longitudestring[1:]})
     else:
         return Response({"status":"notfound"})
