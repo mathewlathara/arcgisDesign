@@ -51,126 +51,127 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-2">
             <ul class="list-group">
                 <li class="list-group-item">
+                    <label>Select a year</label>
                     <span>
-                        <select class="custom-select" name="year" id="yearFrom" value="2021"
-                            onclick="yearFromSelect();">
-                            <option value="2021">From</option>
+                        <select class="custom-select yearFrom">
+                            
                         </select>
                     </span>
-                    <span>
-                        <label for="year"></label>
-                        <select class="custom-select mt-2" name="year" id="yearTo" onclick="yearToSelect();">
-                            <option value="2021"> To </option>
-                        </select>
-                    </span>
-
                 </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="o2_div">
-                            <input class="form-check-input" name="o2" type="checkbox"
-                                value="Oxygen, Dissolved (% Saturation)" id="o2" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Disolved O2(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="depth" type="checkbox" value="Depth, Sample (Field)"
-                                id="depth" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Sample Depth
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="n" type="checkbox" value="Nitrite" id="n" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Nitrite(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="nk" type="checkbox"
-                                value="Nitrogen, Total Kjeldahl (TKN)" id="nk" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Nitrogen Kjeldahl(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="tss" type="checkbox" value="Solids, Suspended (TSS)"
-                                id="tss" onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Total Suspended Solids(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-
-                    <span>
-                        <div class="form-check" id="">
-                            <input class="form-check-input" name="p" type="checkbox" value="Phosphorus, Total" id="p"
-                                onclick="">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Predicted Phosphorus(mg/L)
-                            </label>
-                        </div>
-                    </span>
-                </li>
-                <li class="list-group-item">
-                    <form method="POST" action="/map_ex">
-                        {% csrf_token %}
-                        <span>
-                            <button class="btn btn-outline-primary btn-sm" id="getValue"
-                                onclick="filtero2();">Get</button>
-                        </span>
-                    </form>
-                </li>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
 
         </div>
-        <div class="col-md-11">
+        <div class="col-md-10">
             <div id="viewDiv"></div>
         </div>
     </div>
 </div>
 
+<input type="hidden" id="stationid">
+<input type="hidden" id="yearselectedinputhidden" value="{{yearselected}}">
+
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div class="modal fade" id="demographicsGraphModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Station ID: <span id="stationdisplaymodalbox"></span><span>, Year:{{yearselected}}</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span style="font-weight: bold;">Sampling site : </span><span id="totalsamplingsitelatitudeid" style="font-weight: bold;"></span><span style="font-weight: bold;">&#176;N</span><span id="totalsamplingsitelongitudeid" style="font-weight: bold; padding-left:5px; "></span><span style="font-weight: bold;">&#176;W</span><br>
+                        <span style="font-weight: bold;">Total sq.km : </span><span id="totalsqkmid" style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
+                        <span style="font-weight: bold;">Drainage basin : </span><span id="drainagebasinid" style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
+                        <span style="font-weight: bold;">Population : </span><span id="populationid" style="font-weight: bold;"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="land-usechart"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="soildatagraph"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12"><canvas id="meantemperaturedivision" style="width:100%;max-width:600px"></canvas></div>
+                </div>
+                <div class="row">
+                    <div id="meanmaxrainfalldivision" class="col-lg-12"></div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 
 {% endblock %}
 
 {% block javascript %}
-<script src="https://js.arcgis.com/4.23/"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+<script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js "></script>
+<script src="https://js.arcgis.com/4.23/"></script>
 <script>
     var jsonpointfile = {{ jsonvalue|safe }}
     $(document).ready(function () {
         loadmapvalues(1);
+
+        var yearlist = ["2017", "2013", "2008", "2007", "2002"];
+        yearselectbox = "<option value='' disabled selected>Select a year</option>";
+        for(let j = 0; j < yearlist.length; j++){
+            if(yearlist[j] == "{{yearselected}}"){
+                yearselectbox += "<option value="+yearlist[j]+" selected>"+yearlist[j]+"</option>";
+            }else{
+                yearselectbox += "<option value="+yearlist[j]+">"+yearlist[j]+"</option>";
+            }
+        }
+
+        $(".yearFrom").html(yearselectbox);
+
+        $(document).on('change', '.yearFrom', function(){
+            var yearselected = $(this).val();
+            window.location.href='map_ex?yearid=' + yearselected;
+        });
     });
     function loadmapvalues(filtertype) {
-        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend) {
+        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend", "esri/widgets/Expand"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend, Expand) {
 
             esriConfig.apiKey = "AAPKfb2205b571aa464b8280e4e744e3bde7rK2eQbS-fVv05DUtFVJUqBVoJjMIQGIMHK7rqQR-In8y-qSZSmNtobECX3jGCzGG";
 
@@ -214,14 +215,14 @@
                             }
                         ]
                     }
-                ],
+                ]
             };
 
             const TRCALanduseRenderer = {
                 type: "simple", // autocasts as new SimpleRenderer()
                 symbol: {
                     type: "simple-fill", // autocasts as new SimpleFillSymbol()
-                    color: "rgb(135, 137, 189)",
+                    color: "rgb(213, 210, 210)",
                     outline: {
                         color: "rgb(0, 0, 0)",
                         width: 0.01
@@ -231,22 +232,108 @@
 
             const featureLayer = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: TRCALanduseRenderer,
-                title: "TRCA Landuse 2017 base"
+                title: "TRCA Landuse base map"
+            });
+
+            /*-------------------------------- TRCA base land ----------------------------------------------------------------*/
+
+            function TRCACustomRegion(feature) {
+                var stationid = feature.graphic.attributes.UniqueID;
+                const div = document.createElement("div");
+                console.log("I am here ------>" + JSON.stringify(stationid));
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+                    success: function(data) {
+                        console.log(JSON.stringify(data));
+                        div.innerHTML = "<p><u><b>Station ID: "+ data.stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
+                    },
+                    error: function(error) {
+                        alert("error");
+                    }
+                });
+                return div;
+            }
+
+            const TRCABASEtemplate = {
+                // autocasts as new PopupTemplate()
+                title: "TRCA region",
+                outFields: ["UniqueID"],
+                content: TRCACustomRegion
+                // content: [
+                //     {
+                //         // It is also possible to set the fieldInfos outside of the content
+                //         // directly in the popupTemplate. If no fieldInfos is specifically set
+                //         // in the content, it defaults to whatever may be set within the popupTemplate.
+                //         type: "fields",
+                //         fieldInfos: [
+                //             {
+                //                 fieldName: "layer",
+                //                 label: "Layer",
+                //                 format: {
+                //                     digitSeparator: true,
+                //                     places: 0
+                //                 }
+                //             },
+                //         ]
+                //     }
+                // ]
+            };
+
+            const TRCARenderer = {
+                type: "simple", // autocasts as new SimpleRenderer()
+                symbol: {
+                    type: "simple-fill", // autocasts as new SimpleFillSymbol()
+                    color: "rgb(79, 102, 68)",
+                    outline: {
+                        color: "rgb(255, 255, 255)",
+                        width: 0.5
+                    }
+                }
+            };
+
+            const TRCABaseLayer = new FeatureLayer({
+                url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/newtrcaregion/FeatureServer/0",
+                popupTemplate: TRCABASEtemplate,
+                renderer: TRCARenderer,
+                opacity: 0.5,
+                title: "TRCA region"
             });
 
             /* ---------------------------------- Durham region -------------------------------------------------*/
 
             const durhamAdditionalDetials = {
-                title: "Show details",
+                title: "Show graphs",
                 id: "detail-this",
                 image: "static/admin-lte/dist/img/adddetailsimg.png" // this section is for adding additional details button
             };
 
+            function durhamregCustomRegion(feature) {
+                var stationid = feature.graphic.attributes.UniqueID;
+                const div = document.createElement("div");
+                console.log("I am here ------>" + JSON.stringify(stationid));
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+                    success: function(data) {
+                        console.log(JSON.stringify(data));
+                        $("#stationid").val(stationid);
+                        div.innerHTML = "<p><u><b>Station ID: "+ data.stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
+                    },
+                    error: function(error) {
+                        alert("error");
+                    }
+                });
+                return div;
+            }
+
             const durhamtemplate = {
                 // autocasts as new PopupTemplate()
-                title: "Durham region",
+                title: "Durham region, Year:{{yearselected}}",
+                outFields: ["UniqueID"],
+                content: durhamregCustomRegion,
                 actions: [durhamAdditionalDetials]
                 // content: [
                 //     {
@@ -274,8 +361,8 @@
                     type: "simple-fill", // autocasts as new SimpleFillSymbol()
                     color: "rgb(209, 213, 187)",
                     outline: {
-                        color: "rgb(255, 255, 255)",
-                        width: 0.5
+                        color: "rgb(0, 0, 0)",
+                        width: 1
                     }
                 }
             };
@@ -284,7 +371,8 @@
                 url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/durham_edited/FeatureServer/0",
                 popupTemplate: durhamtemplate,
                 renderer: DurhamRenderer,
-                opacity: 0.5
+                opacity: 0.3,
+                title: "Durham region, Year:{{yearselected}}",
             });
 
             function createFillSymbol(value, color) {
@@ -303,17 +391,37 @@
                 };
             }
 
-            const openSpacesRenderer = {
+            const SpacesRenderer2017 = {
                 type: "unique-value",
                 field: "Landuse_Fu",
                 uniqueValueInfos: [
-                    createFillSymbol("Agricultural", "#AAFB05"),
+                    createFillSymbol("Agricultural", "#3282bd"),
                     createFillSymbol("Institutional", "#EBF90D"),
-                    createFillSymbol("Roads", "#149ECE"),
-                    createFillSymbol("Lacustrine", "#F9AA0D"),
+                    createFillSymbol("Roads", "#FB1102"),
+                    createFillSymbol("Lacustrine", "#05FBDC"),
                     createFillSymbol("Airport", "#09F4F5"),
-                    createFillSymbol("Medium Density Residential", "#E40FEA"),
-                    createFillSymbol("Forest", "#05FB1A")
+                    createFillSymbol("Medium Density Residential", "#E5550E"),
+                    createFillSymbol("Forest", "#08B22B"),
+                    createFillSymbol("Commercial", "#766bb3"),
+                    createFillSymbol("Industrial", "#766bb3"),
+                    createFillSymbol("Meadow", "#48FB12"),
+                    createFillSymbol("Estate Residential", "#0752F6"),
+                    createFillSymbol("Mixed Commercial Entertainment", "#CB07F6")
+                ],
+                outline: {
+                    color: "rgb(0, 0, 2)",
+                    width: 0.1
+                }
+            };
+
+            const SpaceRenderOtherThan2017 = {
+                type: "unique-value",
+                field: "HABITAT",
+                uniqueValueInfos: [
+                    createFillSymbol("forest", "#08B22B"),
+                    createFillSymbol("wetland", "#EBF90D"),
+                    createFillSymbol("meadow", "#48FB12"),
+                    createFillSymbol("succ", "#766bb3")
                 ],
                 outline: {
                     color: "rgb(0, 0, 2)",
@@ -322,12 +430,19 @@
             };
 
             // Create the layer and set the renderer
+            var yearselectedinputhidden = $("#yearselectedinputhidden").val();
+            var openspacerendererselected = null
+            if(yearselectedinputhidden == "2017"){
+                openspacerendererselected = SpacesRenderer2017;
+            }else{
+                openspacerendererselected = SpaceRenderOtherThan2017;
+            }
             const induvidualLayers = new FeatureLayer({
-                url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
-                renderer: openSpacesRenderer,
-                popupTemplate: template,
-                opacity: 0.9,
-                title: "TRCA Landuse 2017 demographics"
+                url: "{{regiondemographicrenderurl|safe}}",
+                renderer: openspacerendererselected,
+                // popupTemplate: template,
+                // opacity: 0.9,
+                title: "TRCA Landuse {{yearselected}} demographics"
             });
 
             const ELCTRCARenderer = {
@@ -344,7 +459,7 @@
 
             const ELCTRCA = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/elc_trca_shp/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: ELCTRCARenderer,
                 title: "ELC TRCA"
             });
@@ -363,7 +478,7 @@
 
             const CLOCALandcoverBase = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/cloca_land_covershp/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: CLOCALandcoverRender,
                 title: "CLOCA Land cover"
             });
@@ -372,7 +487,7 @@
                 type: "simple", // autocasts as new SimpleRenderer()
                 symbol: {
                     type: "simple-fill", // autocasts as new SimpleFillSymbol()
-                    color: "rgb(153, 58, 210)",
+                    color: "rgb(218, 210, 220)",
                     outline: {
                         color: "rgb(0, 0, 0)",
                         width: 0.1
@@ -382,7 +497,7 @@
 
             const ECOLOGLANDClassificBase = new FeatureLayer({
                 url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/cloca_land_covershp/FeatureServer/0",
-                popupTemplate: template,
+                // popupTemplate: template,
                 renderer: ECOLOGLANDClassificRender,
                 title: "Ecological land classification"
             });
@@ -397,20 +512,20 @@
             });
             map.add(graphicsLayer);
 
-            const simpleMarkerSymbol = {
-                // type: "simple-marker",
-                // color: [226, 119, 40],  // Orange
-                // outline: {
-                //     color: [255, 255, 255], // White
-                //     width: 1
-                // }
-                type: "picture-marker",
-                url: "static/admin-lte/dist/img/pin.png",
-                width: "25px",
-                height: "25px"
-            };
-
             for(var i = 0; i < jsonpointfile.length; i++){
+                console.log(jsonpointfile[i].stationiconlink);
+                const simpleMarkerSymbol = {
+                    // type: "simple-marker",
+                    // color: [226, 119, 40],  // Orange
+                    // outline: {
+                    //     color: [255, 255, 255], // White
+                    //     width: 1
+                    // }
+                    type: "picture-marker",
+                    url: "static/admin-lte/dist/img/" + jsonpointfile[i].stationiconlink,
+                    width: "25px",
+                    height: "60px"
+                };
                 // console.log(jsonpointfile[i])
                 const point = { //Create a point
                     type: "point",
@@ -443,10 +558,216 @@
                 zoom: 9
             });
 
+            function piechart(xvalues, yvalues, colorneeded, displaytext){
+                var xValues = xvalues;
+                var yValues = yvalues;
+                var barColors = colorneeded;
+
+                new Chart("myChart", {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                    }]
+                },
+                options: {
+                    title: {
+                    display: true,
+                    text: displaytext
+                    }
+                }
+                });
+            }
+
             view.popup.on("trigger-action", (event) => {
             // Execute the measureThis() function if the measure-this action is clicked
                 if (event.action.id === "detail-this") {
-                    alert("Click here");
+                    let stationid = $("#stationid").val();
+                    $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+                        success: function(data) {
+                            if(data.status === "success"){
+                                $("#stationdisplaymodalbox").html(stationid);
+                                $('#demographicsGraphModal').modal('show');
+                                // piechart(["CSS/with clay", "CSS/All together", "CSS/with sand", "CSS/with silt", "CSS/unknown"], [data.totalTCLAYwtd, data.totalTOTHERwtd, data.totalTSANDwtd, data.totalTSILTwtd, data.totalTUNKNOWNwtd], [ "#F2900B", "#F2D20B", "#DDFE04", "#A9F20A", "#D7DCCC"], "Soil/Sand data")
+                                // var trace1 = {
+                                //     x: [0, 1, 2, 3, 4, 5],
+                                //     y: [1.5, 1, 1.3, 0.7, 0.8, 0.9],
+                                //     type: 'scatter'
+                                // };
+
+                                // var trace2 = {
+                                //     x: [0, 1, 2, 3, 4, 5],
+                                //     y: [1, 0.5, 0.7, -1.2, 0.3, 0.4],
+                                //     type: 'bar'
+                                // };
+                                $("#totalsamplingsitelatitudeid").html(data.latitude);
+                                $("#totalsamplingsitelongitudeid").html(data.longitude);
+                                $("#totalsqkmid").html(data.totalareasqkm[0] + " km");
+                                $("#drainagebasinid").html(data.totaldrainagebasinsqkm + " km");
+                                $("#populationid").html(data.totalpopulation);
+                                var listarrayvalue = [];
+                                var rainfallbargraph = [];
+                                for(var i = 0; i < data.linegraphreturnlist.length; i++){
+                                    console.log(data.linegraphreturnlist[i]);
+                                    listarrayvalue.push(data.linegraphreturnlist[i]);
+                                    rainfallbargraph.push(data.bargraphRainfall[i]);
+                                }
+
+                                var xValues = [56,28,7,3,1];
+
+                                new Chart("meantemperaturedivision", {
+                                type: "line",
+                                    data: {
+                                        labels: xValues,
+                                        datasets: data.linegraphreturnlist
+                                    },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: 'Integrted mean temperature(\xB0C)'
+                                            }
+                                            }],
+                                            xAxes: [{
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: 'Days preceding collection'
+                                            }
+                                            }]
+                                        },
+                                        legend: {display: false}
+                                    }
+                                });
+
+                                var layout = {barmode: 'group', xaxis: {title: 'Days preceding collection'}, yaxis:{title: 'Integrated precipitation'}, bargap :0.01};
+
+                                Plotly.newPlot('meanmaxrainfalldivision', rainfallbargraph, layout);
+
+                                var areawiseuseagevalues = [{
+                                        values: [data.totalagricultural[0], data.totalanthropogenic[0], data.totalnatural[0]],
+                                        labels: ['Agricultural', 'Urban', 'Natural' ],
+                                        domain: {column: 0},
+                                        name: 'GHG Emissions',
+                                        hoverinfo: 'label+percent+name',
+                                        hole: .4,
+                                        marker: {
+                                            colors: ['#3282bd', '#E5550E', '#08B22B'],
+                                            line: {
+                                            color: 'white',
+                                            width: 1
+                                            }
+                                        },
+                                        type: 'pie'
+                                        }];
+                                var areawiseusagelayout = {
+                                    title: "Land usage"
+                                };
+                                Plotly.newPlot("land-usechart", areawiseuseagevalues,areawiseusagelayout);
+
+                                var claylayer = {
+                                    x: [data.totalTCLAYwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Clay',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#987D48',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var siltlayer = {
+                                    x: [data.totalTSILTwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Silt',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#BE9D3C',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var sandlayer = {
+                                    x: [data.totalTSANDwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Sand',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#EABA56',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var otherlayer = {
+                                    x: [data.totalTOTHERwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Other',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#E8CB91',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var unknownlayer = {
+                                    x: [data.totalTUNKNOWNwtd[0]],
+                                    y: [''],
+                                    width: [0.8],
+                                    name: 'Unknown',
+                                    orientation: 'h',
+                                    marker: {
+                                        color: '#853A35',
+                                        width: 0.01
+                                    },
+                                    type: 'bar'
+                                };
+
+                                var soilwisedata = [claylayer, siltlayer, sandlayer, otherlayer, unknownlayer];
+
+                                var soilwiselayout = {barmode: 'stack', title : "Soil layer data",  xaxis: {
+                                                                                                    autorange: true,
+                                                                                                    showgrid: false,
+                                                                                                    zeroline: false,
+                                                                                                    showline: false,
+                                                                                                    autotick: true,
+                                                                                                    ticks: '',
+                                                                                                    showticklabels: false
+                                                                                                },
+                                                                                                yaxis: {
+                                                                                                    autorange: true,
+                                                                                                    showgrid: false,
+                                                                                                    zeroline: false,
+                                                                                                    showline: false,
+                                                                                                    autotick: true,
+                                                                                                    ticks: '',
+                                                                                                    showticklabels: false
+                                                                                                }};
+
+                                Plotly.newPlot('soildatagraph', soilwisedata, soilwiselayout);
+
+                                // var data = [trace1, trace2];
+                                
+                            }else{
+                                alert("Proper data not present");
+                            }
+                        },
+                        error: function(error) {
+                            alert("error");
+                        }
+                    });
+                    // alert(stationid);
                 }
             });
 
@@ -454,15 +775,26 @@
                 view: view,
                 style: "card"
             });
-            view.ui.add(legend, "bottom-left");
+
+            const legendbgExpand = new Expand({
+                view: view,
+                content: legend
+            });
+
+            view.ui.add(legendbgExpand, "bottom-left");
 
             view.when(() => {
                 const layerList = new LayerList({
                     view: view
                 });
 
+                const layerListdbgExpand = new Expand({
+                    view: view,
+                    content: layerList
+                });
+
                 // Add widget to the top right corner of the view
-                view.ui.add(layerList, "top-right");
+                view.ui.add(layerListdbgExpand, "top-right");
             });
             
 
