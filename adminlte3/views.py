@@ -27,7 +27,7 @@ from rest_framework.decorators import api_view
 
 # Create your views here.
 def index(request):
-    return render(request, "adminlte/index.html")
+    return render(request, "adminlte/index1.html")
 # This file is supposed to be edited in terms of making changes on main dashboard
 
 def dashboard_m(request):
