@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
-    predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI  # , predictedVariable
+    predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, logincontroller  # , predictedVariable
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 
@@ -34,7 +34,8 @@ urlpatterns = [
     path('Census-chart/', censusBarChart, name='Census-chart'),
     path('result/', result, name='result'),
     path('arcgisMapParametersDurhamRegion/', arcgisMapParametersDurhamRegion),
-    path("arcgisMapSoilDetailsAPI/", arcgisMapSoilDetailsAPI)
+    path("arcgisMapSoilDetailsAPI/", arcgisMapSoilDetailsAPI),
+    path("logincontroller/", logincontroller)
     # path('upload_file/', upload_file, name="upload_file"),
 # path('/upload_file/', TemplateView.as_view(template_name='adminlte/models.html')),
 

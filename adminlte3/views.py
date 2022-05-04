@@ -30,6 +30,9 @@ def index(request):
     return render(request, "adminlte/index1.html")
 # This file is supposed to be edited in terms of making changes on main dashboard
 
+def logincontroller(request):
+    return render(request, "adminlte/login1.html")
+
 def dashboard_m(request):
     reading_csv(request)
     censusYear, totalPhosh, nitrateNitrite = censusPieChart(request)
