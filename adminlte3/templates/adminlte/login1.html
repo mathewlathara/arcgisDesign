@@ -168,6 +168,8 @@
 
             $(document).on('click', '#signinbutton', function (e) {
                 e.preventDefault();
+                $("#useralreadyexitsid").hide();
+                $("#usercreated").hide();
                 $("#logincredentialsfailed").hide();
                 $.ajax({
                     type: 'POST',
