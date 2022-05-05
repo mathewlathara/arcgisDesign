@@ -4,7 +4,7 @@
 {% block content %}
 
 <!-- <script type="module" src="/static/admin-lte/dist/js/main.js"></script> -->
- 
+
 <!-- <script>
   This is the code for plotting graphs using chart.js and jQuery
     function yearFromSelect(){
@@ -74,125 +74,125 @@
 <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
 
 
-<div class="container">
-    <div class="row pt-3">
-        <p>
-            NOTE: The visualization provided here are based on <a href="">this</a> dataset.
-        </p>
-    </div>
-    <div class="row mt-2">
-      <div class="col-sm-12">
-          <ul class="list-group list-group-horizontal-xl">
-              <li class="list-group-item">
-                  <span>                     
-                      <select class="custom-select"  name="year" id="yearFrom" value="2021" onclick="yearFromSelect();">
-                          <option value="2021">From</option>
-                      </select> 
-                  </span>
-                  <span>
-                      <!-- <label for="year"></label> -->
-                      <select class="custom-select mt-2" name="year" id="yearTo" onclick="yearToSelect();">
-                        <option value="2021"> To </option>
-                      </select>
-                  </span>
-              </li>
-              <li class="list-group-item">
-                  <span>
-                      <!-- <label for="year"></label> -->
-                      <select class="custom-select" name="year" id="standardType" onclick="standardSelect();">
-                        <option value="2021"> Standard </option>
-                      </select>
-                    </span>
-                  <span>
-                      <!-- <label for="year"></label> -->
-                      <select class="custom-select mt-2" name="station" id="station" onclick="stationSelect();">
-                        <option value="2021"> Station </option>
-                      </select>
-                    </span>
-              </li>
-              <li class="list-group-item">
-                  <span>
-                      <!-- <label for=""></label> -->
-                      <select class="custom-select" name="year" id="f1" onclick="selectFeature1();">
-                        <option value="">On X</option>
-                      </select>
-                  </span>
-                  <span>
-                      <!-- <label for=""></label> -->
-                      <select class="custom-select mt-2" name="year" id="f2" onclick="selectFeature2();">
-                        <option value="">On Y</option>
-                      </select>
-                  </span>
-              </li>
-              <li class="list-group-item">
-                  <div class="col-sm-2">
-                      <button class="btn btn-outline-primary" id="getValue" onclick="return plotFromCSV();">Filter</button>
-                    </div>
-                    <div class="col-sm-2 mt-2">
-                      <button class="btn btn-outline-primary " id="mapButton" onclick="return showMap();">Map</button>
-                    </div>
-              </li>
-            </ul>
-          </div>
+
+<div class="row pt-3">
+  <p>
+    NOTE: The visualization provided here are based on <a href="">this</a> dataset.
+  </p>
+</div>
+<div class="row mt-2">
+  <div class="col-sm-12">
+    <ul class="list-group list-group-horizontal-xl">
+      <li class="list-group-item">
+        <span>
+          <select class="custom-select" name="year" id="yearFrom" value="2021" onclick="yearFromSelect();">
+            <option value="2021">From</option>
+          </select>
+        </span>
+        <span>
+          <!-- <label for="year"></label> -->
+          <select class="custom-select mt-2" name="year" id="yearTo" onclick="yearToSelect();">
+            <option value="2021"> To </option>
+          </select>
+        </span>
+      </li>
+      <li class="list-group-item">
+        <span>
+          <!-- <label for="year"></label> -->
+          <select class="custom-select" name="year" id="standardType" onclick="standardSelect();">
+            <option value="2021"> Standard </option>
+          </select>
+        </span>
+        <span>
+          <!-- <label for="year"></label> -->
+          <select class="custom-select mt-2" name="station" id="station" onclick="stationSelect();">
+            <option value="2021"> Station </option>
+          </select>
+        </span>
+      </li>
+      <li class="list-group-item">
+        <span>
+          <!-- <label for=""></label> -->
+          <select class="custom-select" name="year" id="f1" onclick="selectFeature1();">
+            <option value="">On X</option>
+          </select>
+        </span>
+        <span>
+          <!-- <label for=""></label> -->
+          <select class="custom-select mt-2" name="year" id="f2" onclick="selectFeature2();">
+            <option value="">On Y</option>
+          </select>
+        </span>
+      </li>
+      <li class="list-group-item">
+        <div class="col-sm-2">
+          <button class="btn btn-outline-primary" id="getValue" onclick="return plotFromCSV();">Filter</button>
         </div>
+        <div class="col-sm-2 mt-2">
+          <button class="btn btn-outline-primary " id="mapButton" onclick="return showMap();">Map</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
 
 
 
 <!----------2nd row----------------->
-    <div class="row">
-      <div class="col-sm-6">
-        <span >
-            <div class="mt-5" id="plot">
+<div class="row">
+  <div class="col-sm-6">
+    <span>
+      <div class="mt-5" id="plot">
 
-            </div>
-        </span>
       </div>
-      <div class="col-sm-6">
-          <span>
-              <div class="mt-5" id="plot2">
-  
-              </div>
-          </span>
-        </div>  
-      <div class="col-*-*"></div>
-    </div>
+    </span>
+  </div>
+  <div class="col-sm-6">
+    <span>
+      <div class="mt-5" id="plot2">
 
-<!-------------3rd row----------------------->    
-    <div class="row">
-        <div class="col-sm-6 my-auto">
-            <span class="align-middle">
-                <div class="mt-5" id="des1">
-                    <p class="text-justify mx-auto"></p>
-                </div>
-            </span>
-          </div>
-    
-      <div class="col-sm-6 my-auto">
-        <span class="align-middle">
-            <div class="mt-5" id="des2">
-                <p class="text-justify"></p>
-            </div>
-        </span>
       </div>
-      <div class="col-sm-2 my-auto">
+    </span>
+  </div>
+  <div class="col-*-*"></div>
+</div>
+
+<!-------------3rd row----------------------->
+<div class="row">
+  <div class="col-sm-6 my-auto">
+    <span class="align-middle">
+      <div class="mt-5" id="des1">
+        <p class="text-justify mx-auto"></p>
       </div>
+    </span>
+  </div>
 
-    </div>
-    <!-- ---------------4th row--------------- -->
-    <div class="row">
-      <div class="col-sm-12 my-auto">
-        
-        <span>
-
-          <div class="mt-2" id="map" style="width: 100%; height: 400px;">
-            
-          </div>
-      </span>
-          
+  <div class="col-sm-6 my-auto">
+    <span class="align-middle">
+      <div class="mt-5" id="des2">
+        <p class="text-justify"></p>
       </div>
-    </div>
+    </span>
+  </div>
+  <div class="col-sm-2 my-auto">
+  </div>
 
-    <!---------------single year filter------------------->
+</div>
+<!-- ---------------4th row--------------- -->
+<div class="row">
+  <div class="col-sm-12 my-auto">
+
+    <span>
+
+      <div class="mt-2" id="map" style="width: 100%; height: 400px;">
+
+      </div>
+    </span>
+
+  </div>
+</div>
+
+<!---------------single year filter------------------->
 <!--        <div class="row mt-3">-->
 <!--      <div class="col-sm-12">-->
 <!--          <ul class="list-group list-group-horizontal-xl">-->
@@ -238,7 +238,6 @@
 <!--        </div>-->
 
 
-  </div>
-  
-  
+
+
 {% endblock %}

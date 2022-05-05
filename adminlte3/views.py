@@ -710,7 +710,8 @@ def advanced(request):
     # df = pd.read_csv("data/data/df_top_10.csv")
     # df.head()
     # map_experiment(request)
-    return render(request, "adminlte/new_page.html")
+    username = request.session['username']
+    return render(request, "adminlte/new_page.html", {"username" : username})
 
 
 def about(request):
