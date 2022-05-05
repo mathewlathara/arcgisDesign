@@ -127,22 +127,22 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" id="uploadcsvfileid" style="cursor:pointer">
                     <i class="fa fa-upload"></i>
                     <span>Upload data</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" id="analysisoption">
+                <a class="nav-link" id="analysisoption" style="cursor:pointer">
                     <i class="fas fa-chart-bar"></i>
-                    <span style="cursor:pointer">Analysis</span></a>
+                    <span>Analysis</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="modelanalysisid">
+                <a class="nav-link" id="modelanalysisid" style="cursor:pointer">
                     <i class="fas fa-search"></i>
-                    <span style="cursor:pointer">Predict</span></a>
+                    <span>Predict</span></a>
             </li>
 
             <li class="nav-item">
@@ -774,6 +774,10 @@
 
         $(document).on('click','#modelanalysisid', function(){
             window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click','#uploadcsvfileid', function(){
+            window.location.href = window.location.origin + '/upload_file';
         });
         
     </script>
