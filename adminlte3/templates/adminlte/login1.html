@@ -142,10 +142,11 @@
                             url: 'http://localhost:8000/addNewUser/',
                             data: $("#signupform").serialize(),
                             success: function (data) {
-                                if(data.status === "exists"){
+                                if (data.status === "exists") {
                                     $("#useralreadyexitsid").show();
-                                }else if(data.status === "success"){
+                                } else if (data.status === "success") {
                                     $("#usercreated").show();
+                                    sleep(1500).then(() => { location.reload(true) });
                                 }
                             },
                             error: function (error) {
@@ -160,6 +161,9 @@
                 console.log("I am in here");
             });
         });
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
     </script>
 </body>
 

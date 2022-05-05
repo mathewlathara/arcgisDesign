@@ -34,6 +34,9 @@ def index(request):
 def logincontroller(request):
     return render(request, "adminlte/login1.html")
 
+def login_after(request):
+    return render(request, "adminlte/landing.html")
+
 def dashboard_m(request):
     reading_csv(request)
     censusYear, totalPhosh, nitrateNitrite = censusPieChart(request)
@@ -797,10 +800,10 @@ def addNewUser(request):
         emailaddress = request.POST['emailaddress']
         password = request.POST['password']
         userregistration = UserRegistration()
-        checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress).count()
+        checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress.strip()).count()
         if checkifuserexists == 0:
-            userregistration.user_name = emailaddress
-            userregistration.user_password = password
+            userregistration.user_name = emailaddress.strip()
+            userregistration.user_password = password.strip()
             userregistration.save()
         else:
             status = "exists"
