@@ -83,7 +83,7 @@
 
 </script>
 
-<div class="container pt-2">
+<div class="container-fluid">
   <div class="row">
     <div class="col-sm">
       <ul class="list-group">
@@ -149,23 +149,23 @@
 
         {% if file_ready %}
         <li class="list-group-item">
-              <!-- <form method="get" enctype="application/javascript" action="/table-preview"> -->
-                <button name="Download" class="btn btn-outline-primary" id="csvFileInput">
-                  <a href="table-preview">
-                  Preview table
-                  </a>
-                </button>
-              <!-- </form> -->
-            </li>
+          <!-- <form method="get" enctype="application/javascript" action="/table-preview"> -->
+          <button name="Download" class="btn btn-outline-primary" id="csvFileInput">
+            <a href="table-preview">
+              Preview table
+            </a>
+          </button>
+          <!-- </form> -->
+        </li>
 
         <li class="list-group-item">
-            <!-- <form method="post" action="/download_p" id="downloadForm">
+          <!-- <form method="post" action="/download_p" id="downloadForm">
               {% csrf_token %}
           <input type="submit" class="btn btn-outline-primary" value="Download">Download</button>
           </form> -->
-            <a href="static/admin-lte/dist/js/data/recently_predicted.csv" id="d_p">
+          <a href="static/admin-lte/dist/js/data/recently_predicted.csv" id="d_p">
             Download Predicted File
-            </a>
+          </a>
 
         </li>
         {% endif %}
@@ -177,84 +177,84 @@
     </div>
     <div class="col-sm">
       <span id='form_1' style="display: block;">
-      <form method="GET"  action="/models" >
-        {% csrf_token %}
-        <div class="form-group">
-          <label class="text-primary">Enter parameters</label>
-          <p id="params">Prediction generated for: {{ans}}</p>
-          <p id="ans">Predicted value(mg/L): {{p}}</p>
-          <input type="text" class="form-control" name="feature1" placeholder="pH(1-14)">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature2" placeholder="Month">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature3" placeholder="Year">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature4" placeholder="CensusYear">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature5" placeholder="Total Rain (mm) 0day Total">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature6" placeholder="Total Rain (mm) -3day Total">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature7" placeholder="Total Rain (mm) -1day Total">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature8" placeholder="TotalNitrogen(mg/L)">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature9" placeholder="Nitrogen_Kjeldahl(mg/L)">
-        </div>
-        <div class="container">
-          <div class='row'>
-            <div class="col">
-              <input type="submit" class="btn btn-outline-primary" value="Predict" />
-            </div>
-            
+        <form method="GET" action="/models">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="text-primary">Enter parameters</label>
+            <p id="params">Prediction generated for: {{ans}}</p>
+            <p id="ans">Predicted value(mg/L): {{p}}</p>
+            <input type="text" class="form-control" name="feature1" placeholder="pH(1-14)">
           </div>
-        </div>
-        <p class="text-primary">Phosphorus amount(mg/L): {{p}}</p>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature2" placeholder="Month">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature3" placeholder="Year">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature4" placeholder="CensusYear">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature5" placeholder="Total Rain (mm) 0day Total">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature6" placeholder="Total Rain (mm) -3day Total">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature7" placeholder="Total Rain (mm) -1day Total">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature8" placeholder="TotalNitrogen(mg/L)">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature9" placeholder="Nitrogen_Kjeldahl(mg/L)">
+          </div>
+          <div class="container">
+            <div class='row'>
+              <div class="col">
+                <input type="submit" class="btn btn-outline-primary" value="Predict" />
+              </div>
 
-      </form>
+            </div>
+          </div>
+          <p class="text-primary">Phosphorus amount(mg/L): {{p}}</p>
+
+        </form>
       </span>
-      <span id='form_2'   style="display: block;">
-      <form method="GET"  action="/models">
-        {% csrf_token %}
-        <div class="form-group">
-          <label class="text-primary">Enter parameters</label>
-          <input type="text" class="form-control" name="feature1" placeholder="Oxygen, Dissolved (% Saturation)">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature2" placeholder="Depth, Sample (Field)', 'Nitrite">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature3" placeholder="Nitrite">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature4" placeholder="Nitrogen, Total Kjeldahl (TKN)">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="feature5" placeholder="Solids, Suspended (TSS)">
-        </div>
+      <span id='form_2' style="display: block;">
+        <form method="GET" action="/models">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="text-primary">Enter parameters</label>
+            <input type="text" class="form-control" name="feature1" placeholder="Oxygen, Dissolved (% Saturation)">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature2" placeholder="Depth, Sample (Field)', 'Nitrite">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature3" placeholder="Nitrite">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature4" placeholder="Nitrogen, Total Kjeldahl (TKN)">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="feature5" placeholder="Solids, Suspended (TSS)">
+          </div>
 
-        <div class="container">
-          <div class='row'>
-            <div class="col">
-              <input type="submit" class="btn btn-outline-primary" value="Predict" />
-            </div>
-            <div class="col">
-              <input type="submit" class="btn btn-outline-primary" value="Clear fields" onclick="result" />
+          <div class="container">
+            <div class='row'>
+              <div class="col">
+                <input type="submit" class="btn btn-outline-primary" value="Predict" />
+              </div>
+              <div class="col">
+                <input type="submit" class="btn btn-outline-primary" value="Clear fields" onclick="result" />
+              </div>
             </div>
           </div>
-        </div>
-        <p class="text-primary">Phosphorus amount(mg/L): {{p}}</p>
+          <p class="text-primary">Phosphorus amount(mg/L): {{p}}</p>
 
-      </form>
-    </span>
+        </form>
+      </span>
 
     </div>
     <div class="col-sm" id="switch">

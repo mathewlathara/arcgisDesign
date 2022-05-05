@@ -35,9 +35,10 @@ def logincontroller(request):
     return render(request, "adminlte/login1.html")
 
 def login_after(request):
+    username = ""
     if 'username' in request.session:
         username = request.session['username']
-        print(username)
+        # print(username)
     return render(request, "adminlte/landing.html", {"username" : username})
 
 def dashboard_m(request):
@@ -710,8 +711,9 @@ def advanced(request):
     # df = pd.read_csv("data/data/df_top_10.csv")
     # df.head()
     # map_experiment(request)
-    username = request.session['username']
-    return render(request, "adminlte/new_page.html", {"username" : username})
+    # username = ""
+    # username = request.session['username']
+    return render(request, "adminlte/new_page.html")
 
 
 def about(request):

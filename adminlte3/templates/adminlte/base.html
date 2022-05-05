@@ -140,9 +140,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" id="modelanalysisid">
                     <i class="fas fa-search"></i>
-                    <span>Predict</span></a>
+                    <span style="cursor:pointer">Predict</span></a>
             </li>
 
             <li class="nav-item">
@@ -371,8 +371,9 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                {% block content%}
                 <div class="container-fluid">
-                    {% block content%}
+                    
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -769,6 +770,10 @@
 
         $(document).on('click','#analysisoption', function(){
             window.location.href = window.location.origin + '/advanced';
+        });
+
+        $(document).on('click','#modelanalysisid', function(){
+            window.location.href = window.location.origin + '/models';
         });
         
     </script>
