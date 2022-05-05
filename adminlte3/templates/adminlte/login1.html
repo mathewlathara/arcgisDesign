@@ -54,17 +54,20 @@
             <div class="col align-items-center flex-col sign-in">
                 <div class="form-wrapper align-items-center">
                     <div class="form sign-in">
-                        <div class="input-group">
-                            <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Email">
-                        </div>
-                        <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
-                        </div>
-                        <button>
-                            Sign in
-                        </button>
+                        <form id="signInFormId">
+                            <div class="input-group">
+                                <i class='bx bxs-user'></i>
+                                <input type="text" placeholder="Email" name="emailaddress">
+                            </div>
+                            <div class="input-group">
+                                <i class='bx bxs-lock-alt'></i>
+                                <input type="password" placeholder="Password" name="password">
+                            </div>
+                            <button id="signinbutton">
+                                Sign in
+                            </button>
+                        </form>
+                        <p style="color:red" id="logincredentialsfailed">Login failed. Check the username/password</p>
                         <p>
                             <b>
                                 Forgot password?
@@ -125,10 +128,12 @@
         $(document).ready(function () {
             $("#useralreadyexitsid").hide();
             $("#usercreated").hide();
+            $("#logincredentialsfailed").hide();
 
             $(document).on('click', '#addnewuser', function (e) {
                 $("#useralreadyexitsid").hide();
                 $("#usercreated").hide();
+                $("#logincredentialsfailed").hide();
                 e.preventDefault();
                 var emailaddress = $("#emailaddress").val();
                 var password = $("#password").val();
@@ -159,6 +164,26 @@
 
                 }
                 console.log("I am in here");
+            });
+
+            $(document).on('click', '#signinbutton', function (e) {
+                e.preventDefault();
+                $("#logincredentialsfailed").hide();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8000/loginUsingUserCredentials/',
+                    data: $("#signInFormId").serialize(),
+                    success: function (data) {
+                        if (data.status === 'success') {
+                            window.location.href = window.location.origin + '/dashboard';
+                        } else {
+                            $("#logincredentialsfailed").show();
+                        }
+                    },
+                    error: function (error) {
+                        alert("This is the error---->" + JSON.stringify(error));
+                    }
+                });
             });
         });
         function sleep(ms) {

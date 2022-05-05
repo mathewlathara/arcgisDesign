@@ -808,4 +808,16 @@ def addNewUser(request):
         else:
             status = "exists"
     return Response({"status":status})
-    
+
+@api_view(('POST',))
+def loginUsingUserCredentials(request):
+    status = "success"
+    if request.method == "POST":
+        emailaddress = request.POST['emailaddress']
+        password = request.POST['password']
+        print(f"Username: {emailaddress} password : {password}")
+        checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress.strip()).filter(user_password=password.strip()).count()
+        print(f"checkifuserexists: {checkifuserexists}")
+        if checkifuserexists == 0:
+            status = "notfound"
+    return Response({"status":status})
