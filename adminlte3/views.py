@@ -20,6 +20,7 @@ import re
 import folium
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from .models import UserRegistration
 # import geopandas as gpd
 # import shapefile
 
@@ -787,3 +788,21 @@ def arcgisMapSoilDetailsAPI(request):
         return Response({"status":"success", "totalTCLAYwtd" : totalTCLAYwtd, "totalTOTHERwtd" : totalTOTHERwtd, "totalTSANDwtd" : totalTSANDwtd, "totalTSILTwtd" : totalTSILTwtd, "totalTUNKNOWNwtd" : totalTUNKNOWNwtd, "linegraphreturnlist" : linegraphreturnlist, "bargraphRainfall" : bargraphRainfall, "totalagricultural" : totalagricultural, "totalanthropogenic" : totalanthropogenic, "totalnatural" : totalnatural, "totaldrainagebasinsqkm" : totaldrainagebasinsqkm, "totalareasqkm" : totalareasqkm, "totalpopulation" : totalpopulation[0], "latitude" : latitude, "longitude" : longitudestring[1:]})
     else:
         return Response({"status":"notfound"})
+
+@api_view(('POST',))
+def addNewUser(request):
+    user=request.user
+    status = "success"
+    if request.method == "POST":
+        emailaddress = request.POST['emailaddress']
+        password = request.POST['password']
+        userregistration = UserRegistration()
+        checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress).count()
+        if checkifuserexists == 0:
+            userregistration.user_name = emailaddress
+            userregistration.user_password = password
+            userregistration.save()
+        else:
+            status = "exists"
+    return Response({"status":status})
+    

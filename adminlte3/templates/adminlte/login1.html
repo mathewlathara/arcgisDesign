@@ -12,36 +12,43 @@
         <!-- FORM SECTION -->
         <div class="row">
             <!-- SIGN UP -->
+
             <div class="col align-items-center flex-col sign-up">
                 <div class="form-wrapper align-items-center">
                     <div class="form sign-up">
-                        <div class="input-group">
-                            <i class='bx bx-mail-send'></i>
-                            <input type="email" placeholder="Email">
-                        </div>
-                        <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
-                        </div>
-                        <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Confirm password">
-                        </div>
-                        <button>
-                            Sign up
-                        </button>
-                        <p>
-                            <span>
-                                Already have an account?
-                            </span>
-                            <b onclick="toggle()" class="pointer">
-                                Sign in here
-                            </b>
-                        </p>
+                        <form id="signupform">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <i class='bx bx-mail-send'></i>
+                                <input type="email" placeholder="Email" name="emailaddress" id="emailaddress">
+                            </div>
+                            <div class="input-group">
+                                <i class='bx bxs-lock-alt'></i>
+                                <input type="password" placeholder="Password" name="password" id="password">
+                            </div>
+                            <div class="input-group">
+                                <i class='bx bxs-lock-alt'></i>
+                                <input type="password" placeholder="Confirm password" id="confirmpassword">
+                            </div>
+                            <button id="addnewuser">
+                                Sign up
+                            </button>
+                            <p style="color: green;" id="usercreated">User created successfully</p>
+                            <p style="color: red;" id="useralreadyexitsid">User already exists</p>
+                            <p>
+                                <span>
+                                    Already have an account?
+                                </span>
+                                <b onclick="toggle()" class="pointer">
+                                    Sign in here
+                                </b>
+                            </p>
+                        </form>
                     </div>
                 </div>
 
             </div>
+
             <!-- END SIGN UP -->
             <!-- SIGN IN -->
             <div class="col align-items-center flex-col sign-in">
@@ -112,6 +119,48 @@
         <!-- END CONTENT SECTION -->
     </div>
     <script src="{% static 'admin-lte/assets/js/loginjs/login.js' %}"></script>
+    <script src="{% static 'admin-lte/assets/js/jquery/jquery.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#useralreadyexitsid").hide();
+            $("#usercreated").hide();
+
+            $(document).on('click', '#addnewuser', function (e) {
+                $("#useralreadyexitsid").hide();
+                $("#usercreated").hide();
+                e.preventDefault();
+                var emailaddress = $("#emailaddress").val();
+                var password = $("#password").val();
+                var confirmpassword = $("#confirmpassword").val();
+                if (emailaddress === '' || password === '' || confirmpassword === '') {
+                    alert("All the fields must be filled");
+                } else {
+                    if (password === confirmpassword) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://localhost:8000/addNewUser/',
+                            data: $("#signupform").serialize(),
+                            success: function (data) {
+                                if(data.status === "exists"){
+                                    $("#useralreadyexitsid").show();
+                                }else if(data.status === "success"){
+                                    $("#usercreated").show();
+                                }
+                            },
+                            error: function (error) {
+                                alert("This is the error---->" + JSON.stringify(error));
+                            }
+                        });
+                    } else {
+                        alert("Both passwords don't match");
+                    }
+
+                }
+                console.log("I am in here");
+            });
+        });
+    </script>
 </body>
 
 </html>
