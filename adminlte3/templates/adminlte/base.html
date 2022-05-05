@@ -148,7 +148,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" id="mapviewanalysisid" style="cursor:pointer">
                     <i class="fas fa-street-view"></i>
                     <span>Map view</span></a>
             </li>
@@ -696,6 +696,10 @@
 
         $(document).on('click', '#dexteritydashboardid', function () {
             window.location.href = window.location.origin + '/dashboard';
+        });
+
+        $(document).on('click', '#mapviewanalysisid', function () {
+            window.location.href = window.location.origin + '/map_ex';
         });
 
     </script>
