@@ -36,7 +36,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" style="cursor:pointer" id="dexteritydashboardid">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa fa-eye"></i>
                 </div>
@@ -778,6 +778,10 @@
 
         $(document).on('click','#uploadcsvfileid', function(){
             window.location.href = window.location.origin + '/upload_file';
+        });
+
+        $(document).on('click','#dexteritydashboardid', function(){
+            window.location.href = window.location.origin + '/dashboard';
         });
         
     </script>
