@@ -35,7 +35,10 @@ def logincontroller(request):
     return render(request, "adminlte/login1.html")
 
 def login_after(request):
-    return render(request, "adminlte/landing.html")
+    if 'username' in request.session:
+        username = request.session['username']
+        print(username)
+    return render(request, "adminlte/landing.html", {"username" : username})
 
 def dashboard_m(request):
     reading_csv(request)
@@ -820,4 +823,6 @@ def loginUsingUserCredentials(request):
         print(f"checkifuserexists: {checkifuserexists}")
         if checkifuserexists == 0:
             status = "notfound"
+        else:
+            request.session['username'] = emailaddress
     return Response({"status":status})
