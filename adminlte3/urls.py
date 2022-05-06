@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import re_path as path
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
