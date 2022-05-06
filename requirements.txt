@@ -11,4 +11,4 @@ django-cors-headers==3.11.0
 mysql-connector-python==8.0.24
 django-utils-six==2.0
 django==3.2.10
-MySQL-python==1.2.5
+PyMySQL==1.0.2
