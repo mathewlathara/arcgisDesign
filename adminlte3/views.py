@@ -36,10 +36,10 @@ def logincontroller(request):
 
 def login_after(request):
     username = ""
-    if 'username' in request.session:
-        username = request.session['username']
+    # if 'username' in request.session:
+        # username = request.session['username']
         # print(username)
-    return render(request, "adminlte/landing.html", {"username" : username})
+    return render(request, "adminlte/landing.html")
 
 def dashboard_m(request):
     reading_csv(request)
