@@ -1,0 +1,14 @@
+branca==0.5.0
+djangorestframework==3.13.1
+folium==0.12.1.post1
+numpy==1.21.3
+pandas==1.3.2
+recommonmark==0.7.1
+scikit_learn==1.0.2
+setuptools==58.3.0
+sphinx_rtd_theme==1.0.0
+django-cors-headers==3.11.0
+mysql-connector-python==8.0.24
+django-utils-six==2.0
+django==3.2.10
+mysqlclient==2.1.0
