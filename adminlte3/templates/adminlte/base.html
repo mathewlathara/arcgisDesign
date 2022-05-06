@@ -661,6 +661,7 @@
         </div>
     </div>
 
+    {% block javascriptedit %}
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'admin-lte/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -677,6 +678,7 @@
     <!-- Page level custom scripts -->
     <script src="{% static 'admin-lte/bootstrap/js/demo/chart-area-demo.js' %}"></script>
     <script src="{% static 'admin-lte/bootstrap/js/demo/chart-pie-demo.js' %}"></script>
+    {% endblock %}
     <script>
         $(document).on('click', '#logoutbutton', function () {
             window.location.href = window.location.origin + '/logincontroller';
