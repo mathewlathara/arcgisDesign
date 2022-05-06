@@ -8,5 +8,5 @@ scikit_learn==1.0.2
 setuptools==58.3.0
 sphinx_rtd_theme==1.0.0
 django-cors-headers==3.11.0
-mysql-connector-python==8.0.5
+mysql-connector-python==8.0.22
 django-utils-six==2.0
