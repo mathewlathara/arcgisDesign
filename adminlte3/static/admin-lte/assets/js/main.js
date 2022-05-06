@@ -286,3 +286,143 @@
   });
 
 })()
+
+console.log("plotStats");
+function plotFromCSV() {
+    //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
+    const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+    d3.csv(CSV, function (rows) {
+        console.log(rows);
+        console.log("Data Columns = ", rows.columns);
+        processData(rows);
+    });
+}
+
+function processData(row) {
+    console.log(row);
+    let x = [];
+    let y1 = [];
+    let y2 = [];
+    let phosphorus = [];
+    let nitrogen = [];
+    let years = [];
+    let i = 0;
+
+    while (i < row.length) {
+        phosphorus[i] = row[i]["TotalPhosphorus"];
+        nitrogen[i] = row[i]["TotalNitrogen"];
+        years[i] = row[i]["Year"];
+
+        x.push(years[i]);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
+        y1.push(phosphorus[i]);
+        y2.push(nitrogen[i]);
+        i += 1;
+    }
+    console.log("phosphorus",phosphorus);
+
+//    while (i < row.length) {
+//        y = years[i];
+//        p = phosphorus[i];
+//        n = nitrogen[i];
+//        x.push(y);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
+//        y1.push(p);
+//        y2.push(n);
+//        i += 1;
+//    }
+
+    console.log("X", x);
+    console.log("Y1", y1);
+    makePlotlyP(x, y1);
+    makePlotlyN(x, y2);
+
+}
+
+function makePlotlyP(x, y1) {
+
+    let traces = [
+        {
+            x: x,
+            y: y1,
+            name: "Nitrogen",
+            mode: "markers",
+            type: "bar",
+             bar: {
+                 color: "#387fba",
+                 width: 3
+             }
+        },
+    ];
+
+    let layout = {
+        title: ("TotalPhosphorus").concat(" (mg/L)"),
+        yaxis: {
+            // autotick: true,
+            // autorange: true,
+            title: "TotalPhosphorus",
+            zeroline: true,
+            showline: false,
+            autotick: true,
+            showticklabels: false
+        },
+        xaxis: {
+            title: "Years",
+            tickmode: 'linear',
+
+        },
+    };
+
+    //https://plot.ly/javascript/configuration-options/
+    let config = {
+        responsive: true,
+        // staticPlot: true,
+        // editable: true
+    };
+
+    Plotly.newPlot("plotP", traces, layout, config);
+}
+function makePlotlyN(x, y2) {
+
+    let traces = [
+        {
+            x: x,
+            y: y2,
+            name: "Nitrogen",
+            mode: "markers",
+            type: "bar",
+             bar: {
+                 color: "#387fba",
+                 width: 3
+             }
+        },
+    ];
+
+    let layout = {
+        title: ("TotalNitrogen").concat(" (mg/L)"),
+        yaxis: {
+            // autotick: true,
+            // autorange: true,
+            title: "TotalNitrogen",
+            zeroline: true,
+            showline: false,
+            autotick: true,
+            showticklabels: false
+        },
+        xaxis: {
+            title: "Years",
+            tickmode: 'linear'
+        },
+    };
+
+    //https://plot.ly/javascript/configuration-options/
+    let config = {
+        responsive: true,
+        // staticPlot: true,
+        // editable: true
+    };
+
+    Plotly.newPlot("plotN", traces, layout, config);
+}
+
+plotFromCSV();
+
+

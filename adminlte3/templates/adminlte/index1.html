@@ -29,6 +29,10 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'admin-lte/assets/css/style.css' %}" rel="stylesheet">
+
+  <!-- Plotly graphs -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 
 <body>
@@ -131,8 +135,13 @@
       <div class="container" data-aos="fade-up">
 
         <div class="row">
-          <div class="col-lg-8" data-aos="fade-right" data-aos-delay="100">
-            <img src="{% static 'admin-lte/assets/img/graphs.jpg' %}" class="img-fluid" alt="">
+          <div class="col-lg-4" data-aos="fade-right" data-aos-delay="100">
+<!--            <img src="{% static 'admin-lte/assets/img/graphs.jpg' %}" class="img-fluid" alt="">-->
+            <div id="plotP"></div>
+          </div>
+          <div class="col-lg-4" data-aos="fade-right" data-aos-delay="100">
+<!--            <img src="{% static 'admin-lte/assets/img/graphs.jpg' %}" class="img-fluid" alt="">-->
+            <div id="plotN"></div>
           </div>
 
           <div class="col-lg-4 pt-4 pt-lg-0 content d-flex flex-column justify-content-center" data-aos="fade-up"
