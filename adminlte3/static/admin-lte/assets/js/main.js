@@ -287,7 +287,6 @@
 
 })()
 
-console.log("plotStats");
 function plotFromCSV() {
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
     const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
@@ -358,11 +357,8 @@ function makePlotlyP(x, y1) {
         yaxis: {
             // autotick: true,
             // autorange: true,
-            title: "TotalPhosphorus",
-            zeroline: true,
-            showline: false,
-            autotick: true,
-            showticklabels: false
+            title: "TotalPhosphorus"
+            
         },
         xaxis: {
             title: "Years",
@@ -401,11 +397,8 @@ function makePlotlyN(x, y2) {
         yaxis: {
             // autotick: true,
             // autorange: true,
-            title: "TotalNitrogen",
-            zeroline: true,
-            showline: false,
-            autotick: true,
-            showticklabels: false
+            title: "TotalNitrogen"
+          
         },
         xaxis: {
             title: "Years",
