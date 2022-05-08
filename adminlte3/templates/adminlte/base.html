@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% block extra_cssheader %}
+{% endblock %}
+
 <head>
 
     <meta charset="utf-8">
@@ -568,8 +571,7 @@
                                             target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
                                         constantly updated collection of beautiful svg images that you can use
                                         completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
+                                    <span id="uploadcsvfileid" style="color:rgb(15, 136, 241); cursor:pointer">Check this feature out &rarr;</span>
                                 </div>
                             </div>
 
@@ -587,8 +589,7 @@
                                             target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
                                         constantly updated collection of beautiful svg images that you can use
                                         completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
+                                        <span id="modelanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this feature out &rarr;</span>
                                 </div>
                             </div>
 
@@ -605,8 +606,7 @@
                                             target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
                                         constantly updated collection of beautiful svg images that you can use
                                         completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
+                                        <span id="mapviewanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this feature out &rarr;</span>
                                 </div>
                             </div>
 
@@ -701,7 +701,7 @@
         });
 
         $(document).on('click', '#mapviewanalysisid', function () {
-            window.location.href = window.location.origin + '/map_ex';
+            window.location.href = window.location.origin + '/map_ex?yearid=2017';
         });
 
     </script>

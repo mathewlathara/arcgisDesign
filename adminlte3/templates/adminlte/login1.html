@@ -1,10 +1,31 @@
 {% load static %}
 <html>
 
+<style>
+    .float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 20px;
+        background-color: #0C9;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 1000;
+    }
+
+    .my-float {
+        margin-top: 22px;
+    }
+</style>
+
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="{% static 'admin-lte/assets/css/logincss/login.css' %}" rel="stylesheet">
+    <link href="{% static 'admin-lte/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -96,8 +117,10 @@
             <div class="col align-items-center flex-col">
                 <div class="text sign-in">
                     <h2>
-                        Welcome
+                        Login To<br>
+                        DEX-Terity
                     </h2>
+                    <br>
 
                 </div>
                 <div class="img sign-in">
@@ -119,6 +142,9 @@
             </div>
             <!-- END SIGN UP CONTENT -->
         </div>
+        <a class="float" style="cursor : pointer;" title="Go to home page" id="goBackToHomepage">
+            <i class="fas fa-arrow-left my-float"></i>
+        </a>
         <!-- END CONTENT SECTION -->
     </div>
     <script src="{% static 'admin-lte/assets/js/loginjs/login.js' %}"></script>
@@ -188,6 +214,11 @@
                 });
             });
         });
+
+        $(document).on('click', '#goBackToHomepage', function (e) {
+            window.location.href = window.location.origin;
+        });
+
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
