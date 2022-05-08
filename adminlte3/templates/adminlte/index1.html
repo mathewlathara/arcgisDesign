@@ -59,6 +59,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
           <li><a class="nav-link scrollto" href="#features">Features</a></li>
           <li><a class="nav-link scrollto" href="#hotspot">Hotspots</a></li>
           <li><a class="nav-link scrollto " href="#statistics">Statistics</a></li>
@@ -136,7 +137,7 @@
             </p>
           </div>
           <div class="col-lg-2">
-            <label>Select a year</label>
+            <label class="text-primary font-weight-bold">Select a year</label>
             <span>
               <select class="form-control yearFrom">
 
@@ -145,6 +146,7 @@
           </div>
           <div class="col-lg-6">
             <div id="viewDiv"></div>
+            <div class="col-lg-12"><i class="bx bxs-map text-danger"><small>Hotspots</small></i> &nbsp; &nbsp; &nbsp;<i class="bx bxs-map text-success"><small>Normal spots</small></i></div>
           </div>
           <!-- <div class="col-md-10">
             <div id="viewDiv"></div>
@@ -204,6 +206,27 @@
 
       </div>
     </section><!-- End statistics Section -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About</h2>
+          <h3>Find Out More <span>About Us</span></h3>
+          <p>It needs a plan to preserve water</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 pt-4 pt-lg-0 content d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="100">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
 
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
@@ -295,30 +318,103 @@
       </div>
     </section><!-- End Testimonials Section -->
 
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Contact</h2>
+          <h3><span>Contact Us</span></h3>
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-4">
+            <div class="info-box mb-4">
+              <i class="bx bx-map"></i>
+              <h3>Our Address</h3>
+              <p>123 Dex-Terity, Toronto, ON M2J 1S5</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-envelope"></i>
+              <h3>Email Us</h3>
+              <p>contact@dexterity.com</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-phone-call"></i>
+              <h3>Call Us</h3>
+              <p>+1 647 868 5896</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="col-lg-6 ">
+            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11523.76084718353!2d-79.33659796681101!3d43.77409990994631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4d3bca1a3f78f%3A0x815365ed6c3b957e!2sLambton%20College%20In%20Toronto!5e0!3m2!1sen!2sin!4v1652037250936!5m2!1sen!2sin" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+          </div>
+
+          <div class="col-lg-6">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="row">
+                <div class="col form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col form-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
-    <div class="row">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
 
-      <div class="col-lg-3 col-md-3 footer-contact">&nbsp;</div>
+          <div class="col-lg-3 col-md-6 footer-contact"></div>
+          <div class="col-lg-3 col-md-6 footer-links"></div>
+          <div class="col-lg-3 col-md-6 footer-links"></div>
 
-      <div class="col-lg-6 col-md-6 footer-links">
-        <h4>&nbsp;</h4>
-        <ul class="list-unstyled text-center">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About us</a></li>
-          <li><a href="#">Hotspots</a></li>
-          <li><a href="#">Statistics</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+            </div>
+          </div>
+
+        </div>
       </div>
-
-      <div class="col-lg-3 col-md-3 footer-links">&nbsp;</div>
-
     </div>
-    <div class="container py-4">
-      <div class="copyright col-lg-12 text-center">
+    <div class="container py-1">
+      <div class="copyright">
         &copy; Copyright 2022
       </div>
     </div>
