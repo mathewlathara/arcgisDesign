@@ -638,7 +638,7 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
           console.log("I am here ------>" + JSON.stringify(stationid));
           $.ajax({
             type: 'GET',
-            url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+            url: 'http://199.241.160.97/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
             success: function (data) {
               console.log(JSON.stringify(data));
               div.innerHTML = "<p><u><b>Station ID: " + data.stationid + "</b></u></p><ul><li>Avg chloride: " + data.avgchloride + "</li><li>Avg population: " + data.avgpopulation + "</li><li>Avg phosphorus: " + data.avgphosphorus + "</li><li>Avg nitrogen: " + data.avgnitrogen + "</li></ul>";
@@ -709,7 +709,7 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
           console.log("I am here ------>" + JSON.stringify(stationid));
           $.ajax({
             type: 'GET',
-            url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+            url: 'http://199.241.160.97/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
             success: function (data) {
               console.log(JSON.stringify(data));
               $("#stationid").val(stationid);
@@ -980,7 +980,7 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
             let stationid = $("#stationid").val();
             $.ajax({
               type: 'GET',
-              url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+              url: 'http://199.241.160.97/arcgisMapSoilDetailsAPI/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
               success: function (data) {
                 if (data.status === "success") {
                   $("#stationdisplaymodalbox").html(stationid);

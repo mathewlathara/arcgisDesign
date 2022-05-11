@@ -170,7 +170,7 @@
                     if (password === confirmpassword) {
                         $.ajax({
                             type: 'POST',
-                            url: 'http://localhost:8000/addNewUser/',
+                            url: 'http://199.241.160.97/addNewUser/',
                             data: $("#signupform").serialize(),
                             success: function (data) {
                                 if (data.status === "exists") {
@@ -199,7 +199,7 @@
                 $("#logincredentialsfailed").hide();
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8000/loginUsingUserCredentials/',
+                    url: 'http://199.241.160.97/loginUsingUserCredentials/',
                     data: $("#signInFormId").serialize(),
                     success: function (data) {
                         if (data.status === 'success') {
