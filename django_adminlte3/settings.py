@@ -158,7 +158,7 @@ USE_TZ = True
 # STATICFILES_DIRS = [
 #      os.path.join(BASE_DIR+'/bower_components'),
 # ]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = "/var/lib/jenkins//workspace/wmswatershedproject"
 STATIC_URL = '/static/'
 
 # if DEBUG:
