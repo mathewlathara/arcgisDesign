@@ -29,7 +29,7 @@ from .models import UserRegistration
 # Create your views here.
 def index(request):
 
-    yearslected = request.GET.get('yearid', "2020")
+    yearslected = request.GET.get('yearid', "2017")
     # create map
     
     if yearslected == "":
