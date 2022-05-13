@@ -8,7 +8,7 @@
     #viewDiv {
         padding: 0;
         margin: 0;
-        height: 100%;
+        height: 550px;
         width: 100%;
     }
 
@@ -52,46 +52,48 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-md-2">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <label>Select a year</label>
-                    <span>
-                        <select class="custom-select yearFrom">
+        <div class="col-lg-2">
+            <label>Select a year</label>
+            <span>
+                <select class="custom-select yearFrom">
 
-                        </select>
-                    </span>
-                </li>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-
+                </select>
+            </span>
         </div>
-        <div class="col-md-10">
+    </div>
+    <div>&nbsp;</div>
+    <div class="row">
+        <!-- <div class="col-lg-1">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+        </div> -->
+        <div class="col-lg-12">
             <div id="viewDiv"></div>
         </div>
     </div>
+
 
 </div>
 
@@ -264,11 +266,11 @@
                 $.ajax({
                     type: 'GET',
                     url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
-                    success: function(data) {
+                    success: function (data) {
                         console.log(JSON.stringify(data));
-                        div.innerHTML = "<p><u><b>Station ID: "+ data.stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
+                        div.innerHTML = "<p><u><b>Station ID: " + data.stationid + "</b></u></p><ul><li>Avg chloride: " + data.avgchloride + "</li><li>Avg population: " + data.avgpopulation + "</li><li>Avg phosphorus: " + data.avgphosphorus + "</li><li>Avg nitrogen: " + data.avgnitrogen + "</li></ul>";
                     },
-                    error: function(error) {
+                    error: function (error) {
                         alert("error");
                     }
                 });
@@ -335,12 +337,12 @@
                 $.ajax({
                     type: 'GET',
                     url: 'http://localhost:8000/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
-                    success: function(data) {
+                    success: function (data) {
                         console.log(JSON.stringify(data));
                         $("#stationid").val(stationid);
-                        div.innerHTML = "<p><u><b>Station ID: "+ data.stationid +"</b></u></p><ul><li>Avg chloride: "+data.avgchloride+"</li><li>Avg population: "+data.avgpopulation+"</li><li>Avg phosphorus: "+data.avgphosphorus+"</li><li>Avg nitrogen: "+data.avgnitrogen+"</li></ul>";
+                        div.innerHTML = "<p><u><b>Station ID: " + data.stationid + "</b></u></p><ul><li>Avg chloride: " + data.avgchloride + "</li><li>Avg population: " + data.avgpopulation + "</li><li>Avg phosphorus: " + data.avgphosphorus + "</li><li>Avg nitrogen: " + data.avgnitrogen + "</li></ul>";
                     },
-                    error: function(error) {
+                    error: function (error) {
                         alert("error");
                     }
                 });
@@ -450,9 +452,9 @@
             // Create the layer and set the renderer
             var yearselectedinputhidden = $("#yearselectedinputhidden").val();
             var openspacerendererselected = null
-            if(yearselectedinputhidden == "2017"){
+            if (yearselectedinputhidden == "2017") {
                 openspacerendererselected = SpacesRenderer2017;
-            }else{
+            } else {
                 openspacerendererselected = SpaceRenderOtherThan2017;
             }
             const induvidualLayers = new FeatureLayer({
@@ -530,7 +532,7 @@
             });
             map.add(graphicsLayer);
 
-            for(var i = 0; i < jsonpointfile.length; i++){
+            for (var i = 0; i < jsonpointfile.length; i++) {
                 console.log(jsonpointfile[i].stationiconlink);
                 const simpleMarkerSymbol = {
                     // type: "simple-marker",
@@ -576,38 +578,38 @@
                 zoom: 9
             });
 
-            function piechart(xvalues, yvalues, colorneeded, displaytext){
+            function piechart(xvalues, yvalues, colorneeded, displaytext) {
                 var xValues = xvalues;
                 var yValues = yvalues;
                 var barColors = colorneeded;
 
                 new Chart("myChart", {
-                type: "pie",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                    }]
-                },
-                options: {
-                    title: {
-                    display: true,
-                    text: displaytext
+                    type: "pie",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: displaytext
+                        }
                     }
-                }
                 });
             }
 
             view.popup.on("trigger-action", (event) => {
-            // Execute the measureThis() function if the measure-this action is clicked
+                // Execute the measureThis() function if the measure-this action is clicked
                 if (event.action.id === "detail-this") {
                     let stationid = $("#stationid").val();
                     $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
-                        success: function(data) {
-                            if(data.status === "success"){
+                        type: 'GET',
+                        url: 'http://localhost:8000/arcgisMapSoilDetailsAPI/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+                        success: function (data) {
+                            if (data.status === "success") {
                                 $("#stationdisplaymodalbox").html(stationid);
                                 $('#demographicsGraphModal').modal('show');
                                 // piechart(["CSS/with clay", "CSS/All together", "CSS/with sand", "CSS/with silt", "CSS/unknown"], [data.totalTCLAYwtd, data.totalTOTHERwtd, data.totalTSANDwtd, data.totalTSILTwtd, data.totalTUNKNOWNwtd], [ "#F2900B", "#F2D20B", "#DDFE04", "#A9F20A", "#D7DCCC"], "Soil/Sand data")
@@ -629,16 +631,16 @@
                                 $("#populationid").html(data.totalpopulation);
                                 var listarrayvalue = [];
                                 var rainfallbargraph = [];
-                                for(var i = 0; i < data.linegraphreturnlist.length; i++){
+                                for (var i = 0; i < data.linegraphreturnlist.length; i++) {
                                     console.log(data.linegraphreturnlist[i]);
                                     listarrayvalue.push(data.linegraphreturnlist[i]);
                                     rainfallbargraph.push(data.bargraphRainfall[i]);
                                 }
 
-                                var xValues = [56,28,7,3,1];
+                                var xValues = [56, 28, 7, 3, 1];
 
                                 new Chart("meantemperaturedivision", {
-                                type: "line",
+                                    type: "line",
                                     data: {
                                         labels: xValues,
                                         datasets: data.linegraphreturnlist
@@ -646,46 +648,46 @@
                                     options: {
                                         scales: {
                                             yAxes: [{
-                                            scaleLabel: {
-                                                display: true,
-                                                labelString: 'Integrted mean temperature(\xB0C)'
-                                            }
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: 'Integrted mean temperature(\xB0C)'
+                                                }
                                             }],
                                             xAxes: [{
-                                            scaleLabel: {
-                                                display: true,
-                                                labelString: 'Days preceding collection'
-                                            }
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: 'Days preceding collection'
+                                                }
                                             }]
                                         },
-                                        legend: {display: false}
+                                        legend: { display: false }
                                     }
                                 });
 
-                                var layout = {barmode: 'group', xaxis: {title: 'Days preceding collection'}, yaxis:{title: 'Integrated precipitation'}, bargap :0.01};
+                                var layout = { barmode: 'group', xaxis: { title: 'Days preceding collection' }, yaxis: { title: 'Integrated precipitation' }, bargap: 0.01 };
 
                                 Plotly.newPlot('meanmaxrainfalldivision', rainfallbargraph, layout);
 
                                 var areawiseuseagevalues = [{
-                                        values: [data.totalagricultural[0], data.totalanthropogenic[0], data.totalnatural[0]],
-                                        labels: ['Agricultural', 'Urban', 'Natural' ],
-                                        domain: {column: 0},
-                                        name: 'GHG Emissions',
-                                        hoverinfo: 'label+percent+name',
-                                        hole: .4,
-                                        marker: {
-                                            colors: ['#3282bd', '#E5550E', '#08B22B'],
-                                            line: {
+                                    values: [data.totalagricultural[0], data.totalanthropogenic[0], data.totalnatural[0]],
+                                    labels: ['Agricultural', 'Urban', 'Natural'],
+                                    domain: { column: 0 },
+                                    name: 'GHG Emissions',
+                                    hoverinfo: 'label+percent+name',
+                                    hole: .4,
+                                    marker: {
+                                        colors: ['#3282bd', '#E5550E', '#08B22B'],
+                                        line: {
                                             color: 'white',
                                             width: 1
-                                            }
-                                        },
-                                        type: 'pie'
-                                        }];
+                                        }
+                                    },
+                                    type: 'pie'
+                                }];
                                 var areawiseusagelayout = {
                                     title: "Land usage"
                                 };
-                                Plotly.newPlot("land-usechart", areawiseuseagevalues,areawiseusagelayout);
+                                Plotly.newPlot("land-usechart", areawiseuseagevalues, areawiseusagelayout);
 
                                 var claylayer = {
                                     x: [data.totalTCLAYwtd[0]],
@@ -754,34 +756,36 @@
 
                                 var soilwisedata = [claylayer, siltlayer, sandlayer, otherlayer, unknownlayer];
 
-                                var soilwiselayout = {barmode: 'stack', title : "Soil layer data",  xaxis: {
-                                                                                                    autorange: true,
-                                                                                                    showgrid: false,
-                                                                                                    zeroline: false,
-                                                                                                    showline: false,
-                                                                                                    autotick: true,
-                                                                                                    ticks: '',
-                                                                                                    showticklabels: false
-                                                                                                },
-                                                                                                yaxis: {
-                                                                                                    autorange: true,
-                                                                                                    showgrid: false,
-                                                                                                    zeroline: false,
-                                                                                                    showline: false,
-                                                                                                    autotick: true,
-                                                                                                    ticks: '',
-                                                                                                    showticklabels: false
-                                                                                                }};
+                                var soilwiselayout = {
+                                    barmode: 'stack', title: "Soil layer data", xaxis: {
+                                        autorange: true,
+                                        showgrid: false,
+                                        zeroline: false,
+                                        showline: false,
+                                        autotick: true,
+                                        ticks: '',
+                                        showticklabels: false
+                                    },
+                                    yaxis: {
+                                        autorange: true,
+                                        showgrid: false,
+                                        zeroline: false,
+                                        showline: false,
+                                        autotick: true,
+                                        ticks: '',
+                                        showticklabels: false
+                                    }
+                                };
 
                                 Plotly.newPlot('soildatagraph', soilwisedata, soilwiselayout);
 
                                 // var data = [trace1, trace2];
-                                
-                            }else{
+
+                            } else {
                                 alert("Proper data not present");
                             }
                         },
-                        error: function(error) {
+                        error: function (error) {
                             alert("error");
                         }
                     });
@@ -814,7 +818,7 @@
                 // Add widget to the top right corner of the view
                 view.ui.add(layerListdbgExpand, "top-right");
             });
-            
+
 
             function openNav() {
                 document.getElementById("mySidenav").style.width = "400px";
