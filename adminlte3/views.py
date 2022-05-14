@@ -82,7 +82,7 @@ def index(request):
 
 def filterpagefromindex(request, year):
     print(f"THe year selected---- {year}")
-    yearslected = str(year)
+    yearslected = year
     # create map
     if yearslected == "":
         yearslected = "2017"
@@ -820,9 +820,9 @@ def about(request):
     return render(request, "adminlte/about.html")
 
 @api_view(('GET',))
-def arcgisMapParametersDurhamRegion(request):
-    stationid = request.GET.get('stationid')
-    dateselected = request.GET.get('dateselected')
+def arcgisMapParametersDurhamRegion(request, stationid, dateselected):
+    #stationid = request.GET.get('stationid')
+    #dateselected = request.GET.get('dateselected')
     print(f"stationid----->{stationid} & dateselected ---> {dateselected}")
     if(stationid.startswith("0")):
         stationid = stationid[1:]
@@ -853,9 +853,9 @@ def arcgisMapParametersDurhamRegion(request):
     
 
 @api_view(('GET',))
-def arcgisMapSoilDetailsAPI(request):
-    stationid = request.GET.get('stationid')
-    dateselected = request.GET.get('dateselected')
+def arcgisMapSoilDetailsAPI(request, stationid, dateselected):
+    #stationid = request.GET.get('stationid')
+    #dateselected = request.GET.get('dateselected')
     if(stationid.startswith("0")):
         stationid = stationid[1:]
     print(f"stationid----->{stationid}  dateselected------> {dateselected}")

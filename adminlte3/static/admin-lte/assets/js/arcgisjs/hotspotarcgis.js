@@ -73,7 +73,7 @@ function hotspotfunction(filtertype, jsonpointfile, urllayer, jsonprocessedstrin
             console.log("I am here ------>" + JSON.stringify(stationid));
             $.ajax({
                 type: 'GET',
-                url: 'http://' + urllayer + '/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + yearselected,
+                url: 'http://' + urllayer + '/arcgisMapParametersDurhamRegion/' + stationid + "/" + yearselected,
                 success: function (data) {
                     console.log(JSON.stringify(data));
                     div.innerHTML = "<p><u><b>Station ID: " + data.stationid + "</b></u></p><ul><li>Avg chloride: " + data.avgchloride + "</li><li>Avg population: " + data.avgpopulation + "</li><li>Avg phosphorus: " + data.avgphosphorus + "</li><li>Avg nitrogen: " + data.avgnitrogen + "</li></ul>";
@@ -135,7 +135,7 @@ function hotspotfunction(filtertype, jsonpointfile, urllayer, jsonprocessedstrin
         const durhamAdditionalDetials2 = {
             title: "Show graphs",
             id: "detail-this",
-            image: "static/admin-lte/dist/img/adddetailsimg.png" // this section is for adding additional details button
+            image: "/static/admin-lte/dist/img/adddetailsimg.png" // this section is for adding additional details button
         };
 
         function durhamregCustomRegion2(feature) {
@@ -144,7 +144,7 @@ function hotspotfunction(filtertype, jsonpointfile, urllayer, jsonprocessedstrin
             console.log("I am here ------>" + JSON.stringify(stationid));
             $.ajax({
                 type: 'GET',
-                url: 'http://' + urllayer + '/arcgisMapParametersDurhamRegion/?stationid=' + stationid + "&dateselected=" + yearselected,
+                url: 'http://' + urllayer + '/arcgisMapParametersDurhamRegion/' + stationid + "/" + yearselected,
                 success: function (data) {
                     console.log(JSON.stringify(data));
                     $("#stationid").val(stationid);
@@ -350,7 +350,7 @@ function hotspotfunction(filtertype, jsonpointfile, urllayer, jsonprocessedstrin
                 //     width: 1
                 // }
                 type: "picture-marker",
-                url: "static/admin-lte/dist/img/" + jsonpointfile[i].stationiconlink,
+                url: "/static/admin-lte/dist/img/" + jsonpointfile[i].stationiconlink,
                 width: "25px",
                 height: "60px"
             };
@@ -415,7 +415,7 @@ function hotspotfunction(filtertype, jsonpointfile, urllayer, jsonprocessedstrin
                 let stationid = $("#stationid").val();
                 $.ajax({
                     type: 'GET',
-                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/?stationid=' + stationid + "&dateselected=" + "{{yearselected}}",
+                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/' + stationid + "/" + "{{yearselected}}",
                     success: function (data) {
                         if (data.status === "success") {
                             $("#stationdisplaymodalbox").html(stationid);
