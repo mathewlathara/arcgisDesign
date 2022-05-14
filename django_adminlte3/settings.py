@@ -25,7 +25,7 @@ SECRET_KEY = 'k$v*ssgjspcgakja4u4yo-$=e6^#!wkns4rh6be7fd#m(ivg8('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', '199.241.160.97']
 
 
 # Application definition
@@ -51,11 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-
-
 ]
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 ROOT_URLCONF = 'django_adminlte3.urls'
@@ -119,6 +115,8 @@ DATABASES = {
         },
     }
 }
+
+APPEND_SLASH = False
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
