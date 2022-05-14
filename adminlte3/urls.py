@@ -18,7 +18,7 @@ urlpatterns = [
     path('predictN', predictN, name="predictN"),
     path('models', showMap),
     path('advanced', advanced, name='advanced'),
-    path('map_ex', map_experiment, name="map_ex"),
+    path('map_ex/<str:year>', map_experiment, name="map_ex"),
     path('about', about, name="about"),
     
     path('table-preview', table_preview, name="table-preview"),

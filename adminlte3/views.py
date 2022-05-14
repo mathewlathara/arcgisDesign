@@ -742,8 +742,9 @@ def plotMap(featuresSelected):
     return context
 
 features = []
-def map_experiment(request):
-    yearslected = request.GET.get('yearid')
+def map_experiment(request, year):
+    yearslected = year
+    # yearslected = request.GET.get('yearid')
     # create map
     
     if yearslected == "":
