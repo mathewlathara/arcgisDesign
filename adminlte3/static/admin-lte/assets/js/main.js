@@ -287,54 +287,62 @@
 
 })()
 
-function plotFromCSV() {
-    //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
-    const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
-    d3.csv(CSV, function (rows) {
-        console.log(rows);
-        console.log("Data Columns = ", rows.columns);
-        processData(rows);
-    });
-}
-
-function processData(row) {
-    console.log(row);
+// function plotFromCSV() {
+//     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
+//     const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+//     d3.csv(CSV, function (rows) {
+//         console.log(rows);
+//         console.log("Data Columns = ", rows.columns);
+//         processData(rows);
+//     });
+// }
+getData();
+async function getData(){
     let x = [];
     let y1 = [];
     let y2 = [];
-    let phosphorus = [];
-    let nitrogen = [];
-    let years = [];
-    let i = 0;
+  // const response = await fetch("https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv");
+  const response = await fetch("static/admin-lte/dist/js/data/tp_tn_avgperyear.csv");
 
-    while (i < row.length) {
-        phosphorus[i] = row[i]["TotalPhosphorus"];
-        nitrogen[i] = row[i]["TotalNitrogen"];
-        years[i] = row[i]["Year"];
-
-        x.push(years[i]);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
-        y1.push(phosphorus[i]);
-        y2.push(nitrogen[i]);
-        i += 1;
-    }
-    console.log("phosphorus",phosphorus);
-
-//    while (i < row.length) {
-//        y = years[i];
-//        p = phosphorus[i];
-//        n = nitrogen[i];
-//        x.push(y);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
-//        y1.push(p);
-//        y2.push(n);
-//        i += 1;
-//    }
-
-    console.log("X", x);
-    console.log("Y1", y1);
-    makePlotlyP(x, y1);
-    makePlotlyN(x, y2);
-
+  const data = await response.text();
+  // console.log(data);
+  const table = data.split('\n').slice(1);
+  table.forEach(row => {
+    const columns = row.split(',');
+    const year = columns[0];
+    const phosphorus = columns[2];
+    const nitrogen = columns[1];
+    x.push(year);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
+    y1.push(phosphorus);
+    y2.push(nitrogen);
+  });
+  makePlotlyP(x, y1);
+  makePlotlyN(x, y2);
 }
+
+// function processData(row) {
+//     console.log(row);
+//     let x = [];
+//     let y1 = [];
+//     let y2 = [];
+//     let phosphorus = [];
+//     let nitrogen = [];
+//     let years = [];
+//     let i = 0;
+
+//     while (i < row.length) {
+//         phosphorus[i] = row[i]["TotalPhosphorus"];
+//         nitrogen[i] = row[i]["TotalNitrogen"];
+//         years[i] = row[i]["Year"];
+
+//         x.push(years[i]);   //(row["Year"][i]>yearTo && row["Year"][i]<yearFrom) ? row["Year"] : null);               //(row["Year"]);
+//         y1.push(phosphorus[i]);
+//         y2.push(nitrogen[i]);
+//         i += 1;
+//     }
+//     makePlotlyP(x, y1);
+//     makePlotlyN(x, y2);
+// }
 
 function makePlotlyP(x, y1) {
 
@@ -365,6 +373,22 @@ function makePlotlyP(x, y1) {
             tickmode: 'linear',
 
         },
+      //   shapes: [
+      //     //Line Horizontal
+      //     {
+      //         type: 'line',
+      //         x0: 2000,
+      //         y0: 0.02,
+      //         x1: 2020,
+      //         y1: 0.02,
+      //         line: {
+      //             color: 'rgb(220,20,60)',
+      //             width: 1,
+      //             //dash: 'dashdot'
+      //         }
+
+      //     },
+      // ]
     };
 
     //https://plot.ly/javascript/configuration-options/
