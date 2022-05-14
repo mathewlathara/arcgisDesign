@@ -150,7 +150,7 @@
     <div id="viewDiv">
 
     </div>
-    <a class="float" style="cursor : pointer;" title="Go to home page" id="searchYearOnMainMapHome">
+    <a class="float" style="cursor : pointer;" title="DeX-Terity map year selected: {{yearselected}}" data-bs-toggle="tooltip" data-bs-placement="top" id="searchYearOnMainMapHome">
       <i class="fa fa-search my-float"></i>
     </a>
     <!-- </div> -->
@@ -591,6 +591,10 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
   <script>
     var jsonpointfile = {{ jsonvalue| safe }};
     $(document).ready(function () {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
       var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
       loadmapvalues(1, jsonpointfile, 'localhost:8000', regionrenderurl, "{{yearselected}}");
       hotspotfunction(1, jsonpointfile, 'localhost:8000', regionrenderurl, "{{yearselected}}");
