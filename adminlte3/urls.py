@@ -9,7 +9,7 @@ from django.conf.urls import include, url
 urlpatterns = [
     # path('', home, name='home'),
     # path('result', result, name='result'),
-    path(r'', index, name="index"),
+    path('', index, name="index"),
     path('upload_file', upload_file, name='upload_file'),
     path('upload_file_new', upload_file_new, name='upload_file_new'),
     path('models', result, name='models'),
