@@ -1,9 +1,9 @@
-function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring, yearselected) {
+function hotspotfunction(filtertype, jsonpointfile, urllayer, jsonprocessedstring, yearselected) {
     require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend", "esri/widgets/Expand"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend, Expand) {
 
         esriConfig.apiKey = "AAPKfb2205b571aa464b8280e4e744e3bde7rK2eQbS-fVv05DUtFVJUqBVoJjMIQGIMHK7rqQR-In8y-qSZSmNtobECX3jGCzGG";
 
-        const template1 = {
+        const template2 = {
             // autocasts as new PopupTemplate()
             title: "Demographics",
             content: [
@@ -46,7 +46,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             ]
         };
 
-        const TRCALanduseRenderer1 = {
+        const TRCALanduseRenderer2 = {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
                 type: "simple-fill", // autocasts as new SimpleFillSymbol()
@@ -58,16 +58,16 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         };
 
-        const featureLayer1 = new FeatureLayer({
+        const featureLayer2 = new FeatureLayer({
             url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/merged_land_cover/FeatureServer/0",
             // popupTemplate: template,
-            renderer: TRCALanduseRenderer1,
+            renderer: TRCALanduseRenderer2,
             title: "TRCA Landuse base map"
         });
 
         /*-------------------------------- TRCA base land ----------------------------------------------------------------*/
 
-        function TRCACustomRegion1(feature) {
+        function TRCACustomRegion2(feature) {
             var stationid = feature.graphic.attributes.UniqueID;
             const div = document.createElement("div");
             console.log("I am here ------>" + JSON.stringify(stationid));
@@ -85,11 +85,11 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             return div;
         }
 
-        const TRCABASEtemplate1 = {
+        const TRCABASEtemplate2 = {
             // autocasts as new PopupTemplate()
             title: "TRCA region",
             outFields: ["UniqueID"],
-            content: TRCACustomRegion1
+            content: TRCACustomRegion2
             // content: [
             //     {
             //         // It is also possible to set the fieldInfos outside of the content
@@ -110,7 +110,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             // ]
         };
 
-        const TRCARenderer1 = {
+        const TRCARenderer2 = {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
                 type: "simple-fill", // autocasts as new SimpleFillSymbol()
@@ -122,23 +122,23 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         };
 
-        const TRCABaseLayer1 = new FeatureLayer({
+        const TRCABaseLayer2 = new FeatureLayer({
             url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/newtrcaregion/FeatureServer/0",
-            popupTemplate: TRCABASEtemplate1,
-            renderer: TRCARenderer1,
+            // popupTemplate: TRCABASEtemplate2,
+            renderer: TRCARenderer2,
             opacity: 0.5,
             title: "TRCA region"
         });
 
         /* ---------------------------------- Durham region -------------------------------------------------*/
 
-        const durhamAdditionalDetials1 = {
+        const durhamAdditionalDetials2 = {
             title: "Show graphs",
             id: "detail-this",
             image: "/static/admin-lte/dist/img/adddetailsimg.png" // this section is for adding additional details button
         };
 
-        function durhamregCustomRegion1(feature) {
+        function durhamregCustomRegion2(feature) {
             var stationid = feature.graphic.attributes.UniqueID;
             const div = document.createElement("div");
             console.log("I am here ------>" + JSON.stringify(stationid));
@@ -157,12 +157,12 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             return div;
         }
 
-        const durhamtemplate1 = {
+        const durhamtemplate2 = {
             // autocasts as new PopupTemplate()
-            title: "Durham region, Year: " + yearselected,
+            title: "Durham region, Year:" + yearselected,
             outFields: ["UniqueID"],
-            content: durhamregCustomRegion1,
-            actions: [durhamAdditionalDetials1]
+            content: durhamregCustomRegion2,
+            actions: [durhamAdditionalDetials2]
             // content: [
             //     {
             //         // It is also possible to set the fieldInfos outside of the content
@@ -183,7 +183,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             // ]
         };
 
-        const DurhamRenderer1 = {
+        const DurhamRenderer2 = {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
                 type: "simple-fill", // autocasts as new SimpleFillSymbol()
@@ -195,10 +195,10 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         };
 
-        const DurhamLayer1 = new FeatureLayer({
+        const DurhamLayer2 = new FeatureLayer({
             url: "https://services6.arcgis.com/1c4OxPOWDbePZZBO/arcgis/rest/services/durham_edited/FeatureServer/0",
-            popupTemplate: durhamtemplate1,
-            renderer: DurhamRenderer1,
+            // popupTemplate: durhamtemplate2,
+            renderer: DurhamRenderer2,
             opacity: 0.3,
             title: "Durham region, Year: " + yearselected,
         });
@@ -265,7 +265,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         // } else {
         // openspacerendererselected = SpaceRenderOtherThan2017;
         // }
-        const induvidualLayers1 = new FeatureLayer({
+        const induvidualLayers2 = new FeatureLayer({
             url: jsonprocessedstring,
             renderer: openspacerendererselected,
             // popupTemplate: template,
@@ -273,7 +273,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             title: "TRCA Landuse "+ yearselected +" demographics"
         });
 
-        const ELCTRCARenderer1 = {
+        const ELCTRCARenderer2 = {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
                 type: "simple-fill", // autocasts as new SimpleFillSymbol()
@@ -285,14 +285,14 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         };
 
-        const ELCTRCA1 = new FeatureLayer({
+        const ELCTRCA2 = new FeatureLayer({
             url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/elc_trca_shp/FeatureServer/0",
             // popupTemplate: template,
-            renderer: ELCTRCARenderer1,
+            renderer: ELCTRCARenderer2,
             title: "ELC TRCA"
         });
 
-        const CLOCALandcoverRender1 = {
+        const CLOCALandcoverRender2 = {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
                 type: "simple-fill", // autocasts as new SimpleFillSymbol()
@@ -304,14 +304,14 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         };
 
-        const CLOCALandcoverBase1 = new FeatureLayer({
+        const CLOCALandcoverBase2 = new FeatureLayer({
             url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/cloca_land_covershp/FeatureServer/0",
             // popupTemplate: template,
-            renderer: CLOCALandcoverRender1,
+            renderer: CLOCALandcoverRender2,
             title: "CLOCA Land cover"
         });
 
-        const ECOLOGLANDClassificRender1 = {
+        const ECOLOGLANDClassificRender2 = {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
                 type: "simple-fill", // autocasts as new SimpleFillSymbol()
@@ -323,22 +323,22 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         };
 
-        const ECOLOGLANDClassificBase1 = new FeatureLayer({
+        const ECOLOGLANDClassificBase2 = new FeatureLayer({
             url: "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/cloca_land_covershp/FeatureServer/0",
             // popupTemplate: template,
-            renderer: ECOLOGLANDClassificRender1,
+            renderer: ECOLOGLANDClassificRender2,
             title: "Ecological land classification"
         });
 
-        const map1 = new Map({
+        const map2 = new Map({
             basemap: "gray-vector",
-            layers: [featureLayer1, induvidualLayers1, ELCTRCA1, CLOCALandcoverBase1, ECOLOGLANDClassificBase1, DurhamLayer1]
+            layers: [featureLayer2, induvidualLayers2, ELCTRCA2, CLOCALandcoverBase2, ECOLOGLANDClassificBase2, DurhamLayer2]
         });
 
         const graphicsLayer = new GraphicsLayer({
             title: "Station points"
         });
-        map1.add(graphicsLayer);
+        map2.add(graphicsLayer);
 
         for (var i = 0; i < jsonpointfile.length; i++) {
             console.log(jsonpointfile[i].stationiconlink);
@@ -379,9 +379,9 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             graphicsLayer.add(pointGraphic);
         }
 
-        const view1 = new MapView({
-            container: "viewDiv",
-            map: map1,
+        const view2 = new MapView({
+            container: "hotspotDiv",
+            map: map2,
             center: [-79.0911306275, 43.8299554612],
             zoom: 9
         });
@@ -409,13 +409,13 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             });
         }
 
-        view1.popup.on("trigger-action", (event) => {
+        view2.popup.on("trigger-action", (event) => {
             // Execute the measureThis() function if the measure-this action is clicked
             if (event.action.id === "detail-this") {
                 let stationid = $("#stationid").val();
                 $.ajax({
                     type: 'GET',
-                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/' + stationid + "/" + yearselected,
+                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/' + stationid + "/" + "{{yearselected}}",
                     success: function (data) {
                         if (data.status === "success") {
                             $("#stationdisplaymodalbox").html(stationid);
@@ -601,30 +601,30 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         });
 
-        const legend1 = new Legend({
-            view: view1,
+        const legend2 = new Legend({
+            view: view2,
             style: "card"
         });
 
         const legendbgExpand = new Expand({
-            view: view1,
-            content: legend1
+            view: view2,
+            content: legend2
         });
 
-        view1.ui.add(legendbgExpand, "bottom-left");
+        view2.ui.add(legendbgExpand, "bottom-left");
 
-        view1.when(() => {
+        view2.when(() => {
             const layerList = new LayerList({
-                view: view1
+                view: view2
             });
 
             const layerListdbgExpand = new Expand({
-                view: view1,
+                view: view2,
                 content: layerList
             });
 
             // Add widget to the top right corner of the view
-            view1.ui.add(layerListdbgExpand, "top-right");
+            view2.ui.add(layerListdbgExpand, "top-right");
         });
 
 
@@ -632,7 +632,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             document.getElementById("mySidenav").style.width = "400px";
         }
 
-        view1.popup.on("trigger-action", (event) => {
+        view2.popup.on("trigger-action", (event) => {
             // Execute the measureThis() function if the measure-this action is clicked
             if (event.action.id === "detail-this") {
                 openNav();

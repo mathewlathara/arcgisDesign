@@ -2,7 +2,7 @@ from django.urls import path
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
-    logincontroller, addNewUser, login_after, loginUsingUserCredentials
+    logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 
@@ -10,6 +10,7 @@ urlpatterns = [
     # path('', home, name='home'),
     # path('result', result, name='result'),
     path('', index, name="index"),
+    path('filteryear/<str:year>', filterpagefromindex, name="index"),
     path('upload_file', upload_file, name='upload_file'),
     path('upload_file_new', upload_file_new, name='upload_file_new'),
     path('models', result, name='models'),
@@ -17,7 +18,7 @@ urlpatterns = [
     path('predictN', predictN, name="predictN"),
     path('models', showMap),
     path('advanced', advanced, name='advanced'),
-    path('map_ex', map_experiment, name="map_ex"),
+    path('map_ex/<str:year>', map_experiment, name="map_ex"),
     path('about', about, name="about"),
     
     path('table-preview', table_preview, name="table-preview"),
@@ -34,8 +35,8 @@ urlpatterns = [
     path('Census-pie-chart/', censusPieChart, name='Census-pie-chart'),
     path('Census-chart/', censusBarChart, name='Census-chart'),
     path('result/', result, name='result'),
-    path('arcgisMapParametersDurhamRegion/', arcgisMapParametersDurhamRegion),
-    path("arcgisMapSoilDetailsAPI/", arcgisMapSoilDetailsAPI),
+    path('arcgisMapParametersDurhamRegion/<str:stationid>/<str:dateselected>', arcgisMapParametersDurhamRegion),
+    path("arcgisMapSoilDetailsAPI/<str:stationid>/<str:dateselected>", arcgisMapSoilDetailsAPI),
     path("logincontroller/", logincontroller),
     path("addNewUser/", addNewUser),
     path("dashboard/", login_after),
