@@ -597,8 +597,9 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
         return new bootstrap.Tooltip(tooltipTriggerEl)
       });
       var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
-      loadmapvalues(1, jsonpointfile, 'localhost:8000', regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
-      hotspotfunction(1, jsonpointfile, 'localhost:8000', regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
+      var loadingurl = "localhost:8000";
+      loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
+      hotspotfunction(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
       handleResize();
       $(window).bind('resize', handleResize);
 
