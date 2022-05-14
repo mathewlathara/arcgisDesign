@@ -27,11 +27,63 @@ from .models import UserRegistration
 
 
 # Create your views here.
-def index(request):
 
-    yearslected = request.GET.get('yearid', "2017")
+#### This is the default page
+def index(request):
     # create map
     
+    yearslected = "2017"
+    col_list = ["STATION", "Latitude", "Longitude", "DATE", "TotalPhosphorus", "TotalNitrogen"]
+    masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep = ",")
+    masterdatafile.DATE = pd.to_datetime(masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
+    masterdatafile = masterdatafile[(masterdatafile['DATE'] > yearslected + "-01-01") & (masterdatafile['DATE'] < yearslected + "-12-31")].fillna(0)
+    if(masterdatafile.count().STATION > 0):
+        avgphosphorus = round(masterdatafile["TotalPhosphorus"].mean(),2)
+        avgnitrogen = round(masterdatafile["TotalNitrogen"].mean(),2)
+    stationiconlink = "normalregion.png"
+    # if avgphosphorus > 0.02 or avgnitrogen > 10:
+    #     stationiconlink = "star.png"
+    
+    masterdatafile = masterdatafile.drop(columns=['DATE'])
+    uniquecolumnfile = masterdatafile.drop_duplicates()
+    print(uniquecolumnfile)
+    json_return = []
+    stationforloop = ""
+    phosphorusnumber = 0
+    nitrogernnumber = 0
+    for index, row in uniquecolumnfile.iterrows():
+        if stationforloop != row[0]:
+            filterhotspots = uniquecolumnfile[(uniquecolumnfile["STATION"] == row[0])]
+            if(filterhotspots.count().STATION > 0):
+                phosphorusnumber = round(filterhotspots["TotalPhosphorus"].mean(),2)
+                nitrogernnumber = round(filterhotspots["TotalNitrogen"].mean(),2)
+                if phosphorusnumber > 0.05 or nitrogernnumber > 10:
+                    stationiconlink = "hotspot.png"
+            # print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber}")
+        stationforloop = row[0]
+        # masterdatafileduplicate = masterdatafileduplicate[(masterdatafileduplicate['DATE'] > yearslected + "-01-01") & (masterdatafileduplicate['DATE'] < yearslected + "-12-31") & (masterdatafileduplicate['STATION'] == row[0])].fillna(0)
+        # print(f"{masterdatafileduplicate}")
+        # avgphosphorus = 0
+        # avgnitrogen = 0
+        # if(masterdatafile.count().STATION > 0):
+        #     avgphosphorus = round(masterdatafile["TotalPhosphorus"].mean(),2)
+        #     avgnitrogen = round(masterdatafile["TotalNitrogen"].mean(),2)
+        # stationiconlink = "star.png"
+        # if avgphosphorus > 0.02 or avgnitrogen > 10:
+        #     stationiconlink = "star.png"
+        loopvalue = {"station":row[0], "latitude":row[1],"longitude":row[2], "stationiconlink":stationiconlink}
+        json_return.append(loopvalue)
+    print(f"Year selected: {yearslected}")
+    json_return = json.dumps(json_return)
+    regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
+    return render(request, "adminlte/index1.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
+# This file is supposed to be edited in terms of making changes on main dashboard
+
+
+def filterpagefromindex(request, year):
+    print(f"THe year selected---- {year}")
+    yearslected = str(year)
+    # create map
     if yearslected == "":
         yearslected = "2017"
     col_list = ["STATION", "Latitude", "Longitude", "DATE", "TotalPhosphorus", "TotalNitrogen"]
@@ -78,7 +130,6 @@ def index(request):
     json_return = json.dumps(json_return)
     regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
     return render(request, "adminlte/index1.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
-# This file is supposed to be edited in terms of making changes on main dashboard
 
 def logincontroller(request):
     return render(request, "adminlte/login1.html")

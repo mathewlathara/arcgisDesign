@@ -617,7 +617,7 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
 
       $(document).on('change', '.yearFrom', function () {
         var yearselected = $(this).val();
-        window.location.href = '?yearid=' + yearselected + "#hotspot";
+        window.location.href = '/filteryear/' + yearselected + "#hotspot";
       });
 
       $(document).on('click', '#searchYearOnMainMapHome', function(){
@@ -626,7 +626,7 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
 
       $(document).on('click', '#buttonIdSearchMap', function(){
         var yearselected = $(".yearFrommainmap").val();
-        window.location.href = '?yearid=' + yearselected;
+        window.location.href = '/filteryear/' + yearselected;
       });
       
     });

@@ -2,7 +2,7 @@ from django.urls import path
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
-    logincontroller, addNewUser, login_after, loginUsingUserCredentials
+    logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 
@@ -10,6 +10,7 @@ urlpatterns = [
     # path('', home, name='home'),
     # path('result', result, name='result'),
     path('', index, name="index"),
+    path('filteryear/<int:year>', filterpagefromindex, name="index"),
     path('upload_file', upload_file, name='upload_file'),
     path('upload_file_new', upload_file_new, name='upload_file_new'),
     path('models', result, name='models'),
