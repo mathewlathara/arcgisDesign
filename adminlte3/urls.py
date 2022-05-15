@@ -37,9 +37,9 @@ urlpatterns = [
     path('result/', result, name='result'),
     path('arcgisMapParametersDurhamRegion/<str:stationid>/<str:dateselected>', arcgisMapParametersDurhamRegion),
     path("arcgisMapSoilDetailsAPI/<str:stationid>/<str:dateselected>", arcgisMapSoilDetailsAPI),
-    path("logincontroller/", logincontroller),
+    path("logincontroller", logincontroller, name='logincontroller'),
     path("addNewUser/", addNewUser),
-    path("dashboard/", login_after),
+    path("dashboard", login_after),
     path("loginUsingUserCredentials/", loginUsingUserCredentials)
     # path('upload_file/', upload_file, name="upload_file"),
 # path('/upload_file/', TemplateView.as_view(template_name='adminlte/models.html')),

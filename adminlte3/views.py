@@ -379,6 +379,7 @@ def upload_file(request):
             # df_p = uploaded_csv[[	'Nitrogen_Kjeldahl',	'TotalSuspendedSolids',	'Nitrate',	'Conductivity',	'DissolvedOxygen',	'pH',	'TotalNitrogen',	'Nitrite',	'Chloride',	'10mLandCover_AgriculturalExtraction',	'CensusYear',	'Total Rain (mm) 0day Total',	'Total Rain (mm) -7day Total',	'Total Rain (mm) -56day Total',	'Total Rain (mm) -3day Total',	'Total Rain (mm) -28day Total',	'Total Rain (mm) -1day Total',	'Total Rain (mm) -14day Total',	'Month']].copy()
             # model = pickle.load(open('ml_models/TotalPhosphorous-XG-19F.sav', 'rb'))
 
+            
             df_p = uploaded_csv[['Oxygen, Dissolved (% Saturation)', 'Depth, Sample (Field)', 'Nitrite', 'Nitrogen, Total Kjeldahl (TKN)', 'Solids, Suspended (TSS)']].copy()
             df_p = df_p.dropna()
             df_p.to_csv("df_p.csv", index=False)
