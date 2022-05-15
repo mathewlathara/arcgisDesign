@@ -136,10 +136,10 @@ def logincontroller(request):
 
 def login_after(request):
     username = ""
-    # if 'username' in request.session:
-        # username = request.session['username']
-        # print(username)
-    return render(request, "adminlte/landing.html")
+    if 'username' in request.session:
+        username = request.session['username']
+        # request.session['username'] = username
+    return render(request, "adminlte/landing.html", {"username":username})
 
 def dashboard_m(request):
     reading_csv(request)
@@ -931,5 +931,9 @@ def loginUsingUserCredentials(request):
         if checkifuserexists == 0:
             status = "notfound"
         else:
+            # Owner.objects.only('owner_id').get(owner_name=owner_name).owner_id
+            userid = UserRegistration.objects.only("user_id").get(user_name=emailaddress.strip()).user_id # get the induvidual userid
+            print(f"userid------->{userid}")
             request.session['username'] = emailaddress
+            request.session['userid'] = userid
     return Response({"status":status})
