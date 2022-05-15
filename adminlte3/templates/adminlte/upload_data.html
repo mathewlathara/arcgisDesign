@@ -6,12 +6,12 @@
 <div class="container-fluid">
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Upload data</h1>
+        <h1 class="h3 mb-0 text-gray-800">Upload console</h1>
     </div>
     <div class="row">
         <div class="card border-primary col-lg-4 mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Upload and analyze data</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Upload data</h6>
             </div>
             <div class="card-body">
                 <div class="text-center">
@@ -40,6 +40,21 @@
                 </label>
             </div>
         </div>
+        <div class="card col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Analysis choice</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <input type="file" id="imgupload" style="display:none" />
+                    <span id="OpenImgUpload" style="cursor:pointer;"><img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                            style="width: 10rem;" src="{% static 'admin-lte/assets/img/analytics_data.png' %}"
+                            alt="..."></span>
+                </div>
+                <p>Choose the choice for analysis</p>
+                <p style="color:slateblue">You have the option to choose either the analysis for phosphorus or nitrogen or do the analysis for both parameters</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -54,7 +69,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-success" id="buttonIdSearchMap">Yes</button>
+                <button type="button" class="btn btn-success" id="modalprocessUploadFile">Yes</button>
             </div>
         </div>
     </div>
