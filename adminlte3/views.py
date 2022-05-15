@@ -363,7 +363,7 @@ def upload_file(request):
     try:
         if request.method == 'POST':
             # if fs.exists(name):
-            #     os.remove(os.path.join(settings.MEDIA_ROOT, name))
+            # os.remove(os.path.join(settings.MEDIA_ROOT, name))
             uploaded_file = request.FILES['csv_file']
             fs = FileSystemStorage()
             fs.delete('data/user_uploaded_data/user_uploaded_csv_file.csv')
@@ -422,7 +422,7 @@ def upload_file(request):
         error = "Please select file!"
         context = {'file_error': error}
 
-    return render(request, "adminlte/upload_file.html", context)
+    return render(request, "adminlte/upload_file_new.html", context)
 
 
 def upload_file_new(request):
