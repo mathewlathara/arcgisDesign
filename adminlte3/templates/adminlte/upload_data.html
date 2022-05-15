@@ -46,28 +46,42 @@
             </div>
             <div class="card-body">
                 <div class="text-center">
-                    <input type="file" id="imgupload" style="display:none" />
-                    <span id="OpenImgUpload" style="cursor:pointer;"><img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-                            style="width: 10rem;" src="{% static 'admin-lte/assets/img/analytics_data.png' %}"
-                            alt="..."></span>
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
+                        src="{% static 'admin-lte/assets/img/analytics_data.png' %}" alt="...">
                 </div>
                 <p>Choose the choice for analysis</p>
-                <p style="color:slateblue">You have the option to choose either the analysis for phosphorus or nitrogen or do the analysis for both parameters</p>
+                <p style="color:slateblue">You have the option to choose either the analysis for phosphorus or nitrogen
+                    or do the analysis for both parameters</p>
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="nitrogen">
-                    <label class="custom-control-label" for="nitrogen">Analyse for nitrogen</label>
+                    <label class="custom-control-label" for="nitrogen">Analyze for nitrogen</label>
                 </div>
                 <div class="custom-control custom-switch" style="padding-top:10px; padding-bottom: 10px;">
                     <input type="checkbox" class="custom-control-input" id="phosphorus">
-                    <label class="custom-control-label" for="phosphorus">Analyse for phosphorus</label>
+                    <label class="custom-control-label" for="phosphorus">Analyze for phosphorus</label>
                 </div>
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="bothelement">
-                    <label class="custom-control-label" for="bothelement">Analyse for both elements</label>
+                    <label class="custom-control-label" for="bothelement">Analyze for both elements</label>
                 </div>
             </div>
             <div class="card-footer text-center">
                 <button class="btn btn-primary">Analyze</button>
+            </div>
+        </div>
+        <div class="card col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Results</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
+                        src="{% static 'admin-lte/assets/img/result_icon_after_analysis.png' %}" alt="...">
+                </div>
+                <p>The results wordings or the next map view links will come in this section</p>
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-success">Go to results</button>
             </div>
         </div>
     </div>
@@ -80,7 +94,8 @@
                 <h4 class="modal-title">Confirm upload</h4>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to upload <span id="file_confirmation" style="font-weight: bold; color:darkblue;"></span> for analysis?</p>
+                <p>Are you sure you want to upload <span id="file_confirmation"
+                        style="font-weight: bold; color:darkblue;"></span> for analysis?</p>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
@@ -105,7 +120,7 @@
     $(document).ready(function () {
         $('#OpenImgUpload').click(function () { $('#imgupload').trigger('click'); });
         $('input[type="file"]').change(function (e) {
-            $('#ModalOpenForFileAnalysis').modal({backdrop: 'static', keyboard: false});
+            $('#ModalOpenForFileAnalysis').modal({ backdrop: 'static', keyboard: false });
             var fileName = e.target.files[0].name; //getting the file name 
             var display = $("#file_confirmation"); //where to display
             display.html(fileName);
