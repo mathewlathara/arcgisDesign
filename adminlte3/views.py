@@ -357,6 +357,9 @@ def predictP(request):
         print(phosphorus[0])
         return parameters, phosphorus
 
+def upload_phosphorus_nitrogen(request):
+    return render(request, "adminlte/upload_data.html")
+    
 
 def upload_file(request):
     context = {}
