@@ -1,0 +1,86 @@
+{% extends 'adminlte/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Upload data</h1>
+    </div>
+    <div class="row">
+        <div class="card border-primary col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Upload and analyze data</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <input type="file" id="imgupload" style="display:none" />
+                    <span id="OpenImgUpload" style="cursor:pointer;"><img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                            style="width: 10rem;" src="{% static 'admin-lte/assets/img/upload_data.png' %}"
+                            alt="..."></span>
+                </div>
+                <p style="color:red; font-size:12px;">Click on the icon to upload the csv file</p>
+                <label class="form-label font-weight-normal">
+                    <p class="text-justify font-weight-normal">The CSV file must contain columns:
+                    <ul class="font-weight-normal">For Phosphorus prediction
+                        <li>'Oxygen, Dissolved (% Saturation)'</li>
+                        <li>'Depth, Sample (Field)'</li>
+                        <li>'Nitrite'</li>
+                        <li>'Nitrogen, Total Kjeldahl(TKN)'</li>
+                        <li>'Solids, Suspended (TSS)'</li>
+                    </ul>
+                    <ul class="font-weight-normal">For Nitrogen prediction
+                        <li>'Chloride'</li>
+                        <li>'Nitrite'</li>
+                        <li>'Nitrate'</li>
+                    </ul>
+                    NOTE: The unit is mg/L.
+                    </p>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalOpenForFileAnalysis">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm upload</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to upload <span id="file_confirmation" style="font-weight: bold; color:darkblue;"></span> for analysis?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success" id="buttonIdSearchMap">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascriptedit %}
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin-lte/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'admin-lte/bootstrap/js/sb-admin-2.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#OpenImgUpload').click(function () { $('#imgupload').trigger('click'); });
+        $('input[type="file"]').change(function (e) {
+            $('#ModalOpenForFileAnalysis').modal({backdrop: 'static', keyboard: false});
+            var fileName = e.target.files[0].name; //getting the file name 
+            var display = $("#file_confirmation"); //where to display
+            display.html(fileName);
+
+        });
+    });
+</script>
+{% endblock %}

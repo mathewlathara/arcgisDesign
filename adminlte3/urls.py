@@ -2,7 +2,7 @@ from django.urls import path
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
-    logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex
+    logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 
@@ -37,10 +37,11 @@ urlpatterns = [
     path('result/', result, name='result'),
     path('arcgisMapParametersDurhamRegion/<str:stationid>/<str:dateselected>', arcgisMapParametersDurhamRegion),
     path("arcgisMapSoilDetailsAPI/<str:stationid>/<str:dateselected>", arcgisMapSoilDetailsAPI),
-    path("logincontroller", logincontroller, name='logincontroller'),
+    path("logincontroller/", logincontroller),
     path("addNewUser/", addNewUser),
-    path("dashboard", login_after),
-    path("loginUsingUserCredentials/", loginUsingUserCredentials)
+    path("dashboard/", login_after),
+    path("loginUsingUserCredentials/", loginUsingUserCredentials),
+    path("uploaddata/", upload_phosphorus_nitrogen)
     # path('upload_file/', upload_file, name="upload_file"),
 # path('/upload_file/', TemplateView.as_view(template_name='adminlte/models.html')),
 
