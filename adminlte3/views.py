@@ -134,13 +134,6 @@ def filterpagefromindex(request, year):
 def logincontroller(request):
     return render(request, "adminlte/login1.html")
 
-def login_after(request):
-    username = ""
-    if 'username' in request.session:
-        username = request.session['username']
-        # request.session['username'] = username
-    return render(request, "adminlte/landing.html", {"username":username})
-
 def dashboard_m(request):
     reading_csv(request)
     censusYear, totalPhosh, nitrateNitrite = censusPieChart(request)
@@ -933,7 +926,18 @@ def loginUsingUserCredentials(request):
         else:
             # Owner.objects.only('owner_id').get(owner_name=owner_name).owner_id
             userid = UserRegistration.objects.only("user_id").get(user_name=emailaddress.strip()).user_id # get the induvidual userid
-            print(f"userid------->{userid}")
-            request.session['username'] = emailaddress
+            username = UserRegistration.objects.only("user_name").get(user_name=emailaddress.strip()).user_name
+            print(f"userid------->{userid} and username is ----- {username}")
+            request.session['username'] = username
             request.session['userid'] = userid
     return Response({"status":status})
+
+def login_after(request):
+    username = ""
+    print("I am here")
+    if request.session.has_key('username'):
+        print("I am inside if")
+        username = request.session['username']
+        print(f"The username is----->{username}")
+        # request.session['username'] = username
+    return render(request, "adminlte/landing.html", {"username":username})
