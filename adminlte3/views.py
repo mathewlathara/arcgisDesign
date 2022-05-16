@@ -934,8 +934,23 @@ def loginUsingUserCredentials(request):
         else:
             request.session['username'] = emailaddress
     return Response({"status":status})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @api_view(('POST',))
 def save_file(request):
+    try:
         if request.method == 'POST':
             # if fs.exists(name):
             # os.remove(os.path.join(settings.MEDIA_ROOT, name))
@@ -952,7 +967,7 @@ def save_file(request):
             print(csv_shape, null_values)
             status = "saved"
             return  Response({"status":status})
-    # except Exception:
-    #     error = "Please select file!"
-    #     print(error)
-    #     return Response({'status': error})
+    except Exception:
+        error = "Please select file!"
+        print(error)
+        return Response({'status': error})
