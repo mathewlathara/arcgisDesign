@@ -934,3 +934,25 @@ def loginUsingUserCredentials(request):
         else:
             request.session['username'] = emailaddress
     return Response({"status":status})
+@api_view(('POST',))
+def save_file(request):
+        if request.method == 'POST':
+            # if fs.exists(name):
+            # os.remove(os.path.join(settings.MEDIA_ROOT, name))
+            print("in save file")
+            uploaded_file = request.FILES['fileInput']
+            fs = FileSystemStorage()
+            fs.delete('data/user_uploaded_data/user_uploaded_csv_file.csv')
+            name = fs.save('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv', uploaded_file)
+            print("Filename: ", name)
+            print("File uploaded")
+            uploaded_csv = pd.read_csv(name)
+            csv_shape = uploaded_csv.shape
+            null_values = uploaded_csv.isna().sum().sum()
+            print(csv_shape, null_values)
+            status = "saved"
+            return  Response({"status":status})
+    # except Exception:
+    #     error = "Please select file!"
+    #     print(error)
+    #     return Response({'status': error})
