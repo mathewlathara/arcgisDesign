@@ -134,13 +134,6 @@ def filterpagefromindex(request, year):
 def logincontroller(request):
     return render(request, "adminlte/login1.html")
 
-def login_after(request):
-    username = ""
-    # if 'username' in request.session:
-        # username = request.session['username']
-        # print(username)
-    return render(request, "adminlte/landing.html")
-
 def dashboard_m(request):
     reading_csv(request)
     censusYear, totalPhosh, nitrateNitrite = censusPieChart(request)

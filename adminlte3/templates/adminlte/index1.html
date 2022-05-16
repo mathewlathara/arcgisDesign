@@ -161,26 +161,69 @@
     <!-- ======= Featured Services Section ======= -->
     <section id="features" class="featured-services">
       <div class="container" data-aos="fade-up">
-
+        <!-- <div class="row">
+          <div class="text-center">
+            <img src="{% static 'admin-lte/assets/img/angietheactor.jpg' %}" class="img-fluid" alt="" width="200" height="200">
+          </div>
+        </div> -->
         <div class="row">
-          <div class="col-md-4 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+          <div class="col-md-3 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0 gotodatasources" style="cursor:pointer">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-              <h4 class="title"><a href="/logincontroller">UPLOAD</a></h4>
-              <p class="description">Drop excel sheet with required features</p>
+              <h4 class="title"><a href="#testimonials">Descriptive analysis</a></h4>
+              <img src="{% static 'admin-lte/assets/img/dataplatformimg.jpg' %}" class="img-fluid" alt="" width="200" height="200">
+              <p class="description" style="font-size:12px">Access disparate sources and types of socioeconomic and
+                environmental data relevant to the Conservation Area. It gives you
+                an idea of the distribution of data, helps you detect outliers and
+                typos, and enables you identify associations among variables, thus
+                making you ready to conduct further statistical analyses.</p>
             </div>
           </div>
 
-          <div class="col-md-4 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+          <div class="col-md-3 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0 gotologin" style="cursor:pointer">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-              <h4 class="title"><a href="/logincontroller">PREDICTION</a></h4>
-              <p class="description">Predict phosphorus with 85% accuracy</p>
+              <h4 class="title"><a href="#">Explanatory analysis</a></h4>
+              <img src="{% static 'admin-lte/assets/img/graphicalanalysis.jpg' %}" class="img-fluid" alt="" width="200" height="200">
+              <p class="description" style="font-size:12px">Use Dex-Terityto visualize and analyze historical land use of
+                different watersheds. Dex-Terity presents causal links between
+                parameters. It involves the interpretation of data gathered through
+                the use of analytical and logical reasoning to determine patterns,
+                relationships or trends. We use various charts to visualize to
+                compare different parameters. Filters are provided to compare 2
+                desired parameters to get to know different hidden trends behind
+                the numbers.</p>
             </div>
           </div>
 
-          <div class="col-md-4 col-lg-4 d-flex align-items-stretch mb-5 mb-lg-0">
+          <div class="col-md-3 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0 gotologin" style="cursor:pointer">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-              <h4 class="title"><a href="/logincontroller">VISUALIZATION</a></h4>
-              <p class="description">Filter features and visualize through graphs and maps</p>
+              <h4 class="title"><a href="#">Predictive analysis</a></h4>
+              <img src="{% static 'admin-lte/assets/img/trendanalysis.jpg' %}" class="img-fluid" alt="" width="200" height="200">
+              <p class="description" style="font-size:12px">Dex-Terity model forecasts the potential impacts of stressors on the
+                watershed. Download trend analysis for the future years based on
+                the future input data you provide, considering the population and
+                economic changes. Machine learning model predictions allow the
+                public and businesses to make highly accurate guesses as to the
+                likely outcomes of a question based on historical data, which can
+                be about all kinds of things, here it would be predicting water quality
+                based on different human activities and environmental changes as
+                input parameters. Created the best models with some of the
+                supreme Machine learning techniques that will help the user to get
+                the accurately predicted results.</p>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0 gotologin" style="cursor:pointer">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+              <h4 class="title"><a href="#">Prescriptive analysis</a></h4>
+              <img src="{% static 'admin-lte/assets/img/decisionmakingtool.jpg' %}" class="img-fluid" alt="" width="200" height="200">
+              <p class="description" style="font-size:12px">Predictive analytics answers the question of what is likely to
+                happen. This is when historical data is combined with rules,
+                algorithms, and occasionally external data to determine the
+                probable future outcome of an event or the likelihood of a situation
+                occurring. The final phase is prescriptive analytics, which goes
+                beyond predicting future outcomes by also suggesting actions to
+                benefit from the predictions and showing the implications of each
+                decision option.</p>
             </div>
           </div>
 
@@ -628,6 +671,14 @@ NOTE: Excess nitrogen can cause overstimulation of the growth of aquatic plants 
       $(document).on('click', '#buttonIdSearchMap', function(){
         var yearselected = $(".yearFrommainmap").val();
         window.location.href = '/filteryear/' + yearselected;
+      });
+
+      $(document).on('click', '.gotologin', function(){
+        window.location.href = '/logincontroller/';
+      });
+
+      $(document).on('click', '.gotodatasources', function(){
+        window.location.href = '#testimonials';
       });
       
     });
