@@ -192,7 +192,7 @@
             display.text(fileName);
            
 
-            //getting yes
+            //after getting yes
             $('#modalprocessUploadFile').off().on('click', function () {
                 // close window
                 $('#ModalOpenForFileAnalysis').modal('hide');
@@ -233,7 +233,9 @@
                                 console.log("Error" + JSON.stringify(error));
                             }
                         });
-                   
+                        
+                    // change upload image to done
+                    document.getElementById('OpenImgUpload').src = 'static/admin-lte/assets/img/done.png';
                     // const formData = new FormData();
                     // formData.append("fileInput",file);
                     // console.log(formData);
