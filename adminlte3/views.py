@@ -137,6 +137,9 @@ def logincontroller(request):
 def datasourcespage(request):
     return render(request, "adminlte/datasourcespage.html")
 
+def contact_us_page(request):
+    return render(request, "adminlte/contactpage.html")
+
 def dashboard_m(request):
     reading_csv(request)
     censusYear, totalPhosh, nitrateNitrite = censusPieChart(request)

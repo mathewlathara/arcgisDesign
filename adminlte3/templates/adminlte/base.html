@@ -171,6 +171,12 @@
                     <span>Data sources</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" id="contactusid" style="cursor:pointer">
+                    <i class="fa fa-address-book"></i>
+                    <span>Contact us</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -779,6 +785,10 @@
 
         $(document).on('click', '#explanatoryanalysisid', function(){
             window.location.href = window.location.origin + '/advanced';
+        });
+
+        $(document).on('click', '#contactusid', function(){
+            window.location.href = window.location.origin + '/contact_us';
         });
 
     </script>
