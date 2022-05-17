@@ -72,22 +72,24 @@
                     </ul>
                     </p>
                 </label>
-                <p id="next1" class="text-right "><a href="#" class="link-primary ">Next</a></p>
+                <!-- <p id="next1" class="text-right "><a href="#" class="link-primary" aria-disabled="true">Next</a></p> -->
+                <div class="d-flex flex-row-reverse">
+                <button id="next1" type="button" class="btn btn-link " disabled>Next</button>
+                </div>
             </div>
         </div>
         <div class="card col-lg-4 mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Choice of analysis</h6>
+                <h6 class="m-0 font-weight-bold text-primary">File Analytics</h6>
             </div>
             <div class="card-body">
                 <div class="text-center">
                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
                         src="{% static 'admin-lte/assets/img/analytics_data.png' %}" alt="...">
                 </div>
-                <p>Choose the choice for analysis</p>
-                <p style="color:slateblue">You have the option to choose either the analysis for phosphorus or nitrogen
-                    or do the analysis for both parameters</p>
-                <div class="custom-control custom-switch">
+                <p style="color:slateblue">For prediction, it is important to check all the features in uploaded file.</p>
+                <p style="color:slateblue">You file results will be shown here after uploading file.</p>
+                <!-- <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="nitrogen">
                     <label class="custom-control-label" for="nitrogen">Analyze for nitrogen</label>
                 </div>
@@ -98,10 +100,17 @@
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="bothelement">
                     <label class="custom-control-label" for="bothelement">Analyze for both elements</label>
-                </div>
+                </div> -->
+                <ul id="missing_features" class="list-group">
+
+                </ul>
+                <p class="text-primary" id="csv_result"></p>
             </div>
-            <div class="card-footer text-center">
-                <button class="btn btn-primary">Analyze</button>
+            <div id="upload_again" class="card-footer text-center" style="display: none">
+                <button class="btn btn-primary">Upload again</button>
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button id="next2" type="button" class="btn btn-link " disabled>Next</button>
             </div>
         </div>
         <div class="card col-lg-4 mb-4">
@@ -158,6 +167,10 @@
         var fileType = "";
         var file;
         console.log(document.cookie.split('='));
+        document.getElementById("next1").disabled = true;
+        document.getElementById("next2").disabled = true;
+
+
 
         $('#OpenImgUpload').click(function () { 
             if (document.getElementById('tpradiobtn').checked){
@@ -232,29 +245,67 @@
                             error: function (error) {
                                 console.log("Error" + JSON.stringify(error));
                             }
-                        });
-                        
-                    // change upload image to done
-                    document.getElementById('OpenImgUpload').src = 'static/admin-lte/assets/img/done.png';
-                    // const formData = new FormData();
-                    // formData.append("fileInput",file);
-                    // console.log(formData);
-                    // let csrftoken = document.cookie.split('=')[1];
-                    // console.log(csrftoken);
-                    // fetch('/save_file',{
-                    //     method: "post",
-                    //     body:formData,
-                    //     headers: { "X-CSRFToken": csrftoken },
-                    //     credentials: 'same-origin'
-                    // }).catch(console.error);
+                    }); 
+                    document.getElementById("next1").disabled = false;
+
                 }
             });
         });
 
         $('#next1').click(function (){
-            const formData = new FormData();
-
-            console.log(file.files[0]);
+            const feature_required_tp = ['pH', '250mLandCover_Natural', 'DissolvedOxygen', 'Population', 
+            'Chloride', 'Nitrite', 'TotalSuspendedSolids', 'Nitrogen_Kjeldahl'];
+            var features_in_usecsv = [];
+            getData();
+            async function getData(){
+                let x = [];
+                let y1 = [];
+                let y2 = [];
+                const response = await fetch("{% static 'admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv' %}");
+                const data = await response.text();
+                const table = data.split('\n');
+                column_names = table[0];
+                column_names = column_names.split(',');
+                for(let i=0; i<column_names.length; i++){
+                    features_in_usecsv[i] = column_names[i].trimEnd(); 
+                }
+                console.log(features_in_usecsv);
+                // "pH", "Month", "Year", "CensusYear", "Total Rain (mm) 0day Total", "Total Rain (mm) -3day Total", 
+                // "Total Rain (mm) -1day Total", "TotalNitrogen", "Nitrogen_Kjeldahl", "Phosphorus" 
+                let missing = [];
+                for(let i=0; i<feature_required_tp.length; i++){
+                    if (features_in_usecsv.indexOf(feature_required_tp[i]) == -1){
+                        missing[i] = feature_required_tp[i];
+                    }
+                }
+                console.log(feature_required_tp);
+                console.log(missing);
+                
+                if (missing.length != 0){
+                    ul = document.getElementById('missing_features');
+                    let li = document.createElement('li');
+                        li.classList.add('list-group-item', 'active');
+                        ul.appendChild(li);
+                        li.innerHTML = "Missing Features in uploaded CSV: ";
+                    missing.forEach(item => {
+                        let li = document.createElement('li');
+                        li.classList.add('list-group-item');
+                        li.style.color = 'red';
+                        ul.appendChild(li);
+                        li.innerHTML += item;
+                    });
+                    // creating upload again
+                    document.getElementById('upload_again').style.display = 'block';
+                }
+                else{
+                    document.getElementById("next2").disabled = false;
+                }
+            }
+            $('#upload_again').click(function() {
+                location.reload();
+            });
+        });
+        $('#next2').click(function (){
 
         });
     });
