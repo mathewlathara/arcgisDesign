@@ -61,6 +61,15 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+
+            <li class="nav-item">
+                <a class="nav-link" id="dashboardredirect" style="cursor:pointer">
+                    <i></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
             <!-- Heading -->
             <!-- <div class="sidebar-heading">
                 Interface
@@ -154,6 +163,18 @@
                 <a class="nav-link" id="mapviewanalysisid" style="cursor:pointer">
                     <i class="fas fa-street-view"></i>
                     <span>Map view</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="datasourcepageid" style="cursor:pointer">
+                    <i class="fa fa-database"></i>
+                    <span>Data sources</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="contactusid" style="cursor:pointer">
+                    <i class="fa fa-address-book"></i>
+                    <span>Contact us</span></a>
             </li>
 
             <!-- Divider -->
@@ -555,57 +576,91 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <div class="card shadow col-lg-4 mb-4">
+                        <div class="card shadow col-lg-3 mb-3">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Upload and analyze data</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Descriptive analysis</h6>
                             </div>
                             <div class="card-body">
                                 <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
-                                        src="{% static 'admin-lte/dist/img/analyzedata.svg' %}" alt="...">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                                        src="{% static 'admin-lte/assets/img/dataplatformimg.jpg' %}" alt="..." width="200" height="200">
                                 </div>
-                                <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank"
-                                        rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                    constantly updated collection of beautiful svg images that you can use
-                                    completely free and without attribution!</p>
-                                <span id="uploadcsvfileid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                <p>Access disparate sources and types of socioeconomic and
+                                    environmental data relevant to the Conservation Area. It gives you
+                                    an idea of the distribution of data, helps you detect outliers and
+                                    typos, and enables you identify associations among variables, thus
+                                    making you ready to conduct further statistical analyses.</p>
+                                <span id="descriptiveanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
                                     feature out &rarr;</span>
                             </div>
                         </div>
 
 
-                        <div class="card shadow col-lg-4 mb-4">
+                        <div class="card shadow col-lg-3 mb-3">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Predict future data</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Explanatory analysis</h6>
                             </div>
                             <div class="card-body">
                                 <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
-                                        src="{% static 'admin-lte/dist/img/futurepredictimg.png' %}" alt="...">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" 
+                                        src="{% static 'admin-lte/assets/img/graphicalanalysis.jpg' %}" alt="..." width="200" height="200">
                                 </div>
-                                <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank"
-                                        rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                    constantly updated collection of beautiful svg images that you can use
-                                    completely free and without attribution!</p>
-                                <span id="modelanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                <p>Use Dex-Terity to visualize and analyze historical land use of
+                                    different watersheds. Dex-Terity presents causal links between
+                                    parameters. It involves the interpretation of data gathered through
+                                    the use of analytical and logical reasoning to determine patterns,
+                                    relationships or trends. We use various charts to visualize to
+                                    compare different parameters. Filters are provided to compare 2
+                                    desired parameters to get to know different hidden trends behind
+                                    the numbers.</p>
+                                <span id="explanatoryanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
                                     feature out &rarr;</span>
                             </div>
                         </div>
 
-                        <div class="card shadow col-lg-4 mb-4">
+                        <div class="card shadow col-lg-3 mb-3">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Demographic map view</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Predictive analysis</h6>
                             </div>
                             <div class="card-body">
                                 <div class="text-center">
                                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
-                                        src="{% static 'admin-lte/dist/img/mapviewicon.png' %}" alt="...">
+                                        src="{% static 'admin-lte/assets/img/trendanalysis.jpg' %}" alt="..." width="200" height="200">
                                 </div>
-                                <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank"
-                                        rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                    constantly updated collection of beautiful svg images that you can use
-                                    completely free and without attribution!</p>
-                                <span id="mapviewanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                <p>Dex-Terity model forecasts the potential impacts of stressors on the
+                                    watershed. Download trend analysis for the future years based on
+                                    the future input data you provide, considering the population and
+                                    economic changes. Machine learning model predictions allow the
+                                    public and businesses to make highly accurate guesses as to the
+                                    likely outcomes of a question based on historical data, which can
+                                    be about all kinds of things, here it would be predicting water quality
+                                    based on different human activities and environmental changes as
+                                    input parameters. Created the best models with some of the
+                                    supreme Machine learning techniques that will help the user to get
+                                    the accurately predicted results.</p>
+                                <span id="predictiveanalysis" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                    feature out &rarr;</span>
+                            </div>
+                        </div>
+
+                        <div class="card shadow col-lg-3 mb-3">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Prescriptive analysis</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
+                                        src="{% static 'admin-lte/assets/img/decisionmakingtool.jpg' %}" alt="..." width="200" height="200">
+                                </div>
+                                <p>Predictive analytics answers the question of what is likely to
+                                    happen. This is when historical data is combined with rules,
+                                    algorithms, and occasionally external data to determine the
+                                    probable future outcome of an event or the likelihood of a situation
+                                    occurring. The final phase is prescriptive analytics, which goes
+                                    beyond predicting future outcomes by also suggesting actions to
+                                    benefit from the predictions and showing the implications of each
+                                    decision option.</p>
+                                <span id="prescriptiveanalysis" style="color:rgb(15, 136, 241); cursor:pointer">Check this
                                     feature out &rarr;</span>
                             </div>
                         </div>
@@ -687,20 +742,53 @@
             window.location.href = window.location.origin + '/advanced';
         });
 
-        $(document).on('click', '#modelanalysisid', function () {
+        $(document).on('click', '#predictiveanalysis', function () {
             window.location.href = window.location.origin + '/models';
         });
 
         $(document).on('click', '#uploadcsvfileid', function () {
-            window.location.href = window.location.origin + '/upload_file';
+            window.location.href = window.location.origin + '/uploaddata';
         });
 
         $(document).on('click', '#dexteritydashboardid', function () {
             window.location.href = window.location.origin + '/dashboard';
         });
 
-        $(document).on('click', '#mapviewanalysisid', function () {
+        $(document).on('click', '#predictiveanalysis', function () {
+            window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#modelanalysisid', function () {
+            window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#prescriptiveanalysis', function () {
+            alert("Prescriptive Analysis coming soon");
+            // window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#dashboardredirect', function(){
+            window.location.href = window.location.origin + '/dashboard';
+        });
+
+        $(document).on('click', "#datasourcepageid", function(){
+            window.location.href = window.location.origin + '/data_source';
+        });
+
+        $(document).on('click', '#mapviewanalysisid', function(){
             window.location.href = window.location.origin + '/map_ex/2017';
+        });
+
+        $(document).on('click', '#descriptiveanalysisid', function(){
+            window.location.href = window.location.origin + '/data_source';
+        });
+
+        $(document).on('click', '#explanatoryanalysisid', function(){
+            window.location.href = window.location.origin + '/advanced';
+        });
+
+        $(document).on('click', '#contactusid', function(){
+            window.location.href = window.location.origin + '/contact_us';
         });
 
     </script>

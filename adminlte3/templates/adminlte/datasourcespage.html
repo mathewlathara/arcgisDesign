@@ -1,0 +1,107 @@
+{% extends 'adminlte/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Data sources</h1>
+
+    </div>
+    <div class="row">
+        <div class="card shadow col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">TRCA Water Quality Data</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                        src="{% static 'admin-lte/assets/img/waterqtytrca.jpg' %}" alt="...">
+                </div>
+                <p>Water Quality data from monthly grab samples collected
+                    at 90+ sites across more than nine watersheds in Toronto and Region
+                    Conservation Authority’s (TRCA) jurisdiction. Samples are collected
+                    monthly following the Provincial.. <a href="https://data.trca.ca/dataset?tags=Quality"
+                      target="_blank">Read more...</a></p>
+            </div>
+        </div>
+        <div class="card shadow col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">CLOCA Water Quality Data</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                        src="{% static 'admin-lte/assets/img/clocawaterquality.jpg' %}" alt="...">
+                </div>
+                <p>Water Quality data from in-situ sampling taken from 36
+                    sampling sites within the Central Lake Ontario Conservation
+                    authority jurisdiction. Samples were collected monthly during the
+                    summer months from 2017 – 2020 following the Provincial Water
+                    Quality Monitoring Network Protocol. <a href="https://open-data.cloca.com/" target="_blank">Read
+                      more...</a></p>
+            </div>
+        </div>
+        <div class="card shadow col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Provincial Water Quality Monitoring Network Data</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                        src="{% static 'admin-lte/assets/img/ontariowaterbodyboundaries.jpg' %}" alt="..." width="200" height="200">
+                </div>
+                <p>Over 400 locations are currently monitored in
+                    partnership with Ontario's Conservation Authorities, participating
+                    municipalities and provincial parks. Partners collect water samples on
+                    an approximately monthly basis and deliver them to the Ministry's
+                    laboratory where they are analyzed for a suite of water quality
+                    indicators. <a
+                      href="https://data.ontario.ca/dataset/provincial-stream-water-quality-monitoring-network"
+                      target="_blank">Read more...</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card shadow col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Environment and Climate Change Canada</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                        src="{% static 'admin-lte/assets/img/environmentalclimatedata.jpg' %}" alt="...">
+                </div>
+                <p>Daily climate observations are derived from two sources
+                    of data, both accessible as Historical Data from ECCC. The first are
+  
+                    Climate Station daily summaries recording total precipitation, mean,
+                    min and max air temperatures. The second are hourly records that
+                    typically produce more weather elements e.g. wind or snow on
+                    ground. <a href="https://www.canada.ca/en/environment-climate-change.html" target="_blank">Read
+                      more...</a></p>
+            </div>
+        </div>
+        <div class="card shadow col-lg-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Ontario Watershed Boundaries</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                        src="{% static 'admin-lte/assets/img/ontariowaterbodyboundaries.jpg' %}" alt="...">
+                </div>
+                <p>The Ontario Watershed Boundaries (OWB) collection
+                    represents the authoritative watershed boundaries for Ontario. The
+                    data is based on a framework similar to the Atlas of Canada
+                    Fundamental Drainage Areas and the United States Watershed
+                    Boundary Dataset, however it adopts a more stringent scientific
+                    approach to watershed delineation. <a
+                      href="https://geohub.lio.gov.on.ca/maps/mnrf::ontario-watershed-boundaries-owb/explore?location=40.397199%2C-82.339420%2C2.74"
+                      target="_blank">Read more...</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

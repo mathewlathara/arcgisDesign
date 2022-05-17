@@ -628,14 +628,14 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         });
 
 
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "400px";
-        }
+        // function openNav() {
+        //     document.getElementById("mySidenav").style.width = "400px";
+        // }
 
         view1.popup.on("trigger-action", (event) => {
             // Execute the measureThis() function if the measure-this action is clicked
             if (event.action.id === "detail-this") {
-                openNav();
+                // openNav();
             }
         });
 

@@ -168,11 +168,11 @@
 <script src="https://js.arcgis.com/4.23/"></script>
 <script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
 <script>
+    var jsonpointfile = {{ jsonvalue| safe }};
     $(document).ready(function () {
         var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
-        var jsonpointfile = {{ jsonvalue| safe }};
         var loadingurl = "199.241.160.97";
-        loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}");
+        loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
 
         var yearlist = ["2017", "2013", "2008", "2007", "2002"];
         yearselectbox = "<option value='' disabled selected>Select a year</option>";
