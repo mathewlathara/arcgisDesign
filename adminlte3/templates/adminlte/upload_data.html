@@ -9,35 +9,70 @@
         <h1 class="h3 mb-0 text-gray-800">Upload console</h1>
     </div>
     <div class="row">
-        <div class="card border-primary col-lg-4 mb-4">
+        <div class="card border-primary col-lg-4 mb-3">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Upload data</h6>
             </div>
             <div class="card-body">
+                <!-- for phosphorus or nitrogen -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="tpradiobtn" />
+                    <label class="form-check-label" for="flexRadioDefault1"> Total Phosphorus</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="tnradiobtn" />
+                    <label class="form-check-label" for="flexRadioDefault2"> Total Nitrogen </label>
+                </div>
+                <!-- visualize data on map -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="visualizeOnMap" />
+                    <label class="form-check-label" for="flexCheckDefault"> Visualize data on map</label>
+                </div>
+
                 <div class="text-center">
-                    <input type="file" id="imgupload" style="display:none" />
+                    <form id="fileInput">
+                        {% csrf_token %}
+                    <input type="file" id="imgupload" style="display:none" id="fileInput" name="fileInput"/>
                     <span id="OpenImgUpload" style="cursor:pointer;"><img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
                             style="width: 10rem;" src="{% static 'admin-lte/assets/img/upload_data.png' %}"
                             alt="..."></span>
+                        </form>
                 </div>
-                <p style="color:red; font-size:12px;">Click on the icon to upload the csv file</p>
+                <p id="displayFileName" style="color:red; font-size:12px;">Click on the icon to upload the csv file</p>
                 <label class="form-label font-weight-normal">
                     <p class="text-justify font-weight-normal">The CSV file must contain columns:
-                    <ul class="font-weight-normal">For Phosphorus prediction
-                        <li>'Oxygen, Dissolved (% Saturation)'</li>
+                    <ul >
+                        <p id="tpParams" class="font-weight-normal"> Phosphorus prediction: 
+                                pH, 250mLandCover_Natural (ha), DissolvedOxygen
+                                (mg/L), Total Rain (mm) -7day Total (mm)(Not
+                                Mandatory), Population, Nitrate (mg/L)(Not
+                                Mandatory), Chloride (mg/L), Nitrite (mg/L),
+                                TotalNitrogen (mg/L) (Not Mandatory),
+                                TotalSuspendedSolids (mg/L), Nitrogen_Kjeldahl
+                                (mg/L)
+                        </p>
+                        <!-- <li>'Oxygen, Dissolved (% Saturation)'</li>
                         <li>'Depth, Sample (Field)'</li>
                         <li>'Nitrite'</li>
                         <li>'Nitrogen, Total Kjeldahl(TKN)'</li>
-                        <li>'Solids, Suspended (TSS)'</li>
+                        <li>'Solids, Suspended (TSS)'</li> -->
                     </ul>
-                    <ul class="font-weight-normal">For Nitrogen prediction
-                        <li>'Chloride'</li>
+                    <ul >
+                        <p id="tpParams" class="font-weight-normal"> Nitrogen prediction: 
+                            Month, pH, Population, 10mLandCover_Natural(Ha),
+                            10mLandCover_AnthropogenicNatural(Ha),
+                            TotalSuspendedSolids (mg/L), Conductivity (K),
+                            TotalPhosphorus (mg/L), Chloride (mg/L), Nitrate
+                            (mg/L)
+                        </p>
+                        <!-- <li>'Chloride'</li>
                         <li>'Nitrite'</li>
-                        <li>'Nitrate'</li>
+                        <li>'Nitrate'</li> -->
                     </ul>
-                    NOTE: The unit is mg/L.
                     </p>
                 </label>
+                <p id="next1" class="text-right "><a href="#" class="link-primary ">Next</a></p>
             </div>
         </div>
         <div class="card col-lg-4 mb-4">
@@ -118,12 +153,106 @@
 <script src="{% static 'admin-lte/bootstrap/js/sb-admin-2.min.js' %}"></script>
 <script>
     $(document).ready(function () {
-        $('#OpenImgUpload').click(function () { $('#imgupload').trigger('click'); });
+        var predictVar = "";
+        var visualizeOnMap = "";
+        var fileType = "";
+        var file;
+        console.log(document.cookie.split('='));
+
+        $('#OpenImgUpload').click(function () { 
+            if (document.getElementById('tpradiobtn').checked){
+                predictVar = "TotalPhosphorus";
+                document.getElementById('tpParams').style.color = "slateblue";
+            }
+            if (document.getElementById('tnradiobtn').checked){
+                predictVar = "TotalNitrogen";
+                document.getElementById('tnParams').style.color = "slateblue";
+            }
+            if(document.getElementById('visualizeOnMap').checked){
+                visualizeOnMap = "yes";
+            }
+            console.log(predictVar, visualizeOnMap);
+            if (predictVar){
+                $('#imgupload').trigger('click'); 
+            }
+            else{
+                alert("Please check parameter for prediction. Then only file can be processed further!");
+            }
+        });
+
         $('input[type="file"]').change(function (e) {
             $('#ModalOpenForFileAnalysis').modal({ backdrop: 'static', keyboard: false });
             var fileName = e.target.files[0].name; //getting the file name 
+            const formData = new FormData();
+                    formData.append("fileInput",e.target.files[0]);
+                    console.log(formData);
+
+            console.log(fileName);
             var display = $("#file_confirmation"); //where to display
-            display.html(fileName);
+            display.text(fileName);
+           
+
+            //getting yes
+            $('#modalprocessUploadFile').off().on('click', function () {
+                // close window
+                $('#ModalOpenForFileAnalysis').modal('hide');
+                // if file is csv or not
+                var allowedExtensions = /(\.csv)$/i;
+                if (!allowedExtensions.exec(fileName)) {
+                    // $('#ModalOpenForFileAnalysis').modal('hide');
+                    alert('You can only upload CSV file');
+                    fileType = "noncsv";
+                }
+                else {
+                    fileType = "csv";
+                    $('#displayFileName').text("Uploaded file: " + fileName);
+                    console.log("got ", fileType);
+                    file = e.target.files[0];
+                    console.log("after yes ",file);
+                    const formData = new FormData();
+                    formData.append("fileInput",e.target.files[0]);
+                    console.log(formData);
+                    csrftoken = document.cookie.split('=')[1];
+
+                    $.ajax({
+                            type: 'POST',
+                            url: '/save_file',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            headers: { "X-CSRFToken": csrftoken },
+
+                            success: function (data) {
+                                if (data.status === "saved") {
+                                    console.log("file saved");
+                                } else{
+                                    console.log("error saving file");
+                                }
+                            },
+                            error: function (error) {
+                                console.log("Error" + JSON.stringify(error));
+                            }
+                        });
+                   
+                    // const formData = new FormData();
+                    // formData.append("fileInput",file);
+                    // console.log(formData);
+                    // let csrftoken = document.cookie.split('=')[1];
+                    // console.log(csrftoken);
+                    // fetch('/save_file',{
+                    //     method: "post",
+                    //     body:formData,
+                    //     headers: { "X-CSRFToken": csrftoken },
+                    //     credentials: 'same-origin'
+                    // }).catch(console.error);
+                }
+            });
+        });
+
+        $('#next1').click(function (){
+            const formData = new FormData();
+
+            console.log(file.files[0]);
 
         });
     });
