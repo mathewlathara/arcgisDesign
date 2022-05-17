@@ -61,6 +61,15 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+
+            <li class="nav-item">
+                <a class="nav-link" id="dashboardredirect" style="cursor:pointer">
+                    <i></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
             <!-- Heading -->
             <!-- <div class="sidebar-heading">
                 Interface
@@ -154,6 +163,12 @@
                 <a class="nav-link" id="mapviewanalysisid" style="cursor:pointer">
                     <i class="fas fa-street-view"></i>
                     <span>Map view</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="datasourcepageid" style="cursor:pointer">
+                    <i class="fa fa-database"></i>
+                    <span>Data sources</span></a>
             </li>
 
             <!-- Divider -->
@@ -569,7 +584,7 @@
                                     an idea of the distribution of data, helps you detect outliers and
                                     typos, and enables you identify associations among variables, thus
                                     making you ready to conduct further statistical analyses.</p>
-                                <span id="uploadcsvfileid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                <span id="descriptiveanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
                                     feature out &rarr;</span>
                             </div>
                         </div>
@@ -584,7 +599,7 @@
                                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" 
                                         src="{% static 'admin-lte/assets/img/graphicalanalysis.jpg' %}" alt="..." width="200" height="200">
                                 </div>
-                                <p>Use Dex-Terityto visualize and analyze historical land use of
+                                <p>Use Dex-Terity to visualize and analyze historical land use of
                                     different watersheds. Dex-Terity presents causal links between
                                     parameters. It involves the interpretation of data gathered through
                                     the use of analytical and logical reasoning to determine patterns,
@@ -592,7 +607,7 @@
                                     compare different parameters. Filters are provided to compare 2
                                     desired parameters to get to know different hidden trends behind
                                     the numbers.</p>
-                                <span id="modelanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                <span id="explanatoryanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
                                     feature out &rarr;</span>
                             </div>
                         </div>
@@ -617,7 +632,7 @@
                                     input parameters. Created the best models with some of the
                                     supreme Machine learning techniques that will help the user to get
                                     the accurately predicted results.</p>
-                                <span id="mapviewanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                <span id="predictiveanalysis" style="color:rgb(15, 136, 241); cursor:pointer">Check this
                                     feature out &rarr;</span>
                             </div>
                         </div>
@@ -639,7 +654,7 @@
                                     beyond predicting future outcomes by also suggesting actions to
                                     benefit from the predictions and showing the implications of each
                                     decision option.</p>
-                                <span id="mapviewanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check this
+                                <span id="prescriptiveanalysis" style="color:rgb(15, 136, 241); cursor:pointer">Check this
                                     feature out &rarr;</span>
                             </div>
                         </div>
@@ -721,20 +736,49 @@
             window.location.href = window.location.origin + '/advanced';
         });
 
-        $(document).on('click', '#modelanalysisid', function () {
+        $(document).on('click', '#predictiveanalysis', function () {
             window.location.href = window.location.origin + '/models';
         });
 
         $(document).on('click', '#uploadcsvfileid', function () {
-            window.location.href = window.location.origin + '/upload_file';
+            window.location.href = window.location.origin + '/uploaddata';
         });
 
         $(document).on('click', '#dexteritydashboardid', function () {
             window.location.href = window.location.origin + '/dashboard';
         });
 
-        $(document).on('click', '#mapviewanalysisid', function () {
+        $(document).on('click', '#predictiveanalysis', function () {
+            window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#modelanalysisid', function () {
+            window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#prescriptiveanalysis', function () {
+            alert("Prescriptive Analysis coming soon");
+            // window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#dashboardredirect', function(){
+            window.location.href = window.location.origin + '/dashboard';
+        });
+
+        $(document).on('click', "#datasourcepageid", function(){
+            window.location.href = window.location.origin + '/data_source';
+        });
+
+        $(document).on('click', '#mapviewanalysisid', function(){
             window.location.href = window.location.origin + '/map_ex/2017';
+        });
+
+        $(document).on('click', '#descriptiveanalysisid', function(){
+            window.location.href = window.location.origin + '/data_source';
+        });
+
+        $(document).on('click', '#explanatoryanalysisid', function(){
+            window.location.href = window.location.origin + '/advanced';
         });
 
     </script>
