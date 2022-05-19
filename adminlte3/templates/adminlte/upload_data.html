@@ -59,7 +59,7 @@
                         <li>'Solids, Suspended (TSS)'</li> -->
                     </ul>
                     <ul >
-                        <p id="tpParams" class="font-weight-normal"> Nitrogen prediction: 
+                        <p id="tnParams" class="font-weight-normal"> Nitrogen prediction: 
                             Month, pH, Population, 10mLandCover_Natural(Ha),
                             10mLandCover_AnthropogenicNatural(Ha),
                             TotalSuspendedSolids (mg/L), Conductivity (K),
@@ -110,7 +110,7 @@
                 <button class="btn btn-primary">Upload again</button>
             </div>
             <div class="d-flex flex-row-reverse">
-                <button id="next2" type="button" class="btn btn-link " disabled>Next</button>
+                <button id="next2" type="button" class="btn btn-link " >Next</button>
             </div>
         </div>
         <div class="card col-lg-4 mb-4">
@@ -122,11 +122,14 @@
                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
                         src="{% static 'admin-lte/assets/img/result_icon_after_analysis.png' %}" alt="...">
                 </div>
-                <p>The results wordings or the next map view links will come in this section</p>
+                <p style="color:slateblue">The results wordings or the next map view links will come in this section</p>
+                <p style="color:slateblue" id="shape"></p>
+                <p style="color:slateblue" id="nullvalues"></p>
+
             </div>
             <div class="card-footer text-center">
-                <button class="btn btn-success">Go to results</button>
-            </div>
+                <button id="goToPredict" class="btn btn-success">Go to Prediction</button>
+            </div
         </div>
     </div>
 </div>
@@ -149,6 +152,16 @@
     </div>
 </div>
 
+<div class="modal fade" id="processBarForFileAnalysis">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="spinner-grow text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+        </div>
+    </div>
+</div>
+
 
 
 {% endblock %}
@@ -167,8 +180,8 @@
         var fileType = "";
         var file;
         console.log(document.cookie.split('='));
-        document.getElementById("next1").disabled = true;
-        document.getElementById("next2").disabled = true;
+        document.getElementById("next1").disabled = false;
+        document.getElementById("next2").disabled = false;
 
 
 
@@ -254,7 +267,10 @@
 
         $('#next1').click(function (){
             const feature_required_tp = ['pH', '250mLandCover_Natural', 'DissolvedOxygen', 'Population', 
-            'Chloride', 'Nitrite', 'TotalSuspendedSolids', 'Nitrogen_Kjeldahl'];
+                'Chloride', 'Nitrite', 'TotalSuspendedSolids', 'Nitrogen_Kjeldahl'];
+            const feature_required_tn = ['Month', 'pH', 'Population', '10mLandCover_Natural',
+                '10mLandCover_AnthropogenicNatural','TotalSuspendedSolids', 'Conductivity',
+                'TotalPhosphorus' , 'Chloride' , 'Nitrate'];
             var features_in_usecsv = [];
             getData();
             async function getData(){
@@ -273,15 +289,43 @@
                 // "pH", "Month", "Year", "CensusYear", "Total Rain (mm) 0day Total", "Total Rain (mm) -3day Total", 
                 // "Total Rain (mm) -1day Total", "TotalNitrogen", "Nitrogen_Kjeldahl", "Phosphorus" 
                 let missing = [];
-                for(let i=0; i<feature_required_tp.length; i++){
-                    if (features_in_usecsv.indexOf(feature_required_tp[i]) == -1){
-                        missing[i] = feature_required_tp[i];
+                
+                if (visualizeOnMap == "yes"){
+                    feature_required_tp.push("Latitude");
+                    feature_required_tp.push("Longitude");
+                    feature_required_tp.push("Year");
+
+                    feature_required_tn.push("Latitude");
+                    feature_required_tn.push("Longitude");
+                    feature_required_tn.push("Year");
+                    console.log(feature_required_tp);
+                    
+                }
+                if (predictVar == 'TotalPhosphorus'){
+                    for(let i=0; i<feature_required_tp.length; i++){
+                        if (features_in_usecsv.indexOf(feature_required_tp[i]) == -1){
+                            missing[i] = feature_required_tp[i];
+                        }
                     }
+                }
+                else if (predictVar == 'TotalNitrogen'){
+                    for(let i=0; i<feature_required_tn.length; i++){
+                        if (features_in_usecsv.indexOf(feature_required_tn[i]) == -1){
+                            missing[i] = feature_required_tn[i];
+                        }
+                    }
+                }
+                else {
+                    alert("Something went wrong! Select prediction feature again.");
+                    location.reload();
                 }
                 console.log(feature_required_tp);
                 console.log(missing);
                 
                 if (missing.length != 0){
+                    if (document.getElementById('missing_features')){
+                        $('#missing_features').empty();
+                    }
                     ul = document.getElementById('missing_features');
                     let li = document.createElement('li');
                         li.classList.add('list-group-item', 'active');
@@ -306,7 +350,26 @@
             });
         });
         $('#next2').click(function (){
+            csrftoken = document.cookie.split('=')[1];
+            $.ajax({
+                    type: 'POST',
+                    url: '/validateUploadedFile',
+                    data: {'data':'1000'},
+                    // contentType: false,
+                    // processData: false,
+                    headers: { "X-CSRFToken": csrftoken },
 
+                    success: function (data) {
+                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
+                        document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" null values.";
+                    },
+                    error: function (error) {
+                        console.log("Error" + JSON.stringify(error));
+                    }
+            }); 
+        });
+        $(document).on('click', '#goToPredict', function () {
+            window.location.href = window.location.origin + '/models';
         });
     });
 </script>

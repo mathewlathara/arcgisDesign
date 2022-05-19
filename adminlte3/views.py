@@ -959,7 +959,8 @@ def save_file(request):
             print("in save file")
             uploaded_file = request.FILES['fileInput']
             fs = FileSystemStorage()
-            fs.delete('data/user_uploaded_data/user_uploaded_csv_file.csv')
+            if os.path.isfile('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'):
+                fs.delete('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
             name = fs.save('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv', uploaded_file)
             print("Filename: ", name)
             print("File uploaded")
@@ -973,3 +974,12 @@ def save_file(request):
         error = "Please select file!"
         print(error)
         return Response({'status': error})
+
+@api_view(('POST',))
+def validateUploadedFile(request):
+    print(request.POST['data'])
+    df = pd.read_csv('static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
+    shapevalue = df.shape
+    nullvalues = df.isna().sum().sum()
+    return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue})
+

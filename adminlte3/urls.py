@@ -4,7 +4,7 @@ from .views import index, result, about, upload_file, dashboard_m, yearlyBarChar
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
     logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, \
-    datasourcespage, contact_us_page
+    datasourcespage, contact_us_page, validateUploadedFile
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 urlpatterns = [
@@ -44,6 +44,7 @@ urlpatterns = [
     path("loginUsingUserCredentials/", loginUsingUserCredentials),
     path("uploaddata/", upload_phosphorus_nitrogen),
     path("save_file",save_file),
+    path("validateUploadedFile", validateUploadedFile),
     path("data_source/",datasourcespage),
     path("contact_us/",contact_us_page)
     # path('upload_file/', upload_file, name="upload_file"),
