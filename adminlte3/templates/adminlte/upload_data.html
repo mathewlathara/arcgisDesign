@@ -89,6 +89,8 @@
                 </div>
                 <p style="color:slateblue">For prediction, it is important to check all the features in uploaded file.</p>
                 <p style="color:slateblue">You file results will be shown here after uploading file.</p>
+                <p id="perfect" style="color: green"></p>
+
                 <!-- <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="nitrogen">
                     <label class="custom-control-label" for="nitrogen">Analyze for nitrogen</label>
@@ -285,7 +287,7 @@
                 for(let i=0; i<column_names.length; i++){
                     features_in_usecsv[i] = column_names[i].trimEnd(); 
                 }
-                console.log(features_in_usecsv);
+                console.log("columns in csv===",features_in_usecsv);
                 // "pH", "Month", "Year", "CensusYear", "Total Rain (mm) 0day Total", "Total Rain (mm) -3day Total", 
                 // "Total Rain (mm) -1day Total", "TotalNitrogen", "Nitrogen_Kjeldahl", "Phosphorus" 
                 let missing = [];
@@ -301,6 +303,9 @@
                     console.log(feature_required_tp);
                     
                 }
+                console.log("TP: ",feature_required_tp);
+                console.log("user columns: ",features_in_usecsv);
+
                 if (predictVar == 'TotalPhosphorus'){
                     for(let i=0; i<feature_required_tp.length; i++){
                         if (features_in_usecsv.indexOf(feature_required_tp[i]) == -1){
@@ -319,8 +324,8 @@
                     alert("Something went wrong! Select prediction feature again.");
                     location.reload();
                 }
-                console.log(feature_required_tp);
-                console.log(missing);
+                console.log("required: ",feature_required_tp);
+                console.log("missing features: ",missing);
                 
                 if (missing.length != 0){
                     if (document.getElementById('missing_features')){
@@ -342,6 +347,7 @@
                     document.getElementById('upload_again').style.display = 'block';
                 }
                 else{
+                    document.getElementById("perfect").innerHTML = "All the features are present in the file that are required for prediction."
                     document.getElementById("next2").disabled = false;
                 }
             }
