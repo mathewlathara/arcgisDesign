@@ -9,7 +9,7 @@
         <h1 class="h3 mb-0 text-gray-800">Upload console</h1>
     </div>
     <div class="row">
-        <div class="card border-primary col-lg-4 mb-3">
+        <div id="card1" class="card border-primary col-lg-4 mb-3">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Upload data</h6>
             </div>
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-        <div class="card col-lg-4 mb-4">
+        <div id="card2" class="card col-lg-4 mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">File Analytics</h6>
             </div>
@@ -115,7 +115,7 @@
                 <button id="next2" type="button" class="btn btn-link " >Next</button>
             </div>
         </div>
-        <div class="card col-lg-4 mb-4">
+        <div  id="card3" class="card col-lg-4 mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Results</h6>
             </div>
@@ -262,12 +262,17 @@
                             }
                     }); 
                     document.getElementById("next1").disabled = false;
+                    // document.getElementById('OpenImgUpload').src="{% static 'admin-lte/assets/img/done.png' %}";
+
 
                 }
             });
         });
 
         $('#next1').click(function (){
+            document.getElementById('card1').classList.remove("border-primary");
+            document.getElementById('card2').classList.add("border-primary");
+
             const feature_required_tp = ['pH', '250mLandCover_Natural', 'DissolvedOxygen', 'Population', 
                 'Chloride', 'Nitrite', 'TotalSuspendedSolids', 'Nitrogen_Kjeldahl'];
             const feature_required_tn = ['Month', 'pH', 'Population', '10mLandCover_Natural',
@@ -356,6 +361,9 @@
             });
         });
         $('#next2').click(function (){
+            document.getElementById('card2').classList.remove("border-primary");
+            document.getElementById('card3').classList.add("border-primary");
+
             csrftoken = document.cookie.split('=')[1];
             $.ajax({
                     type: 'POST',
