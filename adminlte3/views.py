@@ -981,7 +981,7 @@ def save_file(request):
 @api_view(('POST',))
 def validateUploadedFile(request):
     print(request.POST['data'])
-    df = pd.read_csv('static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
+    df = pd.read_csv('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
     shapevalue = df.shape
     nullvalues = df.isna().sum().sum()
     return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue})
