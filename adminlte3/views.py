@@ -79,6 +79,9 @@ def index(request):
     return render(request, "adminlte/index1.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
 # This file is supposed to be edited in terms of making changes on main dashboard
 
+def new_index_page(request):
+    return render(request, "adminlte/index_new.html")
+
 
 def filterpagefromindex(request, year):
     print(f"THe year selected---- {year}")
@@ -978,7 +981,7 @@ def save_file(request):
 @api_view(('POST',))
 def validateUploadedFile(request):
     print(request.POST['data'])
-    df = pd.read_csv('static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
+    df = pd.read_csv('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
     shapevalue = df.shape
     nullvalues = df.isna().sum().sum()
     return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue})
