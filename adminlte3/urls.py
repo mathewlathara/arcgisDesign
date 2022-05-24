@@ -4,13 +4,14 @@ from .views import index, result, about, upload_file, dashboard_m, yearlyBarChar
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
     logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, \
-    datasourcespage, contact_us_page, validateUploadedFile
+    datasourcespage, contact_us_page, validateUploadedFile, new_index_page
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 urlpatterns = [
     # path('', home, name='home'),
     # path('result', result, name='result'),
-    path('', index, name="index"),
+    path('', new_index_page, name="index"),
+    path('additionaldetails', index, name="index"),
     path('filteryear/<str:year>', filterpagefromindex, name="index"),
     path('upload_file', upload_file, name='upload_file'),
     path('upload_file_new', upload_file_new, name='upload_file_new'),

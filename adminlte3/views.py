@@ -79,6 +79,9 @@ def index(request):
     return render(request, "adminlte/index1.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
 # This file is supposed to be edited in terms of making changes on main dashboard
 
+def new_index_page(request):
+    return render(request, "adminlte/index_new.html")
+
 
 def filterpagefromindex(request, year):
     print(f"THe year selected---- {year}")
