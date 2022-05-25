@@ -594,7 +594,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                         }
                     },
                     error: function (error) {
-                        alert("error");
+                        console.log("error==----->" + error);
                     }
                 });
                 // alert(stationid);

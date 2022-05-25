@@ -594,7 +594,7 @@ function hotspotfunction(filtertype, jsonpointfile, urllayer, jsonprocessedstrin
                         }
                     },
                     error: function (error) {
-                        alert("error");
+                        console.log("error------->" + error);
                     }
                 });
                 // alert(stationid);
