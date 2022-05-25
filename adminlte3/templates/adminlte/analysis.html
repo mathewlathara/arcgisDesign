@@ -46,13 +46,13 @@ Analyse
         <li class="list-group-item">
           <span>
             <!-- <label for=""></label> -->
-            <select class="custom-select" name="year" id="f1" onclick="selectFeature1();">
+            <select class="custom-select" name="year" id="f1">
               <option value="">On X</option>
             </select>
           </span>
           <span>
             <!-- <label for=""></label> -->
-            <select class="custom-select mt-2" name="year" id="f2" onclick="selectFeature2();">
+            <select class="custom-select mt-2" name="year" id="f2">
               <option value="">On Y</option>
             </select>
           </span>
@@ -202,6 +202,17 @@ Analyse
 
 <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
 <script>
+  let dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
+        'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
+        'pH', 'TotalNitrogen', 'Nitrite', 'TotalPhosphorus', 'Chloride',
+        '10mLandCover_AgriculturalExtraction', '10mLandCover_Anthropogenic',
+        '10mLandCover_AnthropogenicNatural', '10mLandCover_Natural', 'Latitude',
+        'Longitude', '250mLandCover_Agricultural',
+        '250mLandCover_Anthropogenic', '250mLandCover_Natural',
+        'Total Rain (mm) 0day Total', 'Total Rain (mm) -7day Total',
+        'Total Rain (mm) -56day Total', 'Total Rain (mm) -3day Total',
+        'Total Rain (mm) -28day Total', 'Total Rain (mm) -1day Total',
+        'Total Rain (mm) -14day Total'];
   $(document).ready(function () {
     let yearFrom = document.getElementById('yearFrom');
     let yearTo = document.getElementById('yearTo');
@@ -231,6 +242,25 @@ Analyse
               }
       });
     });
+
+    $(document).on('click', '#f1', function(){
+        var selectboxreturn = "<option value='' selected>On X</option>";
+        $(dataColumns).each((index, element) => {
+            // console.log(`current index : ${index} element : ${element}`)
+            selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+        });
+        $("#f1").html(selectboxreturn);
+    });
+
+    $(document).on('click', '#f2', function(){
+        var selectboxreturn = "<option value='' selected>On Y</option>";
+        $(dataColumns).each((index, element) => {
+            // console.log(`current index : ${index} element : ${element}`)
+            selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+        });
+        $("#f2").html(selectboxreturn);
+    });
+
   });
 </script>
 {% endblock %}

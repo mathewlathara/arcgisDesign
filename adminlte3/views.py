@@ -21,6 +21,7 @@ import folium
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
+import urllib.request
 # import geopandas as gpd
 # import shapefile
 
@@ -485,7 +486,8 @@ def upload(request):
             print("Selected model", selectedModel)
 
             if selectedModel == "Random Forest 16F":
-                model = pickle.load(open('ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
+                # model = pickle.load(open('ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
+                model = pickle.load(urllib.request.urlopen("https://drive.google.com/open?id=1M7Dt7CpEOtjWdHv_wLNZdkHw5Fxn83vW"))
                 print(test_df.columns)
                 test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                     'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
