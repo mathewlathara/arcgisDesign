@@ -79,7 +79,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                     div.innerHTML = "<p><u><b>Station ID: " + data.stationid + "</b></u></p><ul><li>Avg chloride: " + data.avgchloride + "</li><li>Avg population: " + data.avgpopulation + "</li><li>Avg phosphorus: " + data.avgphosphorus + "</li><li>Avg nitrogen: " + data.avgnitrogen + "</li></ul>";
                 },
                 error: function (error) {
-                    alert("error");
+                    console.log("error----->" + error);
                 }
             });
             return div;
@@ -151,7 +151,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                     div.innerHTML = "<p><u><b>Station ID: " + data.stationid + "</b></u></p><ul><li>Avg chloride: " + data.avgchloride + "</li><li>Avg population: " + data.avgpopulation + "</li><li>Avg phosphorus: " + data.avgphosphorus + "</li><li>Avg nitrogen: " + data.avgnitrogen + "</li></ul>";
                 },
                 error: function (error) {
-                    alert("error");
+                    console.log("error----->" + error);
                 }
             });
             return div;
