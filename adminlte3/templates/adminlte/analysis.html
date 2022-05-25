@@ -114,6 +114,22 @@ Analyse
   <!-- ---------------4th row--------------- -->
   <div class="row">
     <div class="col-sm-12 my-auto">
+      <div id="plotInRow" class="mt-3">
+        <!-- plot selected x and y here -->
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 my-auto">
+      <span class="align-middle">
+        <div class="mt-5" id="des3">
+          <p class="text-justify mx-auto"></p>
+        </div>
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 my-auto">
 
       <span>
 
@@ -124,6 +140,7 @@ Analyse
 
     </div>
   </div>
+
 </div>
 
 <!---------------single year filter------------------->
@@ -184,5 +201,37 @@ Analyse
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+<script>
+  $(document).ready(function () {
+    let yearFrom = document.getElementById('yearFrom');
+    let yearTo = document.getElementById('yearTo');
+    let f1 = document.getElementById('f1');
+    let f2 = document.getElementById('f2');
+    let des1 = document.getElementById('dec1');
+    let des2 = document.getElementById('dec2');
+    let standard_type = document.getElementById('standardType');
+    let station_id = document.getElementById('station');
+
+    csrftoken = document.cookie.split('=')[1];
+    data = {'yearFrom':yearFrom.value, 'yearTo':yearTo.value, 'f1':f1.value, 'f2':f2.value};
+    $('#getValue').click(function(){
+      $.ajax({
+              type: 'POST',
+              url: '/analysisFilterData',
+              data: data,
+              // contentType: false,
+              // processData: false,
+              headers: { "X-CSRFToken": csrftoken },
+
+              success: function (data) {
+                console.log(data.staus);
+              },
+              error: function (error) {
+                  console.log("Error" + JSON.stringify(error));
+              }
+      });
+    });
+  });
+</script>
 {% endblock %}
 

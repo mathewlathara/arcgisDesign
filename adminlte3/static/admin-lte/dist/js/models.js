@@ -34,6 +34,7 @@ function fileValidation() {
         return false;
     }
     else {
+        console.log("got csv");
         return true;
     }
 }
@@ -87,7 +88,7 @@ function selectModel() {
         });
         if (selected_model == "Random Forest 16F") {
             console.log("RF if");
-            model_config = "Mandatory features: 'TotalSuspendedSolids',	'Conductivity',	'DissolvedOxygen',	'pH', 'TotalNitrogen',	'Chloride',	'10mLandCover_AgriculturalExtraction',	'CensusYear',	'Total Rain (mm) 0day Total,'	'Total Rain (mm) -7day Total',	'Total Rain (mm) -56day Total',	'Total Rain (mm) -3day Total',	'Total Rain (mm) -28day Total',	'Total Rain (mm) -1day Total',	'Total Rain (mm) -14day Total',	'Month'"
+            model_config = "Mandatory features: 'pH', '250mLandCover_Natural', 'DissolvedOxygen','Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride', 'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids','Nitrogen_Kjeldahl' ";
             document.getElementById("info").innerHTML = model_config;
             document.getElementById("test_ac").innerHTML = "Test accuracy: 85.92%";
 
@@ -112,7 +113,7 @@ function selectModel() {
 
         }
         else if (selected_model == "XGBoost 5F") {
-            model_config = "Mandatory features: 'Nitrite',	'Total Rain (mm) -1day Total', 'TotalNitrogen', 'Nitrogen_Kjeldahl', 'TotalSuspendedSolids'";
+            model_config = "Mandatory features: 'pH', '250mLandCover_Natural', 'DissolvedOxygen', 'Population', 'Chloride', 'Nitrite', 'TotalSuspendedSolids','Nitrogen_Kjeldahl' ";
             document.getElementById("info").innerHTML = model_config;
             document.getElementById("test_ac").innerHTML = "Test accuracy: 86.68%";
             document.getElementById("form_1").style.display = "none";
@@ -207,7 +208,7 @@ function selectModel() {
         console.log("N is clicked model is ", selected_model);
         if (selected_model == "Random Forest") {
             console.log(" N RF if");
-            model_config = "Mandatory features: Chloride,Nitrite,TotalPhosphorus,Nitrate";
+            model_config = "Mandatory features: 'Month', 'pH', 'Population', '10mLandCover_Natural','10mLandCover_AnthropogenicNatural', 'TotalSuspendedSolids', 'Conductivity','TotalPhosphorus', 'Chloride', 'Nitrate'";
             document.getElementById("info").innerHTML = model_config;
             
             document.getElementById("test_ac").innerHTML = "Test accuracy: 88.49%";
@@ -223,7 +224,7 @@ function selectModel() {
                     dataType: 'json',
                     success: function (data) {
                         if (data.is_taken) {
-                            alert("A user with this username already exists.");
+                            alert("A user with this username a3lready exists.");
                         }
                     }
                 });

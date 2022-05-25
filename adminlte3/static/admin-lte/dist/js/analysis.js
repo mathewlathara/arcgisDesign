@@ -10,7 +10,7 @@ let station_id = document.getElementById('station');
 
 // "From" year dropdown menu
 function yearFromSelect() {
-    // document.getElementById('yearFrom').options.length = 0;
+    // $('#yearFrom').empty();
 
     let currentYear = new Date().getFullYear();
     let earliestYear = 2000;
@@ -41,7 +41,7 @@ function yearFromSelect() {
 
 // "To" year dropdown menu
 function yearToSelect() {
-    // document.getElementById('yearTo').options.length = 0;
+    // $('#yearTo').empty();
 
     let currentYear = 2020;//new Date().getFullYear();
     let earliestYear = (yearFrom.value);
@@ -129,7 +129,29 @@ function stationSelect() {
 // setting options to feature dropdown
 function selectFeature1() {
     let i = 0;
-
+    // $('#f1').empty();
+    // getData();
+    // async function getData(){
+    //     features_in_usecsv = [];
+    //     const response = await fetch("static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv");
+    //     const data = await response.text();
+    //     const table = data.split('\n');
+    //     column_names = table[0];
+    //     column_names = column_names.split(',');
+    //     for(let i=0; i<column_names.length; i++){
+    //         features_in_usecsv[i] = column_names[i].trimEnd(); 
+    //     }
+    //     dataColumns = features_in_usecsv;
+    //     while (i < dataColumns.length) {
+    //         let dateOption = document.createElement('option');
+    //         dateOption.text = dataColumns[i];
+    //         dateOption.value = dataColumns[i];
+    //         f1.add(dateOption);
+    //         i = i + 1;
+    //     }
+    //     i = 0;
+    //     console.log("Feature", f1.value);
+    // }
     dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
         'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
         'pH', 'TotalNitrogen', 'Nitrite', 'TotalPhosphorus', 'Chloride',
@@ -152,6 +174,8 @@ function selectFeature1() {
     console.log("Feature", f1.value);
 }
 function selectFeature2() {
+    // $('#yearFrom').empty();
+
     // dataColumns = ['pH','Month','Year','CensusYear','Total Rain (mm) 0day Total','Total Rain (mm) -3day Total','Total Rain (mm) -1day Total',
     //     'TotalNitrogen','Nitrogen_Kjeldahl','TotalPhosphorus'];
     let i = 0;
@@ -162,7 +186,22 @@ function selectFeature2() {
         f2.add(dateOption);
         i = i + 1;
     }
+    i = 0;
     console.log("Feature", f2.value);
+
+    // getData();
+    // async function getData(){
+    //     features_in_usecsv = [];
+    //     const response = await fetch("static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv");
+    //     const data = await response.text();
+    //     const table = data.split('\n');
+    //     column_names = table[0];
+    //     column_names = column_names.split(',');
+    //     for(let i=0; i<column_names.length; i++){
+    //         features_in_usecsv[i] = column_names[i].trimEnd(); 
+    //     }
+    //     dataColumns = features_in_usecsv;
+    // }
 }
 //function filterGraphType(){
 //    graphsType = ["scatter", "bar"];
@@ -180,6 +219,7 @@ function selectFeature2() {
 function plotFromCSV() {
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
     const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+    // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
     d3.csv(CSV, function (rows) {
         console.log(rows);
         console.log("Data Columns = ", rows.columns);
@@ -198,7 +238,7 @@ function filterRows(row) {
     let i = 0;
     let j = 0;
     while (i < row.length) {
-        if (row[i]["Year"] > yearFrom.value && row[i]["Year"] < yearTo.value && row[i]["STATION"] == station_id.value) {
+        if (row[i]["Year"] > yearFrom.value && row[i]["Year"] < yearTo.value){ //&& row[i]["STATION"] == station_id.value) {
             feature1[j] = row[i][f1.value];
             feature2[j] = row[i][f2.value];
             years[j] = row[i]["Year"];
@@ -257,8 +297,9 @@ function processData(allRows) {
     }
     else {
         makePlotlyxy1(x, y1);
-        makePlotlyxy2(x, y2);
     }
+    makePlotlyxy2(x, y2);
+
     makePlotlyy1y2(y1, y2);
 
 }
@@ -332,8 +373,6 @@ function makePlotlyN(x, y1) {
     document.getElementById('des1').innerHTML = description;
 
 }
-
-
 // pH
 function makePlotlyPH(x, y1) {
     console.log("Min max = ", Math.min.apply(Math, y1), Math.max.apply(Math, y1));
@@ -341,7 +380,7 @@ function makePlotlyPH(x, y1) {
         {
             x: x,
             y: y1,
-            name: "Nitrogen",
+            name: "PH",
             mode: "markers",
             // type:'bar',
             // bar: {
@@ -410,7 +449,6 @@ function makePlotlyPH(x, y1) {
     description = "The graph displays the pH amount noted in the selected years. pH level in the drinking water should be in the range of 6.5 to 8.5 as indicated in the graph." + note;
     document.getElementById('des1').innerHTML = description;
 }
-
 // nitrogen k
 function makePlotlyNK(x, y1) {
     console.log("Min max = ", Math.min.apply(Math, y1), Math.max.apply(Math, y1));
@@ -418,7 +456,7 @@ function makePlotlyNK(x, y1) {
         {
             x: x,
             y: y1,
-            name: "Nitrogen",
+            name: "Nitrogen Kjeldahl",
             mode: "markers",
             // type:'bar',
             // bar: {
@@ -472,14 +510,13 @@ function makePlotlyNK(x, y1) {
     document.getElementById('des1').innerHTML = description;
 
 }
-
 function makePlotlyP(x, y1) {
     console.log("Min max = ", Math.min.apply(Math, y1), Math.max.apply(Math, y1));
     let traces = [
         {
             x: x,
             y: y1,
-            name: "Nitrogen",
+            name: "TotalPhosphorus",
             mode: "markers",
             // type:'bar',
             // bar: {
@@ -532,15 +569,68 @@ function makePlotlyP(x, y1) {
     description = "The graph shows the amount of Phosphorus level in the water in selected years. The Phosphorus more than 0.5 mg/L is considered as dengerous for the health." + note;
     document.getElementById('des1').innerHTML = description;
 }
+function makePlotlyxy1(x, y1) {
+    let traces = [
+        {
+            x: x,
+            y: y1,
+            name: "",
+            mode: "markers",
+            // type: 'bar',
+        },
+    ];
+
+    let layout = {
+        title: (f1.value).concat(" (mg/L)"),
+        yaxis: {
+            title: f1.value,
+            width: 2,
+
+        },
+        xaxis: {
+            title: "Year",
+            width: 2,
+        },
+    };
+    shapes: [
+        //Line Horizontal
+        {
+            type: 'line',
+            x0: yearFrom.value,
+            y0: 0.5,
+            x1: yearTo.value,
+            y1: 0.5,
+            line: {
+                color: 'rgb(220,20,60)',
+                width: 2,
+                //dash: 'dashdot'
+            }
+
+        },
+    ]
+
+
+    //https://plot.ly/javascript/configuration-options/
+    let config = {
+        responsive: true,
+        // staticPlot: true,
+        // editable: true
+    };
+
+    Plotly.newPlot("plot", traces, layout, config);
+    description = "The graph is plotted for " + f1.value + " (on X) and " + f2.value + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
+    document.getElementById('des1').innerHTML = description;
+
+}
 // Fixed second graph
 function makePlotlyxy2(x, y2) {
     let traces = [
         {
             x: x,
             y: y2,
-            name: "Phosphorus",
-            //mode: "markers",
-            type: 'bar',
+            name: "",
+            mode: "markers",
+            // type: 'bar',
         },
     ];
 
@@ -552,7 +642,7 @@ function makePlotlyxy2(x, y2) {
 
         },
         xaxis: {
-            title: f1.value,
+            title: "Year",
             width: 2,
         },
     };
@@ -592,14 +682,14 @@ function makePlotlyy1y2(y1, y2) {
         {
             x: y1,
             y: y2,
-            name: "Phosphorus",
+            name: f1.value+" vs "+f2.value,
             //mode: "markers",
             type: 'bar',
         },
     ];
 
     let layout = {
-        title: (f2.value).concat(" (mg/L)"),
+        title: "",
         yaxis: {
             title: f2.value,
             width: 2,
@@ -635,9 +725,9 @@ function makePlotlyy1y2(y1, y2) {
         // editable: true
     };
 
-    Plotly.newPlot("plot2", traces, layout, config);
+    Plotly.newPlot("plotInRow", traces, layout, config);
     description = "The graph is plotted for " + f1.value + " (on X) and " + f2.value + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
-    document.getElementById('des2').innerHTML = description;
+    document.getElementById('des3').innerHTML = description;
 
 }
 
@@ -674,7 +764,7 @@ function showMap() {
                 <p>${val2}: ${feature.properties[val2]}<br>
                 </p>`;
         else
-            var html_el = `<h6>Year: ${feature.properties.Year}</h6>
+            var html_el = `<h6>Year: ${feature.propert.csvies.Year}</h6>
                 <p>Phosphorus: ${feature.properties.TotalPhosphorus}<br>
                 Nitrogen: ${feature.properties.TotalNitrogen}<br>
                 Nitrogen_Kjeldahl: ${feature.properties.Nitrogen_Kjeldahl}<br>

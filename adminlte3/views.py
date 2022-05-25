@@ -453,16 +453,17 @@ def upload(request):
 
     if request.method == 'POST':
 
-        uploaded_file = request.FILES['document']
-        fs = FileSystemStorage()
-        fs.delete('data/user_uploaded_data/user_uploaded_csv_file.csv')
-        name = fs.save('data/user_uploaded_data/user_uploaded_csv_file.csv', uploaded_file)
-        print("Filename: ",name)
-        print("File uploaded")
-        context['url'] = fs.url(name)
+        # uploaded_file = request.FILES['document']
+        # fs = FileSystemStorage()
+        # fs.delete('data/user_uploaded_data/user_uploaded_csv_file.csv')
+        # name = fs.save('data/user_uploaded_data/user_uploaded_csv_file.csv', uploaded_file)
+        # print("Filename: ",name)
+        # print("File uploaded")
+        # context['url'] = fs.url(name)
 
         # File operation
-        test_df = pd.read_csv(name)
+        file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
+        test_df = pd.read_csv(file_path)
         print(test_df.shape[1])
 
         # implementing validation
@@ -481,29 +482,38 @@ def upload(request):
             print("Selected model", selectedModel)
 
             if selectedModel == "Random Forest 16F":
-                model = pickle.load(open('ml_models/TotalPhosphorous-RF-All-16F.sav', 'rb'))
+                model = pickle.load(open('ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
+                print(test_df.columns)
+                test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+                    'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
+                    'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids',
+                    'Nitrogen_Kjeldahl']].copy()
                 df_pred = model.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
                 print("File saved RF, prediction generated")
                 # Merging with test dataset
-                df_pred.columns = ['Phosphorus']
+                df_pred.columns = ['TotalPhosphorus']
                 new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
                 new_pred.head()
                 new_pred.to_csv("data/Latest_predictions/predicted_phosphorous.csv", index=False)
                 new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
-                new_pred.to_csv("static/admin-lte/dist/js/predicted_phosphorous.csv", index=False)
+                new_pred.to_csv("adminlte3/static/admin-lte/dist/js/predicted_phosphorous.csv", index=False)
                 new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
                 context = {'file_ready': "File is ready to download."}
 
             elif selectedModel == "XGBoost 5F": #XGBoost 5F
-                model_xg_1 = pickle.load(open('ml_models/TotalPhosphorous-XG-5F.sav', 'rb'))
+                model_xg_1 = pickle.load(open('ml_models/TotalPhosphorous-RF-8F.sav', 'rb'))
+                test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+                     'Population', 'Chloride',
+                    'Nitrite', 'TotalSuspendedSolids',
+                    'Nitrogen_Kjeldahl']]
                 df_pred = model_xg_1.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
                 print("File saved XGBoost I, prediction generated")
                 # Merging with test dataset
-                df_pred.columns = ['Phosphorus']
+                df_pred.columns = ['TotalPhosphorus']
                 new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
                 new_pred.head()
                 new_pred.to_csv("data/Latest_predictions/predicted_phosphorus.csv", index=False)
@@ -533,8 +543,8 @@ def upload(request):
                 model_error_msg = "Something went wrong with selected model";
                 return render(request, 'adminlte/models.html', {'error': model_error_msg})
 
-        fs.delete(name)
-        print("file deleted")
+        # fs.delete(name)
+        # print("file deleted")
     return render(request, 'adminlte/models.html', context)
 
 def predictN(request):
@@ -546,15 +556,18 @@ def predictN(request):
         selectedModel = request.GET.get('select_model')
         print("get's PredictN", selectedModel)
     if request.method == 'POST':
-        uploaded_file = request.FILES['document']
-        fs = FileSystemStorage()
-        name = fs.save(uploaded_file.name, uploaded_file)
-        print("Filename: ",name)
-        print("File uploaded")
-        context['url'] = fs.url(name)
+        # uploaded_file = request.FILES['document']
+        # fs = FileSystemStorage()
+        # name = fs.save(uploaded_file.name, uploaded_file)
+        # print("Filename: ",name)
+        # print("File uploaded")
+        # context['url'] = fs.url(name)
 
         # File operation
-        test_df = pd.read_csv(name)
+        file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
+        test_df = pd.read_csv(file_path)
+        test_df = test_df[['Month', 'pH', 'Population', '10mLandCover_Natural','10mLandCover_AnthropogenicNatural',
+        'TotalSuspendedSolids', 'Conductivity','TotalPhosphorus', 'Chloride', 'Nitrate']]
         print(test_df.shape[1])
 
         # implementing validation
@@ -573,7 +586,7 @@ def predictN(request):
             print("Selected model", selectedModel)
 
             if selectedModel == "Random Forest":
-                model = pickle.load(open('ml_models/TotalNitrogen-RF.sav', 'rb'))
+                model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
                 df_pred = model.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
@@ -584,8 +597,9 @@ def predictN(request):
                 new_pred.head()
                 new_pred.to_csv("data/Latest_predictions/predicted_Nitrogen.csv", index=False)
                 new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
-                new_pred.to_csv("static/admin-lte/dist/js/predicted_Nitrogen.csv", index=False)
+                new_pred.to_csv("adminlte3/static/admin-lte/dist/js/predicted_Nitrogen.csv", index=False)
                 new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
+                context = {'file_ready': "File is ready to download."}
 
 
             elif selectedModel == "Cross Validation":
@@ -595,20 +609,21 @@ def predictN(request):
                 df_pred.to_csv("pred.csv", index=False)
                 print("File saved XGBoost I, prediction generated for N")
                 # Merging with test dataset
-                df_pred.columns = ['Nitrogen']
+                df_pred.columns = ['TotalNitrogen']
                 new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
                 new_pred.head()
                 new_pred.to_csv("data/Latest_predictions/predicted_Nitrogen.csv", index=False)
                 new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
                 new_pred.to_csv("static/admin-lte/dist/js/predicted_Nitrogen.csv", index=False)
                 new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
+                context = {'file_ready': "File is ready to download."}
 
             else:
                 model_error_msg = "Something went wrong with selected model";
                 return render(request, 'adminlte/models.html', {'error': model_error_msg})
 
-        fs.delete(name)
-        print("file deleted")
+        # fs.delete(name)
+        # print("file deleted")
     return render(request, 'adminlte/models.html', context)
 
 
@@ -817,7 +832,7 @@ def advanced(request):
     # map_experiment(request)
     # username = ""
     # username = request.session['username']
-    return render(request, "adminlte/new_page.html")
+    return render(request, "adminlte/analysis.html")
 
 
 def about(request):
@@ -942,6 +957,7 @@ def loginUsingUserCredentials(request):
 def login_after(request):
     username = ""
     print("I am here")
+
     if request.session.has_key('username'):
         print("I am inside if")
         username = request.session['username']
@@ -983,3 +999,9 @@ def validateUploadedFile(request):
     nullvalues = df.isna().sum().sum()
     return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue})
 
+@api_view(('POST',))
+def analysisFilterData(request):
+    yearFrom = request.POST['yearFrom']
+    yearTo = request.POST['yearTo']
+    
+    return Response({'status':'ok...'})

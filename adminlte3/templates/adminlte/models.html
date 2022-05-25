@@ -3,86 +3,6 @@
 
 {% block content %}
 
-
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-<script>
-
-  $(function () {
-
-    var $populationChart = $("#population-chart");
-    $.ajax({
-      url: $populationChart.data("url"),
-      success: function (data) {
-
-        var ctx = $populationChart[0].getContext("2d");
-
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: data.labels,
-            datasets: [{
-              label: 'Phosphorus',
-              backgroundColor: '#0275d8',
-              data: data.data
-            }]
-          },
-          options: {
-            responsive: true,
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Total Phosphorus'
-            }
-          }
-        });
-
-      }
-    });
-
-  });
-
-  $(function () {
-
-    var $populationChart = $("#nitrogen-chart");
-    $.ajax({
-      url: $populationChart.data("url"),
-      success: function (data) {
-
-        var ctx = $populationChart[0].getContext("2d");
-
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: data.labels,
-            datasets: [{
-              label: 'Nitrogen',
-              backgroundColor: '#0275d8',
-              data: data.data
-            }]
-          },
-          options: {
-            responsive: true,
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Total Nitrogen'
-            }
-          }
-        });
-
-      }
-    });
-
-  });
-
-
-</script>
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm">
@@ -107,17 +27,17 @@
             <select class="custom-select" name="selectModel" id="selectModel" value="selectModel"
               onclick="selectModel();">
               <option value="Models">Select ML Models</option>
-              <option id="random_forest" value="XGBoost 5F">Level I(5 Features)</option>
-              <option id="xgboost" value="Random Forest 16F" onclick="">Level II(16 Features)</option>
-              <option id="xgboost" value="XGBoost 19F" onclick="">Level III(19 Features)</option>
+              <option id="random_forest" value="XGBoost 5F">Level I(8 Features)</option>
+              <option id="xgboost" value="Random Forest 16F" onclick="">Level II(11 Features)</option>
+              <!-- <option id="xgboost" value="XGBoost 19F" onclick="">Level III(19 Features)</option> -->
             </select>
           </span>
           <span id="forN" style="display: none;">
             <select class="custom-select" name="selectModel" id="selectModelN" value="selectModel"
               onclick="selectModel();">
               <option value="Models">Select ML Models</option>
-              <option id="random_forest" value="Random Forest">Level I(4 Features)</option>
-              <option id="xgboost" value="Cross Validation" onclick="">Level II(4 Features)</option>
+              <option id="random_forest" value="Random Forest">Level I(10 Features)</option>
+              <!-- <option id="xgboost" value="Cross Validation" onclick="">Level II(4 Features)</option> -->
             </select>
           </span>
 
@@ -141,7 +61,7 @@
               <form method="post" enctype="multipart/form-data" id="predictForm">
                 {% csrf_token %}
 
-                <input type="file" name="document" id="file" onchange="fileValidation();">
+                <!-- <input type="file" name="document" id="file" onchange="fileValidation();"> -->
                 <!-- <button type="submit" class="button btn-link btn-sm mt-2" onclick="OnSubmitForm();">Predict -->
                 <button type="submit" class="button btn-link btn-sm mt-2" onclick="">Predict</button>
             </div>
@@ -294,7 +214,92 @@
   </div>
 </div>
 
-<script src="adminlte3/static/admin-lte/dist/js/post_form.js"></script>
+<!-- <script src="adminlte3/static/admin-lte/dist/js/post_form.js"></script> -->
+
+
+{% endblock %}
+
+{% block javascriptedit %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="static/admin-lte/dist/js/models.js"></script>
+
+<script>
+
+  $(function () {
+
+    var $populationChart = $("#population-chart");
+    $.ajax({
+      url: $populationChart.data("url"),
+      success: function (data) {
+
+        var ctx = $populationChart[0].getContext("2d");
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: data.labels,
+            datasets: [{
+              label: 'Phosphorus',
+              backgroundColor: '#0275d8',
+              data: data.data
+            }]
+          },
+          options: {
+            responsive: true,
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Total Phosphorus'
+            }
+          }
+        });
+
+      }
+    });
+
+  });
+
+  $(function () {
+
+    var $populationChart = $("#nitrogen-chart");
+    $.ajax({
+      url: $populationChart.data("url"),
+      success: function (data) {
+
+        var ctx = $populationChart[0].getContext("2d");
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: data.labels,
+            datasets: [{
+              label: 'Nitrogen',
+              backgroundColor: '#0275d8',
+              data: data.data
+            }]
+          },
+          options: {
+            responsive: true,
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Total Nitrogen'
+            }
+          }
+        });
+
+      }
+    });
+
+  });
+
+
+</script>
 
 
 {% endblock %}

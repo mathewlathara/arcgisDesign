@@ -375,7 +375,7 @@
 
                     success: function (data) {
                         document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
-                        document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" null values.";
+                        document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" empty cells.";
                     },
                     error: function (error) {
                         console.log("Error" + JSON.stringify(error));
