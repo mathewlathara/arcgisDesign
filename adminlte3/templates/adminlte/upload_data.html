@@ -75,6 +75,9 @@
                 <!-- <p id="next1" class="text-right "><a href="#" class="link-primary" aria-disabled="true">Next</a></p> -->
                 <div class="d-flex flex-row-reverse">
                 <button id="next1" type="button" class="btn btn-link " disabled>Next</button>
+                <div class="spinner-border text-primary" role="status" id="uploaddataspinner">
+                    <span class="sr-only">Loading...</span>
+                </div>
                 </div>
             </div>
         </div>
@@ -111,8 +114,12 @@
             <div id="upload_again" class="card-footer text-center" style="display: none">
                 <button class="btn btn-primary">Upload again</button>
             </div>
+            
             <div class="d-flex flex-row-reverse">
                 <button id="next2" type="button" class="btn btn-link " >Next</button>
+                <div class="spinner-border text-primary" role="status" id="fileanalysisspinner">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
         </div>
         <div  id="card3" class="card col-lg-4 mb-4">
@@ -183,8 +190,10 @@
         var fileType = "";
         var file;
         console.log(document.cookie.split('='));
+        $("#uploaddataspinner").hide();
+        $("#fileanalysisspinner").hide();
         document.getElementById("next1").disabled = false;
-        document.getElementById("next2").disabled = false;
+        document.getElementById("next2").disabled = true;
 
 
 
@@ -271,6 +280,8 @@
         });
 
         $('#next1').click(function (){
+            $("#uploaddataspinner").show();
+            $("#next1").hide();
             document.getElementById('card1').classList.remove("border-primary");
             document.getElementById('card2').classList.add("border-primary");
 
@@ -356,12 +367,16 @@
                     document.getElementById("perfect").innerHTML = "All the features are present in the file that are required for prediction."
                     document.getElementById("next2").disabled = false;
                 }
+                $("#uploaddataspinner").hide();
+                $("#next1").show();
             }
             $('#upload_again').click(function() {
                 location.reload();
             });
         });
         $('#next2').click(function (){
+            $("#fileanalysisspinner").show();
+            $("#next2").hide();
             document.getElementById('card2').classList.remove("border-primary");
             document.getElementById('card3').classList.add("border-primary");
 
@@ -378,9 +393,15 @@
                         document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" rows and "+data.shapevalue[1] +  " columns.";
                         document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" missing values/empty cells.";
                         document.getElementById('successmsg').innerHTML = "Your data has successfully preprocessed and uploaded, next step predict the target parameter";
+                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
+                        document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" empty cells.";
+                        $("#fileanalysisspinner").hide();
+                        $("#next2").show();
                     },
                     error: function (error) {
                         console.log("Error" + JSON.stringify(error));
+                        $("#fileanalysisspinner").hide();
+                        $("#next2").show();
                     }
             }); 
         });

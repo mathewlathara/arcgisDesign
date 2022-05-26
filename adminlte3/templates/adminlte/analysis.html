@@ -215,6 +215,9 @@ Analyse
 
 <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
 <script>
+      $(document).ready(function () {
+        plotFromCSV();
+      });
   let dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
         'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
         'pH', 'TotalNitrogen', 'Nitrite', 'TotalPhosphorus', 'Chloride',

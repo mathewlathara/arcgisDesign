@@ -1,16 +1,16 @@
 
 
-var yearFrom;
-var yearTo;
-var f1;
-var f2;
-var station;
+var yearFrom = 2000;
+var yearTo = 2019;
+var f1 = "pH";
+var f2 = "Nitrogen_Kjeldahl";
+var station = '6010400102';
 let des1 = document.getElementById('dec1');
 let des2 = document.getElementById('dec2');
 let standard_type = document.getElementById('standardType');
 var station;
 document.getElementById('getValue').disabled = true;
-var CSV;
+var CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
 
 let standardType = ["ODWQS", "WHO"];
 
