@@ -117,6 +117,9 @@
             
             <div class="d-flex flex-row-reverse">
                 <button id="next2" type="button" class="btn btn-link " >Next</button>
+                <div class="spinner-border text-primary" role="status" id="fileanalysisspinner">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
         </div>
         <div  id="card3" class="card col-lg-4 mb-4">
@@ -187,6 +190,7 @@
         var file;
         console.log(document.cookie.split('='));
         $("#uploaddataspinner").hide();
+        $("#fileanalysisspinner").hide();
         document.getElementById("next1").disabled = false;
         document.getElementById("next2").disabled = true;
 
@@ -370,6 +374,8 @@
             });
         });
         $('#next2').click(function (){
+            $("#fileanalysisspinner").show();
+            $("#next2").hide();
             document.getElementById('card2').classList.remove("border-primary");
             document.getElementById('card3').classList.add("border-primary");
 
@@ -385,9 +391,13 @@
                     success: function (data) {
                         document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
                         document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" empty cells.";
+                        $("#fileanalysisspinner").hide();
+                        $("#next2").show();
                     },
                     error: function (error) {
                         console.log("Error" + JSON.stringify(error));
+                        $("#fileanalysisspinner").hide();
+                        $("#next2").show();
                     }
             }); 
         });
