@@ -287,8 +287,6 @@
                 'TotalPhosphorus' , 'Chloride' , 'Nitrate'];
             var features_in_usecsv = [];
             getData();
-            $("#uploaddataspinner").hide();
-            $("#next1").show();
             async function getData(){
                 let x = [];
                 let y1 = [];
@@ -364,6 +362,8 @@
                     document.getElementById("perfect").innerHTML = "All the features are present in the file that are required for prediction."
                     document.getElementById("next2").disabled = false;
                 }
+                $("#uploaddataspinner").hide();
+                $("#next1").show();
             }
             $('#upload_again').click(function() {
                 location.reload();
