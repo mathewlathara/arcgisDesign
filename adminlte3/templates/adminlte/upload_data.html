@@ -189,6 +189,7 @@
         var visualizeOnMap = "";
         var fileType = "";
         var file;
+        console.log(sessionStorage.getItem("feature"));
         console.log(document.cookie.split('='));
         $("#uploaddataspinner").hide();
         $("#fileanalysisspinner").hide();
@@ -198,13 +199,18 @@
 
 
         $('#OpenImgUpload').click(function () { 
+            if (sessionStorage.getItem('feature')){
+                alert("We already have your data and uploading data again will overwrite the old dataset");
+            }
             if (document.getElementById('tpradiobtn').checked){
                 predictVar = "TotalPhosphorus";
                 document.getElementById('tpParams').style.color = "slateblue";
+                sessionStorage.setItem('feature','tp');
             }
             if (document.getElementById('tnradiobtn').checked){
                 predictVar = "TotalNitrogen";
                 document.getElementById('tnParams').style.color = "slateblue";
+                sessionStorage.setItem('feature','tn');
             }
             if(document.getElementById('visualizeOnMap').checked){
                 visualizeOnMap = "yes";

@@ -43,12 +43,23 @@ function fileValidation() {
 function changeSelectModel(){
     
     if (document.getElementById('predictP').checked){
+        if(sessionStorage.getItem('feature') == 'tp'){
+            console.log("session === ",sessionStorage.getItem('feature'));
         document.getElementById("forN").style.display = "none";
         document.getElementById("forP").style.display = "block";
+        }
+        else{
+            alert("You uploaded file for TotalNitrogen prediction. For predicting TotalPhosphorus, Re-upload CSV file.");
+        }
     }
     if (document.getElementById('predictN').checked){
+        if (sessionStorage.getItem('feature') == 'tn'){
         document.getElementById("forP").style.display = "none";
         document.getElementById("forN").style.display = "block";
+        }
+        else{
+            alert("You uploaded file for TotalPhosphorus prediction. For predicting TotalNitrogen, Re-upload CSV file.");
+        }
     }
 }
 
@@ -92,8 +103,7 @@ function selectModel() {
             document.getElementById("info").innerHTML = model_config;
             document.getElementById("test_ac").innerHTML = "Test accuracy: 85.92%";
 
-            document.getElementById("form_1").style.display = "block";
-            document.getElementById("form_2").style.display = "none";
+            
             $("#selectModel").change(function () {
                 $.ajax({
                     url: '/upload',
@@ -116,8 +126,7 @@ function selectModel() {
             model_config = "Mandatory features: 'pH', '250mLandCover_Natural', 'DissolvedOxygen', 'Population', 'Chloride', 'Nitrite', 'TotalSuspendedSolids','Nitrogen_Kjeldahl' ";
             document.getElementById("info").innerHTML = model_config;
             document.getElementById("test_ac").innerHTML = "Test accuracy: 86.68%";
-            document.getElementById("form_1").style.display = "none";
-            document.getElementById("form_2").style.display = "block";
+            
             $("#selectModel").change(function () {
                 console.log($(this).val());
                 var select_model = $(this).val();
@@ -141,8 +150,8 @@ function selectModel() {
             model_config = "Mandatory features: 'Nitrogen_Kjeldahl', 'TotalSuspendedSolids', 'Nitrate',	'Conductivity',	'DissolvedOxygen', 'pH', 'TotalNitrogen', 'Nitrite', 'Chloride', '10mLandCover_AgriculturalExtraction',	'CensusYear',	'Total Rain (mm) 0day Total,'	'Total Rain (mm) -7day Total',	'Total Rain (mm) -56day Total',	'Total Rain (mm) -3day Total',	'Total Rain (mm) -28day Total',	'Total Rain (mm) -1day Total',	'Total Rain (mm) -14day Total',	'Month'";
             document.getElementById("info").innerHTML = model_config;
             document.getElementById("test_ac").innerHTML = "Test accuracy: 88.05%";
-            document.getElementById("form_1").style.display = "none";
-            document.getElementById("form_2").style.display = "block";
+            // document.getElementById("form_1").style.display = "none";
+            // document.getElementById("form_2").style.display = "block";
             $.ajax({
                 url: '/upload',
                 data: {
@@ -161,8 +170,8 @@ function selectModel() {
         }
         else {
             if (selected_model == "Select Model") {
-                document.getElementById("form_1").style.display = "block";
-                document.getElementById("form_2").style.display = "none";
+                // document.getElementById("form_1").style.display = "block";
+                // document.getElementById("form_2").style.display = "none";
             }
 
         }
@@ -213,8 +222,7 @@ function selectModel() {
             
             document.getElementById("test_ac").innerHTML = "Test accuracy: 88.49%";
 
-            document.getElementById("form_1").style.display = "block";
-            document.getElementById("form_2").style.display = "none";
+           
             $("#selectModel").change(function () {
                 $.ajax({
                     url: '/upload',
@@ -232,8 +240,8 @@ function selectModel() {
             
         }
         else if (selected_model == "Cross Validation") {
-            document.getElementById("form_1").style.display = "none";
-            document.getElementById("form_2").style.display = "block";
+            // document.getElementById("form_1").style.display = "none";
+            // document.getElementById("form_2").style.display = "block";
             $("#selectModel").change(function () {
                 console.log($(this).val());
                 var select_model = $(this).val();
@@ -259,8 +267,8 @@ function selectModel() {
         
         else {
             if (selected_model == "Select Model") {
-                document.getElementById("form_1").style.display = "block";
-                document.getElementById("form_2").style.display = "none";
+                // document.getElementById("form_1").style.display = "block";
+                // document.getElementById("form_2").style.display = "none";
             }
 
         }

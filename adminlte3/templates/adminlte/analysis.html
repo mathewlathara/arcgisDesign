@@ -217,6 +217,8 @@ Analyse
 <script>
       $(document).ready(function () {
         plotFromCSV();
+        console.log(sessionStorage.getItem("file"));
+
       });
   let dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
         'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
