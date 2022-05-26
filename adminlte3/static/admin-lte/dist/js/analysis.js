@@ -1,122 +1,101 @@
-let yearFrom = document.getElementById('yearFrom');
-let yearTo = document.getElementById('yearTo');
-let f1 = document.getElementById('f1');
-let f2 = document.getElementById('f2');
+
+
+var yearFrom;
+var yearTo;
+var f1;
+var f2;
+var station;
 let des1 = document.getElementById('dec1');
 let des2 = document.getElementById('dec2');
 let standard_type = document.getElementById('standardType');
-let station_id = document.getElementById('station');
+var station;
+document.getElementById('getValue').disabled = true;
+var CSV;
 
+let standardType = ["ODWQS", "WHO"];
+
+
+$('#standardType').on('click', '#standardType', function(){
+    var selectboxreturn = "<option value='' selected>Standard</option>";
+    $(standardType).each((index, element) => {
+        // console.log(`current index : ${index} element : ${element}`)
+        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+    });
+    $("#standardType").html(selectboxreturn);
+    console.log($('#standardType').val());
+});
 
 // "From" year dropdown menu
-function yearFromSelect() {
-    // $('#yearFrom').empty();
-
+$('#yearFrom').on('click', function(){
     let currentYear = new Date().getFullYear();
     let earliestYear = 2000;
-    while (currentYear >= earliestYear) {
-        let dateOption = document.createElement('option');
-        dateOption.text = currentYear;
-        dateOption.value = currentYear;
-        yearFrom.add(dateOption);
+      var selectboxreturn = "<option value='' selected disabled>From year</option>";
+      while (currentYear >= earliestYear) {
+        selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
         currentYear -= 1;
-    }
-    $("#yearFrom").change(function () {
-        console.log($(this).val());
-        var yearFrom = $(this).val();
-        $.ajax({
-            url: '/advanced',
-            data: {
-                'yearFrom': yearFrom
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.is_taken) {
-                    alert("A user with this username already exists.");
-                }
-            }
-        });
+      }
+      $("#yearFrom").html(selectboxreturn);
+  });
+  $("#yearFrom").change(function () {
+      console.log("yearFrom === ",$(this).val());
+      globalThis.yearFrom = $(this).val();
+  });
+
+  // "To" year dropdown menu
+  $(document).on('click', '#yearTo', function(){
+      let currentYear = new Date().getFullYear();
+      let earliestYear = 2000;
+        var selectboxreturn = "<option value='' selected disabled>To year</option>";
+        while (currentYear >= earliestYear) {
+          selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
+          currentYear -= 1;
+        }
+        $("#yearTo").html(selectboxreturn);
     });
-}
-
-// "To" year dropdown menu
-function yearToSelect() {
-    // $('#yearTo').empty();
-
-    let currentYear = 2020;//new Date().getFullYear();
-    let earliestYear = (yearFrom.value);
-    while (currentYear >= earliestYear) {
-        let dateOption = document.createElement('option');
-        dateOption.text = currentYear;
-        dateOption.value = currentYear;
-        yearTo.add(dateOption);
-        currentYear -= 1;
-    }
     $("#yearTo").change(function () {
-        console.log($(this).val());
-        var yearTo = $(this).val();
-        $.ajax({
-            url: '/advanced',
-            data: {
-                'yearTo': yearTo
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.is_taken) {
-                    alert("A user with this username already exists.");
-                }
-            }
-        });
-
+        console.log("yearTo === ",$(this).val());
+        globalThis.yearTo = $(this).val();
     });
-}
 
-function standardSelect() {
-    // document.getElementById('standardType').options.length = 0;
-    standardType = ["ODWQS", "WHO"];
-    let i = 0;
-    while (i < standardType.length) {
-        let op = document.createElement('option');
-        op.text = standardType[i];
-        op.value = standardType[i];
-        standard_type.add(op);
-        i = i + 1;
-    }
-}
 // Station selection
-function stationSelect() {
-    let i = 0;
-    stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
-        6010800102, 6010800202, 6011100102, 6011100202, 6011100302,
-        6011100502, 6011100602, 6011100702, 6011100802, 6011200302,
-        6011200602, 6011600102, 6011600202, 6011600502, 6011600602, 988,
-        1328, 1329, 1330, 17002113602, 17002113702, 600010258, 600010708,
-        600013587, 6008000602, 6008000702, 6008200302, 6008300202,
-        6008300402, 6008300902, 6008301202, 6008301802, 6008301902,
-        6008310302, 6008310402, 6008500302, 6008500402, 6008501402,
-        6009400202, 6009700302, 6009700702, 6009701102, 6009701302,
-        6009701802, '6009701802', '6010400102', '6010400802', '6010402302',
-        '6010402502', '6010402602', '6010402702', '6010402802',
-        '6010402902', '6010403702', '6010700202', '7th Concession', '85',
-        'Annadale', 'Brock Ridge', 'CC005', 'Central 1', 'Central 10',
-        'Central 11', 'Central 12', 'Central 2', 'Central 3', 'Central 4',
-        'Central 5', 'Central 6', 'Central 7', 'Central 8', 'Central 9',
-        'East 1', 'East 10', 'East 11', 'East 12', 'East 2', 'East 3',
-        'East 4', 'East 5', 'East 6', 'East 7', 'East 8', 'East 9',
-        'FB003WM', 'PT001WM', 'Paulyn Park', 'Shoal Point', 'West 1',
-        'West 10', 'West 11', 'West 12', 'West 2', 'West 3', 'West 4',
-        'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
-    while (i < stations.length) {
-        let stationOption = document.createElement('option');
-        stationOption.text = stations[i];
-        stationOption.value = stations[i];
-        station_id.add(stationOption);
-        i = i + 1;
-    }
-    i = 0;
-    console.log("Station", station_id.value);
-}
-
+$(document).on('click', '#station', function(){
+    var selectboxreturn = "<option value='' selected>Station</option>";
+    $(stations).each((index, element) => {
+        // console.log(`current index : ${index} element : ${element}`)
+        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+    });
+    $("#station").html(selectboxreturn);
+});
+$("#station").change(function () {
+    console.log("Station === ",$(this).val());
+    globalThis.station = $(this).val();
+});
+// feature on X
+$(document).on('click', '#f1', function(){
+    var selectboxreturn = "<option value='' selected>On X</option>";
+    $(dataColumns).each((index, element) => {
+        // console.log(`current index : ${index} element : ${element}`)
+        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+    });
+    $("#f1").html(selectboxreturn);
+});
+$("#f1").change(function () {
+    console.log("F1 === ",$(this).val());
+    globalThis.f1 = $(this).val();
+});
+// feature on Y
+$(document).on('click', '#f2', function(){
+    var selectboxreturn = "<option value='' selected>On Y</option>";
+    $(dataColumns).each((index, element) => {
+        // console.log(`current index : ${index} element : ${element}`)
+        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+    });
+    $("#f2").html(selectboxreturn);
+});
+$("#f2").change(function () {
+    console.log("F2 === ",$(this).val());
+    globalThis.f2 = $(this).val();
+});
 // const CSV = fetch("./static/admin-lte/dist/js/test.csv");
 // const CSV = "D:\Lambton AIMT\Watershed Management system\django-adminlte3-master\django-adminlte3-master\data\data\df_top_10.csv";
 // const CSV = "D:/Lambton AIMT/Watershed Management system/django-adminlte3-master/django-adminlte3-master/data/data/df_top_10.csv";
@@ -150,7 +129,7 @@ function selectFeature1() {
     //         i = i + 1;
     //     }
     //     i = 0;
-    //     console.log("Feature", f1.value);
+    //     console.log("Feature", f1);
     // }
     dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
         'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
@@ -171,37 +150,7 @@ function selectFeature1() {
         i = i + 1;
     }
     i = 0;
-    console.log("Feature", f1.value);
-}
-function selectFeature2() {
-    // $('#yearFrom').empty();
-
-    // dataColumns = ['pH','Month','Year','CensusYear','Total Rain (mm) 0day Total','Total Rain (mm) -3day Total','Total Rain (mm) -1day Total',
-    //     'TotalNitrogen','Nitrogen_Kjeldahl','TotalPhosphorus'];
-    let i = 0;
-    while (i < dataColumns.length) {
-        let dateOption = document.createElement('option');
-        dateOption.text = dataColumns[i];
-        dateOption.value = dataColumns[i];
-        f2.add(dateOption);
-        i = i + 1;
-    }
-    i = 0;
-    console.log("Feature", f2.value);
-
-    // getData();
-    // async function getData(){
-    //     features_in_usecsv = [];
-    //     const response = await fetch("static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv");
-    //     const data = await response.text();
-    //     const table = data.split('\n');
-    //     column_names = table[0];
-    //     column_names = column_names.split(',');
-    //     for(let i=0; i<column_names.length; i++){
-    //         features_in_usecsv[i] = column_names[i].trimEnd(); 
-    //     }
-    //     dataColumns = features_in_usecsv;
-    // }
+    console.log("Feature", f1);
 }
 //function filterGraphType(){
 //    graphsType = ["scatter", "bar"];
@@ -215,11 +164,61 @@ function selectFeature2() {
 //    }
 //}
 
+// check if year is present in custom data
+function historicaldata(){
+    console.log("Historical Data selected");
+    if (document.getElementById('historicaldata').checked){
+         globalThis.CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+         document.getElementById('getValue').disabled = false;
+    }
+}
+function customdata(){
+    console.log("Custom Data selected");
+    if (document.getElementById('customdata').checked){
+        // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+        getData();
+    }
+}
+// $('#historicaldata').click(function(){
+//     console.log("Historical Data selected");
+//     if (document.getElementById('historicaldata').checked){
+//         const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+//     }
+// });
+// $('#customdata').click(function(){
+//     console.log("Custom Data selected");
+//     if (document.getElementById('customdata').checked){
+//         // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+//         getData();
+//     }
+// });
+async function getData(){
+    let features_in_usecsv = [];
+    const response = await fetch("{% static 'admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv' %}");
+    const data = await response.text();
+    const table = data.split('\n');
+    column_names = table[0];
+    column_names = column_names.split(',');
+    for(let i=0; i<column_names.length; i++){
+        features_in_usecsv[i] = column_names[i].trimEnd(); 
+    }
+    if (features_in_usecsv.indexOf("Year") == -1){
+        alert("Year is not present in uploaded CSV. Try uploading again with 'Year' as a column.");
+        location.reload();
+    }
+    else{
+        globalThis.CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+        document.getElementById('getValue').disabled = false;
+    }
+
+}
 // fetching values from CSV file
 function plotFromCSV() {
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
-    const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
-    // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+    //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+        // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+    console.log("csv selected: ", CSV);
+
     d3.csv(CSV, function (rows) {
         console.log(rows);
         console.log("Data Columns = ", rows.columns);
@@ -232,15 +231,20 @@ function filterRows(row) {
     let feature1 = [];
     let feature2 = [];
     let years = [];
+    console.log("year from:::", yearFrom);
+    console.log("From filter to:", yearTo);
+    console.log("f1 ::", f1);
+    console.log("f2 ::", f2);
+    console.log("station ::",station);
+    console.log("row: ", row);
+    document.getElementById("showfilteroption").innerHTML = "Showing results for year from "+yearFrom+" to "+yearTo+". "+f1+" on X and "+f2+" on Y for station "+station+".";
 
-    console.log("From filter to:", yearTo.value);
-    console.log("row: ", row[2]["TotalPhosphorus"]);
     let i = 0;
     let j = 0;
     while (i < row.length) {
-        if (row[i]["Year"] > yearFrom.value && row[i]["Year"] < yearTo.value){ //&& row[i]["STATION"] == station_id.value) {
-            feature1[j] = row[i][f1.value];
-            feature2[j] = row[i][f2.value];
+        if (row[i]["Year"] > yearFrom && row[i]["Year"] < yearTo && row[i]["STATION"] == station) {
+            feature1[j] = row[i][f1];
+            feature2[j] = row[i][f2];
             years[j] = row[i]["Year"];
 
             j += 1;
@@ -267,7 +271,7 @@ function processData(allRows) {
     years = filteredData[0];
     feature1 = filteredData[1];
     feature2 = filteredData[2];
-    console.log("years", years.length);
+    console.log("years===", years.length);
 
     let i = 0;
     while (i < allRows.length) {
@@ -283,16 +287,16 @@ function processData(allRows) {
     console.log("X", x);
     console.log("Y1", y1);
 
-    if (f1.value == "TotalPhosphorus") {
+    if (f1 == "TotalPhosphorus") {
         makePlotlyP(x, y1);
     }
-    else if (f1.value == "pH") {
+    else if (f1 == "pH") {
         makePlotlyPH(x, y1);
     }
-    else if (f1.value == "Nitrogen_Kjeldahl") {
+    else if (f1 == "Nitrogen_Kjeldahl") {
         makePlotlyNK(x, y1);
     }
-    else if (f1.value == "TotalNitrogen") {
+    else if (f1 == "TotalNitrogen") {
         makePlotlyN(x, y1);
     }
     else {
@@ -308,7 +312,7 @@ note = "\n NOTE: Ontario Drinking Water Quality Standard(ODWQS) and World Health
 // For nitrogen
 function makePlotlyN(x, y1) {
     console.log("Min max = ", Math.min.apply(Math, y1), Math.max.apply(Math, y1));
-    console.log("graph type = ", graphs_type.value);
+    // console.log("graph type = ", graphs_type.value);
     // if (graphs_type.value = null){
     //     graph =  "markers";
     // }
@@ -329,11 +333,11 @@ function makePlotlyN(x, y1) {
     ];
 
     let layout = {
-        title: (f1.value).concat(" (mg/L)"),
+        title: (f1).concat(" (mg/L)"),
         yaxis: {
             // autotick: true,
             // autorange: true,
-            title: f1.value,
+            title: f1,
         },
         xaxis: {
             title: "Years",
@@ -344,9 +348,9 @@ function makePlotlyN(x, y1) {
             //Line Horizontal
             {
                 type: 'line',
-                x0: yearFrom.value,
+                x0: yearFrom,
                 y0: 10,
-                x1: yearTo.value,
+                x1: yearTo,
                 y1: 10,
                 text: ["According to WHO & ODWQS"],
                 line: {
@@ -391,11 +395,11 @@ function makePlotlyPH(x, y1) {
     ];
 
     let layout = {
-        title: (f1.value).concat(" (mg/L)"),
+        title: (f1).concat(" (mg/L)"),
         yaxis: {
             // autotick: true,
             // autorange: true,
-            title: f1.value,
+            title: f1,
         },
         xaxis: {
             title: "Years",
@@ -407,9 +411,9 @@ function makePlotlyPH(x, y1) {
             //Line Horizontal
             {
                 type: 'line',
-                x0: yearFrom.value,
+                x0: yearFrom,
                 y0: 6.5,
-                x1: yearTo.value,
+                x1: yearTo,
                 y1: 6.5,
                 text: ["According to WHO & ODWQS"],
                 line: {
@@ -421,9 +425,9 @@ function makePlotlyPH(x, y1) {
             },
             {
                 type: 'line',
-                x0: yearFrom.value,
+                x0: yearFrom,
                 y0: 8.5,
-                x1: yearTo.value,
+                x1: yearTo,
                 y1: 8.5,
                 text: ["According to WHO & ODWQS"],
                 line: {
@@ -467,11 +471,11 @@ function makePlotlyNK(x, y1) {
     ];
 
     let layout = {
-        title: (f1.value).concat(" (mg/L)"),
+        title: (f1).concat(" (mg/L)"),
         yaxis: {
             // autotick: true,
             // autorange: true,
-            title: f1.value,
+            title: f1,
         },
         xaxis: {
             title: "Years",
@@ -483,9 +487,9 @@ function makePlotlyNK(x, y1) {
         // //Line Horizontal
         //     {
         //       type: 'line',
-        //       x0: yearFrom.value,
+        //       x0: yearFrom,
         //       y0: 6.5,
-        //       x1: yearTo.value,
+        //       x1: yearTo,
         //       y1: 6.5,
         //       line: {
         //         color: 'rgb(220,20,60)',
@@ -527,11 +531,11 @@ function makePlotlyP(x, y1) {
     ];
 
     let layout = {
-        title: (f1.value).concat(" (mg/L)"),
+        title: (f1).concat(" (mg/L)"),
         yaxis: {
             // autotick: true,
             // autorange: true,
-            title: f1.value,
+            title: f1,
         },
         xaxis: {
             title: "Years",
@@ -542,9 +546,9 @@ function makePlotlyP(x, y1) {
             //Line Horizontal
             {
                 type: 'line',
-                x0: yearFrom.value,
+                x0: yearFrom,
                 y0: 0.5,
-                x1: yearTo.value,
+                x1: yearTo,
                 y1: 0.5,
                 line: {
                     color: 'rgb(220,20,60)',
@@ -581,9 +585,9 @@ function makePlotlyxy1(x, y1) {
     ];
 
     let layout = {
-        title: (f1.value).concat(" (mg/L)"),
+        title: (f1).concat(" (mg/L)"),
         yaxis: {
-            title: f1.value,
+            title: f1,
             width: 2,
 
         },
@@ -596,9 +600,9 @@ function makePlotlyxy1(x, y1) {
         //Line Horizontal
         {
             type: 'line',
-            x0: yearFrom.value,
+            x0: yearFrom,
             y0: 0.5,
-            x1: yearTo.value,
+            x1: yearTo,
             y1: 0.5,
             line: {
                 color: 'rgb(220,20,60)',
@@ -618,7 +622,7 @@ function makePlotlyxy1(x, y1) {
     };
 
     Plotly.newPlot("plot", traces, layout, config);
-    description = "The graph is plotted for " + f1.value + " (on X) and " + f2.value + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
+    description = "The graph is plotted for " + f1 + " (on X) and " + f2 + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
     document.getElementById('des1').innerHTML = description;
 
 }
@@ -635,9 +639,9 @@ function makePlotlyxy2(x, y2) {
     ];
 
     let layout = {
-        title: (f2.value).concat(" (mg/L)"),
+        title: (f2).concat(" (mg/L)"),
         yaxis: {
-            title: f2.value,
+            title: f2,
             width: 2,
 
         },
@@ -650,9 +654,9 @@ function makePlotlyxy2(x, y2) {
         //Line Horizontal
         {
             type: 'line',
-            x0: yearFrom.value,
+            x0: yearFrom,
             y0: 0.5,
-            x1: yearTo.value,
+            x1: yearTo,
             y1: 0.5,
             line: {
                 color: 'rgb(220,20,60)',
@@ -672,7 +676,7 @@ function makePlotlyxy2(x, y2) {
     };
 
     Plotly.newPlot("plot2", traces, layout, config);
-    description = "The graph is plotted for " + f1.value + " (on X) and " + f2.value + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
+    description = "The graph is plotted for " + f1 + " (on X) and " + f2 + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
     document.getElementById('des2').innerHTML = description;
 
 }
@@ -682,7 +686,7 @@ function makePlotlyy1y2(y1, y2) {
         {
             x: y1,
             y: y2,
-            name: f1.value+" vs "+f2.value,
+            name: f1+" vs "+f2,
             //mode: "markers",
             type: 'bar',
         },
@@ -691,12 +695,12 @@ function makePlotlyy1y2(y1, y2) {
     let layout = {
         title: "",
         yaxis: {
-            title: f2.value,
+            title: f2,
             width: 2,
 
         },
         xaxis: {
-            title: f1.value,
+            title: f1,
             width: 2,
         },
     };
@@ -704,9 +708,9 @@ function makePlotlyy1y2(y1, y2) {
         //Line Horizontal
         {
             type: 'line',
-            x0: yearFrom.value,
+            x0: yearFrom,
             y0: 0.5,
-            x1: yearTo.value,
+            x1: yearTo,
             y1: 0.5,
             line: {
                 color: 'rgb(220,20,60)',
@@ -726,7 +730,7 @@ function makePlotlyy1y2(y1, y2) {
     };
 
     Plotly.newPlot("plotInRow", traces, layout, config);
-    description = "The graph is plotted for " + f1.value + " (on X) and " + f2.value + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
+    description = "The graph is plotted for " + f1 + " (on X) and " + f2 + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
     document.getElementById('des3').innerHTML = description;
 
 }
@@ -754,8 +758,8 @@ function showMap() {
             return;
         }
         const feature = features[0];
-        const val1 = String(f1.value); //feature 1
-        const val2 = String(f2.value); //feature 2
+        const val1 = String(f1); //feature 1
+        const val2 = String(f2); //feature 2
         console.log("val1=" + val1);
         if (val1 == "TotalPhosphorus" || val2 == "TotalPhosphorus")
             var html_el = `<h6>Year: ${feature.properties.Year}</h6>
@@ -796,8 +800,8 @@ function filter_station_on_map() {
             return;
         }
         const feature = features[0];
-        const val1 = String(f1.value); //feature 1
-        const val2 = String(f2.value); //feature 2
+        const val1 = String(f1); //feature 1
+        const val2 = String(f2); //feature 2
         console.log("val1=" + val1);
         if (val1 == "TotalPhosphorus" || val2 == "TotalPhosphorus")
             var html_el = `<h6>Year: ${feature.properties.Year}</h6>

@@ -127,6 +127,7 @@
                 <p style="color:slateblue">The results wordings or the next map view links will come in this section</p>
                 <p style="color:slateblue" id="shape"></p>
                 <p style="color:slateblue" id="nullvalues"></p>
+                <p style="color:green" id="successmsg"></p>
 
             </div>
             <div class="card-footer text-center">
@@ -374,8 +375,9 @@
                     headers: { "X-CSRFToken": csrftoken },
 
                     success: function (data) {
-                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
-                        document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" empty cells.";
+                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" rows and "+data.shapevalue[1] +  " columns.";
+                        document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" missing values/empty cells.";
+                        document.getElementById('successmsg').innerHTML = "Your data has successfully preprocessed and uploaded, next step predict the target parameter";
                     },
                     error: function (error) {
                         console.log("Error" + JSON.stringify(error));
