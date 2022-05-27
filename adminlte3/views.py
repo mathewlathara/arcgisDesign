@@ -21,7 +21,6 @@ import folium
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
-import urllib.request
 # import geopandas as gpd
 # import shapefile
 
@@ -401,7 +400,7 @@ def upload_file(request):
             df_n = uploaded_csv[['Chloride, Total','Nitrogen; nitrite','Nitrate']].copy()
             df_n = pd.concat([df_n, phosphorus.reindex(df_n.index)], axis=1)
             df_n = df_n.dropna()
-            model_n = pickle.load(open('ml_models/TotalNitrogen-RF.sav', 'rb'))
+            model_n = pickle.load(open(r'/home/disha/Downloads/TotalNitrogen-RF.sav', 'rb'))
             nitrogen = np.round(model_n.predict(df_n),2)
             nitrogen = pd.DataFrame(nitrogen)
             nitrogen.columns = ["Nitrogen"]
@@ -486,8 +485,7 @@ def upload(request):
             print("Selected model", selectedModel)
 
             if selectedModel == "Random Forest 16F":
-                # model = pickle.load(open('ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
-                model = pickle.load(urllib.request.urlopen("https://drive.google.com/open?id=1M7Dt7CpEOtjWdHv_wLNZdkHw5Fxn83vW"))
+                model = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
                 print(test_df.columns)
                 test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                     'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
@@ -529,7 +527,7 @@ def upload(request):
                 # new_pred.to_csv("static/admin-lte/dist/js/predicted_phosphorous.csv", index=False)
 
             elif selectedModel == "XGBoost 19F":
-                model_cv = pickle.load(open('ml_models/TotalPhosphorous-XG-19F.sav', 'rb'))
+                model_cv = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-XG-19F.sav', 'rb'))
                 df_pred = model_cv.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
