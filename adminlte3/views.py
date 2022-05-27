@@ -336,7 +336,7 @@ def predictP(request):
         parameters = [[ph, month, year, cyear, rain0, rainm3, rainm1, nitrogen, nk]]
         param_dict = {}
         print(parameters)
-        model = pickle.load(open('ml_models/forest_reg.sav', 'rb'))
+        model = pickle.load(open(r'/home/disha/Downloads/forest_reg.sav', 'rb'))
         phosphorus = model.predict(parameters)
         print(phosphorus[0])
         return parameters, phosphorus
@@ -354,7 +354,7 @@ def predictP(request):
             # converting data into 2d array
         parameters = [[o2, depth, n, nk, tss]]
         print(parameters)
-        model = pickle.load(open('ml_models/TotalPhosphorous_XG_87.sav', 'rb'))
+        model = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous_XG_87.sav', 'rb'))
         phosphorus = model.predict(parameters)
         print(phosphorus[0])
         return parameters, phosphorus
@@ -388,7 +388,7 @@ def upload_file(request):
             df_p = uploaded_csv[['Oxygen, Dissolved (% Saturation)', 'Depth, Sample (Field)', 'Nitrite', 'Nitrogen, Total Kjeldahl (TKN)', 'Solids, Suspended (TSS)']].copy()
             df_p = df_p.dropna()
             df_p.to_csv("df_p.csv", index=False)
-            model = pickle.load(open('ml_models/TotalPhosphorous_XG_87.sav', 'rb'))
+            model = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous_XG_87.sav', 'rb'))
             phosphorus = np.round(model.predict(df_p),2)
             phosphorus = pd.DataFrame(phosphorus)
             phosphorus.columns = ['Phosphorus']
@@ -506,7 +506,7 @@ def upload(request):
                 context = {'file_ready': "File is ready to download."}
 
             elif selectedModel == "XGBoost 5F": #XGBoost 5F
-                model_xg_1 = pickle.load(open('ml_models/TotalPhosphorous-RF-8F.sav', 'rb'))
+                model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-8F.sav', 'rb'))
                 test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                      'Population', 'Chloride',
                     'Nitrite', 'TotalSuspendedSolids',
@@ -589,7 +589,7 @@ def predictN(request):
             print("Selected model", selectedModel)
 
             if selectedModel == "Random Forest":
-                model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
+                model = pickle.load(open(r'/home/disha/Downloads/TotalNitrogen-RF-10F.sav', 'rb'))
                 df_pred = model.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
@@ -606,7 +606,7 @@ def predictN(request):
 
 
             elif selectedModel == "Cross Validation":
-                model_xg_1 = pickle.load(open('ml_models/TotalNitrogen-SVR.sav', 'rb'))
+                model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalNitrogen-SVR.sav', 'rb'))
                 df_pred = model_xg_1.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
