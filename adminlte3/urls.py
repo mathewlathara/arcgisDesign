@@ -46,7 +46,7 @@ urlpatterns = [
     path("uploaddata/", upload_phosphorus_nitrogen),
     path("save_file",save_file),
     path("plotMap", plotMap),
-    path("prediction", prediction),
+    path("prediction/<str:radioitem>", prediction),
     path("validateUploadedFile", validateUploadedFile),
     path('analysisFilterData', analysisFilterData),
     path("data_source/",datasourcespage),

@@ -16,12 +16,12 @@
             <div class="card-body">
                 <!-- for phosphorus or nitrogen -->
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="tpradiobtn" />
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="1" id="tpradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault1"> Total Phosphorus</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="tnradiobtn" />
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="2" id="tnradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault2"> Total Nitrogen </label>
                 </div>
                 <!-- visualize data on map -->
@@ -412,7 +412,21 @@
             }); 
         });
         $(document).on('click', '#goToPredict', function () {
-            window.location.href = window.location.origin + '/models';
+            // window.location.href = window.location.origin + '/models';
+            var radiosdefault = document.querySelector("input[type='radio'][name=flexRadioDefault]:checked").value;
+            
+            $.ajax({
+                type:"GET",
+                url: '/prediction/' + radiosdefault,
+                headers: { "X-CSRFToken": csrftoken },
+                success: function(data){
+                    console.log("data" + JSON.stringify(data));
+                    // window.location.href = window.location.origin + '/models'
+                },
+                error:function(error){
+                    console.log("Error" + JSON.stringify(error));
+                }
+            });
         });
     });
 </script>

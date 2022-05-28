@@ -22,7 +22,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
 import urllib.request
-import geopandas as gpd
+# import geopandas as gpd
 # import shapefile
 
 
@@ -817,7 +817,8 @@ def map_experiment(request, year):
     return render(request, "adminlte/map_experiment.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
 
 def advanced(request):
-    geoJSON_df_durham =gpd.read_file( "data/Shape files/durham_points_watersheds.shp")
+    # geoJSON_df_durham =gpd.read_file( "data/Shape files/durham_points_watersheds.shp")
+    print("I am here")
     # geoJSON_df_trca = gpd.read_file('/content/drive/MyDrive/Watershed Management system/My Codes/maps/NewTRCARegion/MyMergedGeometries.shp')
 
     context = plotMap()
@@ -996,8 +997,8 @@ def analysisFilterData(request):
     
     return Response({'status':'ok...'})
 
-@api_view(('POST',))
-def prediction(request):
-    a = request.POST['feature']
-    print("feature", a)
+@api_view(('GET',))
+def prediction(request, radioitem):
+    # a = request.POST['feature']
+    print(f"feature-------------{radioitem}")
     return Response({'status':'done'})
