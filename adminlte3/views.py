@@ -22,7 +22,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
 import urllib.request
-# import geopandas as gpd
+import geopandas as gpd
 # import shapefile
 
 
@@ -468,7 +468,16 @@ def upload(request):
         # File operation
         file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
         test_df = pd.read_csv(file_path)
-        print(test_df.shape[1])
+        cols = test_df.shape[1]
+        print(cols)
+        # new approach
+        predictionFeature = ""
+        if cols == 8 : # and predictionFeature == 'tp':
+            pass
+        if cols == 11 : # and predictionFeature == 'tn':
+            pass
+        if predictionFeature == 'tn':
+            pass
 
         # implementing validation
         if (test_df.shape[1] > 20):# or (test_df.shape[1] != 5):
@@ -717,52 +726,32 @@ def showMap(request):
 #     # html = html + "</table>"
 #     return html
 
-def plotMap(featuresSelected):
-    df = pd.read_csv("data/data/Merged-SurfaceWQ.csv")
-    df.to_json("adminlte3/static/admin-lte/dist/js/data/all_features.json")
+def poptext(row):
+  html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>Total Phosphorous: "+ "</a>"
+  iframe  = folium.IFrame(html=html, width=150, height=150)
+  return folium.Popup(iframe)#, max_width=2650)
 
-    # geoJsondf = shapefile.Reader("data/Shape files/durham_points_watersheds.shp")
+# Plot map with markers & choropleth
+def plotMap():
+  df_new = pd.read_csv('data/data/Merged-SurfaceWQ.csv')
 
+  feature_ = folium.FeatureGroup(name='<span style=\\"color: blue;\\">Durham + TRCA Stations</span>')#name='TRCA Jurisdiction')
 
-    # ------locations on map according to given logi and lati in dataset------
-    m1 = folium.Map(
-        # location=[78.92,43.93 ],
-        location=[43.90, -78.79]
-        # tiles='Stamen Terrain',
-        # zoom_start=15,
-    )
-    featuresSelected.append("LATITUDE")
-    featuresSelected.append("LONGITUDE")
-    featuresSelected.append("STATION")
-    df.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me", popup='Oxygen, Dissolved (% Saturation)'+str(row['Oxygen, Dissolved (% Saturation)'])).add_to(m1), axis=1)
-    # crating popup for selected features
-    df_filtered = df[featuresSelected].copy()
-    # df_filtered.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me", popup='Oxygen, Dissolved (% Saturation) = '+str(row['Oxygen, Dissolved (% Saturation)'])).add_to(m1), axis=1)
+  #------locations on map according to given logi and lati in dataset------
+  m1 = folium.Map(
+      location=[43.90, -78.79]
+  )
 
-    # if featuresSelected!=None:
-    #     print("Calling fancy")
-    #     for i in range(0, len(df_filtered)):
-    #         html = fancy_html(i,df_filtered)
-    #
-    #         iframe = branca.element.IFrame(html=html, width=200, height=150)
-    #         popup = folium.Popup(iframe, parse_html=True)
-    #
-    #         folium.Marker([df['LATITUDE'].iloc[i], df['LONGITUDE'].iloc[i]],
-    #                       popup=popup, icon=folium.Icon(color="blue", icon='info-sign')).add_to(m1)
-    # else:
-    #     df.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me", popup='Oxygen, Dissolved (% Saturation)'+str(row['Oxygen, Dissolved (% Saturation)'])).add_to(m1), axis=1)
+  df_new.apply(lambda row:folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
+  # HeatMap(heatMapData.values.tolist(), name="High Phosphorus").add_to(m1)
 
-    # for i in featuresSelected:
-    #     print("feature = ",i)
-    #     df.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me",
-    #                                        popup=i + str(
-    #                                            row[i])).add_to(m1), axis=1)
+  m1.add_child(feature_)
+  m1.add_child(folium.map.LayerControl())
 
-    m1 = m1._repr_html_()
-    context = {
-        'm': m1,
-    }
-    return context
+  m1 = m1._repr_html_()
+  context = {'m': m1,}
+  return context
+
 
 features = []
 def map_experiment(request, year):
@@ -828,16 +817,12 @@ def map_experiment(request, year):
     return render(request, "adminlte/map_experiment.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
 
 def advanced(request):
-    # yearFrom = request.GET.get('yearFrom')
-    # yearTo = request.GET.get('yearTo')
-    # print(yearFrom, yearTo)
+    geoJSON_df_durham =gpd.read_file( "data/Shape files/durham_points_watersheds.shp")
+    # geoJSON_df_trca = gpd.read_file('/content/drive/MyDrive/Watershed Management system/My Codes/maps/NewTRCARegion/MyMergedGeometries.shp')
 
-    # df = pd.read_csv("data/data/df_top_10.csv")
-    # df.head()
-    # map_experiment(request)
-    # username = ""
-    # username = request.session['username']
-    return render(request, "adminlte/analysis.html")
+    context = plotMap()
+    
+    return render(request, "adminlte/analysis.html", context)
 
 
 def about(request):
@@ -1010,3 +995,9 @@ def analysisFilterData(request):
     yearTo = request.POST['yearTo']
     
     return Response({'status':'ok...'})
+
+@api_view(('POST',))
+def prediction(request):
+    a = request.POST['feature']
+    print("feature", a)
+    return Response({'status':'done'})

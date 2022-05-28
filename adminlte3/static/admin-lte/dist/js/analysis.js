@@ -35,15 +35,17 @@ $('#yearFrom').on('click', function(){
         currentYear -= 1;
       }
       $("#yearFrom").html(selectboxreturn);
+
   });
   $("#yearFrom").change(function () {
       console.log("yearFrom === ",$(this).val());
       globalThis.yearFrom = $(this).val();
+    //   $("#fromyearlabel").text($(this).val());
   });
 
   // "To" year dropdown menu
   $(document).on('click', '#yearTo', function(){
-      let currentYear = new Date().getFullYear();
+      let currentYear = 2020;
       let earliestYear = 2000;
         var selectboxreturn = "<option value='' selected disabled>To year</option>";
         while (currentYear >= earliestYear) {
@@ -910,4 +912,42 @@ function makePlotForNP(x, y){
 
 
 }
-// plot_np();
+// for map========================================================================================================
+$('#mapButton').on('click', function(){
+    $.ajax({
+        type: 'POST',
+        url: '/plotMap',
+        data: 1000,
+        // contentType: false,
+        // processData: false,
+        headers: { "X-CSRFToken": csrftoken },
+
+        success: function (data) {
+            if (data) {
+                htmlmapdev = "<div class='mt-2' >{{"+data.m+" | safe}}</div>";
+                $('#map').html(htmlmapdiv);
+            } else{
+                console.log("error saving file");
+            }
+        },
+        error: function (error) {
+            console.log("Error" + JSON.stringify(error));
+        }
+    }); 
+});
+
+$('#mapyearselect').on('click', function(){
+    let currentYear = 2020;
+    let earliestYear = 2000;
+      var selectboxreturn = "<option value='' selected disabled>From year</option>";
+      while (currentYear >= earliestYear) {
+        selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
+        currentYear -= 1;
+      }
+      $("#mapyearselect").html(selectboxreturn);
+});
+  $("#mapyearselect").change(function () {
+      console.log("mapyearselect === ",$(this).val());
+      globalThis.yearFrom = $(this).val();
+    //   $("#fromyearlabel").text($(this).val());
+  });
