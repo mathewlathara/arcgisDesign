@@ -1012,7 +1012,7 @@ def prediction(request, radioitem):
         error_msg = "File does not contain required features!"
         fs.delete(name)
         print("Invelid file deleted")
-        return render(request, 'adminlte/models.html', {'error': error_msg})
+        return Response({'error': error_msg})
         # Todo
         # Create console log using js
 
@@ -1054,7 +1054,6 @@ def prediction(request, radioitem):
             new_pred.to_csv("static/admin-lte/dist/js/predicted_Nitrogen.csv", index=False)
             new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
             context = {'file_ready': "File is ready to download."}
-
         else:
             model_error_msg = "Something went wrong with selected model";
             return render(request, 'adminlte/models.html', {'error': model_error_msg})
