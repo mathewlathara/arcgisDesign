@@ -1030,7 +1030,7 @@ def prediction(request, radioitem):
     else:
         if cols == 8 and radioitem == 'tp':
             returnstatus = "success"
-            model_xg_1 = pickle.load(open('ml_models/TotalPhosphorus-RF-8F.sav', 'rb'))
+            model_xg_1 = pickle.load(open('ml_models/TotalPhosphorous-RF-8F.sav', 'rb'))
             test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                     'Population', 'Chloride',
                 'Nitrite', 'TotalSuspendedSolids',
