@@ -16,12 +16,12 @@
             <div class="card-body">
                 <!-- for phosphorus or nitrogen -->
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="tp" id="tpradiobtn" />
+                    <input class="form-check-input selectionradiobutton" type="radio" name="flexRadioDefault" value="tp" id="tpradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault1"> Total Phosphorus</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="tn" id="tnradiobtn" />
+                    <input class="form-check-input selectionradiobutton" type="radio" name="flexRadioDefault" value="tn" id="tnradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault2"> Total Nitrogen </label>
                 </div>
                 <!-- visualize data on map -->
@@ -92,7 +92,7 @@
                 </div>
                 <p style="color:slateblue">For prediction, it is important to check all the features in uploaded file.</p>
                 <p style="color:slateblue">You file results will be shown here after uploading file.</p>
-                <p id="perfect" style="color: green"></p>
+                <p id="perfect" style="color: green; border:3px; border-style:solid; border-color:tomato;"></p>
 
                 <!-- <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="nitrogen">
@@ -130,17 +130,22 @@
                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
                         src="{% static 'admin-lte/assets/img/result_icon_after_analysis.png' %}" alt="...">
                 </div>
-                <p style="color:slateblue">The results wordings or the next map view links will come in this section</p>
-                <p style="color:slateblue" id="shape"></p>
-                <p style="color:slateblue" id="nullvalues"></p>
-                <p style="color:green" id="successmsg"></p>
-                <p style="color:green" id="modelshapesuccess"></p>
-                <p style="color:goldenrod" id="modelshapewarn"></p>
-
+                    <p style="color:slateblue" id="shape"></p>
+                    <p style="color:slateblue" id="nullvalues"></p>
+                <div id="predictionbeforedivid">
+                    <p style="color:green" id="successmsg"></p>
+                    <p style="color:green" id="modelshapesuccess"></p>
+                    <p style="color:goldenrod" id="modelshapewarn"></p>
+                </div>
+                <p style="color: green;" id="modelprocesssuccessfulmessageid">The data was successfully analyzed by the model. Click on <b>Go to predictions</b> to see the detailed report of the analysis</p>
+                <p style="color:red" id="excelnotacceptedbymodelid">Model run was not successful. Check the number of columns of the excel sheet. The model accepts only excel with 8/10/11 columns. All other cases will be rejected by the model. Try reuploading a new excel sheet with the said condition</p>
             </div>
             <div class="card-footer text-center">
                 <button id="runmodelid" class="btn btn-primary">Run model</button>
                 <button id="goToPredict" class="btn btn-success">Go to Predictions</button>
+                <div class="spinner-border text-primary" role="status" id="modelpredictionspinner">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div
         </div>
     </div>
@@ -197,6 +202,10 @@
         $("#uploaddataspinner").hide();
         $("#fileanalysisspinner").hide();
         $("#goToPredict").hide();
+        $("#modelpredictionspinner").hide();
+        $("#modelprocesssuccessfulmessageid").hide();
+        $("#perfect").hide();
+        $("#excelnotacceptedbymodelid").hide();
         document.getElementById("next1").disabled = false;
         document.getElementById("next2").disabled = true;
 
@@ -374,7 +383,9 @@
                     document.getElementById('upload_again').style.display = 'block';
                 }
                 else{
-                    document.getElementById("perfect").innerHTML = "All the features are present in the file that are required for prediction."
+                    $(".selectionradiobutton").prop("disabled", true);
+                    $("#perfect").show();
+                    document.getElementById("perfect").innerHTML = "All the features are present in the file that was uploaded for prediction."
                     document.getElementById("next2").disabled = false;
                 }
                 $("#uploaddataspinner").hide();
@@ -387,6 +398,7 @@
         $('#next2').click(function (){
             $("#fileanalysisspinner").show();
             $("#next2").hide();
+            $("#excelnotacceptedbymodelid").hide();
             document.getElementById('card2').classList.remove("border-primary");
             document.getElementById('card3').classList.add("border-primary");
             var radiosdefault = document.querySelector("input[type='radio'][name=flexRadioDefault]:checked").value;
@@ -423,20 +435,29 @@
         });
         $(document).on('click', '#runmodelid', function () {
             var radiosdefault = document.querySelector("input[type='radio'][name=flexRadioDefault]:checked").value;
+            $("#excelnotacceptedbymodelid").hide();
+            $("#modelpredictionspinner").show();
+            $("#runmodelid").hide();
+            $("#modelshapewarn").hide();
             $.ajax({
                 type:"GET",
                 url: '/prediction/' + radiosdefault,
                 headers: { "X-CSRFToken": csrftoken },
                 success: function(data){
+                    $("#modelpredictionspinner").hide();
                     console.log("data" + JSON.stringify(data));
                     if(data.status == "success"){
                         $("#runmodelid").hide();
                         $("#goToPredict").show();
+                        $("#predictionbeforedivid").hide();
+                        $("#modelprocesssuccessfulmessageid").show();
                     }else{
-                        
+                        $("#runmodelid").show();
+                        $("#excelnotacceptedbymodelid").show();
                     }
                 },
                 error:function(error){
+                    $("#modelpredictionspinner").hide();
                     console.log("Error" + JSON.stringify(error));
                 }
             });

@@ -1087,4 +1087,4 @@ def prediction(request, radioitem):
             context = {'file_ready': "File is ready to download."}
 
     print(f"feature-------------{radioitem}")
-    return Response({'status':returnstatus})
+    return Response({'status':returnstatus,"returncol":cols})
