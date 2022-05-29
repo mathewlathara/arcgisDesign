@@ -21,6 +21,10 @@ import folium
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
+import urllib.request
+from datetime import datetime
+import time
+import math
 # import geopandas as gpd
 # import shapefile
 
@@ -258,6 +262,7 @@ def getModel():
     return accuracy
 
 selectedModel = ""
+
 def result(request):
     # print("result called")
     # reading_csv(request)
@@ -467,7 +472,16 @@ def upload(request):
         # File operation
         file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
         test_df = pd.read_csv(file_path)
-        print(test_df.shape[1])
+        cols = test_df.shape[1]
+        print(cols)
+        # new approach
+        predictionFeature = ""
+        if cols == 8 : # and predictionFeature == 'tp':
+            pass
+        if cols == 11 : # and predictionFeature == 'tn':
+            pass
+        if predictionFeature == 'tn':
+            pass
 
         # implementing validation
         if (test_df.shape[1] > 20):# or (test_df.shape[1] != 5):
@@ -715,52 +729,32 @@ def showMap(request):
 #     # html = html + "</table>"
 #     return html
 
-def plotMap(featuresSelected):
-    df = pd.read_csv("data/data/Merged-SurfaceWQ.csv")
-    df.to_json("adminlte3/static/admin-lte/dist/js/data/all_features.json")
+def poptext(row):
+  html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>Total Phosphorous: "+ "</a>"
+  iframe  = folium.IFrame(html=html, width=150, height=150)
+  return folium.Popup(iframe)#, max_width=2650)
 
-    # geoJsondf = shapefile.Reader("data/Shape files/durham_points_watersheds.shp")
+# Plot map with markers & choropleth
+def plotMap():
+  df_new = pd.read_csv('data/data/Merged-SurfaceWQ.csv')
 
+  feature_ = folium.FeatureGroup(name='<span style=\\"color: blue;\\">Durham + TRCA Stations</span>')#name='TRCA Jurisdiction')
 
-    # ------locations on map according to given logi and lati in dataset------
-    m1 = folium.Map(
-        # location=[78.92,43.93 ],
-        location=[43.90, -78.79]
-        # tiles='Stamen Terrain',
-        # zoom_start=15,
-    )
-    featuresSelected.append("LATITUDE")
-    featuresSelected.append("LONGITUDE")
-    featuresSelected.append("STATION")
-    df.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me", popup='Oxygen, Dissolved (% Saturation)'+str(row['Oxygen, Dissolved (% Saturation)'])).add_to(m1), axis=1)
-    # crating popup for selected features
-    df_filtered = df[featuresSelected].copy()
-    # df_filtered.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me", popup='Oxygen, Dissolved (% Saturation) = '+str(row['Oxygen, Dissolved (% Saturation)'])).add_to(m1), axis=1)
+  #------locations on map according to given logi and lati in dataset------
+  m1 = folium.Map(
+      location=[43.90, -78.79]
+  )
 
-    # if featuresSelected!=None:
-    #     print("Calling fancy")
-    #     for i in range(0, len(df_filtered)):
-    #         html = fancy_html(i,df_filtered)
-    #
-    #         iframe = branca.element.IFrame(html=html, width=200, height=150)
-    #         popup = folium.Popup(iframe, parse_html=True)
-    #
-    #         folium.Marker([df['LATITUDE'].iloc[i], df['LONGITUDE'].iloc[i]],
-    #                       popup=popup, icon=folium.Icon(color="blue", icon='info-sign')).add_to(m1)
-    # else:
-    #     df.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me", popup='Oxygen, Dissolved (% Saturation)'+str(row['Oxygen, Dissolved (% Saturation)'])).add_to(m1), axis=1)
+  df_new.apply(lambda row:folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
+  # HeatMap(heatMapData.values.tolist(), name="High Phosphorus").add_to(m1)
 
-    # for i in featuresSelected:
-    #     print("feature = ",i)
-    #     df.apply(lambda row: folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], tooltip="Click me",
-    #                                        popup=i + str(
-    #                                            row[i])).add_to(m1), axis=1)
+  m1.add_child(feature_)
+  m1.add_child(folium.map.LayerControl())
 
-    m1 = m1._repr_html_()
-    context = {
-        'm': m1,
-    }
-    return context
+  m1 = m1._repr_html_()
+  context = {'m': m1,}
+  return context
+
 
 features = []
 def map_experiment(request, year):
@@ -826,16 +820,13 @@ def map_experiment(request, year):
     return render(request, "adminlte/map_experiment.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
 
 def advanced(request):
-    # yearFrom = request.GET.get('yearFrom')
-    # yearTo = request.GET.get('yearTo')
-    # print(yearFrom, yearTo)
+    # geoJSON_df_durham =gpd.read_file( "data/Shape files/durham_points_watersheds.shp")
+    print("I am here")
+    # geoJSON_df_trca = gpd.read_file('/content/drive/MyDrive/Watershed Management system/My Codes/maps/NewTRCARegion/MyMergedGeometries.shp')
 
-    # df = pd.read_csv("data/data/df_top_10.csv")
-    # df.head()
-    # map_experiment(request)
-    # username = ""
-    # username = request.session['username']
-    return render(request, "adminlte/analysis.html")
+    context = plotMap()
+    
+    return render(request, "adminlte/analysis.html", context)
 
 
 def about(request):
@@ -997,10 +988,20 @@ def save_file(request):
 @api_view(('POST',))
 def validateUploadedFile(request):
     print(request.POST['data'])
+    radiotype = request.POST['selectedradioinput']
+    print(f"radiotype------->" + radiotype)
     df = pd.read_csv('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
     shapevalue = df.shape
     nullvalues = df.isna().sum().sum()
-    return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue})
+    cols = df.shape[1]
+    shapemodeldescription = {"status":"warn","message":"Warning!!! Shape of the excel file might effect the model prediction.","shapegenerated":0}
+    if cols == 8 and radiotype == "tp":
+        shapemodeldescription = {"status":"success", "message":"Total Phosphorous with 8 features","shapegenerated":cols}
+    elif cols == 11 and radiotype == "tp":
+        shapemodeldescription = {"status":"success","message":"Total Phosphorous with 11 features","shapegenerated":cols}
+    elif cols == 10 and radiotype == "tn":
+        shapemodeldescription = {"status":"success","message":"Total Nitrogen with 10 features","shapegenerated":cols}
+    return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue, 'shapedecision':shapemodeldescription})
 
 @api_view(('POST',))
 def analysisFilterData(request):
@@ -1008,3 +1009,105 @@ def analysisFilterData(request):
     yearTo = request.POST['yearTo']
     
     return Response({'status':'ok...'})
+
+@api_view(('GET',))
+def prediction(request, radioitem):
+    # 1 - total phosphorus 2 - total nitrogen
+    # a = request.POST['feature']
+    x = time.time()
+    timestamp = x
+    date_time = datetime.fromtimestamp(timestamp)
+    studydonetime = date_time.strftime("%d %B, %Y %H:%M:%S")
+    file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
+    test_df = pd.read_csv(file_path)
+    cols = test_df.shape[1]
+    returnstatus = "error"
+    modelselectedforanalysis = ""
+    print(f"Test shape -------> {test_df.shape[1]}")
+    studydonefor = ""
+    if radioitem == "tp":
+        studydonefor = "Total Phosphorus"
+    else:
+        studydonefor = "Total Nitrogen"
+
+    # implementing validation
+    if (test_df.shape[1] > 20):# or (test_df.shape[1] != 5):
+        error_msg = "File does not contain required features!"
+        # fs.delete(name)
+        print("Invelid file deleted")
+        return Response({'error': error_msg})
+        # Todo
+        # Create console log using js
+
+    else:
+        if cols == 8 and radioitem == 'tp':
+            modelselectedforanalysis = "TotalPhosphorus-RF-8F"
+            returnstatus = "success"
+            model_xg_1 = pickle.load(open('ml_models/TotalPhosphorus-RF-8F.sav', 'rb'))
+            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+                    'Population', 'Chloride',
+                'Nitrite', 'TotalSuspendedSolids',
+                'Nitrogen_Kjeldahl']]
+            df_pred = model_xg_1.predict(test_df)
+            df_pred = pd.DataFrame(df_pred)
+            df_pred.to_csv("pred.csv", index=False)
+            print("File saved TotalPhosphorus I, prediction generated")
+            # Merging with test dataset
+            df_pred.columns = ['TotalPhosphorus']
+            new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
+            new_pred.head()
+            new_pred.to_csv("data/Latest_predictions/predicted_phosphorus.csv", index=False)
+            new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
+            context = {'file_ready': "File is ready to download."}
+
+        if cols == 11 and radioitem == 'tp':
+            modelselectedforanalysis = "TotalPhosphorus-RF-11"
+            returnstatus = "success"
+            model = pickle.load(urllib.request.urlopen('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
+            print(test_df.columns)
+            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+                'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
+                'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids',
+                'Nitrogen_Kjeldahl']].copy()
+            df_pred = model.predict(test_df)
+            df_pred = pd.DataFrame(df_pred)
+            df_pred.to_csv("pred.csv", index=False)
+            print("File saved RF, prediction generated")
+            # Merging with test dataset
+            df_pred.columns = ['TotalPhosphorus']
+            new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
+            new_pred.head()
+            new_pred.to_csv("data/Latest_predictions/predicted_phosphorous.csv", index=False)
+            new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/predicted_phosphorous.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
+            context = {'file_ready': "File is ready to download."}
+
+        if radioitem == 'tn' and cols == 10:
+            modelselectedforanalysis = "TotalNitrogen-RF-10F"
+            returnstatus = "success"
+            model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
+            df_pred = model.predict(test_df)
+            df_pred = pd.DataFrame(df_pred)
+            df_pred.to_csv("pred.csv", index=False)
+            print("File saved RF, prediction generated For N")
+            # Merging with test dataset
+            df_pred.columns = ['TotalNitrogen']
+            new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
+            new_pred.head()
+            new_pred.to_csv("data/Latest_predictions/predicted_Nitrogen.csv", index=False)
+            new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/predicted_Nitrogen.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
+            context = {'file_ready': "File is ready to download."}
+
+        def hms(seconds):
+            h = seconds // 3600
+            m = seconds % 3600 // 60
+            s = seconds % 3600 % 60
+            return '{:02d} hours {:02d} minutes {:02d} seconds'.format(h, m, s)
+
+    print(f"feature-------------{radioitem}")
+    totaltimetakenformodel = hms(math.trunc(round((time.time() - x), 2)))
+    return Response({'status':returnstatus,"returncol":cols,"modelselectedforanalysis":modelselectedforanalysis, "studydonefor":studydonefor,"studydonetime":studydonetime, "totaltimetakenformodel":totaltimetakenformodel})

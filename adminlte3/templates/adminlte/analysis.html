@@ -31,7 +31,7 @@ Analyse
             </select>
           </span>
           <span>
-            <!-- <label for="year"></label> -->
+            <!-- <p id="fromyearlabel"></p> -->
             <select class="custom-select mt-2" name="year" id="yearTo" onclick="">
               <option value="2021">To year</option>
             </select>
@@ -69,9 +69,9 @@ Analyse
           <div class="col-sm-2">
             <button class="btn btn-outline-primary" id="getValue" onclick="return plotFromCSV();">Filter</button>
           </div>
-          <!-- <div class="col-sm-2 mt-2">
-            <button class="btn btn-outline-primary " id="mapButton" onclick="return showMap();">Map</button>
-          </div> -->
+          <div class="col-sm-2 mt-2">
+            <button class="btn btn-outline-primary " id="mapButton" onclick="">Map</button>
+          </div>
         </li>
       </ul>
     </div>
@@ -138,16 +138,27 @@ Analyse
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 my-auto">
-
+    <div class="col-sm-2 pt-6 pl-5">
       <span>
-
-        <div class="mt-2" id="map" style="width: 100%; height: 400px;">
-
-        </div>
-      </span>
-
+        <select class="custom-select" name="year" id="mapyearselect" value="2021" onclick="">
+          <option value="2021">year</option>
+        </select>
+      </span>   
     </div>
+  </div>
+  <div class="row ">
+      <div class="col-sm-12 my-auto">
+        <span id="map">
+          <div class='mt-2' >{{m | safe}}</div>
+        </span>
+      </div>
+      <!-- <div class="col-sm-2 mt-6 pl-5 position-absolute">
+        <span>
+          <select class="custom-select" name="year" id="mapyearselect" value="2021" onclick="">
+            <option value="2021">year</option>
+          </select>
+        </span>   
+      </div> -->
   </div>
 
 </div>

@@ -54,7 +54,6 @@ coverage.xml
 /env
 /static
 .vscode/
-/data/data/Merged-SurfaceWQ.csv
 /data/data/merged_dataset.csv
 /ml_models
         ml_models/TotalNitrogen-RF.sav

@@ -43,7 +43,10 @@ function fileValidation() {
 function changeSelectModel(){
     
     if (document.getElementById('predictP').checked){
-        if(sessionStorage.getItem('feature') == 'tp'){
+        if(!sessionStorage.getItem('feature')){
+            alert("You have not uploaded file for prediction. Go to Upload Data first!")
+        }
+        else if(sessionStorage.getItem('feature') == 'tp'){
             console.log("session === ",sessionStorage.getItem('feature'));
         document.getElementById("forN").style.display = "none";
         document.getElementById("forP").style.display = "block";
@@ -53,7 +56,10 @@ function changeSelectModel(){
         }
     }
     if (document.getElementById('predictN').checked){
-        if (sessionStorage.getItem('feature') == 'tn'){
+        if(!sessionStorage.getItem('feature')){
+            alert("You have not uploaded file for prediction. Go to Upload Data first!")
+        }
+        else if (sessionStorage.getItem('feature') == 'tn'){
         document.getElementById("forP").style.display = "none";
         document.getElementById("forN").style.display = "block";
         }
@@ -296,6 +302,27 @@ function setModel() {
         }
     });
 
+}
+//After clicking predict
+function onClickPredictbtn(){
+    console.log("onClickPredictbtn");
+    console.log("feature file: ", sessionStorage.getItem('feature'));
+    csrftoken = document.cookie.split('=')[1];
+
+    $.ajax({
+        type: 'post',
+        url: '/prediction',
+        headers: { "X-CSRFToken": csrftoken },
+        data: {
+            'feature': sessionStorage.getItem('feature')
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.success === "done") {
+                console.log('done');
+            }
+        }
+    });
 }
 function OnSubmitForm() {
     setModel();
