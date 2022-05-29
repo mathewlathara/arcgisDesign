@@ -22,6 +22,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
 import urllib.request
+from datetime import datetime
+import time
+import math
 # import geopandas as gpd
 # import shapefile
 
@@ -1012,11 +1015,21 @@ def analysisFilterData(request):
 def prediction(request, radioitem):
     # 1 - total phosphorus 2 - total nitrogen
     # a = request.POST['feature']
+    x = time.time()
+    timestamp = x
+    date_time = datetime.fromtimestamp(timestamp)
+    studydonetime = date_time.strftime("%d %B, %Y %H:%M:%S")
     file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
     test_df = pd.read_csv(file_path)
     cols = test_df.shape[1]
     returnstatus = "error"
+    modelselectedforanalysis = ""
     print(f"Test shape -------> {test_df.shape[1]}")
+    studydonefor = ""
+    if radioitem == "tp":
+        studydonefor = "Total Phosphorus"
+    else:
+        studydonefor = "Total Nitrogen"
 
     # implementing validation
     if (test_df.shape[1] > 20):# or (test_df.shape[1] != 5):
@@ -1029,6 +1042,7 @@ def prediction(request, radioitem):
 
     else:
         if cols == 8 and radioitem == 'tp':
+            modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
             model_xg_1 = pickle.load(open('ml_models/TotalPhosphorous-RF-8F.sav', 'rb'))
             test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
@@ -1049,6 +1063,7 @@ def prediction(request, radioitem):
             context = {'file_ready': "File is ready to download."}
 
         if cols == 11 and radioitem == 'tp':
+            modelselectedforanalysis = "TotalPhosphorus-RF-11"
             returnstatus = "success"
             model = pickle.load(urllib.request.urlopen('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
             print(test_df.columns)
@@ -1071,6 +1086,7 @@ def prediction(request, radioitem):
             context = {'file_ready': "File is ready to download."}
 
         if radioitem == 'tn' and cols == 10:
+            modelselectedforanalysis = "TotalNitrogen-RF-10F"
             returnstatus = "success"
             model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
             df_pred = model.predict(test_df)
@@ -1087,5 +1103,12 @@ def prediction(request, radioitem):
             new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
             context = {'file_ready': "File is ready to download."}
 
+        def hms(seconds):
+            h = seconds // 3600
+            m = seconds % 3600 // 60
+            s = seconds % 3600 % 60
+            return '{:02d} hours {:02d} minutes {:02d} seconds'.format(h, m, s)
+
     print(f"feature-------------{radioitem}")
-    return Response({'status':returnstatus,"returncol":cols})
+    totaltimetakenformodel = hms(math.trunc(round((time.time() - x), 2)))
+    return Response({'status':returnstatus,"returncol":cols,"modelselectedforanalysis":modelselectedforanalysis, "studydonefor":studydonefor,"studydonetime":studydonetime, "totaltimetakenformodel":totaltimetakenformodel})
