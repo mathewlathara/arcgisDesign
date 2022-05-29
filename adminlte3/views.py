@@ -985,10 +985,20 @@ def save_file(request):
 @api_view(('POST',))
 def validateUploadedFile(request):
     print(request.POST['data'])
+    radiotype = request.POST['selectedradioinput']
+    print(f"radiotype------->" + radiotype)
     df = pd.read_csv('adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv')
     shapevalue = df.shape
     nullvalues = df.isna().sum().sum()
-    return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue})
+    cols = df.shape[1]
+    shapemodeldescription = {"status":"warn","message":"Warning!!! Shape of the excel file might effect the model prediction.","shapegenerated":0}
+    if cols == 8 and radiotype == "tp":
+        shapemodeldescription = {"status":"success", "message":"Total Phosphorous with 8 features","shapegenerated":cols}
+    elif cols == 11 and radiotype == "tp":
+        shapemodeldescription = {"status":"success","message":"Total Phosphorous with 11 features","shapegenerated":cols}
+    elif cols == 10 and radiotype == "tn":
+        shapemodeldescription = {"status":"success","message":"Total Nitrogen with 10 features","shapegenerated":cols}
+    return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue, 'shapedecision':shapemodeldescription})
 
 @api_view(('POST',))
 def analysisFilterData(request):
@@ -1003,33 +1013,71 @@ def prediction(request, radioitem):
     # a = request.POST['feature']
     file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
     test_df = pd.read_csv(file_path)
-    test_df = test_df[['Month', 'pH', 'Population', '10mLandCover_Natural','10mLandCover_AnthropogenicNatural',
-    'TotalSuspendedSolids', 'Conductivity','TotalPhosphorus', 'Chloride', 'Nitrate']]
-    print(test_df.shape[1])
+    cols = test_df.shape[1]
+    returnstatus = "error"
+    print(f"Test shape -------> {test_df.shape[1]}")
 
     # implementing validation
     if (test_df.shape[1] > 20):# or (test_df.shape[1] != 5):
         error_msg = "File does not contain required features!"
-        fs.delete(name)
+        # fs.delete(name)
         print("Invelid file deleted")
         return Response({'error': error_msg})
         # Todo
         # Create console log using js
 
     else:
-        # prediction
-        print("Prediction started.....")
-        # selectedModel = request.POST.get("setmodel")
-        print("Selected model", selectedModel)
+        if cols == 8 and radioitem == 'tp':
+            returnstatus = "success"
+            model_xg_1 = pickle.load(open('ml_models/TotalPhosphorus-RF-8F.sav', 'rb'))
+            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+                    'Population', 'Chloride',
+                'Nitrite', 'TotalSuspendedSolids',
+                'Nitrogen_Kjeldahl']]
+            df_pred = model_xg_1.predict(test_df)
+            df_pred = pd.DataFrame(df_pred)
+            df_pred.to_csv("pred.csv", index=False)
+            print("File saved TotalPhosphorus I, prediction generated")
+            # Merging with test dataset
+            df_pred.columns = ['TotalPhosphorus']
+            new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
+            new_pred.head()
+            new_pred.to_csv("data/Latest_predictions/predicted_phosphorus.csv", index=False)
+            new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
+            context = {'file_ready': "File is ready to download."}
 
-        if radioitem == "1":
+        if cols == 11 and radioitem == 'tp':
+            returnstatus = "success"
+            model = pickle.load(urllib.request.urlopen('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
+            print(test_df.columns)
+            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+                'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
+                'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids',
+                'Nitrogen_Kjeldahl']].copy()
+            df_pred = model.predict(test_df)
+            df_pred = pd.DataFrame(df_pred)
+            df_pred.to_csv("pred.csv", index=False)
+            print("File saved RF, prediction generated")
+            # Merging with test dataset
+            df_pred.columns = ['TotalPhosphorus']
+            new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
+            new_pred.head()
+            new_pred.to_csv("data/Latest_predictions/predicted_phosphorous.csv", index=False)
+            new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/predicted_phosphorous.csv", index=False)
+            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
+            context = {'file_ready': "File is ready to download."}
+
+        if radioitem == 'tn' and cols == 10:
+            returnstatus = "success"
             model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
             df_pred = model.predict(test_df)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
             print("File saved RF, prediction generated For N")
             # Merging with test dataset
-            df_pred.columns = ['Nitrogen']
+            df_pred.columns = ['TotalNitrogen']
             new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
             new_pred.head()
             new_pred.to_csv("data/Latest_predictions/predicted_Nitrogen.csv", index=False)
@@ -1038,24 +1086,5 @@ def prediction(request, radioitem):
             new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
             context = {'file_ready': "File is ready to download."}
 
-
-        elif radioitem == "2":
-            model_xg_1 = pickle.load(open('ml_models/TotalNitrogen-SVR.sav', 'rb'))
-            df_pred = model_xg_1.predict(test_df)
-            df_pred = pd.DataFrame(df_pred)
-            df_pred.to_csv("pred.csv", index=False)
-            print("File saved XGBoost I, prediction generated for N")
-            # Merging with test dataset
-            df_pred.columns = ['TotalNitrogen']
-            new_pred = pd.concat([test_df, df_pred.reindex(test_df.index)], axis=1)
-            new_pred.head()
-            new_pred.to_csv("data/Latest_predictions/predicted_Nitrogen.csv", index=False)
-            new_pred.to_csv("data/Latest_predictions/recently_predicted.csv", index=False)
-            new_pred.to_csv("static/admin-lte/dist/js/predicted_Nitrogen.csv", index=False)
-            new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
-            context = {'file_ready': "File is ready to download."}
-        else:
-            model_error_msg = "Something went wrong with selected model";
-            return render(request, 'adminlte/models.html', {'error': model_error_msg})
     print(f"feature-------------{radioitem}")
-    return Response({'status':'done'})
+    return Response({'status':returnstatus})

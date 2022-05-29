@@ -16,12 +16,12 @@
             <div class="card-body">
                 <!-- for phosphorus or nitrogen -->
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="1" id="tpradiobtn" />
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="tp" id="tpradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault1"> Total Phosphorus</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="2" id="tnradiobtn" />
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="tn" id="tnradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault2"> Total Nitrogen </label>
                 </div>
                 <!-- visualize data on map -->
@@ -114,7 +114,6 @@
             <div id="upload_again" class="card-footer text-center" style="display: none">
                 <button class="btn btn-primary">Upload again</button>
             </div>
-            
             <div class="d-flex flex-row-reverse">
                 <button id="next2" type="button" class="btn btn-link " >Next</button>
                 <div class="spinner-border text-primary" role="status" id="fileanalysisspinner">
@@ -135,10 +134,13 @@
                 <p style="color:slateblue" id="shape"></p>
                 <p style="color:slateblue" id="nullvalues"></p>
                 <p style="color:green" id="successmsg"></p>
+                <p style="color:green" id="modelshapesuccess"></p>
+                <p style="color:goldenrod" id="modelshapewarn"></p>
 
             </div>
             <div class="card-footer text-center">
-                <button id="goToPredict" class="btn btn-success">Go to Prediction</button>
+                <button id="runmodelid" class="btn btn-primary">Run model</button>
+                <button id="goToPredict" class="btn btn-success">Go to Predictions</button>
             </div
         </div>
     </div>
@@ -171,6 +173,7 @@
         </div>
     </div>
 </div>
+<input id="modelshapeidafterprocess" type="hidden">
 
 
 
@@ -193,6 +196,7 @@
         console.log(document.cookie.split('='));
         $("#uploaddataspinner").hide();
         $("#fileanalysisspinner").hide();
+        $("#goToPredict").hide();
         document.getElementById("next1").disabled = false;
         document.getElementById("next2").disabled = true;
 
@@ -385,12 +389,12 @@
             $("#next2").hide();
             document.getElementById('card2').classList.remove("border-primary");
             document.getElementById('card3').classList.add("border-primary");
-
+            var radiosdefault = document.querySelector("input[type='radio'][name=flexRadioDefault]:checked").value;
             csrftoken = document.cookie.split('=')[1];
             $.ajax({
                     type: 'POST',
                     url: '/validateUploadedFile',
-                    data: {'data':'1000'},
+                    data: {'data':'1000', 'selectedradioinput': radiosdefault},
                     // contentType: false,
                     // processData: false,
                     headers: { "X-CSRFToken": csrftoken },
@@ -401,6 +405,12 @@
                         document.getElementById('successmsg').innerHTML = "Your data has successfully preprocessed and uploaded, next step predict the target parameter";
                         document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
                         document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" empty cells.";
+                        if(data.shapedecision.status == "success"){
+                            $("#modelshapesuccess").html("The model selected for prediction is : " + data.shapedecision.message);
+                            $("#modelshapeidafterprocess").val(data.shapedecision.shapegenerated)
+                        }else{
+                            $("#modelshapewarn").html(data.shapedecision.message);
+                        }
                         $("#fileanalysisspinner").hide();
                         $("#next2").show();
                     },
@@ -411,23 +421,27 @@
                     }
             }); 
         });
-        $(document).on('click', '#goToPredict', function () {
-            // window.location.href = window.location.origin + '/models';
+        $(document).on('click', '#runmodelid', function () {
             var radiosdefault = document.querySelector("input[type='radio'][name=flexRadioDefault]:checked").value;
-            
             $.ajax({
                 type:"GET",
                 url: '/prediction/' + radiosdefault,
                 headers: { "X-CSRFToken": csrftoken },
                 success: function(data){
                     console.log("data" + JSON.stringify(data));
-                    // window.location.href = window.location.origin + '/models'
+                    if(data.status == "success"){
+                        $("#runmodelid").hide();
+                        $("#goToPredict").show();
+                    }else{
+                        
+                    }
                 },
                 error:function(error){
                     console.log("Error" + JSON.stringify(error));
                 }
             });
         });
+
     });
 </script>
 {% endblock %}
