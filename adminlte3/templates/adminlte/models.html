@@ -10,10 +10,10 @@
         <h3 class="m-0 font-weight-bold text-primary">Study details</h6>
       </div>
       <div class="card-body">
-        <p style="font-size:16px">Parameter selected:</p>
-        <p style="font-size:16px">Model used:</p>
-        <p style="font-size:16px">Study done at:</p>
-        <p style="font-size:16px">Time taken for study:</p>
+        <p style="font-size:16px">Parameter selected: <span id="parameterselectedid" style="color:blue"></span></p>
+        <p style="font-size:16px">Model used: <span id="modelusedid"style="color:blue"></span></p>
+        <p style="font-size:16px">Study done at: <span id="studytimeid" style="color:blue"></span></p>
+        <p style="font-size:16px">Time taken for study: <span id="studytakentimeid" style="font-size:14px; color:blue"></span></p>
       </div>
     </div>
   </div>
@@ -54,7 +54,14 @@
 <script>
 
   $(document).ready(function () {
-    console.log("local storage", sessionStorage.getItem('feature'));
+    var parameterselected = sessionStorage.getItem('parameterselected');
+    var modelused = sessionStorage.getItem('modelused');
+    var studytime = sessionStorage.getItem('studytime');
+    var studytakentime = sessionStorage.getItem('studytakentime');
+    $("#parameterselectedid").html(parameterselected);
+    $("#modelusedid").html(modelused);
+    $("#studytimeid").html(studytime);
+    $("#studytakentimeid").html(studytakentime);
     $(document).on('click', '#gobacktoanalysis', function () {
       window.location.href = window.location.origin + '/uploaddata';
     });

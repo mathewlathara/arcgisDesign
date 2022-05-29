@@ -451,6 +451,10 @@
                         $("#goToPredict").show();
                         $("#predictionbeforedivid").hide();
                         $("#modelprocesssuccessfulmessageid").show();
+                        sessionStorage.setItem('parameterselected',data.studydonefor);
+                        sessionStorage.setItem('modelused',data.modelselectedforanalysis);
+                        sessionStorage.setItem('studytime',data.studydonetime);
+                        sessionStorage.setItem('studytakentime',data.totaltimetakenformodel);
                     }else{
                         $("#runmodelid").show();
                         $("#excelnotacceptedbymodelid").show();
