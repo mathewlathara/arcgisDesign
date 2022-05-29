@@ -259,6 +259,7 @@ def getModel():
     return accuracy
 
 selectedModel = ""
+
 def result(request):
     # print("result called")
     # reading_csv(request)

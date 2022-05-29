@@ -5,232 +5,37 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm">
-      <ul class="list-group">
-        <li class="list-group-item active">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" value="" id="predictP" name="selectpredictmethod" onclick="changeSelectModel();">
-            <label class="form-check-label" for="flexCheckDefault">
-              Predict TotalPhosphorus (mg/L)
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" value="" id="predictN" name="selectpredictmethod" onclick="changeSelectModel();">
-            <label class="form-check-label" for="flexCheckChecked">
-              Predict TotalNitrogen (mg/L)
-            </label>
-          </div>
-        </li>
-
-        <li class="list-group-item active">
-          <span id="forP" style="display: none;">
-            <select class="custom-select" name="selectModel" id="selectModel" value="selectModel"
-              onclick="selectModel();">
-              <option value="Models">Select ML Models</option>
-              <option id="random_forest" value="XGBoost 5F">Level I(8 Features)</option>
-              <option id="xgboost" value="Random Forest 16F" onclick="">Level II(11 Features)</option>
-              <!-- <option id="xgboost" value="XGBoost 19F" onclick="">Level III(19 Features)</option> -->
-            </select>
-          </span>
-          <span id="forN" style="display: none;">
-            <select class="custom-select" name="selectModel" id="selectModelN" value="selectModel"
-              onclick="selectModel();">
-              <option value="Models">Select ML Models</option>
-              <option id="random_forest" value="Random Forest">Level I(10 Features)</option>
-              <!-- <option id="xgboost" value="Cross Validation" onclick="">Level II(4 Features)</option> -->
-            </select>
-          </span>
-
-          <p id="info">{{ file_ready }}</p>
-
-        </li>
-        <!-- <li class="list-group-item" id="m_error">Mean squared error: {{ac1}} </li>
-        <li class="list-group-item" id="r_error">Root Mean Squared error: {{ac2}} </li>
-        <li class="list-group-item" id="train_ac">Train-set score: {{ac3}}</li> -->
-        <li class="list-group-item" id="test_ac">Test score: {{ac4}} %</li>
-        <li class="list-group-item">
-          {% if error %}
-          <div class="alert alert-danger" role="alert">
-            {{error}}
-          </div>
-          {% endif %}
-          <div class="Prediction" id="Prediction">
-            <div class="mx-auto">
-              <!--              <form method="post" enctype="multipart/form-data" id="predictForm" onsubmit="return OnSubmitForm();">-->
-              <form method="post" enctype="multipart/form-data" id="predictForm">
-                {% csrf_token %}
-
-                <!-- <input type="file" name="document" id="file" onchange="fileValidation();"> -->
-                <!-- <button type="submit" class="button btn-link btn-sm mt-2" onclick="OnSubmitForm();">Predict -->
-                <button type="submit" class="button btn-link btn-sm mt-2" onclick="">Predict</button>
-            </div>
-        </li>
-        <li class="list-group-item">
-          <div>
-            <button type="submit" class="button btn-link btn-sm mt-2" onclick="return onClickPredictbtn()">Prediction</button>
-
-          </div>
-        </li>
-
-        {% if file_ready %}
-        <li class="list-group-item">
-          <!-- <form method="get" enctype="application/javascript" action="/table-preview"> -->
-          <button name="Download" class="btn btn-outline-primary" id="csvFileInput">
-            <a href="table-preview">
-              Preview table
-            </a>
-          </button>
-          <!-- </form> -->
-        </li>
-
-        <li class="list-group-item">
-          <!-- <form method="post" action="/download_p" id="downloadForm">
-              {% csrf_token %}
-          <input type="submit" class="btn btn-outline-primary" value="Download">Download</button>
-          </form> -->
-          <a href="static/admin-lte/dist/js/data/recently_predicted.csv" id="d_p">
-            Download Predicted File
-          </a>
-
-        </li>
-
-        <li class="list-group-item">
-          <!-- <form method="post" action="/download_p" id="downloadForm">
-              {% csrf_token %}
-          <input type="submit" class="btn btn-outline-primary" value="Download">Download</button>
-          </form> -->
-          <a href="/uploaddata" id="d_p">
-            Re-upload file to predict another feature
-          </a>
-
-        </li>
-        {% endif %}
-
-
-        <!-- <iframe width='100%' height='325px'
-            src="https://api.mapbox.com/styles/v1/dishacoder/ckwdyhmq45r5816oi98pau694.html?title=false&access_token=pk.eyJ1IjoiZGlzaGFjb2RlciIsImEiOiJja3dkcm80b2MwbTNiMnBvcDVicnRpMXYyIn0.UTc2vYCIeJVk4-GPCxHAkQ&zoomwheel=false#9.15/43.9584/-78.9109"
-            title="durham_region" style="border:none;"></iframe> -->
+    <div class="col-lg-4">
+      <div class="card-header py-3">
+        <h3 class="m-0 font-weight-bold text-primary">Study details</h6>
+      </div>
+      <div class="card-body">
+        <p style="font-size:16px">Parameter selected:</p>
+        <p style="font-size:16px">Model used:</p>
+        <p style="font-size:16px">Study done at:</p>
+        <p style="font-size:16px">Time taken for study:</p>
+      </div>
     </div>
-    <!-- <div class="col-sm">
-      <span id='form_1' style="display: block;">
-        <form method="GET" action="/models">
-          {% csrf_token %}
-          <div class="form-group">
-            <label class="text-primary">Enter parameters</label>
-            <p id="params">Prediction generated for: {{ans}}</p>
-            <p id="ans">Predicted value(mg/L): {{p}}</p>
-            <input type="text" class="form-control" name="feature1" placeholder="pH(1-14)">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature2" placeholder="Month">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature3" placeholder="Year">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature4" placeholder="CensusYear">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature5" placeholder="Total Rain (mm) 0day Total">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature6" placeholder="Total Rain (mm) -3day Total">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature7" placeholder="Total Rain (mm) -1day Total">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature8" placeholder="TotalNitrogen(mg/L)">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature9" placeholder="Nitrogen_Kjeldahl(mg/L)">
-          </div>
-          <div class="container">
-            <div class='row'>
-              <div class="col">
-                <input type="submit" class="btn btn-outline-primary" value="Predict" />
-              </div>
-
-            </div>
-          </div>
-          <p class="text-primary">Phosphorus amount(mg/L): {{p}}</p>
-
-        </form>
-      </span>
-      <span id='form_2' style="display: block;">
-        <form method="GET" action="/models">
-          {% csrf_token %}
-          <div class="form-group">
-            <label class="text-primary">Enter parameters</label>
-            <input type="text" class="form-control" name="feature1" placeholder="Oxygen, Dissolved (% Saturation)">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature2" placeholder="Depth, Sample (Field)', 'Nitrite">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature3" placeholder="Nitrite">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature4" placeholder="Nitrogen, Total Kjeldahl (TKN)">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="feature5" placeholder="Solids, Suspended (TSS)">
-          </div>
-
-          <div class="container">
-            <div class='row'>
-              <div class="col">
-                <input type="submit" class="btn btn-outline-primary" value="Predict" />
-              </div>
-              <div class="col">
-                <input type="submit" class="btn btn-outline-primary" value="Clear fields" onclick="result" />
-              </div>
-            </div>
-          </div>
-          <p class="text-primary">Phosphorus amount(mg/L): {{p}}</p>
-
-        </form>
-      </span>
-
-    </div> -->
-    <div class="col-sm" id="switch">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <div class="card w-100 p-3" data-toggle="popover" title="Phosphorus graph"
-            data-content="The default graph is plotted using pretrained data. It will plotted accoding to your data when you will predict parameter by uploading your data. Please include years to get accurate result.">
-            <div class="card-body w-100 p-3">
-              <canvas id="population-chart" data-url="{% url 'Predicted-variable' %}" height="250"></canvas>
-            </div>
-
-            <!--<iframe width='100%' height='400px' src="https://api.mapbox.com/styles/v1/dishacoder/ckwdry5tr0dpl15lx1yzdaelk.html?title=false&access_token=pk.eyJ1IjoiZGlzaGFjb2RlciIsImEiOiJja3dkcm80b2MwbTNiMnBvcDVicnRpMXYyIn0.UTc2vYCIeJVk4-GPCxHAkQ&zoomwheel=false#4.42/49.12/-79.78" title="Basic" style="border:none;"></iframe>-->
-
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="card w-100 p-3" data-toggle="popover" title="Nitrogen graph"
-            data-content="The default graph is plotted using pretrained data. It will plotted accoding to your data when you will predict parameter by uploading your data. Please include years to get accurate result.">
-            <div class="card-body w-100 p-3">
-              <canvas id="nitrogen-chart" data-url="{% url 'Predicted-nitrogen' %}" height="250"></canvas>
-            </div>
-
-            <!--<iframe width='100%' height='400px' src="https://api.mapbox.com/styles/v1/dishacoder/ckwdry5tr0dpl15lx1yzdaelk.html?title=false&access_token=pk.eyJ1IjoiZGlzaGFjb2RlciIsImEiOiJja3dkcm80b2MwbTNiMnBvcDVicnRpMXYyIn0.UTc2vYCIeJVk4-GPCxHAkQ&zoomwheel=false#4.42/49.12/-79.78" title="Basic" style="border:none;"></iframe>-->
-
-          </div>
-        </li>
-
-      </ul>
-
-
-
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card w-100 p-3" data-toggle="popover" title="Phosphorus graph"
+        data-content="The default graph is plotted using pretrained data. It will plotted accoding to your data when you will predict parameter by uploading your data. Please include years to get accurate result.">
+        <div class="card-body w-100 p-3">
+          <canvas id="population-chart" data-url="{% url 'Predicted-variable' %}" height="250"></canvas>
+        </div>
+      </div>
     </div>
-
-    <!--code fornitrogen-->
-
-
+    <div class="col-lg-6">
+      <div class="card w-100 p-3" data-toggle="popover" title="Nitrogen graph"
+        data-content="The default graph is plotted using pretrained data. It will plotted accoding to your data when you will predict parameter by uploading your data. Please include years to get accurate result.">
+        <div class="card-body w-100 p-3">
+          <canvas id="nitrogen-chart" data-url="{% url 'Predicted-nitrogen' %}" height="250"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<!-- <script src="adminlte3/static/admin-lte/dist/js/post_form.js"></script> -->
 
 
 {% endblock %}
@@ -242,9 +47,9 @@
 
 <script>
 
-$(document).ready(function () {
-  console.log("local storage",sessionStorage.getItem('feature'));
-});
+  $(document).ready(function () {
+    console.log("local storage", sessionStorage.getItem('feature'));
+  });
 
   $(function () {
 
