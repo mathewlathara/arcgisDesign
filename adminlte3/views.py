@@ -1043,7 +1043,7 @@ def prediction(request, radioitem):
         if cols == 8 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
-            model_xg_1 = pickle.load(open('ml_models/TotalPhosphorus-RF-8F.sav', 'rb'))
+            model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-8.sav', 'rb'))
             test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                     'Population', 'Chloride',
                 'Nitrite', 'TotalSuspendedSolids',
@@ -1064,7 +1064,7 @@ def prediction(request, radioitem):
         if cols == 11 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-11"
             returnstatus = "success"
-            model = pickle.load(urllib.request.urlopen('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
+            model = pickle.load(urllib.request.urlopen(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
             print(test_df.columns)
             test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                 'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
@@ -1087,7 +1087,7 @@ def prediction(request, radioitem):
         if radioitem == 'tn' and cols == 10:
             modelselectedforanalysis = "TotalNitrogen-RF-10F"
             returnstatus = "success"
-            model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
+            model = pickle.load(open(r'/home/disha/Downloads/TotalNitrogen-RF-10.sav', 'rb'))
             df_pred = model.predict(test_df)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
