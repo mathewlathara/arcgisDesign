@@ -40,6 +40,7 @@
                         </form>
                 </div>
                 <p id="displayFileName" style="color:red; font-size:12px;">Click on the icon to upload the csv file</p>
+                <p style="color:crimson" id="latitudelongitudemandatoryid">Note!! Latitude and Longitude columns are mandatory in excel sheet</p>
                 <label class="form-label font-weight-normal">
                     <p class="text-justify font-weight-normal">The CSV file must contain columns:
                     <ul >
@@ -92,7 +93,7 @@
                 </div>
                 <p style="color:slateblue">For prediction, it is important to check all the features in uploaded file.</p>
                 <p style="color:slateblue">You file results will be shown here after uploading file.</p>
-                <p id="perfect" style="color: green; border:3px; border-style:solid; border-color:tomato;"></p>
+                <p id="perfect" style="color: green; border:3px; border-style:solid; border-color:green;"></p>
 
                 <!-- <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="nitrogen">
@@ -138,7 +139,7 @@
                     <p style="color:goldenrod" id="modelshapewarn"></p>
                 </div>
                 <p style="color: green;" id="modelprocesssuccessfulmessageid">The data was successfully analyzed by the model. Click on <b>Go to predictions</b> to see the detailed report of the analysis</p>
-                <p style="color:red" id="excelnotacceptedbymodelid">Model run was not successful. Check the number of columns of the excel sheet. The model accepts only excel with 8/10/11 columns. All other cases will be rejected by the model. Try reuploading a new excel sheet with the said condition</p>
+                <p style="color:red" id="excelnotacceptedbymodelid">Model run was not successful. Check the number of columns of the excel sheet. The model accepts only excel with prescribed column conditions. All other cases will be rejected by the model. Try reuploading a new excel sheet with the said condition</p>
             </div>
             <div class="card-footer text-center">
                 <button id="runmodelid" class="btn btn-primary">Run model</button>
@@ -206,6 +207,7 @@
         $("#modelprocesssuccessfulmessageid").hide();
         $("#perfect").hide();
         $("#excelnotacceptedbymodelid").hide();
+        $("#latitudelongitudemandatoryid").hide();
         document.getElementById("next1").disabled = false;
         document.getElementById("next2").disabled = true;
 
@@ -415,7 +417,7 @@
                         document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" rows and "+data.shapevalue[1] +  " columns.";
                         document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" missing values/empty cells.";
                         document.getElementById('successmsg').innerHTML = "Your data has successfully preprocessed and uploaded, next step predict the target parameter";
-                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
+                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" rows and "+data.shapevalue[1] +  " columns.";
                         document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" empty cells.";
                         if(data.shapedecision.status == "success"){
                             $("#modelshapesuccess").html("The model selected for prediction is : " + data.shapedecision.message);
@@ -469,6 +471,20 @@
 
         $(document).on('click', '#goToPredict', function(){
             window.location.href = window.location.origin + '/models';
+        });
+
+        
+        $("#visualizeOnMap").change("click", function () {
+            
+            if (this.checked)
+                {
+                    $("#latitudelongitudemandatoryid").show();
+                }
+            if (!this.checked)
+                {
+                    $("#latitudelongitudemandatoryid").hide();
+
+                }
         });
 
     });
