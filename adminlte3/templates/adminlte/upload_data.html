@@ -40,6 +40,7 @@
                         </form>
                 </div>
                 <p id="displayFileName" style="color:red; font-size:12px;">Click on the icon to upload the csv file</p>
+                <p style="color:crimson" id="latitudelongitudemandatoryid">Note!! Latitude and Longitude columns are mandatory in excel sheet</p>
                 <label class="form-label font-weight-normal">
                     <p class="text-justify font-weight-normal">The CSV file must contain columns:
                     <ul >
@@ -92,7 +93,7 @@
                 </div>
                 <p style="color:slateblue">For prediction, it is important to check all the features in uploaded file.</p>
                 <p style="color:slateblue">You file results will be shown here after uploading file.</p>
-                <p id="perfect" style="color: green; border:3px; border-style:solid; border-color:tomato;"></p>
+                <p id="perfect" style="color: green; border:3px; border-style:solid; border-color:green;"></p>
 
                 <!-- <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="nitrogen">
@@ -112,7 +113,7 @@
                 <p class="text-primary" id="csv_result"></p>
             </div>
             <div id="upload_again" class="card-footer text-center" style="display: none">
-                <button class="btn btn-primary">Upload again</button>
+                <button class="btn btn-primary" id="parametermissinguploadagainbutton">Upload again</button>
             </div>
             <div class="d-flex flex-row-reverse">
                 <button id="next2" type="button" class="btn btn-link " >Next</button>
@@ -138,11 +139,12 @@
                     <p style="color:goldenrod" id="modelshapewarn"></p>
                 </div>
                 <p style="color: green;" id="modelprocesssuccessfulmessageid">The data was successfully analyzed by the model. Click on <b>Go to predictions</b> to see the detailed report of the analysis</p>
-                <p style="color:red" id="excelnotacceptedbymodelid">Model run was not successful. Check the number of columns of the excel sheet. The model accepts only excel with 8/10/11 columns. All other cases will be rejected by the model. Try reuploading a new excel sheet with the said condition</p>
+                <p style="color:red" id="excelnotacceptedbymodelid">Model run was not successful. Check the number of columns of the excel sheet. The model accepts only excel with prescribed column conditions. All other cases will be rejected by the model. Try reuploading a new excel sheet with the said condition</p>
             </div>
             <div class="card-footer text-center">
                 <button id="runmodelid" class="btn btn-primary">Run model</button>
                 <button id="goToPredict" class="btn btn-success">Go to Predictions</button>
+                <button id="rerunmodeloferrorid" class="btn btn-danger">Re-do analysis</button>
                 <div class="spinner-border text-primary" role="status" id="modelpredictionspinner">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -206,6 +208,8 @@
         $("#modelprocesssuccessfulmessageid").hide();
         $("#perfect").hide();
         $("#excelnotacceptedbymodelid").hide();
+        $("#latitudelongitudemandatoryid").hide();
+        $("#rerunmodeloferrorid").hide();
         document.getElementById("next1").disabled = false;
         document.getElementById("next2").disabled = true;
 
@@ -364,6 +368,7 @@
                 console.log("missing features: ",missing);
                 
                 if (missing.length != 0){
+                    $("#parametermissinguploadagainbutton").show();
                     if (document.getElementById('missing_features')){
                         $('#missing_features').empty();
                     }
@@ -383,6 +388,8 @@
                     document.getElementById('upload_again').style.display = 'block';
                 }
                 else{
+                    $("#missing_features").hide();
+                    $("#parametermissinguploadagainbutton").hide();
                     $(".selectionradiobutton").prop("disabled", true);
                     $("#perfect").show();
                     document.getElementById("perfect").innerHTML = "All the features are present in the file that was uploaded for prediction."
@@ -415,7 +422,7 @@
                         document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" rows and "+data.shapevalue[1] +  " columns.";
                         document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" missing values/empty cells.";
                         document.getElementById('successmsg').innerHTML = "Your data has successfully preprocessed and uploaded, next step predict the target parameter";
-                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" and "+data.shapevalue[1] +  " columns.";
+                        document.getElementById('shape').innerHTML = "Your CSV file contains "+data.shapevalue[0]+" rows and "+data.shapevalue[1] +  " columns.";
                         document.getElementById('nullvalues').innerHTML = "The file contains "+data.nullvalues+" empty cells.";
                         if(data.shapedecision.status == "success"){
                             $("#modelshapesuccess").html("The model selected for prediction is : " + data.shapedecision.message);
@@ -462,6 +469,8 @@
                 },
                 error:function(error){
                     $("#modelpredictionspinner").hide();
+                    $("#rerunmodeloferrorid").show();
+                    alert("Unexpected error occured while running the model. Please try again.");
                     console.log("Error" + JSON.stringify(error));
                 }
             });
@@ -469,6 +478,24 @@
 
         $(document).on('click', '#goToPredict', function(){
             window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#rerunmodeloferrorid', function(){
+            window.location.href = window.location.origin + '/uploaddata';
+        });
+
+        
+        $("#visualizeOnMap").change("click", function () {
+            
+            if (this.checked)
+                {
+                    $("#latitudelongitudemandatoryid").show();
+                }
+            if (!this.checked)
+                {
+                    $("#latitudelongitudemandatoryid").hide();
+
+                }
         });
 
     });

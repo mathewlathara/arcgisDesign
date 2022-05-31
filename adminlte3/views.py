@@ -26,6 +26,7 @@ import urllib.request
 from datetime import datetime
 import time
 import math
+from django.http import FileResponse
 # import geopandas as gpd
 # import shapefile
 
@@ -1012,12 +1013,16 @@ def validateUploadedFile(request):
     shapevalue = df.shape
     nullvalues = df.isna().sum().sum()
     cols = df.shape[1]
+    modeloptionforphosphorusmodel = 0
+    if set(['Total Rain (mm) -7day Total','Nitrate','TotalNitrogen']).issubset(df.columns):
+        print("I am here")
+        modeloptionforphosphorusmodel = 1
     shapemodeldescription = {"status":"warn","message":"Warning!!! Shape of the excel file might effect the model prediction.","shapegenerated":0}
-    if cols == 8 and radiotype == "tp":
+    if modeloptionforphosphorusmodel == 0 and radiotype == "tp":
         shapemodeldescription = {"status":"success", "message":"Total Phosphorous with 8 features","shapegenerated":cols}
-    elif cols == 11 and radiotype == "tp":
+    elif modeloptionforphosphorusmodel == 1 and radiotype == "tp":
         shapemodeldescription = {"status":"success","message":"Total Phosphorous with 11 features","shapegenerated":cols}
-    elif cols == 10 and radiotype == "tn":
+    elif radiotype == "tn":
         shapemodeldescription = {"status":"success","message":"Total Nitrogen with 10 features","shapegenerated":cols}
     return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue, 'shapedecision':shapemodeldescription})
 
@@ -1039,6 +1044,11 @@ def prediction(request, radioitem):
     file_path = 'adminlte3/static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv'
     test_df = pd.read_csv(file_path)
     cols = test_df.shape[1]
+    modeloptionforphosphorusmodel = 0
+    if set(['Total Rain (mm) -7day Total','Nitrate','TotalNitrogen']).issubset(test_df.columns):
+        print("I am here")
+        modeloptionforphosphorusmodel = 1
+
     returnstatus = "error"
     modelselectedforanalysis = ""
     print(f"Test shape -------> {test_df.shape[1]}")
@@ -1058,7 +1068,7 @@ def prediction(request, radioitem):
         # Create console log using js
 
     else:
-        if cols == 8 and radioitem == 'tp':
+        if modeloptionforphosphorusmodel == 0 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
             model_xg_1 = pickle.load(open('ml_models/TotalPhosphorous-RF-8F.sav', 'rb'))
@@ -1079,10 +1089,10 @@ def prediction(request, radioitem):
             new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
             context = {'file_ready': "File is ready to download."}
 
-        if cols == 11 and radioitem == 'tp':
+        if modeloptionforphosphorusmodel == 1 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-11"
             returnstatus = "success"
-            model = pickle.load(urllib.request.urlopen('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
+            model = pickle.load(open('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
             print(test_df.columns)
             test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                 'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
@@ -1102,7 +1112,7 @@ def prediction(request, radioitem):
             new_pred.to_csv("adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv", index=False)
             context = {'file_ready': "File is ready to download."}
 
-        if radioitem == 'tn' and cols == 10:
+        if radioitem == 'tn':
             modelselectedforanalysis = "TotalNitrogen-RF-10F"
             returnstatus = "success"
             model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
@@ -1129,3 +1139,9 @@ def prediction(request, radioitem):
     print(f"feature-------------{radioitem}")
     totaltimetakenformodel = hms(math.trunc(round((time.time() - x), 2)))
     return Response({'status':returnstatus,"returncol":cols,"modelselectedforanalysis":modelselectedforanalysis, "studydonefor":studydonefor,"studydonetime":studydonetime, "totaltimetakenformodel":totaltimetakenformodel})
+
+def download_predictedfile(request):
+    filename = "adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv"
+    response = FileResponse(open(filename, 'rb'))
+    return response
+    
