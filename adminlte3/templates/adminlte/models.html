@@ -66,6 +66,13 @@
     $(document).on('click', '#gobacktoanalysis', function () {
       window.location.href = window.location.origin + '/uploaddata';
     });
+    $(document).on('click', '#DownloadResults', function () {
+      let a= document.createElement('a');
+      a.target= '_blank';
+      a.href= '/download_predictedfile';
+      a.click();
+      // window.location.href = '/download_predictedfile';
+    });
   });
 
   $(function () {
