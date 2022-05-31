@@ -25,6 +25,7 @@ import urllib.request
 from datetime import datetime
 import time
 import math
+from django.http import FileResponse
 # import geopandas as gpd
 # import shapefile
 
@@ -1121,3 +1122,9 @@ def prediction(request, radioitem):
     print(f"feature-------------{radioitem}")
     totaltimetakenformodel = hms(math.trunc(round((time.time() - x), 2)))
     return Response({'status':returnstatus,"returncol":cols,"modelselectedforanalysis":modelselectedforanalysis, "studydonefor":studydonefor,"studydonetime":studydonetime, "totaltimetakenformodel":totaltimetakenformodel})
+
+def download_predictedfile(request):
+    filename = "adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv"
+    response = FileResponse(open(filename, 'rb'))
+    return response
+    
