@@ -113,7 +113,7 @@
                 <p class="text-primary" id="csv_result"></p>
             </div>
             <div id="upload_again" class="card-footer text-center" style="display: none">
-                <button class="btn btn-primary">Upload again</button>
+                <button class="btn btn-primary" id="parametermissinguploadagainbutton">Upload again</button>
             </div>
             <div class="d-flex flex-row-reverse">
                 <button id="next2" type="button" class="btn btn-link " >Next</button>
@@ -368,6 +368,7 @@
                 console.log("missing features: ",missing);
                 
                 if (missing.length != 0){
+                    $("#parametermissinguploadagainbutton").show();
                     if (document.getElementById('missing_features')){
                         $('#missing_features').empty();
                     }
@@ -387,6 +388,8 @@
                     document.getElementById('upload_again').style.display = 'block';
                 }
                 else{
+                    $("#missing_features").hide();
+                    $("#parametermissinguploadagainbutton").hide();
                     $(".selectionradiobutton").prop("disabled", true);
                     $("#perfect").show();
                     document.getElementById("perfect").innerHTML = "All the features are present in the file that was uploaded for prediction."
