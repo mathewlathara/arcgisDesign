@@ -18,6 +18,7 @@ from pandas.core.frame import DataFrame
 from django.http import JsonResponse
 import re
 import folium
+from folium.plugins import HeatMap
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
@@ -731,13 +732,28 @@ def showMap(request):
 #     return html
 
 def poptext(row):
-  html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>Total Phosphorous: "+ "</a>"
-  iframe  = folium.IFrame(html=html, width=150, height=150)
+  html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>TotalNitrogen: "+ str(row['TotalNitrogen'])+ "</b><br>"+"<br>Year: "+ str(row['Year']) +"</a>"
+  iframe  = folium.IFrame(html=html, width=200, height=200)
   return folium.Popup(iframe)#, max_width=2650)
 
 # Plot map with markers & choropleth
-def plotMap():
-  df_new = pd.read_csv('data/data/Merged-SurfaceWQ.csv')
+@api_view(('GET',))
+def getYearForAnalysisMap(request):
+    if request.GET['year']:
+        year = request.GET['year']
+        global yearForMap
+        yearForMap = int(year)
+        print("Year in plotMap: ",year)
+    return Response({'status':'done'})
+
+yearForMap = 2010
+def plotMap(yearForMap):
+  print("Global Year: ", yearForMap)
+  df_new = pd.read_csv('data/data/TP-Organic-11-InputData-With-LAT-LONG-STAT-Year.csv')
+  df_new = df_new[df_new['Year'] == yearForMap]
+#   if "TotalNitrogen" in df_new.columns:
+#     high_tp = df_new[df_new['TotalNitrogen'] > 5.0]
+#     HeatMap(high_tp.values.tolist(), name="High Phosphorus").add_to(m1)
 
   feature_ = folium.FeatureGroup(name='<span style=\\"color: blue;\\">Durham + TRCA Stations</span>')#name='TRCA Jurisdiction')
 
@@ -746,7 +762,7 @@ def plotMap():
       location=[43.90, -78.79]
   )
 
-  df_new.apply(lambda row:folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
+  df_new.apply(lambda row:folium.Marker(location=[row["Latitude"], row["Longitude"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
   # HeatMap(heatMapData.values.tolist(), name="High Phosphorus").add_to(m1)
 
   m1.add_child(feature_)
@@ -825,7 +841,8 @@ def advanced(request):
     print("I am here")
     # geoJSON_df_trca = gpd.read_file('/content/drive/MyDrive/Watershed Management system/My Codes/maps/NewTRCARegion/MyMergedGeometries.shp')
 
-    context = plotMap()
+    context = plotMap(yearForMap)
+    context['year'] = yearForMap
     
     return render(request, "adminlte/analysis.html", context)
 

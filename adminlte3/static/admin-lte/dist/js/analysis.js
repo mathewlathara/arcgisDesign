@@ -40,7 +40,7 @@ $('#yearFrom').on('click', function(){
   $("#yearFrom").change(function () {
       console.log("yearFrom === ",$(this).val());
       globalThis.yearFrom = $(this).val();
-    //   $("#fromyearlabel").text($(this).val());
+      $("#yearFrom").html("<option value='"+currentYear+"'>"+yearFrom+"</option>");
   });
 
   // "To" year dropdown menu
@@ -211,6 +211,7 @@ async function getData(){
     else{
         globalThis.CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
         document.getElementById('getValue').disabled = false;
+        dataColumns = features_in_usecsv;
     }
 
 }
@@ -948,6 +949,21 @@ $('#mapyearselect').on('click', function(){
 });
   $("#mapyearselect").change(function () {
       console.log("mapyearselect === ",$(this).val());
-      globalThis.yearFrom = $(this).val();
-    //   $("#fromyearlabel").text($(this).val());
+      var mapYear = 2010;
+      mapYear = $(this).val();
+      $.ajax({
+        type: 'get',
+        url: '/getYearForAnalysisMap',
+        data: {'year': mapYear},
+        // contentType: false,
+        // processData: false,
+        headers: { "X-CSRFToken": csrftoken },
+
+        success: function (data) {
+          console.log(data.status);
+        },
+        error: function (error) {
+            console.log("Error" + JSON.stringify(error));
+        }
+});
   });
