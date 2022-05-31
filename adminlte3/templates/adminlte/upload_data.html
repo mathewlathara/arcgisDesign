@@ -144,6 +144,7 @@
             <div class="card-footer text-center">
                 <button id="runmodelid" class="btn btn-primary">Run model</button>
                 <button id="goToPredict" class="btn btn-success">Go to Predictions</button>
+                <button id="rerunmodeloferrorid" class="btn btn-danger">Re-run model</button>
                 <div class="spinner-border text-primary" role="status" id="modelpredictionspinner">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -208,6 +209,7 @@
         $("#perfect").hide();
         $("#excelnotacceptedbymodelid").hide();
         $("#latitudelongitudemandatoryid").hide();
+        $("#rerunmodeloferrorid").hide();
         document.getElementById("next1").disabled = false;
         document.getElementById("next2").disabled = true;
 
@@ -464,6 +466,8 @@
                 },
                 error:function(error){
                     $("#modelpredictionspinner").hide();
+                    $("#rerunmodeloferrorid").show();
+                    alert("Unexpected error occured while running the model. Please try again.");
                     console.log("Error" + JSON.stringify(error));
                 }
             });
@@ -471,6 +475,10 @@
 
         $(document).on('click', '#goToPredict', function(){
             window.location.href = window.location.origin + '/models';
+        });
+
+        $(document).on('click', '#rerunmodeloferrorid', function(){
+            window.location.href = window.location.origin + '/uploaddata';
         });
 
         
