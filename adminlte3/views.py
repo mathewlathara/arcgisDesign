@@ -1073,7 +1073,7 @@ def prediction(request, radioitem):
         if modeloptionforphosphorusmodel == 1 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-11"
             returnstatus = "success"
-            model = pickle.load(open('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
+            model = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
             print(test_df.columns)
             test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                 'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
