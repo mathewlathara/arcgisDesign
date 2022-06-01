@@ -15,7 +15,7 @@ var CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv
 let standardType = ["ODWQS", "WHO"];
 
 function standardDropdownBox() {
-    var selectboxreturn = "<option value='' disabled selected>Standard</option>";
+    var selectboxreturn = "<option value='' disabled selected>Select standard</option>";
     $(standardType).each((index, element) => {
         console.log(`current index : ${index} element : ${element}`);
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
@@ -26,7 +26,7 @@ function standardDropdownBox() {
 function yearFromDropDown() {
     let currentYear = new Date().getFullYear();
     let earliestYear = 2000;
-    var selectboxreturn = "<option value='' selected disabled>From year</option>";
+    var selectboxreturn = "<option value='' selected disabled>Select from year</option>";
     while (currentYear >= earliestYear) {
         selectboxreturn += "<option value='" + currentYear + "'>" + currentYear + "</option>";
         currentYear -= 1;
@@ -47,7 +47,7 @@ $("#yearFrom").change(function () {
 function yearToDropDown() {
     let currentYear = 2020;
     let earliestYear = 2000;
-    var selectboxreturn = "<option value='' selected disabled>To year</option>";
+    var selectboxreturn = "<option value='' selected disabled>Select to year</option>";
     while (currentYear >= earliestYear) {
         selectboxreturn += "<option value='" + currentYear + "'>" + currentYear + "</option>";
         currentYear -= 1;
@@ -61,7 +61,7 @@ $("#yearTo").change(function () {
 
 // Station selection
 function stationIdSelectbox() {
-    var selectboxreturn = "<option value='' selected>Station</option>";
+    var selectboxreturn = "<option value='' selected>Select station</option>";
     $(stations).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
@@ -74,7 +74,7 @@ $("#station").change(function () {
 });
 // feature on X
 function f1Selectbox() {
-    var selectboxreturn = "<option value='' selected>On X</option>";
+    var selectboxreturn = "<option value='' selected>Select X axis</option>";
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
@@ -89,7 +89,7 @@ $("#f1").change(function () {
 });
 // feature on Y
 function f2Selectbox() {
-    var selectboxreturn = "<option value='' selected>On Y</option>";
+    var selectboxreturn = "<option value='' selected>Select Y axis</option>";
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
