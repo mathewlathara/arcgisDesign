@@ -315,12 +315,14 @@ Analyse
     var stationSelectbox = stationIdSelectbox();
     var f1selectbox = f1Selectbox();
     var f2selectbox = f2Selectbox();
+    var mapselectdropdown = mapSelectDropDown();
     $("#standardType").html(standardropdown);
     $("#yearFrom").html(yearfromDropDown);
     $("#yearTo").html(yeartoDropDown);
     $("#station").html(stationSelectbox);
     $("#f1").html(f1selectbox);
     $("#f2").html(f2selectbox);
+    $("#mapyearselect").html(mapselectdropdown);
     csrftoken = document.cookie.split('=')[1];
     data = {'yearFrom':yearFrom.value, 'yearTo':yearTo.value, 'f1':f1.value, 'f2':f2.value};
     $('#getValue').click(function(){

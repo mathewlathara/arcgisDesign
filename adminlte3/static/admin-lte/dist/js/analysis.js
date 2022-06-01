@@ -92,7 +92,7 @@ function f2Selectbox() {
     var selectboxreturn = "<option value='' selected>On Y</option>";
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
-        selectboxreturn += "<option value='" + element + "'>" + element + "</option>"; 
+        selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
     });
     return selectboxreturn;
 }
@@ -941,7 +941,7 @@ $('#mapButton').on('click', function () {
     });
 });
 
-$('#mapyearselect').on('click', function () {
+function mapSelectDropDown() {
     let currentYear = 2020;
     let earliestYear = 2000;
     var selectboxreturn = "<option value='' selected disabled>From year</option>";
@@ -949,8 +949,9 @@ $('#mapyearselect').on('click', function () {
         selectboxreturn += "<option value='" + currentYear + "'>" + currentYear + "</option>";
         currentYear -= 1;
     }
-    $("#mapyearselect").html(selectboxreturn);
-});
+    return selectboxreturn;
+}
+
 $("#mapyearselect").change(function () {
     console.log("mapyearselect === ", $(this).val());
     var mapYear = 2010;
