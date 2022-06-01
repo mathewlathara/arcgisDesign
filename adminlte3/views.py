@@ -739,9 +739,14 @@ def showMap(request):
 #     return html
 
 def poptext(row):
-  html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>TotalNitrogen: "+ str(row['TotalNitrogen'])+ "</b><br>"+"<br>Year: "+ str(row['Year']) +"</a>"
-  iframe  = folium.IFrame(html=html, width=200, height=200)
-  return folium.Popup(iframe)#, max_width=2650)
+  if row['TotalNitrogen']:
+    html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>TotalNitrogen: "+ str(row['TotalNitrogen'])+ "</b><br>"+"<br>Year: "+ str(row['Year']) +"</a>"
+    iframe  = folium.IFrame(html=html, width=200, height=200)
+    return folium.Popup(iframe)#, max_width=2650)
+  else:
+    html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>TotalPhosphorus: "+ str(row['TotalPhosphorus'])+ "</b><br>"+"<br>Year: "+ str(row['Year']) +"</a>"
+    iframe  = folium.IFrame(html=html, width=200, height=200)
+    return folium.Popup(iframe)#, max_width=2650)
 
 # Plot map with markers & choropleth
 @api_view(('GET',))
@@ -755,28 +760,32 @@ def getYearForAnalysisMap(request):
 
 yearForMap = 2010
 def plotMap(yearForMap):
-  print("Global Year: ", yearForMap)
-  df_new = pd.read_csv('data/data/TP-Organic-11-InputData-With-LAT-LONG-STAT-Year.csv')
-  df_new = df_new[df_new['Year'] == yearForMap]
-#   if "TotalNitrogen" in df_new.columns:
-#     high_tp = df_new[df_new['TotalNitrogen'] > 5.0]
-#     HeatMap(high_tp.values.tolist(), name="High Phosphorus").add_to(m1)
+  context = {}
+  try:
+    print("Global Year: ", yearForMap)
+    df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
+    df_new = df_new[df_new['Year'] == yearForMap]
+    #   if "TotalNitrogen" in df_new.columns:
+    #     high_tp = df_new[df_new['TotalNitrogen'] > 5.0]
+    #     HeatMap(high_tp.values.tolist(), name="High Phosphorus").add_to(m1)
 
-  feature_ = folium.FeatureGroup(name='<span style=\\"color: blue;\\">Durham + TRCA Stations</span>')#name='TRCA Jurisdiction')
+    feature_ = folium.FeatureGroup(name='<span style=\\"color: blue;\\">Durham + TRCA Stations</span>')#name='TRCA Jurisdiction')
 
-  #------locations on map according to given logi and lati in dataset------
-  m1 = folium.Map(
-      location=[43.90, -78.79]
-  )
+    #------locations on map according to given logi and lati in dataset------
+    m1 = folium.Map(
+        location=[43.90, -78.79]
+    )
 
-  df_new.apply(lambda row:folium.Marker(location=[row["Latitude"], row["Longitude"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
-  # HeatMap(heatMapData.values.tolist(), name="High Phosphorus").add_to(m1)
+    df_new.apply(lambda row:folium.Marker(location=[row["Latitude"], row["Longitude"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
+    # HeatMap(heatMapData.values.tolist(), name="High Phosphorus").add_to(m1)
 
-  m1.add_child(feature_)
-  m1.add_child(folium.map.LayerControl())
+    m1.add_child(feature_)
+    m1.add_child(folium.map.LayerControl())
 
-  m1 = m1._repr_html_()
-  context = {'m': m1,}
+    m1 = m1._repr_html_()
+    context = {'m': m1,}
+  except:
+    context['error'] = "File does not have Latitude and Longitude"
   return context
 
 

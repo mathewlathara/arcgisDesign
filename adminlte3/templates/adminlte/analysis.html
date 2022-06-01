@@ -145,7 +145,13 @@ Analyse
           <option value="2021">year</option>
         </select>
       </span>  
-      <span><p>Showing result for year {{year}}</p></span> 
+      <span>
+        {% if error %}
+          <p style="color: red">{{error}}</p> 
+        {% else %}
+          <p>Showing result for year {{year}}</p>
+        {% endif %}
+      </span> 
     </div>
     <div class="col-sm-2">
       <form action="/advanced">
