@@ -40,7 +40,7 @@ $('#yearFrom').on('click', function(){
   $("#yearFrom").change(function () {
       console.log("yearFrom === ",$(this).val());
       globalThis.yearFrom = $(this).val();
-    //   $("#fromyearlabel").text($(this).val());
+      $("#yearFrom").html("<option value='"+currentYear+"'>"+yearFrom+"</option>");
   });
 
   // "To" year dropdown menu
@@ -195,8 +195,9 @@ function customdata(){
 //     }
 // });
 async function getData(){
+    console.log("in get data");
     let features_in_usecsv = [];
-    const response = await fetch("{% static 'admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv' %}");
+    const response = await fetch("static/admin-lte/dist/js/data/recently_predicted.csv");
     const data = await response.text();
     const table = data.split('\n');
     column_names = table[0];
@@ -204,13 +205,15 @@ async function getData(){
     for(let i=0; i<column_names.length; i++){
         features_in_usecsv[i] = column_names[i].trimEnd(); 
     }
+    console.log("custom data columns: ", features_in_usecsv);
     if (features_in_usecsv.indexOf("Year") == -1){
         alert("Year is not present in uploaded CSV. Try uploading again with 'Year' as a column.");
-        location.reload();
+        //location.reload();
     }
     else{
         globalThis.CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
         document.getElementById('getValue').disabled = false;
+        dataColumns = features_in_usecsv;
     }
 
 }
@@ -335,7 +338,7 @@ function makePlotlyN(x, y1) {
     ];
 
     let layout = {
-        title: (f1).concat(" (mg/L)"),
+        title: (f1).concat(" "),
         yaxis: {
             // autotick: true,
             // autorange: true,
@@ -397,7 +400,7 @@ function makePlotlyPH(x, y1) {
     ];
 
     let layout = {
-        title: (f1).concat(" (mg/L)"),
+        title: (f1).concat(" "),
         yaxis: {
             // autotick: true,
             // autorange: true,
@@ -473,7 +476,7 @@ function makePlotlyNK(x, y1) {
     ];
 
     let layout = {
-        title: (f1).concat(" (mg/L)"),
+        title: (f1).concat(" "),
         yaxis: {
             // autotick: true,
             // autorange: true,
@@ -533,7 +536,7 @@ function makePlotlyP(x, y1) {
     ];
 
     let layout = {
-        title: (f1).concat(" (mg/L)"),
+        title: (f1).concat(" "),
         yaxis: {
             // autotick: true,
             // autorange: true,
@@ -587,7 +590,7 @@ function makePlotlyxy1(x, y1) {
     ];
 
     let layout = {
-        title: (f1).concat(" (mg/L)"),
+        title: (f1).concat(" "),
         yaxis: {
             title: f1,
             width: 2,
@@ -641,7 +644,7 @@ function makePlotlyxy2(x, y2) {
     ];
 
     let layout = {
-        title: (f2).concat(" (mg/L)"),
+        title: (f2).concat(" "),
         yaxis: {
             title: f2,
             width: 2,
@@ -948,6 +951,21 @@ $('#mapyearselect').on('click', function(){
 });
   $("#mapyearselect").change(function () {
       console.log("mapyearselect === ",$(this).val());
-      globalThis.yearFrom = $(this).val();
-    //   $("#fromyearlabel").text($(this).val());
+      var mapYear = 2010;
+      mapYear = $(this).val();
+      $.ajax({
+        type: 'get',
+        url: '/getYearForAnalysisMap',
+        data: {'year': mapYear},
+        // contentType: false,
+        // processData: false,
+        headers: { "X-CSRFToken": csrftoken },
+
+        success: function (data) {
+          console.log(data.status);
+        },
+        error: function (error) {
+            console.log("Error" + JSON.stringify(error));
+        }
+});
   });

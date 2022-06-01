@@ -16,8 +16,10 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from pandas.core.frame import DataFrame
 from django.http import JsonResponse
+from sklearn.preprocessing import StandardScaler
 import re
 import folium
+from folium.plugins import HeatMap
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import UserRegistration
@@ -242,15 +244,21 @@ def predictedPhosphorus(request):
     nitrogen = []
 
     global df
-    df = pd.read_csv(open('pred_alt.csv', 'rt', encoding='utf8'))
+    df = pd.read_csv(open('data/Latest_predictions/recently_predicted.csv', 'rt', encoding='utf8'))
     df_ = df.sort_values(by=['Year'])
     df_ = df_.groupby('Year').mean().reset_index()
     df_ = DataFrame(df_)
 
-    for index, row in df_.iterrows():
-        phosphorous.append(row['Phosphorus'])
-        Year.append(row['Year'])
-        nitrogen.append(row['TotalNitrogen'])
+    if "TotalPhosphorus" in df_.columns:
+        for index, row in df_.iterrows():
+            phosphorous.append(row['TotalPhosphorus'])
+            Year.append(row['Year'])
+            # nitrogen.append(row['TotalNitrogen'])
+    if "TotalNitrogen" in df_.columns:
+        for index, row in df_.iterrows():
+            phosphorous.append(row['TotalNitrogen'])
+            Year.append(row['Year'])
+            # nitrogen.append(row['TotalNitrogen'])
 
     return Year, phosphorous, nitrogen
 
@@ -731,13 +739,28 @@ def showMap(request):
 #     return html
 
 def poptext(row):
-  html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>Total Phosphorous: "+ "</a>"
-  iframe  = folium.IFrame(html=html, width=150, height=150)
+  html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>TotalNitrogen: "+ str(row['TotalNitrogen'])+ "</b><br>"+"<br>Year: "+ str(row['Year']) +"</a>"
+  iframe  = folium.IFrame(html=html, width=200, height=200)
   return folium.Popup(iframe)#, max_width=2650)
 
 # Plot map with markers & choropleth
-def plotMap():
-  df_new = pd.read_csv('data/data/Merged-SurfaceWQ.csv')
+@api_view(('GET',))
+def getYearForAnalysisMap(request):
+    if request.GET['year']:
+        year = request.GET['year']
+        global yearForMap
+        yearForMap = int(year)
+        print("Year in plotMap: ",year)
+    return Response({'status':'done'})
+
+yearForMap = 2010
+def plotMap(yearForMap):
+  print("Global Year: ", yearForMap)
+  df_new = pd.read_csv('data/data/TP-Organic-11-InputData-With-LAT-LONG-STAT-Year.csv')
+  df_new = df_new[df_new['Year'] == yearForMap]
+#   if "TotalNitrogen" in df_new.columns:
+#     high_tp = df_new[df_new['TotalNitrogen'] > 5.0]
+#     HeatMap(high_tp.values.tolist(), name="High Phosphorus").add_to(m1)
 
   feature_ = folium.FeatureGroup(name='<span style=\\"color: blue;\\">Durham + TRCA Stations</span>')#name='TRCA Jurisdiction')
 
@@ -746,7 +769,7 @@ def plotMap():
       location=[43.90, -78.79]
   )
 
-  df_new.apply(lambda row:folium.Marker(location=[row["LATITUDE"], row["LONGITUDE"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
+  df_new.apply(lambda row:folium.Marker(location=[row["Latitude"], row["Longitude"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
   # HeatMap(heatMapData.values.tolist(), name="High Phosphorus").add_to(m1)
 
   m1.add_child(feature_)
@@ -825,7 +848,8 @@ def advanced(request):
     print("I am here")
     # geoJSON_df_trca = gpd.read_file('/content/drive/MyDrive/Watershed Management system/My Codes/maps/NewTRCARegion/MyMergedGeometries.shp')
 
-    context = plotMap()
+    context = plotMap(yearForMap)
+    context['year'] = yearForMap
     
     return render(request, "adminlte/analysis.html", context)
 
@@ -1054,11 +1078,13 @@ def prediction(request, radioitem):
             modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
             model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-8.sav', 'rb'))
-            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+            test_df_ = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                     'Population', 'Chloride',
                 'Nitrite', 'TotalSuspendedSolids',
                 'Nitrogen_Kjeldahl']]
-            df_pred = model_xg_1.predict(test_df)
+            sc = StandardScaler().fit(test_df_)
+            test_df_ = sc.transform(test_df_)
+            df_pred = model_xg_1.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
             print("File saved TotalPhosphorus I, prediction generated")
@@ -1076,11 +1102,13 @@ def prediction(request, radioitem):
             returnstatus = "success"
             model = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
             print(test_df.columns)
-            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+            test_df_ = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                 'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
                 'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids',
                 'Nitrogen_Kjeldahl']].copy()
-            df_pred = model.predict(test_df)
+            sc = StandardScaler().fit(test_df_)
+            test_df_ = sc.transform(test_df_)
+            df_pred = model.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
             print("File saved RF, prediction generated")
@@ -1098,7 +1126,11 @@ def prediction(request, radioitem):
             modelselectedforanalysis = "TotalNitrogen-RF-10F"
             returnstatus = "success"
             model = pickle.load(open(r'/home/disha/Downloads/TotalNitrogen-RF-10.sav', 'rb'))
-            df_pred = model.predict(test_df)
+            test_df_ = test_df[['Month', 'pH', 'Population', '10mLandCover_Natural', '10mLandCover_AnthropogenicNatural', 'TotalSuspendedSolids', 'Conductivity'
+                , 'TotalPhosphorus', 'Chloride', 'Nitrate']]
+            sc = StandardScaler().fit(test_df_)
+            test_df_ = sc.transform(test_df_)
+            df_pred = model.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
             print("File saved RF, prediction generated For N")

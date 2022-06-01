@@ -11,7 +11,7 @@ Analyse
   <div class="row pt-3">
 
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="historicaldata" onclick="historicaldata()" />
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="historicaldata" onclick="historicaldata()" checked/>
       <label class="form-check-label" for="flexRadioDefault1"> Analyse our historical data</label>
     </div>
 
@@ -70,7 +70,7 @@ Analyse
             <button class="btn btn-outline-primary" id="getValue" onclick="return plotFromCSV();">Filter</button>
           </div>
           <div class="col-sm-2 mt-2">
-            <button class="btn btn-outline-primary " id="mapButton" onclick="">Map</button>
+            <!-- <button class="btn btn-outline-primary " id="mapButton" onclick="">Map</button> -->
           </div>
         </li>
       </ul>
@@ -137,13 +137,20 @@ Analyse
       </span>
     </div>
   </div>
-  <div class="row">
+  <hr>
+  <div class="row mt-3">
     <div class="col-sm-2 pt-6 pl-5">
       <span>
-        <select class="custom-select" name="year" id="mapyearselect" value="2021" onclick="">
+        <select class="custom-select yearFrom" name="year" id="mapyearselect" value="2021" onclick="">
           <option value="2021">year</option>
         </select>
-      </span>   
+      </span>  
+      <span><p>Showing result for year {{year}}</p></span> 
+    </div>
+    <div class="col-sm-2">
+      <form action="/advanced">
+        <button type="submit" class="btn btn-primary">Get</button>
+      </form>
     </div>
   </div>
   <div class="row ">
@@ -151,14 +158,7 @@ Analyse
         <span id="map">
           <div class='mt-2' >{{m | safe}}</div>
         </span>
-      </div>
-      <!-- <div class="col-sm-2 mt-6 pl-5 position-absolute">
-        <span>
-          <select class="custom-select" name="year" id="mapyearselect" value="2021" onclick="">
-            <option value="2021">year</option>
-          </select>
-        </span>   
-      </div> -->
+      </div> 
   </div>
 
 </div>
@@ -221,14 +221,42 @@ Analyse
 <script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 <script type="text/javascript" src="static/admin-lte/dist/js/analysis.js"></script>
-
-
-
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin-lte/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'admin-lte/bootstrap/js/sb-admin-2.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js "></script>
+<script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
+<script src="https://js.arcgis.com/4.23/"></script>
+<script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
 <script>
       $(document).ready(function () {
         plotFromCSV();
-        console.log(sessionStorage.getItem("file"));
+
+        $('.yearFrom').on('click', function(){
+    let currentYear = new Date().getFullYear();
+    let earliestYear = 2000;
+      var selectboxreturn = "<option value='' selected disabled>From year</option>";
+      while (currentYear >= earliestYear) {
+        selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
+        currentYear -= 1;
+      }
+      $(".yearFrom").html(selectboxreturn);
+
+  });
+        
+        $(".yearFrom").html(yearselectbox);
+
+        $("#mapyearselect").on('change', function () {
+            var yearselected = $(this).val();
+            console.log("year select: ", yearselected);
+        });
+
 
       });
   let dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',

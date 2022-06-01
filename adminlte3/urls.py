@@ -4,7 +4,7 @@ from .views import index, result, about, upload_file, dashboard_m, yearlyBarChar
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
     logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, \
-    datasourcespage, contact_us_page, validateUploadedFile, analysisFilterData, new_index_page, plotMap, prediction, download_predictedfile
+    datasourcespage, contact_us_page, validateUploadedFile, analysisFilterData, new_index_page, plotMap, prediction, getYearForAnalysisMap, download_predictedfile
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 urlpatterns = [
@@ -20,6 +20,7 @@ urlpatterns = [
     path('predictN', predictN, name="predictN"),
     path('models', showMap),
     path('advanced', advanced, name='advanced'),
+    path('getYearForAnalysisMap',getYearForAnalysisMap),
     path('map_ex/<str:year>', map_experiment, name="map_ex"),
     path('about', about, name="about"),
     
