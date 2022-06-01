@@ -26,12 +26,14 @@ Analyse
       <ul class="list-group list-group-horizontal-xl">
         <li class="list-group-item">
           <span>
+            <label class="form-check-label">From year</label>
             <select class="custom-select" name="year" id="yearFrom" value="2021" onclick="">
               <option value="2021">From year</option>
             </select>
           </span>
           <span>
             <!-- <p id="fromyearlabel"></p> -->
+            <label class="form-check-label">To year</label>
             <select class="custom-select mt-2" name="year" id="yearTo" onclick="">
               <option value="2021">To year</option>
             </select>
@@ -39,6 +41,7 @@ Analyse
         </li>
         <li class="list-group-item">
           <span>
+            <label class="form-check-label">Standard</label>
             <!-- <label for="year"></label> -->
             <select class="custom-select" name="year" id="standardType" >
               <option value="2021"> Standard </option>
@@ -46,6 +49,7 @@ Analyse
           </span>
           <span>
             <!-- <label for="year"></label> -->
+            <label class="form-check-label">Station</label>
             <select class="custom-select mt-2" name="station" id="station" >
               <option value="2021"> Station </option>
             </select>
@@ -54,12 +58,14 @@ Analyse
         <li class="list-group-item">
           <span>
             <!-- <label for=""></label> -->
+            <label class="form-check-label">On X-axis</label>
             <select class="custom-select" name="year" id="f1">
               <option value="">On X</option>
             </select>
           </span>
           <span>
             <!-- <label for=""></label> -->
+            <label class="form-check-label">On Y-axis</label>
             <select class="custom-select mt-2" name="year" id="f2">
               <option value="">On Y</option>
             </select>
@@ -241,30 +247,7 @@ Analyse
 <script src="https://js.arcgis.com/4.23/"></script>
 <script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
 <script>
-      $(document).ready(function () {
-        plotFromCSV();
-
-        $('.yearFrom').on('click', function(){
-    let currentYear = new Date().getFullYear();
-    let earliestYear = 2000;
-      var selectboxreturn = "<option value='' selected disabled>From year</option>";
-      while (currentYear >= earliestYear) {
-        selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
-        currentYear -= 1;
-      }
-      $(".yearFrom").html(selectboxreturn);
-
-  });
-        
-        // $(".yearFrom").html(yearselectbox);
-
-        $("#mapyearselect").on('change', function () {
-            var yearselected = $(this).val();
-            console.log("year select: ", yearselected);
-        });
-
-
-      });
+      
   let dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
         'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
         'pH', 'TotalNitrogen', 'Nitrite', 'TotalPhosphorus', 'Chloride',
@@ -301,6 +284,7 @@ Analyse
         'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
 
   $(document).ready(function () {
+    plotFromCSV();
     let yearFrom = document.getElementById('yearFrom');
     let yearTo = document.getElementById('yearTo');
     let f1 = document.getElementById('f1');
@@ -315,12 +299,14 @@ Analyse
     var stationSelectbox = stationIdSelectbox();
     var f1selectbox = f1Selectbox();
     var f2selectbox = f2Selectbox();
+    var mapselectdropdown = mapSelectDropDown();
     $("#standardType").html(standardropdown);
     $("#yearFrom").html(yearfromDropDown);
     $("#yearTo").html(yeartoDropDown);
     $("#station").html(stationSelectbox);
     $("#f1").html(f1selectbox);
     $("#f2").html(f2selectbox);
+    $("#mapyearselect").html(mapselectdropdown);
     csrftoken = document.cookie.split('=')[1];
     data = {'yearFrom':yearFrom.value, 'yearTo':yearTo.value, 'f1':f1.value, 'f2':f2.value};
     $('#getValue').click(function(){
