@@ -256,7 +256,7 @@ Analyse
 
   });
         
-        $(".yearFrom").html(yearselectbox);
+        // $(".yearFrom").html(yearselectbox);
 
         $("#mapyearselect").on('change', function () {
             var yearselected = $(this).val();
@@ -307,9 +307,20 @@ Analyse
     let f2 = document.getElementById('f2');
     let des1 = document.getElementById('dec1');
     let des2 = document.getElementById('dec2');
-    let standard_type = document.getElementById('standardType');
+    // let standard_type = document.getElementById('standardType');
     let station_id = document.getElementById('station');
-
+    var standardropdown = standardDropdownBox();
+    var yearfromDropDown = yearFromDropDown();
+    var yeartoDropDown = yearToDropDown();
+    var stationSelectbox = stationIdSelectbox();
+    var f1selectbox = f1Selectbox();
+    var f2selectbox = f2Selectbox();
+    $("#standardType").html(standardropdown);
+    $("#yearFrom").html(yearfromDropDown);
+    $("#yearTo").html(yeartoDropDown);
+    $("#station").html(stationSelectbox);
+    $("#f1").html(f1selectbox);
+    $("#f2").html(f2selectbox);
     csrftoken = document.cookie.split('=')[1];
     data = {'yearFrom':yearFrom.value, 'yearTo':yearTo.value, 'f1':f1.value, 'f2':f2.value};
     $('#getValue').click(function(){
