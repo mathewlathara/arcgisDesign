@@ -14,88 +14,90 @@ var CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv
 
 let standardType = ["ODWQS", "WHO"];
 
-
-$('#standardType').on('click', '#standardType', function(){
-    var selectboxreturn = "<option value='' selected>Standard</option>";
+function standardDropdownBox() {
+    var selectboxreturn = "<option value='' disabled selected>Standard</option>";
     $(standardType).each((index, element) => {
-        // console.log(`current index : ${index} element : ${element}`)
-        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+        console.log(`current index : ${index} element : ${element}`);
+        selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
     });
-    $("#standardType").html(selectboxreturn);
-    console.log($('#standardType').val());
-});
+    return selectboxreturn;
+}
 
-// "From" year dropdown menu
-$('#yearFrom').on('click', function(){
+function yearFromDropDown() {
     let currentYear = new Date().getFullYear();
     let earliestYear = 2000;
-      var selectboxreturn = "<option value='' selected disabled>From year</option>";
-      while (currentYear >= earliestYear) {
-        selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
+    var selectboxreturn = "<option value='' selected disabled>From year</option>";
+    while (currentYear >= earliestYear) {
+        selectboxreturn += "<option value='" + currentYear + "'>" + currentYear + "</option>";
         currentYear -= 1;
-      }
-      $("#yearFrom").html(selectboxreturn);
+    }
+    return selectboxreturn;
+}
 
-  });
-  $("#yearFrom").change(function () {
-      console.log("yearFrom === ",$(this).val());
-      globalThis.yearFrom = $(this).val();
-      $("#yearFrom").html("<option value='"+currentYear+"'>"+yearFrom+"</option>");
-  });
+// "From" year dropdown menu
 
-  // "To" year dropdown menu
-  $(document).on('click', '#yearTo', function(){
-      let currentYear = 2020;
-      let earliestYear = 2000;
-        var selectboxreturn = "<option value='' selected disabled>To year</option>";
-        while (currentYear >= earliestYear) {
-          selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
-          currentYear -= 1;
-        }
-        $("#yearTo").html(selectboxreturn);
-    });
-    $("#yearTo").change(function () {
-        console.log("yearTo === ",$(this).val());
-        globalThis.yearTo = $(this).val();
-    });
+$("#yearFrom").change(function () {
+    console.log("yearFrom === ", $(this).val());
+    globalThis.yearFrom = $(this).val();
+    $("#yearFrom").html("<option value='" + currentYear + "'>" + yearFrom + "</option>");
+});
+
+// "To" year dropdown menu
+
+function yearToDropDown() {
+    let currentYear = 2020;
+    let earliestYear = 2000;
+    var selectboxreturn = "<option value='' selected disabled>To year</option>";
+    while (currentYear >= earliestYear) {
+        selectboxreturn += "<option value='" + currentYear + "'>" + currentYear + "</option>";
+        currentYear -= 1;
+    }
+    return selectboxreturn;
+}
+$("#yearTo").change(function () {
+    console.log("yearTo === ", $(this).val());
+    globalThis.yearTo = $(this).val();
+});
 
 // Station selection
-$(document).on('click', '#station', function(){
+function stationIdSelectbox() {
     var selectboxreturn = "<option value='' selected>Station</option>";
     $(stations).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
-        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+        selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
     });
-    $("#station").html(selectboxreturn);
-});
+    return selectboxreturn;
+}
 $("#station").change(function () {
-    console.log("Station === ",$(this).val());
+    console.log("Station === ", $(this).val());
     globalThis.station = $(this).val();
 });
 // feature on X
-$(document).on('click', '#f1', function(){
+function f1Selectbox() {
     var selectboxreturn = "<option value='' selected>On X</option>";
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
-        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+        selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
     });
-    $("#f1").html(selectboxreturn);
-});
+    return selectboxreturn;
+}
+
+
 $("#f1").change(function () {
-    console.log("F1 === ",$(this).val());
+    console.log("F1 === ", $(this).val());
     globalThis.f1 = $(this).val();
 });
 // feature on Y
-$(document).on('click', '#f2', function(){
+function f2Selectbox() {
     var selectboxreturn = "<option value='' selected>On Y</option>";
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
-        selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
+        selectboxreturn += "<option value='" + element + "'>" + element + "</option>"; 
     });
-    $("#f2").html(selectboxreturn);
-});
+    return selectboxreturn;
+}
 $("#f2").change(function () {
-    console.log("F2 === ",$(this).val());
+    console.log("F2 === ", $(this).val());
     globalThis.f2 = $(this).val();
 });
 // const CSV = fetch("./static/admin-lte/dist/js/test.csv");
@@ -167,16 +169,16 @@ function selectFeature1() {
 //}
 
 // check if year is present in custom data
-function historicaldata(){
+function historicaldata() {
     console.log("Historical Data selected");
-    if (document.getElementById('historicaldata').checked){
-         globalThis.CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
-         document.getElementById('getValue').disabled = false;
+    if (document.getElementById('historicaldata').checked) {
+        globalThis.CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+        document.getElementById('getValue').disabled = false;
     }
 }
-function customdata(){
+function customdata() {
     console.log("Custom Data selected");
-    if (document.getElementById('customdata').checked){
+    if (document.getElementById('customdata').checked) {
         // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
         getData();
     }
@@ -194,7 +196,7 @@ function customdata(){
 //         getData();
 //     }
 // });
-async function getData(){
+async function getData() {
     console.log("in get data");
     let features_in_usecsv = [];
     const response = await fetch("static/admin-lte/dist/js/data/recently_predicted.csv");
@@ -202,15 +204,15 @@ async function getData(){
     const table = data.split('\n');
     column_names = table[0];
     column_names = column_names.split(',');
-    for(let i=0; i<column_names.length; i++){
-        features_in_usecsv[i] = column_names[i].trimEnd(); 
+    for (let i = 0; i < column_names.length; i++) {
+        features_in_usecsv[i] = column_names[i].trimEnd();
     }
     console.log("custom data columns: ", features_in_usecsv);
-    if (features_in_usecsv.indexOf("Year") == -1){
+    if (features_in_usecsv.indexOf("Year") == -1) {
         alert("Year is not present in uploaded CSV. Try uploading again with 'Year' as a column.");
         //location.reload();
     }
-    else{
+    else {
         globalThis.CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
         document.getElementById('getValue').disabled = false;
         dataColumns = features_in_usecsv;
@@ -221,7 +223,7 @@ async function getData(){
 function plotFromCSV() {
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
-        // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+    // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
     console.log("csv selected: ", CSV);
 
     d3.csv(CSV, function (rows) {
@@ -240,9 +242,9 @@ function filterRows(row) {
     console.log("From filter to:", yearTo);
     console.log("f1 ::", f1);
     console.log("f2 ::", f2);
-    console.log("station ::",station);
+    console.log("station ::", station);
     console.log("row: ", row);
-    document.getElementById("showfilteroption").innerHTML = "Showing results for year from "+yearFrom+" to "+yearTo+". "+f1+" on X and "+f2+" on Y for station "+station+".";
+    document.getElementById("showfilteroption").innerHTML = "Showing results for year from " + yearFrom + " to " + yearTo + ". " + f1 + " on X and " + f2 + " on Y for station " + station + ".";
 
     let i = 0;
     let j = 0;
@@ -691,7 +693,7 @@ function makePlotlyy1y2(y1, y2) {
         {
             x: y1,
             y: y2,
-            name: f1+" vs "+f2,
+            name: f1 + " vs " + f2,
             //mode: "markers",
             type: 'bar',
         },
@@ -872,7 +874,7 @@ function processDataForNP(rows) {
     makePlotForNP(x, y);
 }
 
-function makePlotForNP(x, y){
+function makePlotForNP(x, y) {
     let traces = [
         {
             x: x,
@@ -916,7 +918,7 @@ function makePlotForNP(x, y){
 
 }
 // for map========================================================================================================
-$('#mapButton').on('click', function(){
+$('#mapButton').on('click', function () {
     $.ajax({
         type: 'POST',
         url: '/plotMap',
@@ -927,45 +929,45 @@ $('#mapButton').on('click', function(){
 
         success: function (data) {
             if (data) {
-                htmlmapdev = "<div class='mt-2' >{{"+data.m+" | safe}}</div>";
+                htmlmapdev = "<div class='mt-2' >{{" + data.m + " | safe}}</div>";
                 $('#map').html(htmlmapdiv);
-            } else{
+            } else {
                 console.log("error saving file");
             }
         },
         error: function (error) {
             console.log("Error" + JSON.stringify(error));
         }
-    }); 
+    });
 });
 
-$('#mapyearselect').on('click', function(){
+$('#mapyearselect').on('click', function () {
     let currentYear = 2020;
     let earliestYear = 2000;
-      var selectboxreturn = "<option value='' selected disabled>From year</option>";
-      while (currentYear >= earliestYear) {
-        selectboxreturn += "<option value='"+currentYear+"'>"+currentYear+"</option>";
+    var selectboxreturn = "<option value='' selected disabled>From year</option>";
+    while (currentYear >= earliestYear) {
+        selectboxreturn += "<option value='" + currentYear + "'>" + currentYear + "</option>";
         currentYear -= 1;
-      }
-      $("#mapyearselect").html(selectboxreturn);
+    }
+    $("#mapyearselect").html(selectboxreturn);
 });
-  $("#mapyearselect").change(function () {
-      console.log("mapyearselect === ",$(this).val());
-      var mapYear = 2010;
-      mapYear = $(this).val();
-      $.ajax({
+$("#mapyearselect").change(function () {
+    console.log("mapyearselect === ", $(this).val());
+    var mapYear = 2010;
+    mapYear = $(this).val();
+    $.ajax({
         type: 'get',
         url: '/getYearForAnalysisMap',
-        data: {'year': mapYear},
+        data: { 'year': mapYear },
         // contentType: false,
         // processData: false,
         headers: { "X-CSRFToken": csrftoken },
 
         success: function (data) {
-          console.log(data.status);
+            console.log(data.status);
         },
         error: function (error) {
             console.log("Error" + JSON.stringify(error));
         }
+    });
 });
-  });
