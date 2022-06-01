@@ -16,6 +16,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from pandas.core.frame import DataFrame
 from django.http import JsonResponse
+from sklearn.preprocessing import StandardScaler
 import re
 import folium
 from folium.plugins import HeatMap
@@ -243,15 +244,21 @@ def predictedPhosphorus(request):
     nitrogen = []
 
     global df
-    df = pd.read_csv(open('pred_alt.csv', 'rt', encoding='utf8'))
+    df = pd.read_csv(open('data/Latest_predictions/recently_predicted.csv', 'rt', encoding='utf8'))
     df_ = df.sort_values(by=['Year'])
     df_ = df_.groupby('Year').mean().reset_index()
     df_ = DataFrame(df_)
 
-    for index, row in df_.iterrows():
-        phosphorous.append(row['Phosphorus'])
-        Year.append(row['Year'])
-        nitrogen.append(row['TotalNitrogen'])
+    if "TotalPhosphorus" in df_.columns:
+        for index, row in df_.iterrows():
+            phosphorous.append(row['TotalPhosphorus'])
+            Year.append(row['Year'])
+            # nitrogen.append(row['TotalNitrogen'])
+    if "TotalNitrogen" in df_.columns:
+        for index, row in df_.iterrows():
+            phosphorous.append(row['TotalNitrogen'])
+            Year.append(row['Year'])
+            # nitrogen.append(row['TotalNitrogen'])
 
     return Year, phosphorous, nitrogen
 
@@ -1072,11 +1079,11 @@ def prediction(request, radioitem):
             modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
             model_xg_1 = pickle.load(open('ml_models/TotalPhosphorous-RF-8F.sav', 'rb'))
-            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+            test_df_ = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                     'Population', 'Chloride',
                 'Nitrite', 'TotalSuspendedSolids',
                 'Nitrogen_Kjeldahl']]
-            df_pred = model_xg_1.predict(test_df)
+            df_pred = model_xg_1.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
             print("File saved TotalPhosphorus I, prediction generated")
@@ -1094,11 +1101,11 @@ def prediction(request, radioitem):
             returnstatus = "success"
             model = pickle.load(open('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
             print(test_df.columns)
-            test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
+            test_df_ = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                 'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
                 'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids',
                 'Nitrogen_Kjeldahl']].copy()
-            df_pred = model.predict(test_df)
+            df_pred = model.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
             print("File saved RF, prediction generated")
@@ -1116,7 +1123,9 @@ def prediction(request, radioitem):
             modelselectedforanalysis = "TotalNitrogen-RF-10F"
             returnstatus = "success"
             model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
-            df_pred = model.predict(test_df)
+            test_df_ = test_df[['Month', 'pH', 'Population', '10mLandCover_Natural', '10mLandCover_AnthropogenicNatural', 'TotalSuspendedSolids', 'Conductivity'
+                , 'TotalPhosphorus', 'Chloride', 'Nitrate']]
+            df_pred = model.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
             print("File saved RF, prediction generated For N")
