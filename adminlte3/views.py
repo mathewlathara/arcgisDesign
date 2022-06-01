@@ -1083,6 +1083,8 @@ def prediction(request, radioitem):
                     'Population', 'Chloride',
                 'Nitrite', 'TotalSuspendedSolids',
                 'Nitrogen_Kjeldahl']]
+            sc = StandardScaler().fit(test_df_)
+            test_df_ = sc.transform(test_df_)
             df_pred = model_xg_1.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
@@ -1099,12 +1101,14 @@ def prediction(request, radioitem):
         if modeloptionforphosphorusmodel == 1 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-11"
             returnstatus = "success"
-            model = pickle.load(open('ml_models/TotalPhosphorus-RF-11.sav', 'rb'))
+            model = pickle.load(open('ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
             print(test_df.columns)
             test_df_ = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                 'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
                 'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids',
                 'Nitrogen_Kjeldahl']].copy()
+            sc = StandardScaler().fit(test_df_)
+            test_df_ = sc.transform(test_df_)
             df_pred = model.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
@@ -1125,6 +1129,8 @@ def prediction(request, radioitem):
             model = pickle.load(open('ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
             test_df_ = test_df[['Month', 'pH', 'Population', '10mLandCover_Natural', '10mLandCover_AnthropogenicNatural', 'TotalSuspendedSolids', 'Conductivity'
                 , 'TotalPhosphorus', 'Chloride', 'Nitrate']]
+            sc = StandardScaler().fit(test_df_)
+            test_df_ = sc.transform(test_df_)
             df_pred = model.predict(test_df_)
             df_pred = pd.DataFrame(df_pred)
             df_pred.to_csv("pred.csv", index=False)
