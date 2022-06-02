@@ -12,6 +12,19 @@ var station;
 document.getElementById('getValue').disabled = true;
 var CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
 
+function checkIfFilterButtonShouldenable() {
+    var yearfromfrop = $("#yearFrom").val();
+    var yeartooption = $("#yearTo").val();
+    var standardoption = $("#standardType").val();
+    var stationidfill = $("#station").val();
+    var xaxisfill = $("#f1").val();
+    var yaxisfill = $("#f2").val();
+
+    if (yearfromfrop !== "" && yeartooption !== "" && standardoption !== "" && stationidfill !== "" && xaxisfill !== "" && yaxisfill !== "") {
+        $("#getValue").prop("disabled",false);
+    }
+}
+
 let standardType = ["ODWQS", "WHO"];
 
 function standardDropdownBox() {
@@ -39,7 +52,7 @@ function yearFromDropDown() {
 $("#yearFrom").change(function () {
     console.log("yearFrom === ", $(this).val());
     globalThis.yearFrom = $(this).val();
-    $("#yearFrom").html("<option value='" + currentYear + "'>" + yearFrom + "</option>");
+    checkIfFilterButtonShouldenable();
 });
 
 // "To" year dropdown menu
@@ -57,6 +70,7 @@ function yearToDropDown() {
 $("#yearTo").change(function () {
     console.log("yearTo === ", $(this).val());
     globalThis.yearTo = $(this).val();
+    checkIfFilterButtonShouldenable()
 });
 
 // Station selection
@@ -71,6 +85,7 @@ function stationIdSelectbox() {
 $("#station").change(function () {
     console.log("Station === ", $(this).val());
     globalThis.station = $(this).val();
+    checkIfFilterButtonShouldenable()
 });
 // feature on X
 function f1Selectbox() {
@@ -86,6 +101,7 @@ function f1Selectbox() {
 $("#f1").change(function () {
     console.log("F1 === ", $(this).val());
     globalThis.f1 = $(this).val();
+    checkIfFilterButtonShouldenable()
 });
 // feature on Y
 function f2Selectbox() {
@@ -99,6 +115,7 @@ function f2Selectbox() {
 $("#f2").change(function () {
     console.log("F2 === ", $(this).val());
     globalThis.f2 = $(this).val();
+    checkIfFilterButtonShouldenable()
 });
 // const CSV = fetch("./static/admin-lte/dist/js/test.csv");
 // const CSV = "D:\Lambton AIMT\Watershed Management system\django-adminlte3-master\django-adminlte3-master\data\data\df_top_10.csv";
