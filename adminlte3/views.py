@@ -757,6 +757,17 @@ def getYearForAnalysisMap(request):
         global yearForMap
         yearForMap = int(year)
         print("Year in plotMap: ",year)
+    if request.GET['yearFrom']:
+        yearFrom = (request.GET['yearFrom'])
+        yearTo = (request.GET['yearTo'])
+        station = (request.GET['station'])
+        featureOnX = (request.GET['feature1'])
+        featureOnY = (request.GET['feature2'])
+
+    df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
+    df_new = df_new[(df_new['Year'] >= int(yearFrom)) & (df_new['Year'] <= int(yearTo))]
+    selectedYears = df_new.to_numpy()
+
     return Response({'status':'done'})
 
 yearForMap = 2010
@@ -852,6 +863,47 @@ def map_experiment(request, year):
     # print(json_return)
     # context = plotMap(featuresSelected)
     return render(request, "adminlte/map_experiment.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
+#filtering and grouping data
+def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
+  print("getGraphDataByYear:::", yearFrom, yearTo, station, feature)
+  if station == "all":
+    df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo))]
+  else :
+    df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo)) & (df['STATION'] == int(station))]
+
+  onX = df[[feature, 'Year']].copy()
+  
+  grouped = np.array(onX.groupby(['Year']).mean()).flatten()
+  years_only = np.sort(np.array(df['Year'].drop_duplicates()))
+  df_grouped = pd.DataFrame({'Year': years_only, feature: grouped}, columns=['Year', feature])
+  print(df_grouped.shape)
+  return df_grouped #.to_numpy()
+
+@api_view(('GET',))
+def filterDataForAnalysisPage(request):
+    if request.GET['yearFrom']:
+        yearFrom = (request.GET['yearFrom'])
+        yearTo = (request.GET['yearTo'])
+        station = (request.GET['station'])
+        featureOnX = (request.GET['feature1'])
+        featureOnY = (request.GET['feature2'])
+        data_type = (request.GET['data_type'])
+
+    if data_type == "historical":
+        print("historical")
+        df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv')
+    if data_type == "custom":
+        print("custom")
+        df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
+    filtered_data_1 = getGraphDataByYear(df_new, yearFrom, yearTo, station, featureOnX)
+    graph1x = filtered_data_1.iloc[:, 0].to_numpy()
+    graph1y = filtered_data_1.iloc[:, 1].to_numpy()
+
+    filtered_data_2 = getGraphDataByYear(df_new, yearFrom, yearTo, station, featureOnY)
+    graph2x = filtered_data_2.iloc[:, 0].to_numpy()
+    graph2y = filtered_data_2.iloc[:, 1].to_numpy()
+        
+    return Response({'graph1x':graph1x, 'graph1y':graph1y, 'graph2x':graph2x, 'graph2y':graph2y})
 
 def advanced(request):
     # geoJSON_df_durham =gpd.read_file( "data/Shape files/durham_points_watersheds.shp")

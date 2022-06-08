@@ -5,6 +5,7 @@ var yearTo = 2019;
 var f1 = "pH";
 var f2 = "Nitrogen_Kjeldahl";
 var station = '6010400102';
+var data_type = '';
 let des1 = document.getElementById('dec1');
 let des2 = document.getElementById('dec2');
 let standard_type = document.getElementById('standardType');
@@ -61,7 +62,7 @@ $('#yearFrom').on('click', function(){
 
 // Station selection
 $(document).on('click', '#station', function(){
-    var selectboxreturn = "<option value='' selected>Station</option>";
+    var selectboxreturn = "<option value='all' selected>Station</option>";
     $(stations).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='"+element+"'>"+element+"</option>";
@@ -170,6 +171,7 @@ function selectFeature1() {
 function historicaldata(){
     console.log("Historical Data selected");
     if (document.getElementById('historicaldata').checked){
+        globalThis.data_type = "historical";
          globalThis.CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
          document.getElementById('getValue').disabled = false;
     }
@@ -178,6 +180,7 @@ function customdata(){
     console.log("Custom Data selected");
     if (document.getElementById('customdata').checked){
         // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+        globalThis.data_type = "custom";
         getData();
     }
 }
@@ -223,6 +226,69 @@ function plotFromCSV() {
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
         // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
     console.log("csv selected: ", CSV);
+
+    $.ajax({
+        type: 'get',
+        url: '/filterDataForAnalysisPage',
+        data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
+        // contentType: false,
+        // processData: false,
+        // headers: { "X-CSRFToken": csrftoken },
+
+        success: function (data) {
+          console.log(data.graph1x);
+          console.log(data.graph1y);
+          console.log(data.graph2x);
+          console.log(data.graph2y);
+          var trace1 = {
+            x: data.graph1x,
+            y: data.graph1y,
+            type: 'scatter'
+          };
+          var trace2 = {
+            x: data.graph2x,
+            y: data.graph2y,
+            type: 'scatter'
+          };
+          var layout1 = {
+            title: (f1).concat(" "),
+            yaxis: {
+                autotick: true,
+                // autorange: true,
+                title: f1,
+            },
+            xaxis: {
+                title: "Years",
+                tickmode: 'linear'
+            },
+          };
+            var layout2 = {
+                title: (f2).concat(" "),
+                yaxis: {
+                    autotick: true,
+                    // autorange: true,
+                    title: f1,
+                },
+                xaxis: {
+                    title: "Years",
+                    tickmode: 'linear'
+                },
+            };
+          
+          
+          var g1 = [trace1];
+          var g2 = [trace2];
+          
+          
+          Plotly.newPlot('graph1', g1, layout1); 
+          Plotly.newPlot('graph2', g2, layout2);
+
+
+        },
+        error: function (error) {
+            console.log("Error" + JSON.stringify(error));
+        }
+     });
 
     d3.csv(CSV, function (rows) {
         console.log(rows);
@@ -967,5 +1033,5 @@ $('#mapyearselect').on('click', function(){
         error: function (error) {
             console.log("Error" + JSON.stringify(error));
         }
-});
+     });
   });
