@@ -5,13 +5,24 @@ var yearTo = 2019;
 var f1 = "pH";
 var f2 = "Nitrogen_Kjeldahl";
 var station = '6010400102';
-var data_type = '';
+var data_type = 'historical';
 let des1 = document.getElementById('dec1');
 let des2 = document.getElementById('dec2');
 let standard_type = document.getElementById('standardType');
 var station;
 document.getElementById('getValue').disabled = true;
 var CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+var dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
+'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
+'pH', 'TotalNitrogen', 'Nitrite', 'TotalPhosphorus', 'Chloride',
+'10mLandCover_AgriculturalExtraction', '10mLandCover_Anthropogenic',
+'10mLandCover_AnthropogenicNatural', '10mLandCover_Natural', 'Latitude',
+'Longitude', '250mLandCover_Agricultural',
+'250mLandCover_Anthropogenic', '250mLandCover_Natural',
+'Total Rain (mm) 0day Total', 'Total Rain (mm) -7day Total',
+'Total Rain (mm) -56day Total', 'Total Rain (mm) -3day Total',
+'Total Rain (mm) -28day Total', 'Total Rain (mm) -1day Total',
+'Total Rain (mm) -14day Total'];
 
 function checkIfFilterButtonShouldenable() {
     var yearfromfrop = $("#yearFrom").val();
@@ -76,7 +87,7 @@ $("#yearTo").change(function () {
 
 // Station selection
 function stationIdSelectbox() {
-    var selectboxreturn = "<option value='' selected>Select station</option>";
+    var selectboxreturn = "<option value='all' selected>All</option>";
     $(stations).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
@@ -90,7 +101,8 @@ $("#station").change(function () {
 });
 // feature on X
 function f1Selectbox() {
-    var selectboxreturn = "<option value='' selected>Select X axis</option>";
+    var selectboxreturn = "<option value='' selected>Select Feature 1</option>";
+    console.log("dataColumns in f1: ",dataColumns);
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
@@ -106,7 +118,7 @@ $("#f1").change(function () {
 });
 // feature on Y
 function f2Selectbox() {
-    var selectboxreturn = "<option value='' selected>Select Y axis</option>";
+    var selectboxreturn = "<option value='' selected>Select Feature 2</option>";
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
@@ -203,19 +215,6 @@ function customdata() {
         getData();
     }
 }
-// $('#historicaldata').click(function(){
-//     console.log("Historical Data selected");
-//     if (document.getElementById('historicaldata').checked){
-//         const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
-//     }
-// });
-// $('#customdata').click(function(){
-//     console.log("Custom Data selected");
-//     if (document.getElementById('customdata').checked){
-//         // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
-//         getData();
-//     }
-// });
 async function getData() {
     console.log("in get data");
     let features_in_usecsv = [];
@@ -233,9 +232,14 @@ async function getData() {
         //location.reload();
     }
     else {
+        console.log("in else part....");
         globalThis.CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
         document.getElementById('getValue').disabled = false;
-        dataColumns = features_in_usecsv;
+        globalThis.dataColumns = features_in_usecsv;
+        var f1selectbox = f1Selectbox();
+        $("#f1").html(f1selectbox);
+        var f2selectbox = f2Selectbox();
+        $("#f2").html(f2selectbox);
     }
 
 }
@@ -272,25 +276,37 @@ function plotFromCSV() {
           var layout1 = {
             title: (f1).concat(" "),
             yaxis: {
+                showline: true,
+                zeroline: true,
+                zerolinewidth: 2,
                 autotick: true,
                 // autorange: true,
                 title: f1,
             },
             xaxis: {
+                showline: true,
                 title: "Years",
-                tickmode: 'linear'
+                tickmode: 'linear',
+                zeroline: true,
+                zerolinewidth: 2,
             },
           };
             var layout2 = {
                 title: (f2).concat(" "),
                 yaxis: {
+                    showline: true,
+                    zeroline: true,
+                    zerolinewidth: 2,
                     autotick: true,
                     // autorange: true,
-                    title: f1,
+                    title: f2,
                 },
                 xaxis: {
+                    showline: true,
                     title: "Years",
-                    tickmode: 'linear'
+                    tickmode: 'linear',
+                    zeroline: true,
+                    zerolinewidth: 2,
                 },
             };
           
@@ -1042,7 +1058,7 @@ $("#mapyearselect").change(function () {
     $.ajax({
         type: 'get',
         url: '/getYearForAnalysisMap',
-        data: { 'year': mapYear },
+        data: { 'year': mapYear, 'data_type':data_type },
         // contentType: false,
         // processData: false,
         headers: { "X-CSRFToken": csrftoken },

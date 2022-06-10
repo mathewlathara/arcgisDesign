@@ -740,6 +740,10 @@ def showMap(request):
 #     return html
 
 def poptext(row):
+  if ((row['TotalNitrogen']) and  (row['TotalPhosphorus'])):
+    html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>TotalNitrogen: "+ str(row['TotalNitrogen'])+ "</b><br>"+"<br>TotalPhosphorus: "+ str(row['TotalPhosphorus'])+ "</b><br>"+"<br>Year: "+ str(row['Year']) +"</a>"
+    iframe  = folium.IFrame(html=html, width=200, height=200)
+    return folium.Popup(iframe)
   if row['TotalNitrogen']:
     html= "<a><b>" + str(row['STATION']) +"</b><br>"+"<br>TotalNitrogen: "+ str(row['TotalNitrogen'])+ "</b><br>"+"<br>Year: "+ str(row['Year']) +"</a>"
     iframe  = folium.IFrame(html=html, width=200, height=200)
@@ -756,26 +760,25 @@ def getYearForAnalysisMap(request):
         year = request.GET['year']
         global yearForMap
         yearForMap = int(year)
+        global data_type
+        data_type = request.GET['data_type']
         print("Year in plotMap: ",year)
-    if request.GET['yearFrom']:
-        yearFrom = (request.GET['yearFrom'])
-        yearTo = (request.GET['yearTo'])
-        station = (request.GET['station'])
-        featureOnX = (request.GET['feature1'])
-        featureOnY = (request.GET['feature2'])
-
-    df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
-    df_new = df_new[(df_new['Year'] >= int(yearFrom)) & (df_new['Year'] <= int(yearTo))]
-    selectedYears = df_new.to_numpy()
-
     return Response({'status':'done'})
 
 yearForMap = 2010
+data_type = "historical"
 def plotMap(yearForMap):
   context = {}
   try:
     print("Global Year: ", yearForMap)
-    df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
+    if data_type == "historical":
+        print(data_type)
+        df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv')
+    elif data_type == "custom":
+        print(data_type)
+        df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')   
+    else:
+        context['error'] = "Got error while selecting dataset."
     df_new = df_new[df_new['Year'] == yearForMap]
     #   if "TotalNitrogen" in df_new.columns:
     #     high_tp = df_new[df_new['TotalNitrogen'] > 5.0]
@@ -785,7 +788,8 @@ def plotMap(yearForMap):
 
     #------locations on map according to given logi and lati in dataset------
     m1 = folium.Map(
-        location=[43.90, -78.79]
+        location=[43.90, -78.79],
+        scrollWheelZoom=False
     )
 
     df_new.apply(lambda row:folium.Marker(location=[row["Latitude"], row["Longitude"]], popup=poptext(row), icon=folium.Icon(color='red')).add_to(feature_), axis=1)
@@ -797,7 +801,7 @@ def plotMap(yearForMap):
     m1 = m1._repr_html_()
     context = {'m': m1,}
   except:
-    context['error'] = "File does not have Latitude and Longitude"
+    context['error'] = "File does not have Latitude and Longitude."
   return context
 
 
@@ -869,7 +873,7 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
   if station == "all":
     df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo))]
   else :
-    df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo)) & (df['STATION'] == int(station))]
+    df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo))]# & (df['STATION'] == int(station))]
 
   onX = df[[feature, 'Year']].copy()
   
@@ -887,14 +891,17 @@ def filterDataForAnalysisPage(request):
         station = (request.GET['station'])
         featureOnX = (request.GET['feature1'])
         featureOnY = (request.GET['feature2'])
+        global data_type
         data_type = (request.GET['data_type'])
 
     if data_type == "historical":
         print("historical")
         df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv')
+        df_new = df_new.fillna(0)
     if data_type == "custom":
         print("custom")
         df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
+        df_new = df_new.fillna(0)
     filtered_data_1 = getGraphDataByYear(df_new, yearFrom, yearTo, station, featureOnX)
     graph1x = filtered_data_1.iloc[:, 0].to_numpy()
     graph1y = filtered_data_1.iloc[:, 1].to_numpy()
