@@ -1,9 +1,8 @@
 
-
 var yearFrom = 2000;
 var yearTo = 2019;
-var f1 = "pH";
-var f2 = "Nitrogen_Kjeldahl";
+var f1 = "TotalPhosphorus";
+var f2 = "TotalNitrogen";
 var station = '6010400102';
 var data_type = 'historical';
 let des1 = document.getElementById('dec1');
@@ -309,16 +308,12 @@ function plotFromCSV() {
                     zerolinewidth: 2,
                 },
             };
-          
-          
           var g1 = [trace1];
           var g2 = [trace2];
-          
-          
           Plotly.newPlot('graph1', g1, layout1); 
           Plotly.newPlot('graph2', g2, layout2);
-
-
+          document.getElementById('des1').innerHTML = data.description1;
+          document.getElementById('des2').innerHTML = data.description2;
         },
         error: function (error) {
             console.log("Error" + JSON.stringify(error));
