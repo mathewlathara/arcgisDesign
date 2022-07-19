@@ -1232,3 +1232,8 @@ def download_predictedfile(request):
     response = FileResponse(open(filename, 'rb'))
     return response
     
+def dextarity(request):
+    return render(request, "adminlte/dexterity.html")
+
+def in_dex(request):
+    return render(request, "adminlte/in_dex.html")
