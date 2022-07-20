@@ -8,7 +8,7 @@ Analyse
 {% block content %}
 
 <div class="container-fluid">
-  <div class="row pt-3">
+  <div class="row pt-3 h4">
 
     <div class="form-check form-check-inline">
       <input class="form-check-input" type="radio" name="flexRadioDefault" id="historicaldata" onclick="historicaldata()" checked/>
@@ -20,72 +20,119 @@ Analyse
         <label class="form-check-label" for="flexRadioDefault2"> Analyse your own data </label>
     </div>
 
+    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filters" aria-expanded="false" aria-controls="collapseExample">
+      Apply filters <i class="fas fa-angle-double-down"></i>    </button>
+
   </div>
-  <div class="row mt-2" id="filteroptions">
-    <div class="col-sm-12">
-      <ul class="list-group list-group-horizontal-xl">
-        <li class="list-group-item">
-          <span>
-            <label class="form-check-label">From year</label>
-            <select class="custom-select" name="year" id="yearFrom" value="2021" onclick="">
-              <option value="2021">From year</option>
-            </select>
-          </span>
-          <span>
-            <!-- <p id="fromyearlabel"></p> -->
-            <label class="form-check-label">To year</label>
-            <select class="custom-select mt-2" name="year" id="yearTo" onclick="">
-              <option value="2021">To year</option>
-            </select>
-          </span>
-        </li>
-        <li class="list-group-item">
-          <span>
-            <label class="form-check-label">Standard</label>
-            <!-- <label for="year"></label> -->
-            <select class="custom-select" name="year" id="standardType" >
-              <option value="2021"> Standard </option>
-            </select>
-          </span>
-          <span>
-            <!-- <label for="year"></label> -->
-            <label class="form-check-label">Station</label>
-            <select class="custom-select mt-2" name="station" id="station" >
-              <option value="2021"> Station </option>
-            </select>
-          </span>
-        </li>
-        <li class="list-group-item">
-          <span>
-            <!-- <label for=""></label> -->
-            <label class="form-check-label">On X-axis</label>
-            <select class="custom-select" name="year" id="f1">
-              <option value="">On X</option>
-            </select>
-          </span>
-          <span>
-            <!-- <label for=""></label> -->
-            <label class="form-check-label">On Y-axis</label>
-            <select class="custom-select mt-2" name="year" id="f2">
-              <option value="">On Y</option>
-            </select>
-          </span>
-        </li>
-        <li class="list-group-item">
-          <div class="col-sm-2">
-            <button class="btn btn-outline-primary" id="getValue" onclick="return plotFromCSV();">Filter</button>
-          </div>
-          <div class="col-sm-2 mt-2">
-            <!-- <button class="btn btn-outline-primary " id="mapButton" onclick="">Map</button> -->
-          </div>
-        </li>
-      </ul>
+
+  <!------------------------- filterations rows ---------------------------->
+  <div class="row">
+   
+  </div>
+  <div class="collapse" id="filters">
+    <div class="row mt-2" id="filteroptions">
+      <div class="col-sm-12">
+        <ul class="list-group list-group-horizontal-xl">
+          <li class="list-group-item">
+            <span>
+              <label class="form-check-label">From year </label>
+              <i class="ml-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="Data will be filtered from this year."></i>
+              <select class="custom-select" name="year" id="yearFrom" value="2021" onclick="">
+                <option value="2021">From year</option>
+              </select>
+            </span>
+            <span>
+              <!-- <p id="fromyearlabel"></p> -->
+              <label class="form-check-label">To year</label>
+              <i class="ml-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="Data will be filtered till this year."></i>
+              <select class="custom-select mt-2" name="year" id="yearTo" onclick="">
+                <option value="2021">To year</option>
+              </select>
+            </span>
+          </li>
+          <li class="list-group-item">
+            <span>
+              <label class="form-check-label">Standard</label>
+              <i class="ml-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="World Health Organization(WHO) Ontario Drinking Water Quality Standard(ODWQS) "></i>
+              <!-- <label for="year"></label> -->
+              <select class="custom-select" name="year" id="standardType" >
+                <option value="2021"> Standard </option>
+              </select>
+            </span>
+            <span>
+              <!-- <label for="year"></label> -->
+              <label class="form-check-label">Station</label>
+              <i class="ml-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="Unique water quality station IDs."></i>
+              <select class="custom-select mt-2" name="station" id="station" >
+                <option value="2021"> Station </option>
+              </select>
+            </span>
+          </li>
+          <li class="list-group-item">
+            <span>
+              <!-- <label for=""></label> -->
+              <label class="form-check-label">Feature 1</label>
+              <i class="ml-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="Select feature you want to plot on graph."></i>
+              <select class="custom-select" name="" id="f1">
+                <option value="">On X</option>
+              </select>
+            </span>
+            <span>
+              <!-- <label for=""></label> -->
+              <label class="form-check-label">Feature 2</label>
+              <i class="ml-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="Select feature you want to plot on graph."></i>
+              <select class="custom-select mt-2" name="" id="f2">
+                <option value="">On Y</option>
+              </select>
+            </span>
+          </li>
+          <li class="list-group-item">
+            <div class="col-sm-2">
+              <button class="btn btn-outline-primary" id="getValue" onclick="return plotFromCSV();">Filter</button>
+            </div>
+            <div class="col-sm-2 mt-2">
+              <!-- <button class="btn btn-outline-primary " id="mapButton" onclick="">Map</button> -->
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
+  <!----------------------------- filteration row end -------------------------->
+<!-- ------------------temp row---------------------- -->
+
+<div class="row">
+  <p class="mt-2" id="showfilteroption" style="color: slateblue;"></p>
+
+  <div class="col-sm-6">
+    <span>
+      <div class="mt-5" id="graph1">
+
+      </div>
+    </span>
+    <span class="align-middle">
+      <div class="mt-5" id="des1">
+        <p class="text-justify mx-auto"></p>
+      </div>
+    </span>
+  </div>
+  <div class="col-sm-6">
+    <span>
+      <div class="mt-5" id="graph2">
+
+      </div>
+    </span>
+    <span class="align-middle">
+      <div class="mt-5" id="des2">
+        <p class="text-justify"></p>
+      </div>
+    </span>
+  </div>
+</div>
 
 
   <!----------2nd row----------------->
-  <div class="row">
+  <!-- <div class="row">
     <p class="mt-2" id="showfilteroption" style="color: slateblue;"></p>
 
     <div class="col-sm-6">
@@ -103,24 +150,16 @@ Analyse
       </span>
     </div>
     <div class="col-*-*"></div>
-  </div>
+  </div> -->
 
   <!-------------3rd row----------------------->
   <div class="row">
-    <div class="col-sm-6 my-auto">
-      <span class="align-middle">
-        <div class="mt-5" id="des1">
-          <p class="text-justify mx-auto"></p>
-        </div>
-      </span>
+    <div class="col-sm-5 my-auto">
+     
     </div>
 
-    <div class="col-sm-6 my-auto">
-      <span class="align-middle">
-        <div class="mt-5" id="des2">
-          <p class="text-justify"></p>
-        </div>
-      </span>
+    <div class="col-sm-5 my-auto">
+     
     </div>
     <div class="col-sm-2 my-auto">
     </div>
@@ -145,10 +184,12 @@ Analyse
   </div>
   <hr>
   <div class="row mt-3">
+    <span class="h4">In this section, map is integrated to visualize data on the map according to latitude and longitude. Select year in below dropdown to filter data by selected year.
+    </span>
     <div class="col-sm-2 pt-6 pl-5">
       <span>
         <select class="custom-select yearFrom" name="year" id="mapyearselect" value="2021" onclick="">
-          <option value="2021">year</option>
+          <option value="2021">Select Year</option>
         </select>
       </span>  
       <span>
@@ -247,18 +288,14 @@ Analyse
 <script src="https://js.arcgis.com/4.23/"></script>
 <script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
 <script>
+  $(document).ready(function() {
+    $('[data-toggle="popover"]').popover({
+      trigger : 'hover'
+    });
+    
+  });
       
-  let dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
-        'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
-        'pH', 'TotalNitrogen', 'Nitrite', 'TotalPhosphorus', 'Chloride',
-        '10mLandCover_AgriculturalExtraction', '10mLandCover_Anthropogenic',
-        '10mLandCover_AnthropogenicNatural', '10mLandCover_Natural', 'Latitude',
-        'Longitude', '250mLandCover_Agricultural',
-        '250mLandCover_Anthropogenic', '250mLandCover_Natural',
-        'Total Rain (mm) 0day Total', 'Total Rain (mm) -7day Total',
-        'Total Rain (mm) -56day Total', 'Total Rain (mm) -3day Total',
-        'Total Rain (mm) -28day Total', 'Total Rain (mm) -1day Total',
-        'Total Rain (mm) -14day Total'];
+  
 
   // let standardType = ["ODWQS", "WHO"];
 

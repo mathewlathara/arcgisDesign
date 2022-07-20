@@ -4,7 +4,7 @@ from .views import index, result, about, upload_file, dashboard_m, yearlyBarChar
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
     logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, \
-    datasourcespage, contact_us_page, validateUploadedFile, analysisFilterData, new_index_page, plotMap, prediction, getYearForAnalysisMap, download_predictedfile
+    datasourcespage, contact_us_page, validateUploadedFile, analysisFilterData, new_index_page, plotMap, prediction, getYearForAnalysisMap, download_predictedfile, filterDataForAnalysisPage, dextarity, in_dex
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 urlpatterns = [
@@ -21,6 +21,7 @@ urlpatterns = [
     path('models', showMap),
     path('advanced', advanced, name='advanced'),
     path('getYearForAnalysisMap',getYearForAnalysisMap),
+    path('filterDataForAnalysisPage', filterDataForAnalysisPage),
     path('map_ex/<str:year>', map_experiment, name="map_ex"),
     path('about', about, name="about"),
     
@@ -52,9 +53,11 @@ urlpatterns = [
     path('analysisFilterData', analysisFilterData),
     path("data_source/",datasourcespage),
     path("contact_us/",contact_us_page),
-    path("download_predictedfile/", download_predictedfile)
+    path("download_predictedfile/", download_predictedfile),
     # path('upload_file/', upload_file, name="upload_file"),
 # path('/upload_file/', TemplateView.as_view(template_name='adminlte/models.html')),
 
-
+    # new design
+    path("dexterity", dextarity),
+    path("in_dex", in_dex),
 ]
