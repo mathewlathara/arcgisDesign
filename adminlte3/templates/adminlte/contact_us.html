@@ -1,0 +1,113 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dex-Terity</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+  <style>
+    body{
+		font-family: Poppins;
+		font-style: normal;
+		font-weight: bold;
+	}
+  </style>
+
+  </head>
+  <body>
+	<nav class="navbar navbar-expand-lg">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/in_dex">
+			  <img src="static/admin-lte/assets/img/new_d/logo_ec.png" alt="" width="200" height="55">
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+			  <ul class="navbar-nav w-50">
+				<li class="nav-item col">
+				  <a class="nav-link link-primary" href="/in_dex">Home</a>
+				</li>
+				<li class="nav-item col">
+				  <a class="nav-link link-primary" aria-current="page" href="dexterity">Dex-Terity</a>
+				</li>
+				<li class="nav-item col">
+				  <a class="nav-link active" href="contactus">Contact us</a>
+				</li>
+				<li class="nav-item col">
+				   <button class="btn btn-primary rounded-pill w-75" type="button">Login</button>
+				</li>
+			  </ul>
+			</div>
+		</div>
+	</nav>
+
+    <div class="container-fluid" data-aos="fade-up" style="padding-top: 5%;">
+
+        <div class="section-title" style="margin-left: 150px;">
+            <h3 class="text-primary font-weight-bold">Get In Touch</h3>
+        </div>
+
+ 
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100" style="margin-right: 120px; margin-left:120px;">
+
+            <div class="col-lg-6">
+                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                    <div class="row mb-3">
+                        <div class="col form-group">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Name" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col form-group">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email here"
+                                required>
+                        </div>
+                    </div>
+                
+                    <div class="form-group mb-3">
+                        <textarea class="form-control" name="message" rows="5" placeholder="Write your message here" required></textarea>
+                    </div>
+                    <div class="my-3 messageloading">
+                        <div class="loading">Loading</div>
+                        <div class="error-message"></div>
+                        <div class="sent-message">Your message has been sent. Thank you!</div>
+                    </div>
+                    <div class="text-left"><button class="btn btn-primary rounded-pill" type="submit">Send Message</button></div>
+                </form>
+            </div>
+
+            <div class="col-lg-6">
+                <iframe class="mb-4 mb-lg-0"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11523.76084718353!2d-79.33659796681101!3d43.77409990994631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4d3bca1a3f78f%3A0x815365ed6c3b957e!2sLambton%20College%20In%20Toronto!5e0!3m2!1sen!2sin!4v1652037250936!5m2!1sen!2sin"
+                    frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'admin-lte/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'admin-lte/bootstrap/js/sb-admin-2.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js "></script>
+    <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
+    <script src="https://js.arcgis.com/4.23/"></script>
+    <script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $(".messageloading").hide();
+        });
+    </script>
+
+</body>
+</html>
