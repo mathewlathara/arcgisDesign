@@ -1236,3 +1236,6 @@ def dextarity(request):
 
 def in_dex(request):
     return render(request, "adminlte/in_dex.html")
+
+def contact_us(request):
+    return render(request, "adminlte/contact_us.html")
