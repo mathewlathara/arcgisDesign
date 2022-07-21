@@ -60,5 +60,5 @@ urlpatterns = [
     # new design
     path("dexterity", dextarity),
     path("in_dex", in_dex),
-    path('contact_us', contact_us),
+    path('contactus', contact_us),
 ]
