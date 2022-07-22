@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -6,7 +7,10 @@
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-    <style>
+	<link href="{% static 'admin-lte/assets/css/css_loginmodal/demo.css' %}" rel="stylesheet"> 
+	<link href="{% static 'admin-lte/assets/css/css_loginmodal/style.css' %}" rel="stylesheet">
+
+	<style>
       .bg-overlay {
 		position: relative;
     background: url(static/admin-lte/assets/img/new_d/imagen-1.png);
@@ -59,12 +63,106 @@
 				  <a class="nav-link link-primary" href="/contactus">Contact us</a>
 				</li>
 				<li class="nav-item col">
-				   <button class="btn btn-primary rounded-pill w-75" type="button">Login</button>
+				   <a style="font-size: 16px;" class="btn btn-primary rounded-pill w-75 js-signin-modal-trigger" href="#0" data-signin="login">Login</a>
 				</li>
 			  </ul>
 			</div>
 		</div>
 	</nav>
+
+	<!-- login modal -->
+	<div class="cd-signin-modal js-signin-modal"> <!-- this is the entire modal form, including the background -->
+		<div class="cd-signin-modal__container"> <!-- this is the container wrapper -->
+			<div class="row pt-5 pb-5">
+				<span width="200" height="60">
+				<img class="rounded mx-auto d-block" src="static/admin-lte/assets/img/new_d/logo_ec.png" alt="" >
+				</span>
+			</div>
+			<ul class="list-group-horizontal cd-signin-modal__switcher js-signin-modal-switcher js-signin-modal-trigger">
+				<li class="list-group-item"><a href="#0" data-signin="login" data-type="login">Sign in</a></li>
+				<li class="list-group-item"><a href="#0" data-signin="signup" data-type="signup">New account</a></li>
+			</ul>
+
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login"> <!-- log in form -->
+				<form class="cd-signin-modal__form">
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signin-email">E-mail</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="email" placeholder="E-mail">
+						<span class="cd-signin-modal__error">Error message here!</span>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signin-password">Password</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-password" type="text"  placeholder="Password">
+						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
+						<span class="cd-signin-modal__error">Error message here!</span>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<input type="checkbox" id="remember-me" checked class="cd-signin-modal__input ">
+						<label for="remember-me">Remember me</label>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<input style="background: #165DA9;" class="cd-signin-modal__input cd-signin-modal__input--full-width" type="submit" value="Login">
+					</p>
+				</form>
+				
+				<p class="cd-signin-modal__bottom-message js-signin-modal-trigger"><a href="#0" data-signin="reset">Forgot your password?</a></p>
+			</div> <!-- cd-signin-modal__block -->
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="signup"> <!-- sign up form -->
+				<form class="cd-signin-modal__form">
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--username cd-signin-modal__label--image-replace" for="signup-username">Username</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signup-username" type="text" placeholder="Username">
+						<span class="cd-signin-modal__error">Error message here!</span>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signup-email">E-mail</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signup-email" type="email" placeholder="E-mail">
+						<span class="cd-signin-modal__error">Error message here!</span>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signup-password">Password</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signup-password" type="text"  placeholder="Password">
+						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
+						<span class="cd-signin-modal__error">Error message here!</span>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<input type="checkbox" id="accept-terms" class="cd-signin-modal__input ">
+						<label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<input style="background: #165DA9;" class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding" type="submit" value="Create account">
+					</p>
+				</form>
+			</div> <!-- cd-signin-modal__block -->
+
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="reset"> <!-- reset password form -->
+				<p class="cd-signin-modal__message">Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
+
+				<form class="cd-signin-modal__form">
+					<p class="cd-signin-modal__fieldset">
+						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="reset-email">E-mail</label>
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="reset-email" type="email" placeholder="E-mail">
+						<span class="cd-signin-modal__error">Error message here!</span>
+					</p>
+
+					<p class="cd-signin-modal__fieldset">
+						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding" type="submit" value="Reset password">
+					</p>
+				</form>
+
+				<p class="cd-signin-modal__bottom-message js-signin-modal-trigger"><a href="#0" data-signin="login">Back to log-in</a></p>
+			</div> <!-- cd-signin-modal__block -->
+			<a href="#0" class="cd-signin-modal__close js-close">Close</a>
+		</div> <!-- cd-signin-modal__container -->
+	</div> <!-- cd-signin-modal -->
+
 
 	<div class="container-fluid my-3 p-0 pr-0" style="padding-right: 0px; padding-right: 0px; margin:0px;">
 		<div class="row no-gutters bg-overlay">
@@ -174,7 +272,7 @@
 			</div>
 		</div>
 		<div class="d-flex align-items-center justify-content-center">
-			<button style="font-size: 15px;" type="button" class="btn btn-primary rounded-pill mt-3">Subscribe</button>
+			<button style="font-size: 16px;" type="button" class="btn btn-primary rounded-pill mt-3">Subscribe</button>
 		</div>
 		
 	</div>
@@ -236,5 +334,8 @@
 
 	
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-  </body>
+	<script src="{% static 'admin-lte/assets/js/js_loginmodal/main.js' %}"></script>
+    <script src="{% static 'admin-lte/assets/js/js_loginmodal/placeholders.min.js' %}"></script>
+
+</body>
 </html>
