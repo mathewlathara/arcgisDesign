@@ -1239,3 +1239,6 @@ def in_dex(request):
 
 def contact_us(request):
     return render(request, "adminlte/contact_us.html")
+
+def new_dashboard(request):
+    return render(request, "adminlte/new_dashboard.html")
