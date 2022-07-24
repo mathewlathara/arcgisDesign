@@ -29,6 +29,9 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'admin-lte/bootstrap/css/sb-admin-2.min.css' %}" rel="stylesheet">
 
+    <!-- SCSS -->
+    <link rel="stylesheet/less" type="text/css" href="styles.less" />
+
     <style>
         body{
             font-family: Poppins;
@@ -437,6 +440,8 @@
     <!-- Page level custom scripts -->
     <script src="{% static 'admin-lte/bootstrap/js/demo/chart-area-demo.js' %}"></script>
     <script src="{% static 'admin-lte/bootstrap/js/demo/chart-pie-demo.js' %}"></script>
+    <script src="less.js" type="text/javascript"></script>
+
     {% endblock %}
     <script>
         $('#dashboard').click(function(){
