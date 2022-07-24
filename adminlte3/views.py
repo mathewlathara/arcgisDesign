@@ -1242,3 +1242,9 @@ def contact_us(request):
 
 def new_dashboard(request):
     return render(request, "adminlte/new_dashboard.html")
+
+def features(request):
+    return render(request, "adminlte/features.html")
+
+def describe(request):
+    return render(request, "adminlte/describe.html")

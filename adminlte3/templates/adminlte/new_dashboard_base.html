@@ -95,7 +95,7 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
             <li id="myCollapsible" class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <!-- <i class="fas fa-fw fa-cog"></i> -->
                     <i><img src="static/admin-lte/assets/img/new_d/Star.png"></i>
@@ -103,13 +103,25 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class=" bg-primary py-2 collapse-inner rounded">
-                        <a id="feature1" class="collapse-item text-white" href=""><span>Describe</span></a>
+                        <a id="feature1" class="collapse-item text-white" href="/describe"><span>Describe</span></a>
                         <a class="collapse-item text-white" href=""><span>Explain</span></a>
                         <a class="collapse-item text-white" href=""><span>Predict</span></a>
                         <a class="collapse-item text-white" href=""><span>Prescribe</span></a>
 
                     </div>
                 </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/features" id="uploadcsvfileid" style="cursor:pointer">
+                    <i><img src="static/admin-lte/assets/img/new_d/Star.png"></i>
+                    <span>Features</span></a>
+                    <ul class=" pl-3 list-group list-group-flush text-white text-weight-light">
+                        <li class="list-group-item bg-primary"><a id="feature1" class="text-white" href="/describe"><span>Describe</span></a></li>
+                        <li class="list-group-item bg-primary"><a id="feature1" class="text-white" href="#"><span>Explain</span></a></li>
+                        <li class="list-group-item bg-primary"><a id="feature1" class="text-white" href="#"><span>Predict</span></a></li>
+                        <li class="list-group-item bg-primary"><a id="feature1" class="text-white" href="#"><span>Prescribe</span></a></li>
+                      </ul>
             </li>
 
                 <!-- Nav Item - Charts -->
@@ -308,36 +320,39 @@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
+                       
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{username}}</span>
+                                
                                 <img class="img-profile rounded-circle"
                                     src="{% static 'admin-lte/bootstrap/img/undraw_profile.svg' %}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <!-- <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                <a class="dropdown-item" href="/in_dex">
+                                    <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Home
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                <a class="dropdown-item" href="/dexterity">
+                                    <i class="fas fa-map-marked-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    DeX-Terity
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                <a class="dropdown-item" href="/contactus">
+                                    <i class="fas fa-question-circle fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Contact Us
                                 </a>
-                                <div class="dropdown-divider"></div> -->
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
                             </div>
                         </li>
+                        
 
                     </ul>
 
