@@ -29,16 +29,32 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'admin-lte/bootstrap/css/sb-admin-2.min.css' %}" rel="stylesheet">
 
+    <style>
+        body{
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: bold;
+        }
+        .bg-primary{
+            background-color: #165DA9;
+        }
+        .text-primary{
+            color: #165DA9;
+        }
+        .clicked {
+             background-color: gray;
+        }
+    </style>
 </head>
 
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
-        <ul class="navbar-nav  sidebar  sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav  sidebar bg-primary sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" style="cursor:pointer"
+            <a class="sidebar-brand bg-white d-flex align-items-center justify-content-center" style="cursor:pointer"
                 id="dexteritydashboardid">
                 <div class="sidebar-brand-icon">
                     <img src="static/admin-lte/assets/img/new_d/logo_ec.png" alt="" width="200" height="55">
@@ -48,7 +64,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-            <ul class=" navbar-nav sidebar bg-primary">
+            <ul class=" navbar-nav  sidebar bg-primary sidebar-dark accordion">
                 <!-- Nav Item - Dashboard -->
                 <!-- <li class="nav-item active">
                 <a class="nav-link" href="index.html">
@@ -60,7 +76,7 @@
                 <!-- <hr class="sidebar-divider"> -->
 
 
-                <li class="nav-item bg-primary">
+                <li id="dashboard" class="nav-item bg-primary active">
                     <a class="nav-link" id="dashboardredirect" style="cursor:pointer">
                         <i><img src="static/admin-lte/assets/img/new_d/dashboard.png">
                         </i>
@@ -84,7 +100,7 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class=" bg-primary py-2 collapse-inner rounded">
-                        <a class="collapse-item text-white" href=""><span>Describe</span></a>
+                        <a id="feature1" class="collapse-item text-white" href=""><span>Describe</span></a>
                         <a class="collapse-item text-white" href=""><span>Explain</span></a>
                         <a class="collapse-item text-white" href=""><span>Predict</span></a>
                         <a class="collapse-item text-white" href=""><span>Prescribe</span></a>
@@ -109,7 +125,7 @@
                 </div> -->
             <!-- Sidebar Message -->
 
-        </ul>
+            </ul>
         </ul>
         <!-- End of Sidebar -->
 
@@ -329,276 +345,7 @@
                 {% block content%}
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">DEX console</h1>
-
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-                        <!-- <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
-                        <!-- <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <!-- <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- Pending Requests Card Example -->
-                        <!-- <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-
-                        <!-- <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- Pie Chart -->
-                        <!-- <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <div class="card shadow col-lg-3 mb-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Descriptive analysis</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-                                        src="{% static 'admin-lte/assets/img/dataplatformimg.jpg' %}" alt="..."
-                                        width="200" height="200">
-                                </div>
-                                <p>Access disparate sources and types of socioeconomic and
-                                    environmental data relevant to the Conservation Area. It gives you
-                                    an idea of the distribution of data, helps you detect outliers and
-                                    typos, and enables you identify associations among variables, thus
-                                    making you ready to conduct further statistical analyses.</p>
-                                <span id="descriptiveanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check
-                                    this
-                                    feature out &rarr;</span>
-                            </div>
-                        </div>
-
-
-                        <div class="card shadow col-lg-3 mb-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Explanatory analysis</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-                                        src="{% static 'admin-lte/assets/img/graphicalanalysis.jpg' %}" alt="..."
-                                        width="200" height="200">
-                                </div>
-                                <p>Use Dex-Terity to visualize and analyze historical land use of
-                                    different watersheds. Dex-Terity presents causal links between
-                                    parameters. It involves the interpretation of data gathered through
-                                    the use of analytical and logical reasoning to determine patterns,
-                                    relationships or trends. We use various charts to visualize to
-                                    compare different parameters. Filters are provided to compare 2
-                                    desired parameters to get to know different hidden trends behind
-                                    the numbers.</p>
-                                <span id="explanatoryanalysisid" style="color:rgb(15, 136, 241); cursor:pointer">Check
-                                    this
-                                    feature out &rarr;</span>
-                            </div>
-                        </div>
-
-                        <div class="card shadow col-lg-3 mb-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Predictive analysis</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
-                                        src="{% static 'admin-lte/assets/img/trendanalysis.jpg' %}" alt="..."
-                                        width="200" height="200">
-                                </div>
-                                <p>Dex-Terity model forecasts the potential impacts of stressors on the
-                                    watershed. Download trend analysis for the future years based on
-                                    the future input data you provide, considering the population and
-                                    economic changes. Machine learning model predictions allow the
-                                    public and businesses to make highly accurate guesses as to the
-                                    likely outcomes of a question based on historical data, which can
-                                    be about all kinds of things, here it would be predicting water quality
-                                    based on different human activities and environmental changes as
-                                    input parameters. Created the best models with some of the
-                                    supreme Machine learning techniques that will help the user to get
-                                    the accurately predicted results.</p>
-                                <span id="predictiveanalysis" style="color:rgb(15, 136, 241); cursor:pointer">Check this
-                                    feature out &rarr;</span>
-                            </div>
-                        </div>
-
-                        <div class="card shadow col-lg-3 mb-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Prescriptive analysis</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
-                                        src="{% static 'admin-lte/assets/img/decisionmakingtool.jpg' %}" alt="..."
-                                        width="200" height="200">
-                                </div>
-                                <p>Predictive analytics answers the question of what is likely to
-                                    happen. This is when historical data is combined with rules,
-                                    algorithms, and occasionally external data to determine the
-                                    probable future outcome of an event or the likelihood of a situation
-                                    occurring. The final phase is prescriptive analytics, which goes
-                                    beyond predicting future outcomes by also suggesting actions to
-                                    benefit from the predictions and showing the implications of each
-                                    decision option.</p>
-                                <span id="prescriptiveanalysis" style="color:rgb(15, 136, 241); cursor:pointer">Check
-                                    this
-                                    feature out &rarr;</span>
-                            </div>
-                        </div>
-
-                    </div>
-
+                  
                 </div>
                 {% endblock %}
                 <!-- /.container-fluid -->
@@ -692,6 +439,12 @@
     <script src="{% static 'admin-lte/bootstrap/js/demo/chart-pie-demo.js' %}"></script>
     {% endblock %}
     <script>
+        $('#dashboard').click(function(){
+            $(this).toggleClass('clicked');
+        });
+        $('#feature1').click(function(){
+            $(this).toggleClass('clicked');
+        });
         $(document).on('click', '#logoutbutton', function () {
             window.location.href = window.location.origin + '/logincontroller';
         });
