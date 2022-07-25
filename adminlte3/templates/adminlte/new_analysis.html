@@ -1,0 +1,70 @@
+{% extends 'adminlte/new_dashboard_base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- <div class="container"> -->
+    <div class=" ml-5 row">
+        <h2 class="text-primary font-weight-normal">
+            Analyse our historical data
+        </h2>
+    </div>
+    <div class="ml-5 row no-gutters">
+        <p class="text-secondary font-weight-light">Instructions, which filters to select depending on the user’s intentions, knowledge, or tasks.<br>
+            Which are necessary, which no, specifically station is an extra filter but not mandatory.</p>
+    </div>
+
+    <div class="row  p-5" style="background-color: rgba(245,244,244,1);">
+        <div class="col-5 no-gutters col-centered">
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">From year*</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" style="border-radius: 20px;" aria-label="Default select example">
+                <option selected>Select from year</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <div class="pl-2 row no-gutters "><label class="text-primary mb-2">Standard*</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" style="border-radius: 20px;" aria-label="Default select example">
+                <option selected>Select Standard</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Station*</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" style="border-radius: 20px;" aria-label="Default select example">
+                <option selected>Select Station</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col-5 no-gutters col-centered">
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">To year*</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" style="border-radius: 20px;" aria-label="Default select example">
+                <option selected>Select to year</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">On X-axis*</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" style="border-radius: 20px;" aria-label="Default select example">
+                <option selected>On X-axis</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">On Y-axis</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" style="border-radius: 20px;" aria-label="Default select example">
+                <option selected>On Y-axis</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="d-flex align-items-star col-2">
+            <button class=" pl-5 pr-5  btn btn-primary rounded-pill align-self-center">Filter</button>
+        </div>
+
+    </div>
+<!-- </div> -->
+
+{% endblock %}

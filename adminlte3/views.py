@@ -1308,3 +1308,5 @@ def describe(request, year):
     # context = plotMap(featuresSelected)
     return render(request, "adminlte/describe.html", {"jsonvalue":json_return, "regiondemographicrenderurl" : regiondemographicrenderurl, "yearselected" : yearslected})
 
+def new_analysis(request):
+    return render(request, "adminlte/new_analysis.html")
