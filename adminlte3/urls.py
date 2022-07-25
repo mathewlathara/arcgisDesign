@@ -64,5 +64,5 @@ urlpatterns = [
     path('contactus', contact_us),
     path('new_dashboard', new_dashboard),
     path('features', features),
-    path('describe', describe),
+    path('describe/<str:year>', describe),
 ]

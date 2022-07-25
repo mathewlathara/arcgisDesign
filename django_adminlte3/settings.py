@@ -155,7 +155,7 @@ USE_TZ = True
 #      os.path.join(BASE_DIR+'/bower_components'),
 # ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = '/static/'
+STATIC_URL = '/describe/static/'
 
 # if DEBUG:
 import mimetypes

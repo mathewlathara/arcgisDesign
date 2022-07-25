@@ -1,69 +1,242 @@
 {% extends 'adminlte/new_dashboard_base.html' %}
-
 {% load static %}
+{% block extra_cssheader %}
+<link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+<style>
+    html,
+    body,
+    #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 550px;
+        width: 100%;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
+<div class="container-fluid">
+
     <div class="row">
-        <img src="static/admin-lte/assets/img/new_d/Screen_Shot_2022-06-16_at_8564.png" alt="Responsive image" style="width:100%; object-fit: cover;">
+        <div class="col-lg-2">
+            <label>Select a year</label>
+            <span>
+                <select class="custom-select yearFrom">
+
+                </select>
+            </span>
+        </div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="viewDiv"></div>
+        </div>
     </div>
 
-    <div class="container mt-4 mb-5">
-        <div class="row">
-            <h1 class="text-primary font-weight-bold">
-                Data Platform
-            </h1>
+
+</div>
+
+<input type="hidden" id="stationid">
+<input type="hidden" id="yearselectedinputhidden" value="{{yearselected}}">
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div class="modal fade" id="demographicsGraphModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Station ID: <span id="stationdisplaymodalbox"></span><span>,
+                        Year:{{yearselected}}</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span style="font-weight: bold;">Sampling site : </span><span id="totalsamplingsitelatitudeid"
+                            style="font-weight: bold;"></span><span style="font-weight: bold;">&#176;N</span><span
+                            id="totalsamplingsitelongitudeid" style="font-weight: bold; padding-left:5px; "></span><span
+                            style="font-weight: bold;">&#176;W</span><br>
+                        <span style="font-weight: bold;">Total sq.km : </span><span id="totalsqkmid"
+                            style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
+                        <span style="font-weight: bold;">Drainage basin : </span><span id="drainagebasinid"
+                            style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
+                        <span style="font-weight: bold;">Population : </span><span id="populationid"
+                            style="font-weight: bold;"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="land-usechart"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="soildatagraph"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12"><canvas id="meantemperaturedivision"
+                            style="width:100%;max-width:600px"></canvas></div>
+                </div>
+                <div class="row">
+                    <div id="meanmaxrainfalldivision" class="col-lg-12"></div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="row">
-            <h2 class="text-primary font-weight-normal">
-                Map Tool
-            </h2>
-            <p class="text-secondary font-weight-light">
-                Learn about our pilot region using data from the Central Lake Ontario Conservation Area (CLOCA)
-                and the Toronto and Region Conservation Authority (TRCA).
-            </p>
-            <ol class="font-weight-light">
-                <li>Select year for navigation</li>
-                <li>Explore layers on the map</li>
-                <li>Get information about specific stations</li>
-            </ol>
-        </div>
-        <div class="row mt-5">
-            <h2 class="text-primary font-weight-normal">
-                Model Info, Important aspects.
-            </h2>
-            <p class="text-secondary font-weight-light">
-                Outliers & Correlation charts of data will be here
-            </p>
-        </div>
-        
-        <div class="row text-center mt-5">
-			<div class="col col-lg-10 offset-lg-1">
-				<h1 class="gy-5 text-blue-primary m-5">Data Sources</h1>
-				<div class="row">
-					<div class="col">
-						<h6>CLCC Water Quality Data</h6>
-						<p><img class="img-fluid" src="static/admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027.png"></p>
-						<p class="m-3">
-							<button class="btn btn-primary rounded-pill" type="button"><h6 class="mx-3">Read more</h6></button>
-						</p>
-					</div>
-					<div class="col">
-						<h6>CLCC Water Quality Data</h6>
-						<p><img class="img-fluid" src="static/admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_b.png"></p>
-						<p class="m-3">
-							<button class="btn btn-primary rounded-pill" type="button"><h6 class="mx-3">Read more</h6></button>
-						</p>
-					</div>
-					<div class="col">
-						<h6>CLCC Water Quality Data</h6>
-						<p><img class="img-fluid" src="static/admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png"></p>
-						<p class="m-3">
-							<button class="btn btn-primary rounded-pill" type="button"><h6 class="mx-3">Read more</h6></button>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="container mt-4 mb-5">
+    <div class="row">
+        <h1 class="text-primary font-weight-bold">
+            Data Platform
+        </h1>
+    </div>
+    <div class="row">
+        <h2 class="text-primary font-weight-normal">
+            Map Tool
+        </h2>
+        <p class="text-secondary font-weight-light">
+            Learn about our pilot region using data from the Central Lake Ontario Conservation Area (CLOCA)
+            and the Toronto and Region Conservation Authority (TRCA).
+        </p>
+        <ol class="font-weight-light">
+            <li>Select year for navigation</li>
+            <li>Explore layers on the map</li>
+            <li>Get information about specific stations</li>
+        </ol>
+    </div>
+    <div class="row mt-5">
+        <h2 class="text-primary font-weight-normal">
+            Model Info, Important aspects.<br>
+        </h2>
+    </div>
+    <div class="row">
+        <p class="text-secondary font-weight-light">
+            <br>Outliers & Correlation charts of data will be here.
+        </p>
     </div>
 
+    <div class="row text-center mt-5">
+        <div class="col col-lg-10 offset-lg-1">
+            <h1 class="gy-5 text-blue-primary m-5">Data Sources</h1>
+            <div class="row">
+                <div class="col">
+                    <h6>CLCC Water Quality Data</h6>
+                    <p><img class="img-fluid"
+                            src="static/admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027.png"></p>
+                    <p class="m-3">
+                        <button class="btn btn-primary rounded-pill" type="button">
+                            <h6 class="mx-3">Read more</h6>
+                        </button>
+                    </p>
+                </div>
+                <div class="col">
+                    <h6>CLCC Water Quality Data</h6>
+                    <p><img class="img-fluid"
+                            src="static/admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_b.png"></p>
+                    <p class="m-3">
+                        <button class="btn btn-primary rounded-pill" type="button">
+                            <h6 class="mx-3">Read more</h6>
+                        </button>
+                    </p>
+                </div>
+                <div class="col">
+                    <h6>CLCC Water Quality Data</h6>
+                    <p><img class="img-fluid"
+                            src="static/admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png"></p>
+                    <p class="m-3">
+                        <button class="btn btn-primary rounded-pill" type="button">
+                            <h6 class="mx-3">Read more</h6>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascriptedit %}
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin-lte/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'admin-lte/bootstrap/js/sb-admin-2.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js "></script>
+<script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
+<script src="https://js.arcgis.com/4.23/"></script>
+<script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
+<script>
+    var jsonpointfile = {{ jsonvalue| safe }};
+    $(document).ready(function () {
+        var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
+        var loadingurl = "199.241.160.97";
+        loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
+
+        var yearlist = ["2017", "2013", "2008", "2007", "2002"];
+        yearselectbox = "<option value='' disabled selected>Select a year</option>";
+        for (let j = 0; j < yearlist.length; j++) {
+            if (yearlist[j] == "{{yearselected}}") {
+                yearselectbox += "<option value=" + yearlist[j] + " selected>" + yearlist[j] + "</option>";
+            } else {
+                yearselectbox += "<option value=" + yearlist[j] + ">" + yearlist[j] + "</option>";
+            }
+        }
+
+        $(".yearFrom").html(yearselectbox);
+
+        $(document).on('change', '.yearFrom', function () {
+            var yearselected = $(this).val();
+            window.location.href = '/map_ex/' + yearselected;
+        });
+
+    });
+</script>
 {% endblock %}
