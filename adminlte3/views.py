@@ -886,13 +886,13 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
 def filterDataForAnalysisPage(request):
     print("filterDataForAnalysisPage called.....")
     if request.GET['yearFrom']:
-        yearFrom = (request.GET['yearFrom'])
-        yearTo = (request.GET['yearTo'])
-        station = (request.GET['station'])
-        featureOnX = (request.GET['feature1'])
-        featureOnY = (request.GET['feature2'])
+        yearFrom = request.GET['yearFrom']
+        yearTo = request.GET['yearTo']
+        station = request.GET['station']
+        featureOnX = request.GET['feature1']
+        featureOnY = request.GET['feature2']
         global data_type
-        data_type = (request.GET['data_type'])
+        data_type = request.GET['data_type']
 
     if data_type == "historical":
         print("historical")
