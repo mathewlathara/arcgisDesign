@@ -245,7 +245,7 @@ async function getData() {
 // fetching values from CSV file
 function plotFromCSV() {
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
-    //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+    const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
     // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
     console.log("csv selected: ", CSV);
 

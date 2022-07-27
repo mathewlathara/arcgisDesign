@@ -884,6 +884,7 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
 
 @api_view(('GET',))
 def filterDataForAnalysisPage(request):
+    print("filterDataForAnalysisPage called.....")
     if request.GET['yearFrom']:
         yearFrom = (request.GET['yearFrom'])
         yearTo = (request.GET['yearTo'])
@@ -1106,6 +1107,7 @@ def validateUploadedFile(request):
 
 @api_view(('POST',))
 def analysisFilterData(request):
+    print("analysisFilterData called......")
     yearFrom = request.POST['yearFrom']
     yearTo = request.POST['yearTo']
     
