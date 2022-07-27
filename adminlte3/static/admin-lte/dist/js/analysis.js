@@ -262,6 +262,7 @@ function plotFromCSV() {
           console.log(data.graph1y);
           console.log(data.graph2x);
           console.log(data.graph2y);
+          console.log(data.error);
           var trace1 = {
             x: data.graph1x,
             y: data.graph1y,
