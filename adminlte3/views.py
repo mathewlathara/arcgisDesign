@@ -885,14 +885,25 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
 @api_view(('GET',))
 def filterDataForAnalysisPage(request):
     print("filterDataForAnalysisPage called.....")
-    if request.GET['yearFrom']:
-        yearFrom = (request.GET['yearFrom'])
-        yearTo = (request.GET['yearTo'])
-        station = (request.GET['station'])
-        featureOnX = (request.GET['feature1'])
-        featureOnY = (request.GET['feature2'])
-        global data_type
-        data_type = (request.GET['data_type'])
+    try:
+        if request.GET['yearFrom']:
+            yearFrom = (request.GET['yearFrom'])
+            yearTo = (request.GET['yearTo'])
+            station = (request.GET['station'])
+            featureOnX = (request.GET['feature1'])
+            featureOnY = (request.GET['feature2'])
+            global data_type
+            data_type = (request.GET['data_type'])
+            error = "None"
+
+    except MultiValueDictKeyError or KeyError: 
+        error = "Could not get your data, please refresh the page and try again!"
+        yearFrom = 2006
+        yearTo = 2019
+        station = '6010400102'
+        featureOnX = "TotalPhosphorus"
+        featureOnY = "TotalNitrogen"
+        data_type = "historical"
 
     if data_type == "historical":
         print("historical")
@@ -914,7 +925,7 @@ def filterDataForAnalysisPage(request):
     description2 = "The graph shows "+featureOnY+" amount(on Y) recorded in years between "+yearFrom+" to "+yearTo+"(on X)." + "NOTE: All the units are in mg/L, ml or Ha respectively.";
 
         
-    return Response({'graph1x':graph1x, 'graph1y':graph1y, 'graph2x':graph2x, 'graph2y':graph2y, 'description1':description1, 'description2':description2})
+    return Response({'graph1x':graph1x, 'graph1y':graph1y, 'graph2x':graph2x, 'graph2y':graph2y, 'description1':description1, 'description2':description2, "error": error})
 
 def advanced(request):
     # geoJSON_df_durham =gpd.read_file( "data/Shape files/durham_points_watersheds.shp")
