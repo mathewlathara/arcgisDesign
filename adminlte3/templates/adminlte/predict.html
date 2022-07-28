@@ -1,0 +1,32 @@
+{% extends 'adminlte/new_dashboard_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row h2 ml-3 text-primary">
+        Predict tool
+    </div>
+    <div class="row ml-3">
+        <p class="text-primary">Select Predict to </p>
+    </div>
+    <div class="row">
+        <!-- <div class="row"> -->
+            <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
+                <p class="text-primary"> 1. Select Target Parameter</p>
+                <p class="text-secondary"> Total Phosphorous (TP) or Total Nitrogen (TN)</p>
+            </div>
+            <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
+                <div class="m-3 btn-group btn-group-toggle rounded-pill" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                      <input type="radio" name="options" id="option1" autocomplete="off" checked> TP
+                    </label>
+                    <label class="btn btn-primary">
+                      <input type="radio" name="options" id="option2" autocomplete="off"> TN
+                    </label>
+                  </div>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+{% endblock %}
