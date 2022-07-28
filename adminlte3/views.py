@@ -1016,12 +1016,19 @@ def addNewUser(request):
     if request.method == "POST":
         emailaddress = request.POST['emailaddress']
         password = request.POST['password']
+        displayusername = request.POST['displayusername']
         userregistration = UserRegistration()
         checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress.strip()).count()
-        if checkifuserexists == 0:
+        checkifdisplayuserexists = UserRegistration.objects.all().filter(user_display=displayusername.strip()).count()
+        if checkifuserexists == 0 and checkifdisplayuserexists == 0:
             userregistration.user_name = emailaddress.strip()
             userregistration.user_password = password.strip()
+            userregistration.user_display = displayusername.strip()
             userregistration.save()
+        elif(checkifuserexists > 0):
+            status = "useremailexists"
+        elif(checkifdisplayuserexists > 0):
+            status = "displayuserexists"
         else:
             status = "exists"
     return Response({"status":status})

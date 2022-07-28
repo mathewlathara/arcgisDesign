@@ -101,8 +101,8 @@
 							for="signin-email">E-mail</label>
 						<input
 							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
-							type="email" placeholder="E-mail" name="emailaddress" id="loginemailaddress">
-						
+							type="email" placeholder="Enter Username/ E-mail address" name="emailaddress" id="loginemailaddress">
+
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
@@ -111,9 +111,9 @@
 							for="signin-password">Password</label>
 						<input
 							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
-							type="password" placeholder="Password" name="password" id="loginpassword">
+							type="password" placeholder="Enter your password" name="password" id="loginpassword">
 						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Show</a>
-						
+
 					</p>
 
 					<p style="color:red" id="loginfailedorsuccess">Login credentials failed</p>
@@ -135,15 +135,15 @@
 			</div> <!-- cd-signin-modal__block -->
 			<div class="cd-signin-modal__block js-signin-modal-block" data-type="signup">
 				<!-- sign up form -->
-				<form class="cd-signin-modal__form">
+				<form class="cd-signin-modal__form" id="signupform">
 					<p class="cd-signin-modal__fieldset">
 						<label
 							class="cd-signin-modal__label cd-signin-modal__label--username cd-signin-modal__label--image-replace"
 							for="signup-username">Username</label>
 						<input
 							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
-							id="signup-username" type="text" placeholder="Username">
-						
+							id="signup-username" type="text" placeholder="Username" name="displayusername">
+
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
@@ -152,8 +152,8 @@
 							for="signup-email">E-mail</label>
 						<input
 							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
-							id="signup-email" type="email" placeholder="E-mail">
-						
+							id="signup-email" type="email" placeholder="E-mail" name="emailaddress">
+
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
@@ -162,10 +162,16 @@
 							for="signup-password">Password</label>
 						<input
 							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
-							id="signup-password" type="text" placeholder="Password">
-						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
-						
+							id="signup-password" type="password" placeholder="Password" name="password">
+						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Show</a>
+
 					</p>
+
+					<p id="usernamealreadyexists" style="color:red">Username Exists. Please try another username</p>
+					<p id="useremailalreadyexists" style="color:red">Mail-id is already in use. Please try using another
+						e-mail address</p>
+					<p id="usercreated" style="color:green">User successfully created. Please sign-in using your new
+						credentials</p>
 
 					<p class="cd-signin-modal__fieldset">
 						<input type="checkbox" id="accept-terms" class="cd-signin-modal__input ">
@@ -175,7 +181,7 @@
 					<p class="cd-signin-modal__fieldset">
 						<input style="background: #165DA9;"
 							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding"
-							type="submit" value="Create account">
+							type="submit" value="Create account" id="addnewuser">
 					</p>
 				</form>
 			</div> <!-- cd-signin-modal__block -->
@@ -193,7 +199,7 @@
 						<input
 							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
 							id="reset-email" type="email" placeholder="E-mail">
-						
+
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
@@ -276,7 +282,7 @@
 					</div>
 					<div class="col-sm-2 text-center">
 						<p class="pb-0 mb-0">Descriptive</p>
-						  <img src="static/admin-lte/assets/img/new_d/1.png" alt="">
+						<img src="static/admin-lte/assets/img/new_d/1.png" alt="">
 					</div>
 					<div class="col-sm-2 text-center">
 						<p class="pb-0 mb-0">Explanatory</p>
@@ -291,7 +297,7 @@
 						<img src="static/admin-lte/assets/img/new_d/4.png" alt="">
 					</div>
 					<div class="col-sm-2 text-center">
-						
+
 					</div>
 				</div>
 				<!-- <div class="d-flex justify-content-center">
@@ -302,153 +308,207 @@
 					<div class="p-2 bd-highlight" ><img style="height: 20px; width: 100px" src="static/admin-lte/assets/img/new_d/arrow.png" alt=""></div>
 					<div class="p-2 bd-highlight" ><img style="height: 20px; width: 100px" src="static/admin-lte/assets/img/new_d/arrow.png" alt=""></div>
 				</div> -->
-					<div class="row no-gutters mb-3">
-						<div class="col-sm-4 text-center">
-							<img style="height: 20px; width: 100px; margin-left: 400px;"
-								src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
-							<p class="text-secondary" style="margin-left: 420px;">Highsight</p>
+				<div class="row no-gutters mb-3">
+					<div class="col-sm-4 text-center">
+						<img style="height: 20px; width: 100px; margin-left: 400px;"
+							src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
+						<p class="text-secondary" style="margin-left: 420px;">Highsight</p>
 
-						</div>
-						<div class="col-sm-3 text-center">
-							<img style="height: 20px; width: 100px; margin-left: 180px;"
-								src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
-							<p class="text-secondary" style="margin-left: 200px;">Insight</p>
+					</div>
+					<div class="col-sm-3 text-center">
+						<img style="height: 20px; width: 100px; margin-left: 180px;"
+							src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
+						<p class="text-secondary" style="margin-left: 200px;">Insight</p>
 
-						</div>
-						<div class="col-sm-4 text-center">
-							<img style="height: 20px; width: 100px; margin-right: 150px;"
-								src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
-							<p class="text-secondary" style="margin-right: 150px;">Foresight</p>
-						</div>
+					</div>
+					<div class="col-sm-4 text-center">
+						<img style="height: 20px; width: 100px; margin-right: 150px;"
+							src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
+						<p class="text-secondary" style="margin-right: 150px;">Foresight</p>
+					</div>
 
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid" style="padding-right: 0px; margin-right: 0px;">
+		<div class="row bg2">
+			<div class="text-center" style='padding-top: 200px; font-family: Poppins;
+			font-style: normal;'>
+				<span style="font-weight: bold;
+			font-size: 40px;">Try out DeX-Terity today<br></span>
+				<span style="font-weight: normal;
+			font-size: 20px;">Interested in visualizing watershed trends and impacts in a real-time?<br>Launch DeX-Terity to
+					explore patterns in land-use data, water quality, and more!<br></span>
+				<button style="font-size: 15px;" type="button" class="btn btn-outline-light rounded-pill mt-5"
+					onclick="location.href='/dexterity'">Launch Dex-Terity</button>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<p class="text-center pt-5 text-primary" style="font-size: 40px;">Stay up to date with DeX-Terity
+				</p>
+			</div>
+			<div class="d-flex align-items-center justify-content-center">
+				<div class="form-outline" style="width: 25%;">
+					<input type="search" id="form1" class="form-control" placeholder="Enter your email address"
+						aria-label="Search" />
+				</div>
+			</div>
+			<div class="d-flex align-items-center justify-content-center">
+				<button style="font-size: 16px;" type="button"
+					class="btn btn-primary rounded-pill mt-3">Subscribe</button>
+			</div>
+
+		</div>
+
+		<div class="container-fluid mt-5 bg-primary text-white">
+			<div class="row text-center">
+				<div class="col">
+					<div class="m-5"><img class="img-fluid" src="static/admin-lte/assets/img/new_d/logo.png"></div>
+					<div class="row m-5">
+						<div class="col">
+							<i class="bi bi-facebook fs-1"></i>
+						</div>
+						<div class="col">
+							<i class="bi bi-twitter fs-1"></i>
+						</div>
+						<div class="col">
+							<i class="bi bi-linkedin fs-1"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="row m-5">
+						<ul>
+							<li class="list-group-item">See DeX-Terity</li>
+							<li class="list-group-item">About Us</li>
+							<li class="list-group-item">Contact Us</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col">
+					<div class="row m-5">
+						<ul>
+							<li class="list-group-item">Privacy Policy</li>
+							<li class="list-group-item">Terms of Service</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col">
+					<div class="row mx-5 my-3" style="background-color:white;">
+						<div class="col col-12 mb-3">
+							<p class="text-primary mt-2 text-start">Powered by:</p>
+						</div>
+						<div class="col col-12">
+							<img class="img-fluid" src="static/admin-lte/assets/img/new_d/CGLR_logo.png">
+						</div>
+						<div class="col col-12 mt-3">
+							<img class="img-fluid" src="static/admin-lte/assets/img/new_d/pollution_probe.png">
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="container-fluid" style="padding-right: 0px; margin-right: 0px;">
-			<div class="row bg2">
-				<div class="text-center" style='padding-top: 200px; font-family: Poppins;
-			font-style: normal;'>
-					<span style="font-weight: bold;
-			font-size: 40px;">Try out DeX-Terity today<br></span>
-					<span style="font-weight: normal;
-			font-size: 20px;">Interested in visualizing watershed trends and impacts in a real-time?<br>Launch DeX-Terity to
-						explore patterns in land-use data, water quality, and more!<br></span>
-					<button style="font-size: 15px;" type="button" class="btn btn-outline-light rounded-pill mt-5"
-						onclick="location.href='/dexterity'">Launch Dex-Terity</button>
-				</div>
+		<div class="container-fluid p-0">
+			<div class="row">
+				<h6 class=" my-3 text-center fw-light">&copy;
+					<script>document.write(/\d{4}/.exec(Date())[0])</script> All Rights Reserved.
+				</h6>
 			</div>
-
-			<div class="container">
-				<div class="row">
-					<p class="text-center pt-5 text-primary" style="font-size: 40px;">Stay up to date with DeX-Terity
-					</p>
-				</div>
-				<div class="d-flex align-items-center justify-content-center">
-					<div class="form-outline" style="width: 25%;">
-						<input type="search" id="form1" class="form-control" placeholder="Enter your email address"
-							aria-label="Search" />
-					</div>
-				</div>
-				<div class="d-flex align-items-center justify-content-center">
-					<button style="font-size: 16px;" type="button"
-						class="btn btn-primary rounded-pill mt-3">Subscribe</button>
-				</div>
-
-			</div>
-
-			<div class="container-fluid mt-5 bg-primary text-white">
-				<div class="row text-center">
-					<div class="col">
-						<div class="m-5"><img class="img-fluid" src="static/admin-lte/assets/img/new_d/logo.png"></div>
-						<div class="row m-5">
-							<div class="col">
-								<i class="bi bi-facebook fs-1"></i>
-							</div>
-							<div class="col">
-								<i class="bi bi-twitter fs-1"></i>
-							</div>
-							<div class="col">
-								<i class="bi bi-linkedin fs-1"></i>
-							</div>
-						</div>
-					</div>
-					<div class="col">
-						<div class="row m-5">
-							<ul>
-								<li class="list-group-item">See DeX-Terity</li>
-								<li class="list-group-item">About Us</li>
-								<li class="list-group-item">Contact Us</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col">
-						<div class="row m-5">
-							<ul>
-								<li class="list-group-item">Privacy Policy</li>
-								<li class="list-group-item">Terms of Service</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col">
-						<div class="row mx-5 my-3" style="background-color:white;">
-							<div class="col col-12 mb-3">
-								<p class="text-primary mt-2 text-start">Powered by:</p>
-							</div>
-							<div class="col col-12">
-								<img class="img-fluid" src="static/admin-lte/assets/img/new_d/CGLR_logo.png">
-							</div>
-							<div class="col col-12 mt-3">
-								<img class="img-fluid" src="static/admin-lte/assets/img/new_d/pollution_probe.png">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="container-fluid p-0">
-				<div class="row">
-					<h6 class=" my-3 text-center fw-light">&copy;
-						<script>document.write(/\d{4}/.exec(Date())[0])</script> All Rights Reserved.
-					</h6>
-				</div>
-			</div>
+		</div>
 
 
-			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-				integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-				crossorigin="anonymous"></script>
-			<script src="{% static 'admin-lte/assets/js/js_loginmodal/main.js' %}"></script>
-			<script src="{% static 'admin-lte/assets/js/js_loginmodal/placeholders.min.js' %}"></script>
-			<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
-			<script>
-				$(document).ready(function () {
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+			crossorigin="anonymous"></script>
+		<script src="{% static 'admin-lte/assets/js/js_loginmodal/main.js' %}"></script>
+		<script src="{% static 'admin-lte/assets/js/js_loginmodal/placeholders.min.js' %}"></script>
+		<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+		<script>
+			$(document).ready(function () {
+				$("#loginfailedorsuccess").hide();
+				$("#usernamealreadyexists").hide();
+				$("#useremailalreadyexists").hide();
+				$("#usercreated").hide();
+
+				$(document).on('click', "#logintoconsole", function () {
 					$("#loginfailedorsuccess").hide();
-					$(document).on('click', "#logintoconsole", function(){
-						$("#loginfailedorsuccess").hide();
-						var loginemailaddress = $("#loginemailaddress").val();
-						var loginpassword = $("#loginpassword").val();
-						// console.log(formdata);
-						$.ajax({
-							type: 'POST',
-							url: '/loginUsingUserCredentials/',
-							data: $("#signInFormId").serialize(),
-                            // headers: { "X-CSRFToken": csrftoken },
-							success: function (data) {
-                                if (data.status === 'success') {
-									window.location.href = window.location.origin + '/new_dashboard';
-								} else {
-									$("#loginfailedorsuccess").show();
-								}
-                            },
-                            error: function (error) {
-                                console.log("Error" + JSON.stringify(error));
-                            }
-						});
+					var loginemailaddress = $("#loginemailaddress").val();
+					var loginpassword = $("#loginpassword").val();
+					// console.log(formdata);
+					$.ajax({
+						type: 'POST',
+						url: '/loginUsingUserCredentials/',
+						data: $("#signInFormId").serialize(),
+						// headers: { "X-CSRFToken": csrftoken },
+						success: function (data) {
+							if (data.status === 'success') {
+								window.location.href = window.location.origin + '/new_dashboard';
+							} else {
+								$("#loginfailedorsuccess").show();
+							}
+						},
+						error: function (error) {
+							console.log("Error" + JSON.stringify(error));
+						}
 					});
 				});
-			</script>
+
+				$(document).on('click', '#addnewuser', function (e) {
+					$("#usernamealreadyexists").hide();
+					$("#useremailalreadyexists").hide();
+					$("#usercreated").hide();
+					$("#loginfailedorsuccess").hide();
+					let isagreementChecked = $('#accept-terms')[0].checked
+					var username = $("#signup-username").val();
+					var emailaddress = $("#signup-email").val();
+					var password = $("#signup-password").val();
+					var agreetoterms = $("#accept-terms").val();
+					var teststring = containsSpecialCharacters(username);
+
+					if (isagreementChecked == true) {
+						if (teststring == false) {
+							if (username === '' || emailaddress === '' || password === '') {
+								alert("All the fields must be filled");
+							} else {
+								$.ajax({
+									type: 'POST',
+									url: 'http://localhost:8000/addNewUser/',
+									data: $("#signupform").serialize(),
+									success: function (data) {
+										if (data.status === "useremailexists") {
+											$("#useremailalreadyexists").show();
+										} else if (data.status === "displayuserexists") {
+											$("#usernamealreadyexists").show();
+										}
+										else if (data.status === "success") {
+											$("#usercreated").show();
+										}
+									},
+									error: function (error) {
+										alert("Error" + JSON.stringify(error));
+									}
+								});
+							}
+						} else {
+							alert("The username cannot contain special characters");
+						}
+					} else {
+						alert("You should agree to the terms and conditions")
+					}
+					console.log("I am in here");
+				});
+			});
+
+			function containsSpecialCharacters(str) {
+				var regex = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+				return regex.test(str);
+			}
+		</script>
 
 </body>
 
