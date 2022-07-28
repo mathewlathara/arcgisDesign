@@ -1,101 +1,119 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Home</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-	<link href="{% static 'admin-lte/assets/css/css_loginmodal/demo.css' %}" rel="stylesheet"> 
+	<link href="{% static 'admin-lte/assets/css/css_loginmodal/demo.css' %}" rel="stylesheet">
 	<link href="{% static 'admin-lte/assets/css/css_loginmodal/style.css' %}" rel="stylesheet">
 
 	<style>
-      .bg-overlay {
-		position: relative;
-    background: url(static/admin-lte/assets/img/new_d/imagen-1.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    color: #fff;
-    height: 547px;
-	width: 100%;
-    padding-top: 0px;
-	}
-	body{
-		font-family: Poppins;
-		font-style: normal;
-		font-weight: bold;
-		margin: 0px;
-	}
+		.bg-overlay {
+			position: relative;
+			background: url(static/admin-lte/assets/img/new_d/imagen-1.png);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			color: #fff;
+			height: 547px;
+			width: 100%;
+			padding-top: 0px;
+		}
 
-	.bg2 {
-	position: relative;
-    background: url(static/admin-lte/assets/img/new_d/imagen-2png.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    color: #fff;
-    height: 547px;
-	width: 100%;
-    padding-top: 0px;
-	}
-    </style>
+		body {
+			font-family: Poppins;
+			font-style: normal;
+			font-weight: bold;
+			margin: 0px;
+		}
+
+		.bg2 {
+			position: relative;
+			background: url(static/admin-lte/assets/img/new_d/imagen-2png.png);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			color: #fff;
+			height: 547px;
+			width: 100%;
+			padding-top: 0px;
+		}
+	</style>
 </head>
-  <body>
+
+<body>
 	<nav class="navbar navbar-expand-lg">
 		<div class="container-fluid " style="padding-right: 0px; margin-right: 0px">
 			<a class="navbar-brand" href="/in_dex">
-			  <img src="static/admin-lte/assets/img/new_d/logo_ec.png" alt="" width="200" height="55">
+				<img src="static/admin-lte/assets/img/new_d/logo_ec.png" alt="" width="200" height="55">
 			</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-			  <ul class="navbar-nav w-50">
-				<li class="nav-item col">
-				  <a class="nav-link active" href="/in_dex">Home</a>
-				</li>
-				<li class="nav-item col">
-				  <a class="nav-link link-primary" aria-current="page" href="/dexterity">Dex-Terity</a>
-				</li>
-				<li class="nav-item col">
-				  <a class="nav-link link-primary" href="/contactus">Contact us</a>
-				</li>
-				<li class="nav-item col">
-				   <a style="font-size: 16px;" class="btn btn-primary rounded-pill w-75 js-signin-modal-trigger" href="#0" data-signin="login">Login</a>
-				</li>
-			  </ul>
+				<ul class="navbar-nav w-50">
+					<li class="nav-item col">
+						<a class="nav-link active" href="/in_dex">Home</a>
+					</li>
+					<li class="nav-item col">
+						<a class="nav-link link-primary" aria-current="page" href="/dexterity">Dex-Terity</a>
+					</li>
+					<li class="nav-item col">
+						<a class="nav-link link-primary" href="/contactus">Contact us</a>
+					</li>
+					<li class="nav-item col">
+						<a style="font-size: 16px;" class="btn btn-primary rounded-pill w-75 js-signin-modal-trigger"
+							href="#0" data-signin="login">Login</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
 
 	<!-- login modal -->
-	<div class="cd-signin-modal js-signin-modal"> <!-- this is the entire modal form, including the background -->
-		<div class="cd-signin-modal__container"> <!-- this is the container wrapper -->
+	<div class="cd-signin-modal js-signin-modal">
+		<!-- this is the entire modal form, including the background -->
+		<div class="cd-signin-modal__container">
+			<!-- this is the container wrapper -->
 			<div class="row pt-5 pb-5">
 				<span width="200" height="60">
-				<img class="rounded mx-auto d-block" src="static/admin-lte/assets/img/new_d/logo_ec.png" alt="" >
+					<img class="rounded mx-auto d-block" src="static/admin-lte/assets/img/new_d/logo_ec.png" alt="">
 				</span>
 			</div>
-			<ul class="list-group-horizontal cd-signin-modal__switcher js-signin-modal-switcher js-signin-modal-trigger">
+			<ul
+				class="list-group-horizontal cd-signin-modal__switcher js-signin-modal-switcher js-signin-modal-trigger">
 				<li class="list-group-item"><a href="#0" data-signin="login" data-type="login">Sign in</a></li>
 				<li class="list-group-item"><a href="#0" data-signin="signup" data-type="signup">New account</a></li>
 			</ul>
 
-			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login"> <!-- log in form -->
-				<form class="cd-signin-modal__form">
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="login">
+				<!-- log in form -->
+				<form class="cd-signin-modal__form" id="signInFormId">
 					<p class="cd-signin-modal__fieldset">
-						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signin-email">E-mail</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-email" type="email" placeholder="E-mail">
-						<span class="cd-signin-modal__error">Error message here!</span>
+						<label
+							class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace"
+							for="signin-email">E-mail</label>
+						<input
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+							type="email" placeholder="E-mail" name="emailaddress" id="loginemailaddress">
+						
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
-						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signin-password">Password</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signin-password" type="text"  placeholder="Password">
+						<label
+							class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace"
+							for="signin-password">Password</label>
+						<input
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+							type="password" placeholder="Password" name="password" id="loginpassword">
 						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
-						<span class="cd-signin-modal__error">Error message here!</span>
+						
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
@@ -104,31 +122,47 @@
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
-						<input style="background: #165DA9;" class="cd-signin-modal__input cd-signin-modal__input--full-width" type="submit" value="Login">
+						<input style="background: #165DA9;"
+							class="cd-signin-modal__input cd-signin-modal__input--full-width" type="submit"
+							value="Login" id="logintoconsole">
 					</p>
 				</form>
-				
-				<p class="mt-5 cd-signin-modal__bottom-message js-signin-modal-trigger"><a href="#0" data-signin="reset">Forgot your password?</a></p>
+
+				<p class="mt-5 cd-signin-modal__bottom-message js-signin-modal-trigger"><a href="#0"
+						data-signin="reset">Forgot your password?</a></p>
 			</div> <!-- cd-signin-modal__block -->
-			<div class="cd-signin-modal__block js-signin-modal-block" data-type="signup"> <!-- sign up form -->
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="signup">
+				<!-- sign up form -->
 				<form class="cd-signin-modal__form">
 					<p class="cd-signin-modal__fieldset">
-						<label class="cd-signin-modal__label cd-signin-modal__label--username cd-signin-modal__label--image-replace" for="signup-username">Username</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signup-username" type="text" placeholder="Username">
-						<span class="cd-signin-modal__error">Error message here!</span>
+						<label
+							class="cd-signin-modal__label cd-signin-modal__label--username cd-signin-modal__label--image-replace"
+							for="signup-username">Username</label>
+						<input
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+							id="signup-username" type="text" placeholder="Username">
+						
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
-						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="signup-email">E-mail</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signup-email" type="email" placeholder="E-mail">
-						<span class="cd-signin-modal__error">Error message here!</span>
+						<label
+							class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace"
+							for="signup-email">E-mail</label>
+						<input
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+							id="signup-email" type="email" placeholder="E-mail">
+						
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
-						<label class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace" for="signup-password">Password</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="signup-password" type="text"  placeholder="Password">
+						<label
+							class="cd-signin-modal__label cd-signin-modal__label--password cd-signin-modal__label--image-replace"
+							for="signup-password">Password</label>
+						<input
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+							id="signup-password" type="text" placeholder="Password">
 						<a href="#0" class="cd-signin-modal__hide-password js-hide-password">Hide</a>
-						<span class="cd-signin-modal__error">Error message here!</span>
+						
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
@@ -137,27 +171,38 @@
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
-						<input style="background: #165DA9;" class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding" type="submit" value="Create account">
+						<input style="background: #165DA9;"
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding"
+							type="submit" value="Create account">
 					</p>
 				</form>
 			</div> <!-- cd-signin-modal__block -->
 
-			<div class="cd-signin-modal__block js-signin-modal-block" data-type="reset"> <!-- reset password form -->
-				<p class="mt-4 cd-signin-modal__message">Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
+			<div class="cd-signin-modal__block js-signin-modal-block" data-type="reset">
+				<!-- reset password form -->
+				<p class="mt-4 cd-signin-modal__message">Lost your password? Please enter your email address. You will
+					receive a link to create a new password.</p>
 
 				<form class="cd-signin-modal__form">
 					<p class="cd-signin-modal__fieldset">
-						<label class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace" for="reset-email">E-mail</label>
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border" id="reset-email" type="email" placeholder="E-mail">
-						<span class="cd-signin-modal__error">Error message here!</span>
+						<label
+							class="cd-signin-modal__label cd-signin-modal__label--email cd-signin-modal__label--image-replace"
+							for="reset-email">E-mail</label>
+						<input
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+							id="reset-email" type="email" placeholder="E-mail">
+						
 					</p>
 
 					<p class="cd-signin-modal__fieldset">
-						<input class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding" type="submit" value="Reset password">
+						<input
+							class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding"
+							type="submit" value="Reset password">
 					</p>
 				</form>
 
-				<p class="cd-signin-modal__bottom-message js-signin-modal-trigger"><a href="#0" data-signin="login">Back to log-in</a></p>
+				<p class="cd-signin-modal__bottom-message js-signin-modal-trigger"><a href="#0" data-signin="login">Back
+						to log-in</a></p>
 			</div> <!-- cd-signin-modal__block -->
 			<a href="#0" class="cd-signin-modal__close js-close">Close</a>
 		</div> <!-- cd-signin-modal__container -->
@@ -166,62 +211,68 @@
 
 	<div class="container-fluid my-3 p-0 pr-0" style="padding-right: 0px; padding-right: 0px; margin:0px;">
 		<div class="row no-gutters bg-overlay">
-			<div style='padding-left: 196px; padding-top: 200px; padding-bottom: 0px; font-family: Poppins; font-style: normal;'>
-			<span style="font-weight: bold; font-size: 40px;">
-				An Innovative Platform for Improved Watershed<br/>Management and Adaptive Decision-Making<br></span>
-			<span style="font-weight: normal; font-size: 20px;">
-				DeX-Terity connects, ingests, analyzes, and visualizes data, helping to predict<br>
-				risks before they happen and prescribe sustainable pathways for the future <br></span>
-			<button style="font-size: 15px;" type="button" class="btn btn-outline-light rounded-pill"  onclick="location.href='/dexterity'">Launch Dex-Terity</button>
+			<div
+				style='padding-left: 196px; padding-top: 200px; padding-bottom: 0px; font-family: Poppins; font-style: normal;'>
+				<span style="font-weight: bold; font-size: 40px;">
+					An Innovative Platform for Improved Watershed<br />Management and Adaptive
+					Decision-Making<br></span>
+				<span style="font-weight: normal; font-size: 20px;">
+					DeX-Terity connects, ingests, analyzes, and visualizes data, helping to predict<br>
+					risks before they happen and prescribe sustainable pathways for the future <br></span>
+				<button style="font-size: 15px;" type="button" class="btn btn-outline-light rounded-pill"
+					onclick="location.href='/dexterity'">Launch Dex-Terity</button>
+			</div>
 		</div>
-	</div>
 
-	<div class="container">
-		<div class="row no-gutters">
-			<div class="row">
-				<p class="text-center pt-5 text-primary" style="font-size: 40px;">What is DeX-Terity</p>
-			</div>
-			<div class="row">
-				<p class="text-center pt-2 text-secondary" style="font-size: 18px; font-weight: normal;">
-					A machine-learning, data-intensive analytical tool, DeX-Terity provides hindsight, insight and foresight
-					into the complexities of watershed health. Our platform analyzes multidisciplinary data to explain and
-					visualize the impacts of a variety of anthropogenic stressors, predicting trends over time and prescribing actions
-					today to protect and improve water quality and watershed health into the future.
-				</p>
-			</div>
-			<div class="row">
-				<!-- alternative -->
-				<!-- <div class="d-flex justify-content-center">
+		<div class="container">
+			<div class="row no-gutters">
+				<div class="row">
+					<p class="text-center pt-5 text-primary" style="font-size: 40px;">What is DeX-Terity</p>
+				</div>
+				<div class="row">
+					<p class="text-center pt-2 text-secondary" style="font-size: 18px; font-weight: normal;">
+						A machine-learning, data-intensive analytical tool, DeX-Terity provides hindsight, insight and
+						foresight
+						into the complexities of watershed health. Our platform analyzes multidisciplinary data to
+						explain and
+						visualize the impacts of a variety of anthropogenic stressors, predicting trends over time and
+						prescribing actions
+						today to protect and improve water quality and watershed health into the future.
+					</p>
+				</div>
+				<div class="row">
+					<!-- alternative -->
+					<!-- <div class="d-flex justify-content-center">
 					<div class="p-2 bd-highlight"><img src="icons-01.png" alt=""></div>
 					<div class="p-2 bd-highlight"><img src="icons-02.png" alt=""></div>
 					<div class="p-2 bd-highlight"><img src="icons-03.png" alt=""></div>
 					<div class="p-2 bd-highlight"><img src="icons-04.png" alt=""></div>
 				  </div> -->
-				<div class="row no-gutters" style="padding-left: 50px; padding: right 50px;">
-					<div class="col-sm-2 text-center">
-						
+					<div class="row no-gutters" style="padding-left: 50px; padding: right 50px;">
+						<div class="col-sm-2 text-center">
+
+						</div>
+						<div class="col-sm-2 text-center">
+							<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Descriptive</p>
+							<img src="static/admin-lte/assets/img/new_d/1.png" alt="">
+						</div>
+						<div class="col-sm-2 text-center">
+							<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Explanatory</p>
+							<img src="static/admin-lte/assets/img/new_d/2.png" alt="">
+						</div>
+						<div class="col-sm-2 text-center">
+							<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Predictive</p>
+							<img src="static/admin-lte/assets/img/new_d/3.png" alt="">
+						</div>
+						<div class="col-sm-2 text-center">
+							<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Prescriptive</p>
+							<img src="static/admin-lte/assets/img/new_d/4.png" alt="">
+						</div>
+						<div class="col-sm-2 text-center">
+
+						</div>
 					</div>
-					<div class="col-sm-2 text-center">
-						<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Descriptive</p>
-						  <img src="static/admin-lte/assets/img/new_d/1.png" alt="">
-					</div>
-					<div class="col-sm-2 text-center">
-						<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Explanatory</p>
-						<img src="static/admin-lte/assets/img/new_d/2.png" alt="">
-					</div>
-					<div class="col-sm-2 text-center">
-						<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Predictive</p>
-						<img src="static/admin-lte/assets/img/new_d/3.png" alt="">
-					</div>
-					<div class="col-sm-2 text-center">
-						<p class="pb-0 mb-0" style="color: rgba(104,167,95,1);">Prescriptive</p>
-						<img src="static/admin-lte/assets/img/new_d/4.png" alt="">
-					</div>
-					<div class="col-sm-2 text-center">
-						
-					</div>
-				</div>
-				<!-- <div class="d-flex justify-content-center">
+					<!-- <div class="d-flex justify-content-center">
 					<div class="p-2 bd-highlight" ></div>
 					<div class="p-2 bd-highlight" ><img style="height: 20px; width: 100px" src="static/admin-lte/assets/img/new_d/arrow.png" alt=""></div>
 					<div class="p-2 bd-highlight" ><img style="height: 20px; width: 100px" src="static/admin-lte/assets/img/new_d/arrow.png" alt=""></div>
@@ -229,113 +280,152 @@
 					<div class="p-2 bd-highlight" ><img style="height: 20px; width: 100px" src="static/admin-lte/assets/img/new_d/arrow.png" alt=""></div>
 					<div class="p-2 bd-highlight" ><img style="height: 20px; width: 100px" src="static/admin-lte/assets/img/new_d/arrow.png" alt=""></div>
 				</div> -->
-				<div class="row no-gutters mb-3" >
-					<div class="col-sm-4 text-center">
-						  <img style="height: 20px; width: 100px; margin-left: 400px;" src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
-						  <p class="text-secondary" style="margin-left: 420px;">Highsight</p>
+					<div class="row no-gutters mb-3">
+						<div class="col-sm-4 text-center">
+							<img style="height: 20px; width: 100px; margin-left: 400px;"
+								src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
+							<p class="text-secondary" style="margin-left: 420px;">Highsight</p>
+
+						</div>
+						<div class="col-sm-3 text-center">
+							<img style="height: 20px; width: 100px; margin-left: 180px;"
+								src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
+							<p class="text-secondary" style="margin-left: 200px;">Insight</p>
+
+						</div>
+						<div class="col-sm-4 text-center">
+							<img style="height: 20px; width: 100px; margin-right: 150px;"
+								src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
+							<p class="text-secondary" style="margin-right: 150px;">Foresight</p>
+						</div>
 
 					</div>
-					<div class="col-sm-3 text-center">
-						<img style="height: 20px; width: 100px; margin-left: 180px;" src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
-						<p class="text-secondary" style="margin-left: 200px;">Insight</p>
-
-					</div>
-					<div class="col-sm-4 text-center">
-						<img style="height: 20px; width: 100px; margin-right: 150px;" src="static/admin-lte/assets/img/new_d/arrow.png" alt="">
-						<p class="text-secondary" style="margin-right: 150px;">Foresight</p>
-					</div>
-					
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="container-fluid" style="padding-right: 0px; margin-right: 0px;">
-		<div class="row bg2">
-			<div class="text-center" style='padding-top: 200px; font-family: Poppins;
+		<div class="container-fluid" style="padding-right: 0px; margin-right: 0px;">
+			<div class="row bg2">
+				<div class="text-center" style='padding-top: 200px; font-family: Poppins;
 			font-style: normal;'>
-			<span style="font-weight: bold;
+					<span style="font-weight: bold;
 			font-size: 40px;">Try out DeX-Terity today<br></span>
-			<span style="font-weight: normal;
-			font-size: 20px;">Interested in visualizing watershed trends and impacts in a real-time?<br>Launch DeX-Terity to explore patterns in land-use data, water quality, and more!<br></span>
-			<button style="font-size: 15px;" type="button" class="btn btn-outline-light rounded-pill mt-5" onclick="location.href='/dexterity'">Launch Dex-Terity</button>
-		</div>
-	</div>
+					<span style="font-weight: normal;
+			font-size: 20px;">Interested in visualizing watershed trends and impacts in a real-time?<br>Launch DeX-Terity to
+						explore patterns in land-use data, water quality, and more!<br></span>
+					<button style="font-size: 15px;" type="button" class="btn btn-outline-light rounded-pill mt-5"
+						onclick="location.href='/dexterity'">Launch Dex-Terity</button>
+				</div>
+			</div>
 
-	<div class="container">
-		<div class="row">
-				<p class="text-center pt-5 text-primary" style="font-size: 40px;">Stay up to date with DeX-Terity</p>
-		</div>
-		<div class="d-flex align-items-center justify-content-center">
-			<div class="form-outline" style="width: 25%;">
-				<input type="search" id="form1" class="form-control" placeholder="Enter your email address" aria-label="Search" />
-			</div>
-		</div>
-		<div class="d-flex align-items-center justify-content-center">
-			<button style="font-size: 16px;" type="button" class="btn btn-primary rounded-pill mt-3">Subscribe</button>
-		</div>
-		
-	</div>
+			<div class="container">
+				<div class="row">
+					<p class="text-center pt-5 text-primary" style="font-size: 40px;">Stay up to date with DeX-Terity
+					</p>
+				</div>
+				<div class="d-flex align-items-center justify-content-center">
+					<div class="form-outline" style="width: 25%;">
+						<input type="search" id="form1" class="form-control" placeholder="Enter your email address"
+							aria-label="Search" />
+					</div>
+				</div>
+				<div class="d-flex align-items-center justify-content-center">
+					<button style="font-size: 16px;" type="button"
+						class="btn btn-primary rounded-pill mt-3">Subscribe</button>
+				</div>
 
-	<div class="container-fluid mt-5 bg-primary text-white">
-		<div class="row text-center">
-			<div class="col">
-				<div class="m-5"><img class="img-fluid" src="static/admin-lte/assets/img/new_d/logo.png"></div>
-				<div class="row m-5">
-					<div class="col">
-						<i class="bi bi-facebook fs-1"></i>
-					</div>
-					<div class="col">
-						<i class="bi bi-twitter fs-1"></i>
-					</div>
-					<div class="col">
-						<i class="bi bi-linkedin fs-1"></i>
-					</div>
-				</div>
 			</div>
-			<div class="col">
-				<div class="row m-5">
-					<ul>
-					  <li class="list-group-item">See DeX-Terity</li>
-					  <li class="list-group-item">About Us</li>
-					  <li class="list-group-item">Contact Us</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col">
-				<div class="row m-5">
-					<ul>
-						<li class="list-group-item">Privacy Policy</li>
-						<li class="list-group-item">Terms of Service</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col">
-				<div class="row mx-5 my-3" style="background-color:white;">
-					<div class="col col-12 mb-3">
-						<p class="text-primary mt-2 text-start">Powered by:</p>
-					</div>
-					<div class="col col-12">
-						<img class="img-fluid" src="static/admin-lte/assets/img/new_d/CGLR_logo.png">
-					</div>
-					<div class="col col-12 mt-3">
-						<img class="img-fluid" src="static/admin-lte/assets/img/new_d/pollution_probe.png">
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="container-fluid p-0">
-		<div class="row">
-			<h6 class=" my-3 text-center fw-light">&copy; <script>document.write(/\d{4}/.exec(Date())[0])</script> All Rights Reserved.</h6>
-		</div>
-	</div>
 
-	
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-	<script src="{% static 'admin-lte/assets/js/js_loginmodal/main.js' %}"></script>
-    <script src="{% static 'admin-lte/assets/js/js_loginmodal/placeholders.min.js' %}"></script>
+			<div class="container-fluid mt-5 bg-primary text-white">
+				<div class="row text-center">
+					<div class="col">
+						<div class="m-5"><img class="img-fluid" src="static/admin-lte/assets/img/new_d/logo.png"></div>
+						<div class="row m-5">
+							<div class="col">
+								<i class="bi bi-facebook fs-1"></i>
+							</div>
+							<div class="col">
+								<i class="bi bi-twitter fs-1"></i>
+							</div>
+							<div class="col">
+								<i class="bi bi-linkedin fs-1"></i>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="row m-5">
+							<ul>
+								<li class="list-group-item">See DeX-Terity</li>
+								<li class="list-group-item">About Us</li>
+								<li class="list-group-item">Contact Us</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col">
+						<div class="row m-5">
+							<ul>
+								<li class="list-group-item">Privacy Policy</li>
+								<li class="list-group-item">Terms of Service</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col">
+						<div class="row mx-5 my-3" style="background-color:white;">
+							<div class="col col-12 mb-3">
+								<p class="text-primary mt-2 text-start">Powered by:</p>
+							</div>
+							<div class="col col-12">
+								<img class="img-fluid" src="static/admin-lte/assets/img/new_d/CGLR_logo.png">
+							</div>
+							<div class="col col-12 mt-3">
+								<img class="img-fluid" src="static/admin-lte/assets/img/new_d/pollution_probe.png">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container-fluid p-0">
+				<div class="row">
+					<h6 class=" my-3 text-center fw-light">&copy;
+						<script>document.write(/\d{4}/.exec(Date())[0])</script> All Rights Reserved.
+					</h6>
+				</div>
+			</div>
+
+
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+				integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+				crossorigin="anonymous"></script>
+			<script src="{% static 'admin-lte/assets/js/js_loginmodal/main.js' %}"></script>
+			<script src="{% static 'admin-lte/assets/js/js_loginmodal/placeholders.min.js' %}"></script>
+			<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+			<script>
+				$(document).ready(function () {
+					$(document).on('click', "#logintoconsole", function(){
+						var loginemailaddress = $("#loginemailaddress").val();
+						var loginpassword = $("#loginpassword").val();
+						// console.log(formdata);
+						$.ajax({
+							type: 'POST',
+							url: '/loginUsingUserCredentials/',
+							data: $("#signInFormId").serialize(),
+                            // headers: { "X-CSRFToken": csrftoken },
+							success: function (data) {
+                                if (data.status === 'success') {
+									window.location.href = window.location.origin + '/new_dashboard';
+								} else {
+									$("#logincredentialsfailed").show();
+								}
+                            },
+                            error: function (error) {
+                                console.log("Error" + JSON.stringify(error));
+                            }
+						});
+					});
+				});
+			</script>
 
 </body>
+
 </html>
