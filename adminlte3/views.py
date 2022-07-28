@@ -1312,3 +1312,6 @@ def describe(request, year):
 
 def new_analysis(request):
     return render(request, "adminlte/new_analysis.html")
+
+def new_predict(request):
+    return render(request, "adminlte/predict.html")
