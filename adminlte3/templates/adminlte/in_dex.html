@@ -116,6 +116,8 @@
 						
 					</p>
 
+					<p style="color:red" id="loginfailedorsuccess">Login credentials failed</p>
+
 					<p class="cd-signin-modal__fieldset">
 						<input type="checkbox" id="remember-me" checked class="cd-signin-modal__input ">
 						<label for="remember-me">Remember me</label>
@@ -422,7 +424,9 @@
 			<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
 			<script>
 				$(document).ready(function () {
+					$("#loginfailedorsuccess").hide();
 					$(document).on('click', "#logintoconsole", function(){
+						$("#loginfailedorsuccess").hide();
 						var loginemailaddress = $("#loginemailaddress").val();
 						var loginpassword = $("#loginpassword").val();
 						// console.log(formdata);
@@ -435,7 +439,7 @@
                                 if (data.status === 'success') {
 									window.location.href = window.location.origin + '/new_dashboard';
 								} else {
-									$("#logincredentialsfailed").show();
+									$("#loginfailedorsuccess").show();
 								}
                             },
                             error: function (error) {
