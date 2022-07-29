@@ -1016,12 +1016,19 @@ def addNewUser(request):
     if request.method == "POST":
         emailaddress = request.POST['emailaddress']
         password = request.POST['password']
+        displayusername = request.POST['displayusername']
         userregistration = UserRegistration()
         checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress.strip()).count()
-        if checkifuserexists == 0:
+        checkifdisplayuserexists = UserRegistration.objects.all().filter(user_display=displayusername.strip()).count()
+        if checkifuserexists == 0 and checkifdisplayuserexists == 0:
             userregistration.user_name = emailaddress.strip()
             userregistration.user_password = password.strip()
+            userregistration.user_display = displayusername.strip()
             userregistration.save()
+        elif(checkifuserexists > 0):
+            status = "useremailexists"
+        elif(checkifdisplayuserexists > 0):
+            status = "displayuserexists"
         else:
             status = "exists"
     return Response({"status":status})
@@ -1033,14 +1040,24 @@ def loginUsingUserCredentials(request):
         emailaddress = request.POST['emailaddress']
         password = request.POST['password']
         print(f"Username: {emailaddress} password : {password}")
-        checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress.strip()).filter(user_password=password.strip()).count()
+        checkifuserexists = 0
+        if "@" in emailaddress:
+            checkifuserexists = UserRegistration.objects.all().filter(user_name=emailaddress.strip()).filter(user_password=password.strip()).count()
+        else:
+            checkifuserexists = UserRegistration.objects.all().filter(user_display=emailaddress.strip()).filter(user_password=password.strip()).count()
         print(f"checkifuserexists: {checkifuserexists}")
         if checkifuserexists == 0:
             status = "notfound"
         else:
             # Owner.objects.only('owner_id').get(owner_name=owner_name).owner_id
-            userid = UserRegistration.objects.only("user_id").get(user_name=emailaddress.strip()).user_id # get the induvidual userid
-            username = UserRegistration.objects.only("user_name").get(user_name=emailaddress.strip()).user_name
+            userid = 0
+            username = ""
+            if "@" in emailaddress:
+                userid = UserRegistration.objects.only("user_id").get(user_name=emailaddress.strip()).user_id # get the induvidual userid
+                username = UserRegistration.objects.only("user_name").get(user_name=emailaddress.strip()).user_name
+            else:
+                userid = UserRegistration.objects.only("user_id").get(user_display=emailaddress.strip()).user_id # get the induvidual userid
+                username = UserRegistration.objects.only("user_name").get(user_display=emailaddress.strip()).user_name
             print(f"userid------->{userid} and username is ----- {username}")
             request.session['username'] = username
             request.session['userid'] = userid

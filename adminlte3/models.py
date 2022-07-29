@@ -7,5 +7,6 @@ class UserRegistration(models.Model):
     user_name = models.CharField(max_length=255)
     user_password = models.CharField(max_length=50)
     user_status = models.IntegerField(default=1)
+    user_display = models.CharField(max_length=255)
     class Meta:
         db_table = 'users_tbl'
