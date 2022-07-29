@@ -477,7 +477,7 @@
 							} else {
 								$.ajax({
 									type: 'POST',
-									url: 'http://localhost:8000/addNewUser/',
+									url: '/addNewUser/',
 									data: $("#signupform").serialize(),
 									success: function (data) {
 										if (data.status === "useremailexists") {
