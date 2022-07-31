@@ -6,6 +6,7 @@
     "admin-lte": "^3.0.0",
     "heatmap.js": "^2.0.5",
     "nouislider": "^15.6.0",
-    "requirejs": "^2.3.6"
+    "requirejs": "^2.3.6",
+    "wnumb": "^1.2.0"
   }
 }

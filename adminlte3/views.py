@@ -1332,3 +1332,15 @@ def new_analysis(request):
 
 def new_predict(request):
     return render(request, "adminlte/predict.html")
+
+
+@api_view(('GET',))
+def getPredictionOutput(request):
+    yearFrom = (request.GET['yearFrom'])
+    yearTo = (request.GET['yearTo'])
+    selected = (request.GET['selected'])
+    print(yearFrom, yearTo, selected)
+    return Response({'status':'Got it'})
+
+def prescribe(request):
+    return render(request, "adminlte/prescribe.html")
