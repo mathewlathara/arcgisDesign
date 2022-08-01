@@ -1,5 +1,7 @@
 import mimetypes
 import os
+from os import listdir
+import os.path
 import re
 import random
 import branca
@@ -28,6 +30,19 @@ from datetime import datetime
 import time
 import math
 from django.http import FileResponse
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+import matplotlib.pyplot as plt
+
+from sklearn.preprocessing import StandardScaler
+
+from tensorflow import keras
+from tensorflow.keras import Sequential
+from keras.models import load_model, Model
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
 # import geopandas as gpd
 # import shapefile
 
@@ -1333,14 +1348,298 @@ def new_analysis(request):
 def new_predict(request):
     return render(request, "adminlte/predict.html")
 
+def preprocessing(df_, station_, predictVar):
+  #df_ = df_.dropna()
+  print("------------in preprocessing",df_.shape)
+  print(station_, predictVar)
+
+  # To select Phosphorus columns
+  if predictVar=='TP':
+    selected_cols_ = ['Year','pH', 'Natural Land 250m (ha)', 'Dissolved Oxygen (mg/L)',  'Total Rain (mm) -7day Total',
+              'Population', 'Nitrate (mg/L)', 'Chloride (mg/L)', 'Nitrite (mg/L)', 'Total Nitrogen (mg/L)', 
+              'Total Suspended Solids (mg/L)', 'Nitrogen Kjeldahl (mg/L)', 'Total Phosphorus (mg/L)']
+  #To select Nitrogen columns
+  if predictVar=='TN':
+    selected_cols_ = ['Year',
+                      'pH', 'Month','Population','Natural Land 10m (ha)', 'Anthropogenic Natural Land 10m (ha)',
+                      'Total Suspended Solids (mg/L)','Conductivity (K)','Total Phosphorus (mg/L)',
+                      'Chloride (mg/L)', 'Nitrate (mg/L)', 'Total Nitrogen (mg/L)']
+            
+  df_ = df_[df_['Station']==station_]    #6009701102]
+  df_ = df_[selected_cols_]
+  df_ = df_.dropna()
+  df_ = df_.reset_index().groupby('Year').mean()
+  df_ = df_.drop(['index'], axis=1)
+  print('Processing',df_.shape[0],'Records,',df_.shape[1],'Features','of', station_, 'Station ID')
+  return df_
+
+def load_model(model_path):
+  with open(model_path, 'rb') as file:
+    Pickled_LR_Model = pickle.load(file)
+  return Pickled_LR_Model
+
+def predict_(model_, X_test):
+  sc = StandardScaler().fit(X_test)
+  X_test = sc.transform(X_test)
+
+  y_test_pred = model_.predict(X_test)
+  return y_test_pred
+
+def plotUserData2(x1, y1, x2, y2, target_param, rmse, mse, r2, station_, path):
+  plt.figure(figsize=(20, 5))
+  
+  plt.plot(x1, y1, color='blue',label=target_param)
+  plt.scatter(x1, y1, color='blue')
+
+  plt.plot(x2, y2, color='orange',label='Predicted '+target_param)
+  plt.scatter(x2, y2, color='orange')
+
+  # naming the x axis
+  plt.xlabel('Year',fontsize='14')
+  # naming the y axis
+  plt.ylabel(target_param,fontsize='14')
+    
+  # giving a title to my graph
+  if rmse!="":
+    title = 'Year Vs '+target_param+" ("+str(station_)+")"+"[RMSE = "+str(round(rmse,3))+": MSE = "+str(round(mse,3))+": R2 = "+str(round(r2,2))+"]"
+  else:
+    title = 'Year Vs '+target_param+" ("+str(station_)+")"
+  plt.title(title,fontsize='14')
+  plt.legend()#loc='lower left')
+
+  if "/" in target_param:
+    target_param = target_param.replace("/","_Per_")
+  # function to show the plot
+  plt.savefig('data/Latest_predictions/'+str(station_)+".png")
+#   plt.show()
+
+#Start Year should be > 2020
+def lstm(df_, predictVar, station_,model_path, year_strt, year_end, isTest):
+  print("-------In lstm------------")
+  print(df_.shape, "predictVat", predictVar, station_,model_path, year_strt, year_end, isTest)
+
+  target_param_path = ""
+  if predictVar=='TP':
+    target_param = "Total Phosphorus (mg/L)"
+    target_param_path = "TotalPhosphorus"
+  else:
+    target_param = "Total Nitrogen (mg/L)"
+    target_param_path = "TotalNitrogen"
+
+  if os.path.exists('data/Latest_predictions'+str(station_)) == False:
+    os.mkdir('data/Latest_predictions'+str(station_))
+  
+
+  # Pre-processing master data
+  df_ = preprocessing(df_, station_, predictVar)
+  if df_.shape[0]<=0:
+    print("No record(s) found for Station ID =",station_,'\nPlease try again with another Station ID')
+    return "No record(s) found for Station ID =",station_,'\nPlease try again with another Station ID'
+
+  df_ = df_.reset_index()
+
+  #To create new dataframe with the user selected years 
+  df_new = pd.DataFrame(columns=df_.columns)
+
+  #Getting last record value from historical dataframe
+  last_col_val = df_.iloc[-1:]
+  #second_last_col_val = df_.iloc[-2]
+
+  # Temporary dictionary to store the each year synthetic generated value until the data is stored in dataframe
+  temp_dict = {} 
+  
+  df_['Day'] = 31
+  df_['Month'] = 12
+  df_['Date']=pd.to_datetime(df_[["Year", "Month", "Day"]])
+  df_ = df_.drop(['Day','Year'], axis=1)
+  if predictVar== 'TP':
+    df_ = df_.drop('Month', axis=1)  
+  #display(df_)
+
+  Pickled_LR_Model = load_model(model_path)
+
+  error_df = pd.DataFrame(columns=['Parameter', 'RMSE','MSE'])
+  if isTest==True:
+    if os.path.exists('data/Latest_predictions/'+str(station_)+'/Test') == False:
+      os.mkdir('data/Latest_predictions/'+str(station_)+'/Test')
+
+    if os.path.exists('data/Latest_predictions/'+str(station_)+'/Test/Individual_Params') == False:
+      os.mkdir('data/Latest_predictions/'+str(station_)+'/Test/Individual_Params')
+
+    if os.path.exists('data/Latest_predictions/'+str(station_)+'/Test/Target_Param') == False:
+      os.mkdir('data/Latest_predictions/'+str(station_)+'/Test/Target_Param')  
+
+    for col in df_.iloc[:,:-1].columns:
+      X_train, X_test, y_train, y_test = train_test_split(df_[['Date']],df_[[col]],test_size=0.33, shuffle=False)
+      # print(col)
+      df_train = pd.merge(X_train, y_train, left_index=True, right_index=True)
+      df_train = df_train.rename(columns={'Date':'ds', col:'y'})
+
+      df_test = pd.merge(X_test, y_test, left_index=True, right_index=True)
+      
+      X_test = X_test.rename(columns={'Date':'ds'})
+
+      scaler = MinMaxScaler(feature_range=(0, 1))
+      X_train_2 = scaler.fit_transform(X_train)
+      X_test_2 = scaler.fit_transform(X_test)
+
+      look_back = 1
+
+      model = Sequential()
+      model.add(LSTM(4, input_shape=(1, look_back)))
+      # look_back = 1
+      # batch_size = 1
+      
+      # model = Sequential()
+      # model.add(LSTM(4, batch_input_shape=(batch_size, look_back,1), stateful=True, return_sequences=True))
+      # model.add(LSTM(4, batch_input_shape=(batch_size, look_back,1), stateful=True))
+      # model.add(LSTM(4, batch_input_shape=(batch_size, look_back, 1), stateful=True))
+      model.add(Dense(1))
+      model.compile(loss='mean_squared_error', optimizer='adam')
+      model.fit(X_train_2, y_train, epochs=100, batch_size=1, verbose=0)
+
+      forecast = model.predict(X_test_2)
+      print(col,'Parameter Prophet Metrics:')
+      mse, rmse, r2 = results_(y_test, forecast, col, "", station_, False)
+
+      error_df = error_df.append({'Parameter':col,'RMSE':rmse,'MSE':mse}, ignore_index=True)
+      plotUserData2(df_[['Date']], df_[[col]], X_test, forecast, col,rmse, mse,r2, station_, 'Test/Individual_Params/')
+
+    error_df.to_csv(BASEDIR+'Predicted_Charts/Prediction-Risk-Analysis/LSTM/'+str(station_)+'/Test/Individual_Params/error_metrics.csv', index=False)
+    
+    X_train, X_test, y_train, y_test = train_test_split(df_.drop([target_param],axis=1),
+                                                        df_[[target_param]],test_size=0.33, shuffle=False)
+    
+    # display(error_df)
+    test_dates = X_test[['Date']]
+    X_test = X_test.drop(['Date'],axis=1)
+    print(X_test.columns)
+    Y_pred = predict_(Pickled_LR_Model, X_test)
+    rf_train_mse, rf_train_rmse, r2 = results_(y_test, Y_pred, target_param, target_param_path, station_, True)
+
+    plotUserData2(df_[['Date']], df_[[target_param]], test_dates, Y_pred, target_param,
+                  rf_train_rmse, rf_train_mse,r2, station_, 'Test/Target_Param/')
+  else:  
+
+    # TO Save the Plotted the charts & Error Metrix
+    # if os.path.exists('data/Latest_predictions/temp/'+str(station_)+'/Predict') == False:
+    #   os.mkdir('data/Latest_predictions/temp/'+str(station_)+'/Predict')
+
+    # if os.path.exists('data/Latest_predictions/temp/'+str(station_)+'/Predict/Individual_Params') == False:
+    #   os.mkdir('data/Latest_predictions/temp/'+str(station_)+'/Predict/Individual_Params')
+
+    # if os.path.exists('data/Latest_predictions/temp'+str(station_)+'/Predict/Target_Param') == False:
+    #   os.mkdir('data/Latest_predictions/temp/'+str(station_)+'/Predict/Target_Param')  
+
+    # Looping over user selected years
+    temp_dict['Year']=[year_ for year_ in range(year_strt, year_end+1)]
+
+    df_2 = pd.DataFrame(temp_dict)
+    df_2['Day'] = 31
+    df_2['Month'] = 12
+    df_2['Date']=pd.to_datetime(df_2[["Year", "Month", "Day"]])
+    df_2 = df_2.drop(['Day','Year'], axis=1)
+
+    if predictVar == 'TP':
+      df_2 = df_2.drop('Month', axis=1)  
+
+    for col in df_.columns:
+      if col!='Year' and col!=target_param and col!='Date':
+        X_train = df_[['Date']]
+        y_train = df_[[col]]
+        
+        df_test = df_2
+        X_test = df_test[['Date']]
+        
+        scaler = MinMaxScaler(feature_range=(0, 1))
+        X_train_2 = scaler.fit_transform(X_train)
+        X_test_2 = scaler.fit_transform(X_test)
+
+        look_back = 1
+
+        model = Sequential()
+        model.add(LSTM(4, input_shape=(1, look_back)))
+
+        # batch_size = 1
+        # look_back = 1
+        # model = Sequential()
+        # model.add(LSTM(4, batch_input_shape=(batch_size, look_back), stateful=True, return_sequences=True))
+        # model.add(LSTM(4, batch_input_shape=(batch_size, look_back), stateful=True))
+        # model.add(LSTM(4, batch_input_shape=(batch_size, look_back), stateful=True))
+
+        model.add(Dense(1))
+        model.compile(loss='mean_squared_error', optimizer='adam')
+        model.fit(X_train_2, y_train, epochs=100, batch_size=1, verbose=0)
+
+        df_2[col] = model.predict(X_test_2)
+        
+        plotUserData2(df_[['Date']], df_[[col]], df_2[['Date']], df_2[[col]], col, 
+                  "","","",station_, 'data/Latest_predictions/')
+      
+    dates = df_2[['Date']]
+    df_2 = df_2.drop(['Date'], axis=1)
+    Y_pred = predict_(Pickled_LR_Model, df_2)
+    # rf_train_mse, rf_train_rmse, train_acc, test_acc = results_(Pickled_LR_Model, X_train.drop(['Year'], axis=1), y_train,
+    #                                                             X_test.drop(['Year'], axis=1), y_test, Y_pred)
+
+    df_2[target_param] = Y_pred
+    df_2.to_csv("data/Latest_predictions/temp/"+station_+"predicted.csv")
+    print(df_2.head())
+    print(df_2.shape)
+    print(df_2.columns)
+    # print(y_test, Y_pred)
+    # display(df_2)
+
+    # bigdata = df_new.append(df_[(df_['Year']<year_strt)], ignore_index=True).sort_values(by=['Year'])
+    plotUserData2(df_[['Date']], df_[[target_param]], dates, df_2[target_param], target_param, 
+                  "","","",station_, 'Predict/Target_Param/')
+
+  return df_[['Date']], df_[[target_param]].to_numpy(), dates, df_2[target_param].to_numpy(), target_param, station_
+
+
+def results_(y_test_, Y_pred, target_param, target_param_path, station_, isSave):
+  #Calculating MSE and RMSE
+  rf_train_mse = mean_squared_error(y_test_,Y_pred)
+  rf_train_rmse = np.sqrt(rf_train_mse)
+  r2_ = r2_score(y_test_, Y_pred)*100
+  if isSave:
+    y_test_.to_csv(BASEDIR+"Predicted_Charts/Prediction-Risk-Analysis/LSTM/"+str(station_)+"/Test/Target_Param/"+"test_"+target_param_path+".csv", index=False)
+    Y_pred = pd.DataFrame(Y_pred, columns = ['Predicted '+target_param])
+    Y_pred.to_csv(BASEDIR+"Predicted_Charts/Prediction-Risk-Analysis/LSTM/"+str(station_)+"/Test/Target_Param/"+"predicted_"+target_param_path+".csv", index=False)
+  print("Mean squared error: %.2f"%rf_train_mse)
+  print("Root Mean Squared error: %.2f"%rf_train_rmse)
+  print('R2 Score: %.2f'%r2_)
+
+  return rf_train_mse, rf_train_rmse, r2_
+
 
 @api_view(('GET',))
 def getPredictionOutput(request):
-    yearFrom = (request.GET['yearFrom'])
-    yearTo = (request.GET['yearTo'])
+    yearFrom = int(request.GET['yearFrom'])
+    yearTo = int(request.GET['yearTo'])
     selected = (request.GET['selected'])
+    station = request.GET['station']
     print(yearFrom, yearTo, selected)
-    return Response({'status':'Got it'})
+    if selected == 'TP':
+        model_path = "ml_models/TotalPhosphorous-RF-11.sav"
+    else:
+        model_path = "ml_models/TotalNitrogen-RF-10F.sav"
+    print(model_path)
+    print(type(yearFrom))
+    print(type(yearTo))
+    df = pd.read_csv("https://raw.githubusercontent.com/DishaCoder/CSV/main/Predict-Prescribe-Data.csv")
+    print("in getPredictionOutput, shape of df passing is === ", df.shape)
+    try:
+        hist_date, hist_param, fut_date, fut_param, target_param, station_ = lstm(df, selected, station, model_path, yearFrom,yearTo, False)
+        print(hist_date[0], fut_date)
+        # hist_date['Date'] = pd.to_datetime(hist_date['Date'],format='%Y%m%d')
+        # hist_date['Year'] = pd.DatetimeIndex(hist_date['Date']).year
+        print("year:::", hist_date['Year'])
+        return Response({'status':'Got it', 'hist_date':hist_date, 'hist_param':hist_param, 'fut_date':fut_date, 'fut_param':fut_param, 'target_param':target_param, 'station_':station_})
+
+    except ValueError:
+        dataset_error = lstm(df, selected, station, model_path, yearFrom,yearTo, False)
+        return  Response({'dataset_error':dataset_error})
 
 def prescribe(request):
     return render(request, "adminlte/prescribe.html")
