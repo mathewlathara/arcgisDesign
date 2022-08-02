@@ -21,29 +21,41 @@
             <p class="text-secondary"> Total Phosphorous (TP) or Total Nitrogen (TN)</p>
         </div>
         <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
-            <div class="m-3 btn-group btn-group-toggle rounded-pill" data-toggle="buttons">
-                <label class="btn btn-primary active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> TP
+            <div class="m-3 btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn  active">
+                    TP
                 </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> TN
+                <input type="radio" name="options" id="TP" autocomplete="off" checked> 
+
+                <label class="btn ">
+                     TN
                 </label>
+                <input type="radio" name="options" id="TN" autocomplete="off"> 
+
+                <!-- <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="TP" class="btn btn-primary">TP</button>
+                    <button type="button" id="TN" class="btn btn-primary">TN</button>
+                  </div> -->
+
             </div>
         </div>
     </div>
 
     <div class="row mt-3">
             <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
-                <p class="text-primary"> 1. Select Target Parameter</p>
-                <p class="text-secondary"> Total Phosphorous (TP) or Total Nitrogen (TN)</p>
+                <p class="text-primary"> 2. Select the years to predict</p>
+                <p class="text-secondary"> Further explanation </p>
             </div>
             <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
                 <div class="mt-4" id="slider" style="width: 100%;"></div>
+                <label id="slider-limit-value-min"> </label>
+                <label id="slider-limit-value-max"> </label>
+
             </div>
     </div>
 
     <div class="row d-flex justify-content-center mt-4">
-        <button class="btn btn-primary rounded-pill pl-4 pr-4 " onclick=""> Predict </button>
+        <button class="btn btn-primary rounded-pill pl-4 pr-4 " id="predict" onclick=""> Predict </button>
     </div>
 
     <div class="row" id="predicted_graph" name="predicted_graph">
@@ -78,39 +90,49 @@
 
 noUiSlider.create(slider, {
     start: [2005, 2045],
+    step: 1,
     connect: true,
-    tooltips: {
-    to: function(value) {
-        return value > 100 ? '100+' : parseInt(value)
-    }
-    },
+    tooltips: [true, true],
     range: {
     'min': 2000,
-    '10%': 2005,
-    '20%': 2010,
-    '30%': 2015,
-    '40%': 2020,
-    '50%': 2025,
-    '60%': 2030,
-    '70%': 2035,
-    '80%': 2040,
-    '90%': 2045,
     'max': 2050
   },
-    pips: {
-        mode: 'steps',
-        filter: function (value, type) {
-            return type === 0 ? -1 : 1;
-        },
-        format: {
-            to: function (value) {
-                return labels[value];
-            }
-        }
-    }
 
+  pips: {
+        mode: 'steps',
+        density: 3,
+    
+    }
     
 });
+
+document.getElementById('predict').addEventListener('click', function () {
+    var selected_years = (slider.noUiSlider.get());
+    var var_to_predict;
+    if (document.getElementById('TP').checked) {
+        var_to_predict = 'TP';
+    }
+    if (document.getElementById('TN').checked) {
+        var_to_predict = 'TN';
+    }
+    console.log(var_to_predict);
+    $.ajax({
+        type: 'get',
+        url: '/getPredictionOutput',
+        data: {'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected':var_to_predict},
+        // contentType: false,
+        // processData: false,
+        // headers: { "X-CSRFToken": csrftoken },
+
+        success: function (data) {
+            console.log(data.status);
+        },
+        error: function (error) {
+            console.log("Error" + JSON.stringify(error));
+        }
+    });
+});
+
 </script>
 
 

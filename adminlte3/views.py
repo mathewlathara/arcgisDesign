@@ -896,7 +896,7 @@ def filterDataForAnalysisPage(request):
 
     if data_type == "historical":
         print("historical")
-        df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv')
+        df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/MasterData_For_Web_22_July.csv')
         df_new = df_new.fillna(0)
     if data_type == "custom":
         print("custom")
@@ -1332,3 +1332,15 @@ def new_analysis(request):
 
 def new_predict(request):
     return render(request, "adminlte/predict.html")
+
+
+@api_view(('GET',))
+def getPredictionOutput(request):
+    yearFrom = (request.GET['yearFrom'])
+    yearTo = (request.GET['yearTo'])
+    selected = (request.GET['selected'])
+    print(yearFrom, yearTo, selected)
+    return Response({'status':'Got it'})
+
+def prescribe(request):
+    return render(request, "adminlte/prescribe.html")
