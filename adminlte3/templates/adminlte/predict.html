@@ -40,33 +40,18 @@
             </div>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 2. Select station</p>
-            <p class="text-secondary"> Further explanation </p>
-        </div>
-        <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
-            <select class="pl-5 pr-5 form-select" name="year" id="station" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select Station</option>
-            </select>
-
-        </div>
-    </div>
 
     <div class="row mt-3">
-            <div class="col-12" style="background-color: rgba(228,228,228,1);">
+            <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
                 <p class="text-primary"> 2. Select the years to predict</p>
                 <p class="text-secondary"> Further explanation </p>
             </div>
-            <div class="col-12 pl-3 pr-3 pt-2 pb-5" style="background-color: rgba(235,235,235,0.678);">
-                <div class="mt-4" id="slider" style="width: 100%;"></div>
-            </div>
-            <!-- <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
+            <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
                 <div class="mt-4" id="slider" style="width: 100%;"></div>
                 <label id="slider-limit-value-min"> </label>
                 <label id="slider-limit-value-max"> </label>
 
-            </div> -->
+            </div>
     </div>
 
     <div class="row d-flex justify-content-center mt-4">
@@ -81,10 +66,6 @@
         <p class="text-secondary">Get your predicted results in CVS/EXCEL format</p>
     </div>
 
-    <div class="row m-3">
-        <div id = "predicted_plot"></div>
-    </div>
-
     <div class="row d-flex justify-content-center mt-4">
         <button class="btn btn-outline-primary  rounded-pill pl-4 pr-4 " onclick=""> Download <i class="fas fa-download"></i> </button>
     </div>
@@ -95,7 +76,6 @@
 {% endblock %}
 
 {% block javascriptedit %}
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
@@ -106,38 +86,15 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script>
-    let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
-        6010800102, 6010800202, 6011100102, 6011100202, 6011100302,
-        6011100502, 6011100602, 6011100702, 6011100802, 6011200302,
-        6011200602, 6011600102, 6011600202, 6011600502, 6011600602, 988,
-        1328, 1329, 1330, 17002113602, 17002113702, 600010258, 600010708,
-        600013587, 6008000602, 6008000702, 6008200302, 6008300202,
-        6008300402, 6008300902, 6008301202, 6008301802, 6008301902,
-        6008310302, 6008310402, 6008500302, 6008500402, 6008501402,
-        6009400202, 6009700302, 6009700702, 6009701102, 6009701302,
-        6009701802, '6009701802', '6010400102', '6010400802', '6010402302',
-        '6010402502', '6010402602', '6010402702', '6010402802',
-        '6010402902', '6010403702', '6010700202', '7th Concession', '85',
-        'Annadale', 'Brock Ridge', 'CC005', 'Central 1', 'Central 10',
-        'Central 11', 'Central 12', 'Central 2', 'Central 3', 'Central 4',
-        'Central 5', 'Central 6', 'Central 7', 'Central 8', 'Central 9',
-        'East 1', 'East 10', 'East 11', 'East 12', 'East 2', 'East 3',
-        'East 4', 'East 5', 'East 6', 'East 7', 'East 8', 'East 9',
-        'FB003WM', 'PT001WM', 'Paulyn Park', 'Shoal Point', 'West 1',
-        'West 10', 'West 11', 'West 12', 'West 2', 'West 3', 'West 4',
-        'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
+    var slider = document.getElementById('slider');
 
-$(document).ready(function () {
-
-var slider = document.getElementById('slider');
-var station_id;
 noUiSlider.create(slider, {
-    start: [2025, 2045],
+    start: [2005, 2045],
     step: 1,
     connect: true,
     tooltips: [true, true],
     range: {
-    'min': 2022,
+    'min': 2000,
     'max': 2050
   },
 
@@ -162,47 +119,13 @@ document.getElementById('predict').addEventListener('click', function () {
     $.ajax({
         type: 'get',
         url: '/getPredictionOutput',
-        data: {'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected':var_to_predict, 'station':station},
+        data: {'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected':var_to_predict},
         // contentType: false,
         // processData: false,
         // headers: { "X-CSRFToken": csrftoken },
 
         success: function (data) {
             console.log(data.status);
-            console.log(data.hist_date);
-            console.log(data.hist_param);
-            console.log(data.fut_date);
-            console.log(data.fut_param);
-            console.log(data.target_param);
-            console.log(data.station_);
-            console.log(data.dataset_error);
-
-            var trace1 = {
-                x: data.hist_date,
-                y: data.hist_param,
-                type: 'scatter'
-            };
-            var layout1 = {
-            title: data.target_param,
-            yaxis: {
-                showline: true,
-                zeroline: true,
-                zerolinewidth: 2,
-                autotick: true,
-                // autorange: true,
-                title: data.target_param,
-            },
-            xaxis: {
-                showline: true,
-                title: "Years",
-                tickmode: 'linear',
-                zeroline: true,
-                zerolinewidth: 2,
-            },
-          };
-          var g1 = [trace1];
-          Plotly.newPlot('predicted_plot', g1, layout1); 
-
         },
         error: function (error) {
             console.log("Error" + JSON.stringify(error));
@@ -210,23 +133,6 @@ document.getElementById('predict').addEventListener('click', function () {
     });
 });
 
-        var stationSelectbox = stationIdSelectbox();
-        console.log(stationSelectbox.value);
-        $("#station").html(stationSelectbox);
-        function stationIdSelectbox() {
-            var selectboxreturn = "<option value='all' selected>All</option>";
-            $(stations).each((index, element) => {
-                // console.log(`current index : ${index} element : ${element}`)
-                selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
-            });
-            return selectboxreturn;
-        }
-
-        $("#station").change(function () {
-            console.log("Station === ", $(this).val());
-            globalThis.station = $(this).val();
-        });
-});
 </script>
 
 
