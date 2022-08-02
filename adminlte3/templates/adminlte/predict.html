@@ -70,23 +70,24 @@
     </div>
 
     <div class="row d-flex justify-content-center mt-4">
-        <button class="btn btn-primary rounded-pill pl-4 pr-4 " id="predict" onclick=""> Predict </button>
+        <button class="btn btn-primary rounded-pill pl-4 pr-4 mb-5" id="predict" onclick=""> Predict </button>
     </div>
 
     <div class="row" id="predicted_graph" name="predicted_graph">
 
     </div>
 
+    <div class="row d-flex justify-content-center col-12 m-2" id="placeimage">
+        <!-- <div id = "predicted_plot"></div> -->
+        <!-- <img id="plot_img" src="" style="width: 100%; height:50%"/> -->
+    </div>
+
     <div class="row d-flex justify-content-center mt-4">
         <p class="text-secondary">Get your predicted results in CVS/EXCEL format</p>
     </div>
 
-    <div class="row m-3">
-        <div id = "predicted_plot"></div>
-    </div>
-
-    <div class="row d-flex justify-content-center mt-4">
-        <button class="btn btn-outline-primary  rounded-pill pl-4 pr-4 " onclick=""> Download <i class="fas fa-download"></i> </button>
+    <div class="row mb-5 d-flex justify-content-center mt-4">
+        <button id="download_btn" class="btn btn-outline-primary  rounded-pill pl-4 pr-4 " onclick=""><a id="download_link"> Download <i class="fas fa-download"></i> </a></button>
     </div>
     
 </div>
@@ -129,6 +130,8 @@
 
 $(document).ready(function () {
 
+document.getElementById("download_btn").disabled = true;
+
 var slider = document.getElementById('slider');
 var station_id;
 noUiSlider.create(slider, {
@@ -150,6 +153,7 @@ noUiSlider.create(slider, {
 });
 
 document.getElementById('predict').addEventListener('click', function () {
+
     var selected_years = (slider.noUiSlider.get());
     var var_to_predict;
     if (document.getElementById('TP').checked) {
@@ -177,6 +181,9 @@ document.getElementById('predict').addEventListener('click', function () {
             console.log(data.station_);
             console.log(data.dataset_error);
 
+            if (document.getElementById('img_plot')){
+                    document.getElementById('img_plot').remove();
+                }
             var trace1 = {
                 x: data.hist_date,
                 y: data.hist_param,
@@ -201,8 +208,25 @@ document.getElementById('predict').addEventListener('click', function () {
             },
           };
           var g1 = [trace1];
-          Plotly.newPlot('predicted_plot', g1, layout1); 
-
+        //   Plotly.newPlot('predicted_plot', g1, layout1); 
+        if (data.dataset_error == null){
+                console.log("in ifff");
+                var elem = document.createElement('img');
+                elem.setAttribute('id', "img_plot");
+                elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + station + '.png');
+                elem.setAttribute("width", "100%");
+                document.getElementById("placeimage").appendChild(elem);
+                document.getElementById("download_btn").disabled = false;
+                document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/'+station+'predicted.csv')
+            }
+            else{
+                console.log("in else");
+                var elem = document.createElement('p');
+                elem.setAttribute('id', "img_plot");
+                elem.setAttribute('class', 'text-danger');
+                elem.innerHTML = data.dataset_error;
+                document.getElementById("placeimage").appendChild(elem);
+            }
         },
         error: function (error) {
             console.log("Error" + JSON.stringify(error));

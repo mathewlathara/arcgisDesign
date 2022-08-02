@@ -1411,6 +1411,7 @@ def plotUserData2(x1, y1, x2, y2, target_param, rmse, mse, r2, station_, path):
     target_param = target_param.replace("/","_Per_")
   # function to show the plot
   plt.savefig('data/Latest_predictions/'+str(station_)+".png")
+  plt.savefig("adminlte3/static/admin-lte/dist/js/data/"+str(station_)+".png")
 #   plt.show()
 
 #Start Year should be > 2020
@@ -1448,6 +1449,8 @@ def lstm(df_, predictVar, station_,model_path, year_strt, year_end, isTest):
   # Temporary dictionary to store the each year synthetic generated value until the data is stored in dataframe
   temp_dict = {} 
   
+  df_hist = df_[['Year',target_param]]
+
   df_['Day'] = 31
   df_['Month'] = 12
   df_['Date']=pd.to_datetime(df_[["Year", "Month", "Day"]])
@@ -1534,6 +1537,8 @@ def lstm(df_, predictVar, station_,model_path, year_strt, year_end, isTest):
     # Looping over user selected years
     temp_dict['Year']=[year_ for year_ in range(year_strt, year_end+1)]
 
+    df_pred = pd.DataFrame(temp_dict)
+
     df_2 = pd.DataFrame(temp_dict)
     df_2['Day'] = 31
     df_2['Month'] = 12
@@ -1583,7 +1588,12 @@ def lstm(df_, predictVar, station_,model_path, year_strt, year_end, isTest):
     #                                                             X_test.drop(['Year'], axis=1), y_test, Y_pred)
 
     df_2[target_param] = Y_pred
+    df_pred[target_param] = Y_pred
+    print("df_all.........................")
+    df_all = pd.concat([df_hist, df_pred], ignore_index=True)
+    print(df_all.columns)
     df_2.to_csv("data/Latest_predictions/temp/"+station_+"predicted.csv")
+    df_2.to_csv("adminlte3/static/admin-lte/dist/js/data/"+station_+"predicted.csv")
     print(df_2.head())
     print(df_2.shape)
     print(df_2.columns)
@@ -1594,7 +1604,7 @@ def lstm(df_, predictVar, station_,model_path, year_strt, year_end, isTest):
     plotUserData2(df_[['Date']], df_[[target_param]], dates, df_2[target_param], target_param, 
                   "","","",station_, 'Predict/Target_Param/')
 
-  return df_[['Date']], df_[[target_param]].to_numpy(), dates, df_2[target_param].to_numpy(), target_param, station_
+  return df_[['Date']], df_[[target_param]], dates, df_2[target_param], target_param, station_
 
 
 def results_(y_test_, Y_pred, target_param, target_param_path, station_, isSave):
@@ -1631,10 +1641,10 @@ def getPredictionOutput(request):
     print("in getPredictionOutput, shape of df passing is === ", df.shape)
     try:
         hist_date, hist_param, fut_date, fut_param, target_param, station_ = lstm(df, selected, station, model_path, yearFrom,yearTo, False)
-        print(hist_date[0], fut_date)
+        print(hist_date, fut_date)
         # hist_date['Date'] = pd.to_datetime(hist_date['Date'],format='%Y%m%d')
         # hist_date['Year'] = pd.DatetimeIndex(hist_date['Date']).year
-        print("year:::", hist_date['Year'])
+        # print("year:::", hist_date['Year'])
         return Response({'status':'Got it', 'hist_date':hist_date, 'hist_param':hist_param, 'fut_date':fut_date, 'fut_param':fut_param, 'target_param':target_param, 'station_':station_})
 
     except ValueError:
