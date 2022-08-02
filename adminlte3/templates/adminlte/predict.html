@@ -25,12 +25,12 @@
                 <label class="btn  active">
                     TP
                 </label>
-                <input type="radio" name="options" id="TP" autocomplete="off" checked> 
+                <input type="radio" name="options" id="TP" autocomplete="off" checked>
 
                 <label class="btn ">
-                     TN
+                    TN
                 </label>
-                <input type="radio" name="options" id="TN" autocomplete="off"> 
+                <input type="radio" name="options" id="TN" autocomplete="off">
 
                 <!-- <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" id="TP" class="btn btn-primary">TP</button>
@@ -40,33 +40,18 @@
             </div>
         </div>
     </div>
+
     <div class="row mt-3">
         <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 2. Select station</p>
+            <p class="text-primary"> 2. Select the years to predict</p>
             <p class="text-secondary"> Further explanation </p>
         </div>
         <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
-            <select class="pl-5 pr-5 form-select" name="year" id="station" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select Station</option>
-            </select>
+            <div class="mt-4" id="slider" style="width: 100%;"></div>
+            <label id="slider-limit-value-min"> </label>
+            <label id="slider-limit-value-max"> </label>
 
         </div>
-    </div>
-
-    <div class="row mt-3">
-            <div class="col-12" style="background-color: rgba(228,228,228,1);">
-                <p class="text-primary"> 2. Select the years to predict</p>
-                <p class="text-secondary"> Further explanation </p>
-            </div>
-            <div class="col-12 pl-3 pr-3 pt-2 pb-5" style="background-color: rgba(235,235,235,0.678);">
-                <div class="mt-4" id="slider" style="width: 100%;"></div>
-            </div>
-            <!-- <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
-                <div class="mt-4" id="slider" style="width: 100%;"></div>
-                <label id="slider-limit-value-min"> </label>
-                <label id="slider-limit-value-max"> </label>
-
-            </div> -->
     </div>
 
     <div class="row d-flex justify-content-center mt-4">
@@ -87,16 +72,16 @@
     </div>
 
     <div class="row mb-5 d-flex justify-content-center mt-4">
-        <button id="download_btn" class="btn btn-outline-primary  rounded-pill pl-4 pr-4 " onclick=""><a id="download_link"> Download <i class="fas fa-download"></i> </a></button>
+        <button id="download_btn" class="btn btn-outline-primary  rounded-pill pl-4 pr-4 " onclick=""><a
+                id="download_link"> Download <i class="fas fa-download"></i> </a></button>
     </div>
-    
+
 </div>
 
 
 {% endblock %}
 
 {% block javascriptedit %}
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
@@ -128,129 +113,113 @@
         'West 10', 'West 11', 'West 12', 'West 2', 'West 3', 'West 4',
         'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
 
-$(document).ready(function () {
+    $(document).ready(function () {
 
-document.getElementById("download_btn").disabled = true;
+        document.getElementById("download_btn").disabled = true;
 
-var slider = document.getElementById('slider');
-var station_id;
-noUiSlider.create(slider, {
-    start: [2025, 2045],
-    step: 1,
-    connect: true,
-    tooltips: [true, true],
-    range: {
-    'min': 2022,
-    'max': 2050
-  },
-
-  pips: {
-        mode: 'steps',
-        density: 3,
-    
-    }
-    
-});
-
-document.getElementById('predict').addEventListener('click', function () {
-
-    var selected_years = (slider.noUiSlider.get());
-    var var_to_predict;
-    if (document.getElementById('TP').checked) {
-        var_to_predict = 'TP';
-    }
-    if (document.getElementById('TN').checked) {
-        var_to_predict = 'TN';
-    }
-    console.log(var_to_predict);
-    $.ajax({
-        type: 'get',
-        url: '/getPredictionOutput',
-        data: {'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected':var_to_predict, 'station':station},
-        // contentType: false,
-        // processData: false,
-        // headers: { "X-CSRFToken": csrftoken },
-
-        success: function (data) {
-            console.log(data.status);
-            console.log(data.hist_date);
-            console.log(data.hist_param);
-            console.log(data.fut_date);
-            console.log(data.fut_param);
-            console.log(data.target_param);
-            console.log(data.station_);
-            console.log(data.dataset_error);
-
-            if (document.getElementById('img_plot')){
-                    document.getElementById('img_plot').remove();
-                }
-            var trace1 = {
-                x: data.hist_date,
-                y: data.hist_param,
-                type: 'scatter'
-            };
-            var layout1 = {
-            title: data.target_param,
-            yaxis: {
-                showline: true,
-                zeroline: true,
-                zerolinewidth: 2,
-                autotick: true,
-                // autorange: true,
-                title: data.target_param,
+        var slider = document.getElementById('slider');
+        var station_id;
+        noUiSlider.create(slider, {
+            start: [2005, 2045],
+            step: 1,
+            connect: true,
+            tooltips: [true, true],
+            range: {
+                'min': 2000,
+                'max': 2050
             },
-            xaxis: {
-                showline: true,
-                title: "Years",
-                tickmode: 'linear',
-                zeroline: true,
-                zerolinewidth: 2,
-            },
-          };
-          var g1 = [trace1];
-        //   Plotly.newPlot('predicted_plot', g1, layout1); 
-        if (data.dataset_error == null){
-                console.log("in ifff");
-                var elem = document.createElement('img');
-                elem.setAttribute('id', "img_plot");
-                elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + station + '.png');
-                elem.setAttribute("width", "100%");
-                document.getElementById("placeimage").appendChild(elem);
-                document.getElementById("download_btn").disabled = false;
-                document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/'+station+'predicted.csv')
-            }
-            else{
-                console.log("in else");
-                var elem = document.createElement('p');
-                elem.setAttribute('id', "img_plot");
-                elem.setAttribute('class', 'text-danger');
-                elem.innerHTML = data.dataset_error;
-                document.getElementById("placeimage").appendChild(elem);
-            }
-        },
-        error: function (error) {
-            console.log("Error" + JSON.stringify(error));
-        }
-    });
-});
 
-        var stationSelectbox = stationIdSelectbox();
-        console.log(stationSelectbox.value);
-        $("#station").html(stationSelectbox);
-        function stationIdSelectbox() {
-            var selectboxreturn = "<option value='all' selected>All</option>";
-            $(stations).each((index, element) => {
-                // console.log(`current index : ${index} element : ${element}`)
-                selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
-            });
-            return selectboxreturn;
-        }
+            pips: {
+                mode: 'steps',
+                density: 3,
 
-        $("#station").change(function () {
-            console.log("Station === ", $(this).val());
-            globalThis.station = $(this).val();
+            }
+
         });
-});
+
+        document.getElementById('predict').addEventListener('click', function () {
+
+            var selected_years = (slider.noUiSlider.get());
+            var var_to_predict;
+            if (document.getElementById('TP').checked) {
+                var_to_predict = 'TP';
+            }
+            if (document.getElementById('TN').checked) {
+                var_to_predict = 'TN';
+            }
+            console.log(var_to_predict);
+            $.ajax({
+                type: 'get',
+                url: '/getPredictionOutput',
+                data: { 'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected': var_to_predict },
+                // contentType: false,
+                // processData: false,
+                // headers: { "X-CSRFToken": csrftoken },
+
+                success: function (data) {
+                    console.log(data.status);
+                    console.log(data.hist_date);
+                    console.log(data.hist_param);
+                    console.log(data.fut_date);
+                    console.log(data.fut_param);
+                    console.log(data.target_param);
+                    console.log(data.station_);
+                    console.log(data.dataset_error);
+
+                    if (document.getElementById('img_plot')) {
+                        document.getElementById('img_plot').remove();
+                    }
+                    var trace1 = {
+                        x: data.hist_date,
+                        y: data.hist_param,
+                        type: 'scatter'
+                    };
+                    var layout1 = {
+                        title: data.target_param,
+                        yaxis: {
+                            showline: true,
+                            zeroline: true,
+                            zerolinewidth: 2,
+                            autotick: true,
+                            // autorange: true,
+                            title: data.target_param,
+                        },
+                        xaxis: {
+                            showline: true,
+                            title: "Years",
+                            tickmode: 'linear',
+                            zeroline: true,
+                            zerolinewidth: 2,
+                        },
+                    };
+                    var g1 = [trace1];
+                    //   Plotly.newPlot('predicted_plot', g1, layout1); 
+                    if (data.dataset_error == null) {
+                        console.log("in ifff");
+                        var elem = document.createElement('img');
+                        elem.setAttribute('id', "img_plot");
+                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + station + '.png');
+                        elem.setAttribute("width", "100%");
+                        document.getElementById("placeimage").appendChild(elem);
+                        document.getElementById("download_btn").disabled = false;
+                        document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/' + station + 'predicted.csv')
+                    }
+                    else {
+                        console.log("in else");
+                        var elem = document.createElement('p');
+                        elem.setAttribute('id', "img_plot");
+                        elem.setAttribute('class', 'text-danger');
+                        elem.innerHTML = data.dataset_error;
+                        document.getElementById("placeimage").appendChild(elem);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error" + JSON.stringify(error));
+                }
+            });
+        });
+    });
+
 </script>
 
 

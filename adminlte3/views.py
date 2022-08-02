@@ -1,7 +1,5 @@
 import mimetypes
 import os
-from os import listdir
-import os.path
 import re
 import random
 import branca
@@ -30,19 +28,6 @@ from datetime import datetime
 import time
 import math
 from django.http import FileResponse
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
-
-import matplotlib.pyplot as plt
-
-from sklearn.preprocessing import StandardScaler
-
-from tensorflow import keras
-from tensorflow.keras import Sequential
-from keras.models import load_model, Model
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import LSTM
 # import geopandas as gpd
 # import shapefile
 
@@ -1625,10 +1610,9 @@ def results_(y_test_, Y_pred, target_param, target_param_path, station_, isSave)
 
 @api_view(('GET',))
 def getPredictionOutput(request):
-    yearFrom = int(request.GET['yearFrom'])
-    yearTo = int(request.GET['yearTo'])
+    yearFrom = (request.GET['yearFrom'])
+    yearTo = (request.GET['yearTo'])
     selected = (request.GET['selected'])
-    station = request.GET['station']
     print(yearFrom, yearTo, selected)
     if selected == 'TP':
         model_path = "ml_models/TotalPhosphorous-RF-11.sav"
