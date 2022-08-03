@@ -9,10 +9,10 @@
 
 <div class="container font-weight-light">
     <div class="row h2 ml-3 text-primary">
-        Predict tool
+        Prescribe tool
     </div>
     <div class="row ml-3">
-        <p class="text-primary">Select Predict to </p>
+        <p class="text-primary">Select Prescribe to </p>
     </div>
 
     <div class="row">
@@ -40,6 +40,7 @@
             </div>
         </div>
     </div>
+
     <div class="row mt-3">
         <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary"> 2. Select station</p>
@@ -48,7 +49,7 @@
         <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
             <select class="p-3 pl-5 pr-5 form-select" name="year" id="station" style="border-radius: 20px;"
                 aria-label="Default select example">
-                <option selected>Select Station</option>
+                <option selected>Select station</option>
 
             </select>
 
@@ -56,38 +57,49 @@
     </div>
 
     <div class="row mt-3">
-        <div class=" col-lg-12  p-2" style="background-color: rgba(228,228,228,1);">
+        <div class=" col-lg-6  p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary"> 3. Select the years to predict<br></p>
             <!-- <p class="text-secondary"> Further explanation </p> -->
         </div>
-        <div class=" col-lg-12 pt-3 pb-5 d-flex justify-content-center"
+        <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
             style="background-color: rgba(235,235,235,0.678);">
-            <div id="slider" style="width: 100%;"></div>
+            <div id="sliderland" style="width: 100%;"></div>
 
         </div>
     </div>
 
-    <div class="row d-flex justify-content-center mt-4">
-        <button class="btn btn-primary rounded-pill pl-4 pr-4 mb-5" id="predict" onclick=""> Predict </button>
+    <div class="row mt-3">
+        <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 4. Select population</p>
+            <p class="text-secondary"> Further explanation </p>
+        </div>
+        <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
+            style="background-color: rgba(235,235,235,0.678);">
+            <div id="sliderpopulation" style="width: 100%;"></div>
+
+        </div>
     </div>
 
-    <div class="row" id="predicted_graph" name="predicted_graph">
+    <div class="row mt-3">
+        <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 5. Total Rain(mm)</p>
+            <p class="text-secondary"> Further explanation </p>
+        </div>
+        <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
+            style="background-color: rgba(235,235,235,0.678);">
+            <div id="sliderrain" style="width: 100%;"></div>
+
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center mt-4 mb-4">
+        <button class="btn btn-primary rounded-pill pl-4 pr-4 " id="predict" onclick=""> Get </button>
+    </div>
+
+    <div class="row d-flex justify-content-center col-12 m-2 mb-5" id="placeimage">
 
     </div>
 
-    <div class="row d-flex justify-content-center col-12 m-2" id="placeimage">
-        <!-- <div id = "predicted_plot"></div> -->
-        <!-- <img id="plot_img" src="" style="width: 100%; height:50%"/> -->
-    </div>
-
-    <div class="row d-flex justify-content-center mt-4">
-        <p class="text-secondary">Get your predicted results in CVS/EXCEL format</p>
-    </div>
-
-    <div class="row mb-5 d-flex justify-content-center mt-4">
-        <button id="download_btn" class="btn btn-outline-primary  rounded-pill pl-4 pr-4 " onclick=""><a
-                id="download_link"> Download <i class="fas fa-download"></i> </a></button>
-    </div>
 
 </div>
 
@@ -105,6 +117,7 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script>
+$(document).ready(function () {
     let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
         6010800102, 6010800202, 6011100102, 6011100202, 6011100302,
         6011100502, 6011100602, 6011100702, 6011100802, 6011200302,
@@ -125,9 +138,12 @@
         'FB003WM', 'PT001WM', 'Paulyn Park', 'Shoal Point', 'West 1',
         'West 10', 'West 11', 'West 12', 'West 2', 'West 3', 'West 4',
         'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
+    var sliderland = document.getElementById('sliderland');
+    var sliderpopulation = document.getElementById('sliderpopulation');
+    var sliderrain = document.getElementById('sliderrain');
 
-    $(document).ready(function () {
-        var station;
+    // for stations
+    var station;
         var stationSelectbox = stationIdSelectbox();
         $("#station").html(stationSelectbox);
 
@@ -144,48 +160,85 @@
             globalThis.station = $(this).val();
         });
 
+    noUiSlider.create(sliderland, {
+        start: [-50, 50],
+        step: 1,
+        connect: true,
+        tooltips: [true, true],
+        range: {
+            'min': -100,
+            '25%': -50,
+            '50%':0,
+            '75%':50,
+            'max': 100
+        },
+        pips: {
+            mode: 'range',
+            density: 3,
 
-        document.getElementById("download_btn").disabled = true;
+        }
+    });
+    noUiSlider.create(sliderpopulation, {
+        start: [-50, 50],
+        step: 1,
+        connect: true,
+        tooltips: [true, true],
+        range: {
+            'min': -100,
+            '25%': -50,
+            '50%':0,
+            '75%':50,
+            'max': 100
+        },
+        pips: {
+            mode: 'range',
+            density: 3,
 
-        var slider = document.getElementById('slider');
-        var station_id;
-        noUiSlider.create(slider, {
-            start: [2005, 2045],
-            step: 1,
-            connect: true,
-            tooltips: [true, true],
-            range: {
-                'min': 2000,
-                'max': 2050
-            },
+        }
+    });
+    noUiSlider.create(sliderrain, {
+        start: [-50, 50],
+        step: 1,
+        connect: true,
+        tooltips: [true, true],
+        range: {
+            'min': -100,
+            '25%': -50,
+            '50%':0,
+            '75%':50,
+            'max': 100
+        },
+        pips: {
+            mode: 'range',
+            density: 3,
 
-            pips: {
-                mode: 'steps',
-                density: 3,
+        }
+    });
 
-            }
-
-        });
-
-        document.getElementById('predict').addEventListener('click', function () {
-
-            if (document.getElementById('img_plot')){
+    document.getElementById('predict').addEventListener('click', function () {
+        // removing plot if any
+        if (document.getElementById('img_plot')){
                 document.getElementById('img_plot').remove();
-            }
+        }
 
-            var selected_years = (slider.noUiSlider.get());
-            var var_to_predict;
+        // getting slider value
+        var sliderland_ = (sliderland.noUiSlider.get());
+        var sliderpopulation_ = (sliderpopulation.noUiSlider.get());
+        var sliderrain_ = (sliderrain.noUiSlider.get());
+        console.log(sliderland_, sliderpopulation_, parseInt(sliderrain_[0]));
+        // preidction var set
+        var var_to_predict;
             if (document.getElementById('TP').checked) {
                 var_to_predict = 'TP';
             }
             if (document.getElementById('TN').checked) {
                 var_to_predict = 'TN';
             }
-            console.log(var_to_predict);
-            $.ajax({
+        $.ajax({
                 type: 'get',
-                url: '/getPredictionOutput',
-                data: { 'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected': var_to_predict, 'station': globalThis.station },
+                url: '/getPrescribeOutput',
+                data: {'selected': var_to_predict, 'station':globalThis.station, 'landmin': parseInt(sliderland_[0]), 'landmax': parseInt(sliderland_[1]), 'populationmin':parseInt(sliderpopulation_[0]),
+                        'populationmax':parseInt(sliderpopulation_[1]),  'rainmin':parseInt(sliderrain_[0]), 'rainmax':parseInt(sliderrain_[1])},
                 // contentType: false,
                 // processData: false,
                 // headers: { "X-CSRFToken": csrftoken },
@@ -200,43 +253,14 @@
                     console.log(data.station_);
                     console.log(data.dataset_error);
 
-                    if (document.getElementById('img_plot')) {
-                        document.getElementById('img_plot').remove();
-                    }
-                    var trace1 = {
-                        x: data.hist_date,
-                        y: data.hist_param,
-                        type: 'scatter'
-                    };
-                    var layout1 = {
-                        title: data.target_param,
-                        yaxis: {
-                            showline: true,
-                            zeroline: true,
-                            zerolinewidth: 2,
-                            autotick: true,
-                            // autorange: true,
-                            title: data.target_param,
-                        },
-                        xaxis: {
-                            showline: true,
-                            title: "Years",
-                            tickmode: 'linear',
-                            zeroline: true,
-                            zerolinewidth: 2,
-                        },
-                    };
-                    var g1 = [trace1];
-                    //   Plotly.newPlot('predicted_plot', g1, layout1); 
                     if (data.dataset_error == null) {
                         console.log("in ifff");
                         var elem = document.createElement('img');
                         elem.setAttribute('id', "img_plot");
-                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + data.station_ + '.png');
+                        param_name = ((data.target_param).replace(" ", '_')).replace('(mg/L)', '').trim();
+                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/'+param_name+'__'+"pres.png");
                         elem.setAttribute("width", "100%");
                         document.getElementById("placeimage").appendChild(elem);
-                        document.getElementById("download_btn").disabled = false;
-                        document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/' + data.station_ + 'predicted.csv')
                     }
                     else {
                         console.log("in else");
@@ -251,9 +275,8 @@
                     console.log("Error" + JSON.stringify(error));
                 }
             });
-        });
     });
-
+});
 </script>
 
 
