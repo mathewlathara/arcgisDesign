@@ -40,16 +40,29 @@
             </div>
         </div>
     </div>
-
     <div class="row mt-3">
         <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 2. Select the years to predict</p>
+            <p class="text-primary"> 2. Select station</p>
             <p class="text-secondary"> Further explanation </p>
         </div>
         <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
-            <div class="mt-4" id="slider" style="width: 100%;"></div>
-            <label id="slider-limit-value-min"> </label>
-            <label id="slider-limit-value-max"> </label>
+            <select class="p-3 pl-5 pr-5 form-select" name="year" id="station" style="border-radius: 20px;"
+                aria-label="Default select example">
+                <option selected>Select Station</option>
+
+            </select>
+
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class=" col-lg-12  p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 3. Select the years to predict<br></p>
+            <!-- <p class="text-secondary"> Further explanation </p> -->
+        </div>
+        <div class=" col-lg-12 pt-3 pb-5 d-flex justify-content-center"
+            style="background-color: rgba(235,235,235,0.678);">
+            <div id="slider" style="width: 100%;"></div>
 
         </div>
     </div>
@@ -114,6 +127,23 @@
         'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
 
     $(document).ready(function () {
+        var station;
+        var stationSelectbox = stationIdSelectbox();
+        $("#station").html(stationSelectbox);
+
+        function stationIdSelectbox() {
+            var selectboxreturn = "<option value='all' selected>All</option>";
+            $(stations).each((index, element) => {
+                // console.log(`current index : ${index} element : ${element}`)
+                selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
+            });
+            return selectboxreturn;
+        }
+        $("#station").change(function () {
+            console.log("Station === ", $(this).val());
+            globalThis.station = $(this).val();
+        });
+
 
         document.getElementById("download_btn").disabled = true;
 
@@ -139,6 +169,10 @@
 
         document.getElementById('predict').addEventListener('click', function () {
 
+            if (document.getElementById('img_plot')){
+                document.getElementById('img_plot').remove();
+            }
+
             var selected_years = (slider.noUiSlider.get());
             var var_to_predict;
             if (document.getElementById('TP').checked) {
@@ -151,7 +185,7 @@
             $.ajax({
                 type: 'get',
                 url: '/getPredictionOutput',
-                data: { 'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected': var_to_predict },
+                data: { 'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected': var_to_predict, 'station': globalThis.station },
                 // contentType: false,
                 // processData: false,
                 // headers: { "X-CSRFToken": csrftoken },
@@ -198,11 +232,11 @@
                         console.log("in ifff");
                         var elem = document.createElement('img');
                         elem.setAttribute('id', "img_plot");
-                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + station + '.png');
+                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + data.station_ + '.png');
                         elem.setAttribute("width", "100%");
                         document.getElementById("placeimage").appendChild(elem);
                         document.getElementById("download_btn").disabled = false;
-                        document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/' + station + 'predicted.csv')
+                        document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/' + data.station_ + 'predicted.csv')
                     }
                     else {
                         console.log("in else");
