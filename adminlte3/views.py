@@ -1656,3 +1656,184 @@ def getPredictionOutput(request):
 
 def prescribe(request):
     return render(request, "adminlte/prescribe.html")
+
+
+# ------------------------prescribe page----------------------------------------
+def preprocessing2(df_, station_, isPhos_):
+  df_ = df_.dropna()
+
+  # To select Phosphorus columns
+  if isPhos_==True:
+    selected_cols_ = ['pH', 'Natural Land 250m (ha)', 'Dissolved Oxygen (mg/L)',  'Total Rain (mm) -7day Total',
+              'Population', 'Nitrate (mg/L)', 'Chloride (mg/L)', 'Nitrite (mg/L)', 'Total Nitrogen (mg/L)', 
+              'Total Suspended Solids (mg/L)', 'Nitrogen Kjeldahl (mg/L)']
+  #To select Nitrogen columns
+  else:
+    selected_cols_ = ['pH', 'Month','Population','Natural Land 10m (ha)', 'Anthropogenic Natural Land 10m (ha)',
+                      'Total Suspended Solids (mg/L)','Conductivity (K)','Total Phosphorus (mg/L)',
+                      'Chloride (mg/L)', 'Nitrate (mg/L)']
+
+  # df_ = df_[df_['Station']==station_]#6009701102]
+  df_ = df_.reset_index().groupby('Year').mean()
+  df_ = df_.reset_index()
+  print('Selected Station historical recorded years:',df_.Year.unique())
+  df_ = df_[selected_cols_]
+  df_ = df_.dropna()
+  # display(df_)
+  return df_
+
+def percentage(val, by, isFloat = False):
+  if isFloat:
+    return float(by * float(val)/float(100))
+  else:
+    return round(by * float(val)/float(100),0)
+
+def isfloat(num):
+  try:
+    float(num)
+    return True
+  except ValueError:
+    return False
+    
+def sensitivityScenarioAnalysis(df_, param, percentages):
+  count = 0
+  df_temp = pd.DataFrame(columns=df_.columns)
+  last_col_val = df_.tail(1)#iloc[-1]
+#   display(last_col_val)
+
+  df_temp = pd.concat([last_col_val]*len(percentages))
+  df_temp=df_temp.reset_index()
+  df_temp = df_temp.drop(['index'], axis=1)
+
+  for val_per in percentages:
+    val_ = last_col_val[param].apply(lambda x : percentage(x,100+val_per, True)).values[0]
+    df_temp.loc[count,[param]] = val_
+    count+=1
+
+#   display(df_temp)
+  return df_temp
+
+def updateValue(last_col_val, param, percentages):
+  last_val = last_col_val[param]
+  print('Last Value of',param,'=',last_val)
+  last_col_val[param] = percentage(last_val, percentages, isfloat(last_val))
+  
+  if percentages<0:
+    print("Value decreased by", percentages,'%')
+  else:
+    print("Value increased by", percentages,'%')
+  print('Updated Value of',param,'=',last_col_val[param])
+  return last_col_val
+
+def load_model(model_path):
+  with open(model_path, 'rb') as file:
+    Pickled_LR_Model = pickle.load(file)
+  return Pickled_LR_Model
+
+def predict_(model_, X_test):
+  sc = StandardScaler().fit(X_test)
+  X_test = sc.transform(X_test)
+  y_pred = model_.predict(X_test)
+  return y_pred
+
+def plotUserData(big_data_, selected_para, target_param, station_, percentages):
+  plt.figure(figsize=(20, 5))
+
+  per_count = 0
+  color = ['red', 'orange', 'blue']
+  
+  for param_ in selected_para: 
+    plt.plot(percentages[per_count], big_data_[per_count].tolist(), color=color[per_count],label=param_)
+    plt.scatter(percentages[per_count], big_data_[per_count].tolist(), color=color[per_count])
+    per_count+=1
+
+  # naming the x axis
+  plt.xlabel("% Change of selected parameter",fontsize='14')
+  # naming the y axis
+  plt.ylabel(target_param,fontsize='14')
+    
+  # giving a title to my graph
+  title = "Selected Param. % Change Vs "+target_param+" ("+str(station_)+")"
+  plt.title(title,fontsize='14')
+  plt.legend()#loc='lower left')
+  # function to show the plot
+  plt.savefig('adminlte3/static/admin-lte/dist/js/data/'+(target_param.replace(" ", '_')).replace('(mg/L)', '')+'_'+"pres.png")
+#   plt.show()
+
+
+def runAllParams(df_, selected_para_, percentage_change_, Pickled_LR_Model):
+  print(percentage_change_)
+  new_input_data = sensitivityScenarioAnalysis(df_, selected_para_, percentage_change_)
+  
+  return predict_(Pickled_LR_Model, new_input_data)
+    
+
+#Start Year should be > 2020
+def scenario_(df_, selected_para_, percentage_change_, isPhos_, station_,model_path):
+  target_param_path = ""
+  if isPhos_==True:
+    target_param = "Total Phosphorus (mg/L)"
+    target_param_path = "TotalPhosphorus"
+  else:
+    target_param = "Total Nitrogen (mg/L)"
+    target_param_path = "TotalNitrogen"
+
+  # Pre-processing master data
+  df_ = preprocessing2(df_, station_, isPhos_)
+  if df_.shape[0]<=0:
+    print("No record(s) found for Station ID =",station_,'\nPlease try again with another Station ID')
+    return 0
+
+  #Getting last record value from historical dataframe
+  last_col_val = df_.iloc[-1]
+  Pickled_LR_Model = load_model(model_path)
+  per_count = 0
+  percentages_lst = []
+  predicted_results = []
+
+  for param_ in selected_para_: 
+    per_range = [i for i in range(percentage_change_[per_count][0],percentage_change_[per_count][1]+25,25)]
+    percentages_lst.append(per_range)
+    print(param_, per_range)
+    predicted_results.append(runAllParams(df_, param_, per_range, Pickled_LR_Model))
+    per_count+=1
+  print(percentages_lst)
+  plotUserData(predicted_results, selected_para_, target_param, station_, percentages_lst)
+  return predicted_results, target_param
+
+@api_view(('GET',))
+def getPrescribeOutput(request):
+    selected = (request.GET['selected'])
+    station = request.GET['station']
+    landmin = int(request.GET['landmin'])
+    landmax = int(request.GET['landmax'])
+    populationmin = int(request.GET['populationmin'])
+    populationmax = int(request.GET['populationmax'])
+    rainmin = int(request.GET['rainmin'])
+    rainmax = int(request.GET['rainmax'])
+    print(selected, station, landmin, landmax)
+    percentages = [[landmin,landmax], [populationmin, populationmax], [rainmin, rainmax]]
+    df = pd.read_csv("https://raw.githubusercontent.com/DishaCoder/CSV/main/Predict-Prescribe-Data.csv")
+
+    isPhos = True
+    if selected == 'TP':
+        isPhos = True 
+        selected_para = ['Natural Land 250m (ha)', 'Population', 'Total Rain (mm) -7day Total']
+        model_path = "ml_models/TotalPhosphorous-RF-11.sav"
+
+    else:
+        isPhos = False
+        selected_para = ['Natural Land 10m (ha)', 'Anthropogenic Natural Land 10m (ha)', 'Population']
+        model_path = "ml_models/TotalNitrogen-RF-10F.sav"
+
+    print(model_path)
+    print("in prescribe , shape of df passing is === ", df.shape)
+
+    try:
+        predicted_result, target_param = scenario_(df, selected_para, percentages,isPhos, "",model_path)
+        print(predicted_result, target_param)
+        return Response({'status':'got it', 'target_param': target_param})
+    except:
+        return Response({'error': "Some error occured, Try again."})
+
+

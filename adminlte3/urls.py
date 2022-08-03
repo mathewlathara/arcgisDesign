@@ -6,7 +6,7 @@ from .views import index, result, about, upload_file, dashboard_m, yearlyBarChar
     logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, \
     datasourcespage, contact_us_page, validateUploadedFile, analysisFilterData, new_index_page, plotMap, prediction, getYearForAnalysisMap, \
     download_predictedfile, filterDataForAnalysisPage, dextarity, in_dex, contact_us, new_dashboard, features, describe, new_analysis, new_predict, getPredictionOutput,\
-    prescribe
+    prescribe, getPrescribeOutput
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 urlpatterns = [
@@ -70,5 +70,7 @@ urlpatterns = [
     path('new_predict', new_predict),
     path('prescribe', prescribe),
 
-    path('getPredictionOutput', getPredictionOutput)
+    path('getPredictionOutput', getPredictionOutput),
+    path('getPrescribeOutput', getPrescribeOutput)
+
 ]

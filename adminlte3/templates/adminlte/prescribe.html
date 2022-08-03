@@ -1,0 +1,283 @@
+{% extends 'adminlte/new_dashboard_base.html' %}
+{% load static %}
+{% block extra_cssheader %}
+<link href="{% static 'admin-lte/assets/nouislider/dist/nouislider.css'%}" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+{% endblock %}
+{% block content %}
+
+<div class="container font-weight-light">
+    <div class="row h2 ml-3 text-primary">
+        Prescribe tool
+    </div>
+    <div class="row ml-3">
+        <p class="text-primary">Select Prescribe to </p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 1. Select Target Parameter</p>
+            <p class="text-secondary"> Total Phosphorous (TP) or Total Nitrogen (TN)</p>
+        </div>
+        <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
+            <div class="m-3 btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn  active">
+                    TP
+                </label>
+                <input type="radio" name="options" id="TP" autocomplete="off" checked>
+
+                <label class="btn ">
+                    TN
+                </label>
+                <input type="radio" name="options" id="TN" autocomplete="off">
+
+                <!-- <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="TP" class="btn btn-primary">TP</button>
+                    <button type="button" id="TN" class="btn btn-primary">TN</button>
+                  </div> -->
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 2. Select station</p>
+            <p class="text-secondary"> Further explanation </p>
+        </div>
+        <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
+            <select class="p-3 pl-5 pr-5 form-select" name="year" id="station" style="border-radius: 20px;"
+                aria-label="Default select example">
+                <option selected>Select station</option>
+
+            </select>
+
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class=" col-lg-6  p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 3. Select the years to predict<br></p>
+            <!-- <p class="text-secondary"> Further explanation </p> -->
+        </div>
+        <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
+            style="background-color: rgba(235,235,235,0.678);">
+            <div id="sliderland" style="width: 100%;"></div>
+
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 4. Select population</p>
+            <p class="text-secondary"> Further explanation </p>
+        </div>
+        <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
+            style="background-color: rgba(235,235,235,0.678);">
+            <div id="sliderpopulation" style="width: 100%;"></div>
+
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
+            <p class="text-primary"> 5. Total Rain(mm)</p>
+            <p class="text-secondary"> Further explanation </p>
+        </div>
+        <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
+            style="background-color: rgba(235,235,235,0.678);">
+            <div id="sliderrain" style="width: 100%;"></div>
+
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center mt-4 mb-4">
+        <button class="btn btn-primary rounded-pill pl-4 pr-4 " id="predict" onclick=""> Get </button>
+    </div>
+
+    <div class="row d-flex justify-content-center col-12 m-2 mb-5" id="placeimage">
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+
+{% block javascriptedit %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.3.0/mdb.min.js"></script>
+<script src="{% static 'admin-lte/assets/nouislider/dist/nouislider.js'%}"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script>
+$(document).ready(function () {
+    let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
+        6010800102, 6010800202, 6011100102, 6011100202, 6011100302,
+        6011100502, 6011100602, 6011100702, 6011100802, 6011200302,
+        6011200602, 6011600102, 6011600202, 6011600502, 6011600602, 988,
+        1328, 1329, 1330, 17002113602, 17002113702, 600010258, 600010708,
+        600013587, 6008000602, 6008000702, 6008200302, 6008300202,
+        6008300402, 6008300902, 6008301202, 6008301802, 6008301902,
+        6008310302, 6008310402, 6008500302, 6008500402, 6008501402,
+        6009400202, 6009700302, 6009700702, 6009701102, 6009701302,
+        6009701802, '6009701802', '6010400102', '6010400802', '6010402302',
+        '6010402502', '6010402602', '6010402702', '6010402802',
+        '6010402902', '6010403702', '6010700202', '7th Concession', '85',
+        'Annadale', 'Brock Ridge', 'CC005', 'Central 1', 'Central 10',
+        'Central 11', 'Central 12', 'Central 2', 'Central 3', 'Central 4',
+        'Central 5', 'Central 6', 'Central 7', 'Central 8', 'Central 9',
+        'East 1', 'East 10', 'East 11', 'East 12', 'East 2', 'East 3',
+        'East 4', 'East 5', 'East 6', 'East 7', 'East 8', 'East 9',
+        'FB003WM', 'PT001WM', 'Paulyn Park', 'Shoal Point', 'West 1',
+        'West 10', 'West 11', 'West 12', 'West 2', 'West 3', 'West 4',
+        'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
+    var sliderland = document.getElementById('sliderland');
+    var sliderpopulation = document.getElementById('sliderpopulation');
+    var sliderrain = document.getElementById('sliderrain');
+
+    // for stations
+    var station;
+        var stationSelectbox = stationIdSelectbox();
+        $("#station").html(stationSelectbox);
+
+        function stationIdSelectbox() {
+            var selectboxreturn = "<option value='all' selected>All</option>";
+            $(stations).each((index, element) => {
+                // console.log(`current index : ${index} element : ${element}`)
+                selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
+            });
+            return selectboxreturn;
+        }
+        $("#station").change(function () {
+            console.log("Station === ", $(this).val());
+            globalThis.station = $(this).val();
+        });
+
+    noUiSlider.create(sliderland, {
+        start: [-50, 50],
+        step: 1,
+        connect: true,
+        tooltips: [true, true],
+        range: {
+            'min': -100,
+            '25%': -50,
+            '50%':0,
+            '75%':50,
+            'max': 100
+        },
+        pips: {
+            mode: 'range',
+            density: 3,
+
+        }
+    });
+    noUiSlider.create(sliderpopulation, {
+        start: [-50, 50],
+        step: 1,
+        connect: true,
+        tooltips: [true, true],
+        range: {
+            'min': -100,
+            '25%': -50,
+            '50%':0,
+            '75%':50,
+            'max': 100
+        },
+        pips: {
+            mode: 'range',
+            density: 3,
+
+        }
+    });
+    noUiSlider.create(sliderrain, {
+        start: [-50, 50],
+        step: 1,
+        connect: true,
+        tooltips: [true, true],
+        range: {
+            'min': -100,
+            '25%': -50,
+            '50%':0,
+            '75%':50,
+            'max': 100
+        },
+        pips: {
+            mode: 'range',
+            density: 3,
+
+        }
+    });
+
+    document.getElementById('predict').addEventListener('click', function () {
+        // removing plot if any
+        if (document.getElementById('img_plot')){
+                document.getElementById('img_plot').remove();
+        }
+
+        // getting slider value
+        var sliderland_ = (sliderland.noUiSlider.get());
+        var sliderpopulation_ = (sliderpopulation.noUiSlider.get());
+        var sliderrain_ = (sliderrain.noUiSlider.get());
+        console.log(sliderland_, sliderpopulation_, parseInt(sliderrain_[0]));
+        // preidction var set
+        var var_to_predict;
+            if (document.getElementById('TP').checked) {
+                var_to_predict = 'TP';
+            }
+            if (document.getElementById('TN').checked) {
+                var_to_predict = 'TN';
+            }
+        $.ajax({
+                type: 'get',
+                url: '/getPrescribeOutput',
+                data: {'selected': var_to_predict, 'station':globalThis.station, 'landmin': parseInt(sliderland_[0]), 'landmax': parseInt(sliderland_[1]), 'populationmin':parseInt(sliderpopulation_[0]),
+                        'populationmax':parseInt(sliderpopulation_[1]),  'rainmin':parseInt(sliderrain_[0]), 'rainmax':parseInt(sliderrain_[1])},
+                // contentType: false,
+                // processData: false,
+                // headers: { "X-CSRFToken": csrftoken },
+
+                success: function (data) {
+                    console.log(data.status);
+                    console.log(data.hist_date);
+                    console.log(data.hist_param);
+                    console.log(data.fut_date);
+                    console.log(data.fut_param);
+                    console.log(data.target_param);
+                    console.log(data.station_);
+                    console.log(data.dataset_error);
+
+                    if (data.dataset_error == null) {
+                        console.log("in ifff");
+                        var elem = document.createElement('img');
+                        elem.setAttribute('id', "img_plot");
+                        param_name = ((data.target_param).replace(" ", '_')).replace('(mg/L)', '').trim();
+                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/'+param_name+'__'+"pres.png");
+                        elem.setAttribute("width", "100%");
+                        document.getElementById("placeimage").appendChild(elem);
+                    }
+                    else {
+                        console.log("in else");
+                        var elem = document.createElement('p');
+                        elem.setAttribute('id', "img_plot");
+                        elem.setAttribute('class', 'text-danger');
+                        elem.innerHTML = data.dataset_error;
+                        document.getElementById("placeimage").appendChild(elem);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error" + JSON.stringify(error));
+                }
+            });
+    });
+});
+</script>
+
+
+{% endblock %}
