@@ -728,12 +728,12 @@ function plotFromCSV() {
     console.log("csv selected: ", CSV);
 
     $.ajax({
-        type: 'post',
-        url: '/filterDataForAnalysisPage',
+        type: 'get',
+        url: '/filterDataForAnalysisPage/',
         data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
         // contentType: false,
         // processData: false,
-        // headers: { "X-CSRFToken": csrftoken },
+        headers: { "content-type": "application/json" },
 
         success: function (data) {
           console.log(data.graph1x);
