@@ -911,11 +911,11 @@ def filterDataForAnalysisPage(request):
     featureOnY = request.GET.get('feature2', False)
     global data_type
     data_type = request.GET.get('data_type', False)
+    df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/MasterData_For_Web_22_July.csv')
+    df_new = df_new.fillna(0)
 
     if data_type == "historical":
         print("historical")
-        df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/MasterData_For_Web_22_July.csv')
-        df_new = df_new.fillna(0)
     if data_type == "custom":
         print("custom")
         df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
