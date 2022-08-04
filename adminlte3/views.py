@@ -910,7 +910,6 @@ def filterDataForAnalysisPage(request):
         reqData = request.GET['feature1']
         print(reqData)
 
-    print(json.loads(request.raw_post_data))
     yearFrom = request.GET.get('yearFrom', False)
     yearTo = request.GET.get('yearTo', False)
     station = request.GET.get('station', False)

@@ -728,7 +728,7 @@ function plotFromCSV() {
     console.log("csv selected: ", CSV);
 
     $.ajax({
-        type: 'get',
+        type: 'post',
         url: '/filterDataForAnalysisPage',
         data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
         // contentType: false,
