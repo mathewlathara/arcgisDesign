@@ -9,6 +9,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 import pickle
 import json
+from django.core import serializers
 from django.shortcuts import render
 from django.utils.datastructures import MultiValueDictKeyError
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -904,7 +905,12 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
 def filterDataForAnalysisPage(request):
     print("filterDataForAnalysisPage called.....")
     # if request.GET.get('yearFrom', False):
-    print(request)
+    reqData = None
+    if request.method == "GET" and request.is_ajax():
+        reqData = request.GET['feature1']
+        print(reqData)
+
+    print(json.loads(request.raw_post_data))
     yearFrom = request.GET.get('yearFrom', False)
     yearTo = request.GET.get('yearTo', False)
     station = request.GET.get('station', False)
