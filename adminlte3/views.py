@@ -908,7 +908,7 @@ def filterDataForAnalysisPage(request):
     reqData = None
     if request.method == "GET" and request.is_ajax():
        
-        print(request.data)
+        print(request.query_params)
 
     yearFrom = request.GET.get('yearFrom', False)
     yearTo = request.GET.get('yearTo', False)
