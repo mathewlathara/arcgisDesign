@@ -730,10 +730,10 @@ function plotFromCSV() {
     $.ajax({
         type: 'get',
         url: '/filterDataForAnalysisPage/',
-        data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
+        data: {'yearFrom': globalThis.yearFrom, 'yearTo': globalThis.yearTo, "feature1":globalThis.f1, 'feature2':globalThis.f2, 'station':globalThis.station, 'data_type':globalThis.data_type},
         // contentType: false,
         // processData: false,
-        headers: { "content-type": "application/json" },
+        // headers: { "X-CSRFToken": csrftoken },
 
         success: function (data) {
           console.log(data.graph1x);
