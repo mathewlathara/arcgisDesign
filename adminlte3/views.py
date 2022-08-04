@@ -901,12 +901,12 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
   print(df_grouped.shape)
   return df_grouped #.to_numpy()
 
-@api_view(('GET',))
+@api_view(('GET', 'POST'))
 def filterDataForAnalysisPage(request):
     print("filterDataForAnalysisPage called.....")
     # if request.GET.get('yearFrom', False):
     reqData = None
-    if request.method == "GET" and request.is_ajax():
+    if request.method == "POST" and request.is_ajax():
         reqData = request.GET['feature1']
         print(reqData)
 
