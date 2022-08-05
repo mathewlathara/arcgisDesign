@@ -468,6 +468,11 @@
 										}
 										else if (data.status === "success") {
 											$("#usercreated").show();
+											$("#loginemailaddress").val("");
+											$("#loginpassword").val("");
+											$("#signup-username").val("");
+											$("#signup-email").val("");
+											$("#signup-password").val("");
 										}
 									},
 									error: function (error) {
