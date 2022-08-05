@@ -1147,13 +1147,13 @@ def validateUploadedFile(request):
         shapemodeldescription = {"status":"success","message":"Total Nitrogen with 10 features","shapegenerated":cols}
     return Response({'nullvalues': nullvalues, 'shapevalue':shapevalue, 'shapedecision':shapemodeldescription})
 
-@api_view(('POST',))
-def analysisFilterData(request):
-    print("analysisFilterData called......")
-    yearFrom = request.POST['yearFrom']
-    yearTo = request.POST['yearTo']
+# @api_view(('POST',))
+# def analysisFilterData(request):
+#     print("analysisFilterData called......")
+#     yearFrom = request.POST['yearFrom']
+#     yearTo = request.POST['yearTo']
     
-    return Response({'status':'ok...'})
+#     return Response({'status':'ok...'})
 
 @api_view(('GET',))
 def prediction(request, radioitem):

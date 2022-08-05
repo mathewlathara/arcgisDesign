@@ -137,12 +137,12 @@ let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
 
   $(document).ready(function () {
     plotFromCSV();
-    let yearFrom = document.getElementById('yearFrom');
-    let yearTo = document.getElementById('yearTo');
-    let f1 = document.getElementById('f1');
-    let f2 = document.getElementById('f2');
-    let des1 = document.getElementById('dec1');
-    let des2 = document.getElementById('dec2');
+    // let year1 = document.getElementById('yearFrom');
+    // let year2 = document.getElementById('yearTo');
+    // let ft1 = document.getElementById('f1');
+    // let ft2 = document.getElementById('f2');
+    // let dest1 = document.getElementById('dec1');
+    // let dest2 = document.getElementById('dec2');
     // let standard_type = document.getElementById('standardType');
     let station_id = document.getElementById('station');
     var standardropdown = standardDropdownBox();
@@ -161,23 +161,24 @@ let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
     $("#mapyearselect").html(mapselectdropdown);
     csrftoken = document.cookie.split('=')[1];
     data = {'yearFrom':yearFrom.value, 'yearTo':yearTo.value, 'f1':f1.value, 'f2':f2.value};
-    $('#getValue').click(function(){
-      $.ajax({
-              type: 'POST',
-              url: '/analysisFilterData',
-              data: data,
-              // contentType: false,
-              // processData: false,
-              headers: { "X-CSRFToken": csrftoken },
+    console.log("data.....", data);
+    // $('#getValue').click(function(){
+    //   $.ajax({
+    //           type: 'POST',
+    //           url: '/analysisFilterData',
+    //           data: data,
+    //           // contentType: false,
+    //           // processData: false,
+    //           headers: { "X-CSRFToken": csrftoken },
 
-              success: function (data) {
-                console.log(data.staus);
-              },
-              error: function (error) {
-                  console.log("Error" + JSON.stringify(error));
-              }
-      });
-    });
+    //           success: function (data) {
+    //             console.log(data.staus);
+    //           },
+    //           error: function (error) {
+    //               console.log("Error" + JSON.stringify(error));
+    //           }
+    //   });
+    // });
 
     // $(document).on('click', '#f1', function(){
     //     var selectboxreturn = "<option value='' selected>On X</option>";

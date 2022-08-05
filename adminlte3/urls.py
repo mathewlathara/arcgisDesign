@@ -3,8 +3,7 @@ from django.urls import path
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
-    logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, \
-    datasourcespage, contact_us_page, validateUploadedFile, analysisFilterData, new_index_page, plotMap, prediction, getYearForAnalysisMap, \
+    logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, datasourcespage, contact_us_page, validateUploadedFile, new_index_page, plotMap, prediction, getYearForAnalysisMap, \
     download_predictedfile, filterDataForAnalysisPage, dextarity, in_dex, contact_us, new_dashboard, features, describe, new_analysis, new_predict, getPredictionOutput,\
     prescribe, getPrescribeOutput
 from django.views.generic import TemplateView
@@ -52,7 +51,7 @@ urlpatterns = [
     path("plotMap", plotMap),
     path("prediction/<str:radioitem>", prediction),
     path("validateUploadedFile", validateUploadedFile),
-    path('analysisFilterData', analysisFilterData),
+    # path('analysisFilterData', analysisFilterData),
     path("data_source/",datasourcespage),
     path("contact_us/",contact_us_page),
     path("download_predictedfile/", download_predictedfile),
