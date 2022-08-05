@@ -1843,4 +1843,7 @@ def getPrescribeOutput(request):
     except:
         return Response({'error': "Some error occured, Try again."})
 
-
+@api_view(('GET',))
+def trial(userInfo):
+    userInfo = json.loads(userInfo)
+    print(userInfo)

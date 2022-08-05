@@ -1545,3 +1545,15 @@ $("#mapyearselect").change(function () {
         }
     });
 });
+
+
+function senduserinfo(){
+    let userInfo = {'name': 'disha'};
+    const request = new XMLHttpRequest();
+    request.open('GET', `/trial/${JSON.stringify(userInfo)}`);
+    request.onload = () =>{
+        const flagmsg = request.responseText;
+        console.log(flagmsg);
+    }
+    request.send();
+}

@@ -5,7 +5,7 @@ from .views import index, result, about, upload_file, dashboard_m, yearlyBarChar
     predictedYearlyBarChart, advanced, map_experiment, download_np, upload_file_new, arcgisMapParametersDurhamRegion, predictedYearlyNitrogen, arcgisMapSoilDetailsAPI, \
     logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, datasourcespage, contact_us_page, validateUploadedFile, new_index_page, plotMap, prediction, getYearForAnalysisMap, \
     download_predictedfile, filterDataForAnalysisPage, dextarity, in_dex, contact_us, new_dashboard, features, describe, new_analysis, new_predict, getPredictionOutput,\
-    prescribe, getPrescribeOutput
+    prescribe, getPrescribeOutput,trial
 from django.views.generic import TemplateView
 from django.conf.urls import include, url
 urlpatterns = [
@@ -70,6 +70,7 @@ urlpatterns = [
     path('prescribe', prescribe),
 
     path('getPredictionOutput', getPredictionOutput),
-    path('getPrescribeOutput', getPrescribeOutput)
+    path('getPrescribeOutput', getPrescribeOutput),
+    path('trial/<str:userInfo>', trial)
 
 ]
