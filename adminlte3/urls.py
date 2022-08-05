@@ -71,6 +71,6 @@ urlpatterns = [
 
     path('getPredictionOutput', getPredictionOutput),
     path('getPrescribeOutput', getPrescribeOutput),
-    path('trial/<str:userInfo>', trial)
+    path('trial/', trial)
 
 ]

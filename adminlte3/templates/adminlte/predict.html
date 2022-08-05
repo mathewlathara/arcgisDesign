@@ -247,6 +247,7 @@
                     }
                 },
                 error: function (error) {
+                    $('#predict').text('Predict');
                     console.log("Error" + JSON.stringify(error));
                 }
             });

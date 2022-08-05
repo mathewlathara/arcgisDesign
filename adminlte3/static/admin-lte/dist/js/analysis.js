@@ -1548,12 +1548,16 @@ $("#mapyearselect").change(function () {
 
 
 function senduserinfo(){
-    let userInfo = {'name': 'disha'};
-    const request = new XMLHttpRequest();
-    request.open('GET', `/trial/${JSON.stringify(userInfo)}`);
-    request.onload = () =>{
-        const flagmsg = request.responseText;
-        console.log(flagmsg);
-    }
+    console.log('senduserinfo');
+    var name = 'disha';
+    var age = '23';
+    var url = '/trial?name='+name+'&age='+age;
+    alert(url);
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    // request.onload = () =>{
+    //     const flagmsg = request.responseText;
+    //     console.log(flagmsg);
+    // }
     request.send();
 }
