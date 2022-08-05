@@ -1811,14 +1811,14 @@ def scenario_(df_, selected_para_, percentage_change_, isPhos_, station_,model_p
 @api_view(('GET',))
 def getPrescribeOutput(request):
     selected = (request.GET['selected'])
-    station = request.GET['station']
+    # station = request.GET['station']
     landmin = int(request.GET['landmin'])
     landmax = int(request.GET['landmax'])
     populationmin = int(request.GET['populationmin'])
     populationmax = int(request.GET['populationmax'])
     rainmin = int(request.GET['rainmin'])
     rainmax = int(request.GET['rainmax'])
-    print(selected, station, landmin, landmax)
+    print(selected,  landmin, landmax)
     percentages = [[landmin,landmax], [populationmin, populationmax], [rainmin, rainmax]]
     df = pd.read_csv("https://raw.githubusercontent.com/DishaCoder/CSV/main/Predict-Prescribe-Data.csv")
 

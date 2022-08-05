@@ -8,42 +8,36 @@
 {% block content %}
 
 <div class="container font-weight-light">
-    <div class="row h2 ml-3 text-primary">
-        Prescribe tool
+    <div class="row h2 m1-3 text-primary">
+        Prescribe
     </div>
-    <div class="row ml-3">
-        <p class="text-primary">Select Prescribe to </p>
+    <div class="row">
+        <p class="text-primary">Use DeX-Terity tools to explore potential watershed impacts under various future
+            environmental and socioeconomic growth scenarios.</p>
     </div>
 
     <div class="row">
         <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 1. Select Target Parameter</p>
-            <p class="text-secondary"> Total Phosphorous (TP) or Total Nitrogen (TN)</p>
+            <p class="text-primary"> 1. Select Target Indicator</p>
+            <p class="text-secondary"> Choose the indicator that you would like to predict: Total Nitrogen (TN) or Total
+                Phosphorus (TP)</p>
         </div>
         <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
-            <div class="m-3 btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn  active">
-                    TP
-                </label>
-                <input type="radio" name="options" id="TP" autocomplete="off" checked>
-
-                <label class="btn ">
-                    TN
-                </label>
-                <input type="radio" name="options" id="TN" autocomplete="off">
-
-                <!-- <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" id="TP" class="btn btn-primary">TP</button>
-                    <button type="button" id="TN" class="btn btn-primary">TN</button>
-                  </div> -->
-
+            <div class="d-flex flex-row">
+                <div class="d-flex align-items-center m-2">
+                <input type="radio" name="options" id="TP" checked >
+                <label for="TP"> TP</label><br></div>
+                <div class="d-flex align-items-center m-2">
+                <input type="radio" name="options" id="TN" >
+                <label for="TN"> TN</label>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-3">
+    <!-- <div class="row mt-3">
         <div class="col-lg p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 2. Select station</p>
+            <p class="text-primary"> 2. Select Station ID</p>
             <p class="text-secondary"> Further explanation </p>
         </div>
         <div class="col-lg p-2 d-flex justify-content-center" style="background-color: rgba(235,235,235,0.678);">
@@ -54,11 +48,23 @@
             </select>
 
         </div>
+    </div> -->
+
+    <div class="row p-5"></div>
+
+    <div class="row">
+        <div class="row h3 text-primary ml-2">
+            Choose Scenario
+        </div>
+        <div class="row ml-2">
+            <p class="text-primary">Using the sliding bar, select the indicators for a potential environmental and socio-
+                economic growth scenario. Note that these changes are in relation to our baseline<br>data for 2020.</p>
+        </div>
     </div>
 
     <div class="row mt-3">
         <div class=" col-lg-6  p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 3. Select the years to predict<br></p>
+            <p class="text-primary"> 3. Select natural land<br></p>
             <!-- <p class="text-secondary"> Further explanation </p> -->
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
@@ -71,7 +77,7 @@
     <div class="row mt-3">
         <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary"> 4. Select population</p>
-            <p class="text-secondary"> Further explanation </p>
+            <!-- <p class="text-secondary"> Further explanation </p> -->
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
             style="background-color: rgba(235,235,235,0.678);">
@@ -83,7 +89,7 @@
     <div class="row mt-3">
         <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary"> 5. Total Rain(mm)</p>
-            <p class="text-secondary"> Further explanation </p>
+            <!-- <p class="text-secondary"> Further explanation </p> -->
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
             style="background-color: rgba(235,235,235,0.678);">
@@ -94,6 +100,10 @@
 
     <div class="row d-flex justify-content-center mt-4 mb-4">
         <button class="btn btn-primary rounded-pill pl-4 pr-4 " id="predict" onclick=""> Get </button>
+    </div>
+
+    <div class="row d-flex justify-content-center col-12 m-2" id="prediction_msg">
+
     </div>
 
     <div class="row d-flex justify-content-center col-12 m-2 mb-5" id="placeimage">
@@ -221,9 +231,15 @@ $(document).ready(function () {
     });
 
     document.getElementById('predict').addEventListener('click', function () {
+        // adding loader
+        var spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'
+        $('#predict').html(spinner);
         // removing plot if any
         if (document.getElementById('img_plot')){
                 document.getElementById('img_plot').remove();
+        }
+        if (document.getElementById('success_text')){
+                document.getElementById('success_text').remove();
         }
 
         // getting slider value
@@ -242,13 +258,14 @@ $(document).ready(function () {
         $.ajax({
                 type: 'get',
                 url: '/getPrescribeOutput',
-                data: {'selected': var_to_predict, 'station':globalThis.station, 'landmin': parseInt(sliderland_[0]), 'landmax': parseInt(sliderland_[1]), 'populationmin':parseInt(sliderpopulation_[0]),
+                data: {'selected': var_to_predict, 'landmin': parseInt(sliderland_[0]), 'landmax': parseInt(sliderland_[1]), 'populationmin':parseInt(sliderpopulation_[0]),
                         'populationmax':parseInt(sliderpopulation_[1]),  'rainmin':parseInt(sliderrain_[0]), 'rainmax':parseInt(sliderrain_[1])},
                 // contentType: false,
                 // processData: false,
                 // headers: { "X-CSRFToken": csrftoken },
 
                 success: function (data) {
+                    $('#predict').text('Get');
                     console.log(data.status);
                     console.log(data.hist_date);
                     console.log(data.hist_param);
@@ -260,6 +277,12 @@ $(document).ready(function () {
 
                     if (data.dataset_error == null) {
                         console.log("in ifff");
+                        var elem1 = document.createElement('p');
+                        elem1.setAttribute('id', "success_text");
+                        elem1.setAttribute('class', 'text-success');
+                        elem1.innerHTML = "Your scenario has been predicted! See graph(s) below for more information:";
+                        document.getElementById("prediction_msg").appendChild(elem1);
+
                         var elem = document.createElement('img');
                         elem.setAttribute('id', "img_plot");
                         param_name = ((data.target_param).replace(" ", '_')).replace('(mg/L)', '').trim();
@@ -277,6 +300,7 @@ $(document).ready(function () {
                     }
                 },
                 error: function (error) {
+                    $('#predict').text('Get');
                     console.log("Error" + JSON.stringify(error));
                 }
             });
