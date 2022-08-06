@@ -64,7 +64,7 @@
 
     <div class="row mt-3">
         <div class=" col-lg-6  p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 3. Select natural land<br></p>
+            <p class="text-primary" id="param2"> 2. Select natural land<br></p>
             <!-- <p class="text-secondary"> Further explanation </p> -->
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
@@ -76,7 +76,7 @@
 
     <div class="row mt-3">
         <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 4. Select population</p>
+            <p class="text-primary" id="param3"> 3. Select population</p>
             <!-- <p class="text-secondary"> Further explanation </p> -->
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
@@ -88,7 +88,7 @@
 
     <div class="row mt-3">
         <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
-            <p class="text-primary"> 5. Total Rain(mm)</p>
+            <p class="text-primary" id="param4"> 4. Total Rain(mm) before 7 days</p>
             <!-- <p class="text-secondary"> Further explanation </p> -->
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
@@ -133,6 +133,18 @@
 
 <script>
 $(document).ready(function () {
+    $('#TP').change(function()  {
+        console.log("TP clicked")
+        $('#param2').text('2. Select Natural Land');
+        $('#param3').text('3. Select Population');
+        $('#param4').text('4. Total Rain (mm) Before 7 days');
+    });
+    $('#TN').change(function()  {
+        console.log("TN clicked")
+        $('#param2').text('2. Select Natural Land');
+        $('#param3').text('3. Select Anthropogenic Natural Land');
+        $('#param4').text('4. Select Population');
+    });
     let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
         6010800102, 6010800202, 6011100102, 6011100202, 6011100302,
         6011100502, 6011100602, 6011100702, 6011100802, 6011200302,
