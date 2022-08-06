@@ -902,17 +902,17 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
   return df_grouped #.to_numpy()
 
 @api_view(('GET', 'POST'))
-def filterDataForAnalysisPage(request):
+def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX, featureOnY, data_type):
     print("filterDataForAnalysisPage called.....")
-    if request.GET['yearFrom']:
-        #yearFrom = request.GET['yearFrom']
-        yearTo = request.GET['yearTo']
-        station = request.GET['station']
-        featureOnX = request.GET['feature1']
-        featureOnY = request.GET['feature2']
-        global data_type
-        data_type = request.GET['data_type']
-        print("I am here 1")
+    # if request.GET['yearFrom']:
+    #     yearFrom = request.GET['yearFrom']
+    #     yearTo = request.GET['yearTo']
+    #     station = request.GET['station']
+    #     featureOnX = request.GET['feature1']
+    #     featureOnY = request.GET['feature2']
+    #     global data_type
+    #     data_type = request.GET['data_type']
+    #     print("I am here 1")
 
     if data_type == "historical":
         print("historical")
