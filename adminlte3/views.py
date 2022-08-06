@@ -905,7 +905,7 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
 def filterDataForAnalysisPage(request):
     print("filterDataForAnalysisPage called.....")
     if request.GET['yearFrom']:
-        yearFrom = request.GET['yearFrom']
+        #yearFrom = request.GET['yearFrom']
         yearTo = request.GET['yearTo']
         station = request.GET['station']
         featureOnX = request.GET['feature1']
