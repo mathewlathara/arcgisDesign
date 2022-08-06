@@ -911,18 +911,22 @@ def filterDataForAnalysisPage(request):
         featureOnY = request.GET['feature2']
         global data_type
         data_type = request.GET['data_type']
+        print("I am here 1")
 
     if data_type == "historical":
         print("historical")
         df_new = pd.read_csv('https://raw.githubusercontent.com/DishaCoder/CSV/main/MasterData_For_Web_22_July.csv')
         df_new = df_new.fillna(0)
+        print("I am here 2")
     if data_type == "custom":
         print("custom")
         df_new = pd.read_csv('data/Latest_predictions/recently_predicted.csv')
         df_new = df_new.fillna(0)
+        print("I am here 3")
     filtered_data_1 = getGraphDataByYear(df_new, yearFrom, yearTo, station, featureOnX)
     graph1x = filtered_data_1.iloc[:, 0].to_numpy()
     graph1y = filtered_data_1.iloc[:, 1].to_numpy()
+    print("I am here 4")
     description1 = "The graph shows "+featureOnX+" amount(on Y) recorded in years between "+yearFrom+" to "+yearTo+"(on X)." + "NOTE: All the units are in mg/L, ml or Ha respectively.";
 
 
@@ -930,7 +934,7 @@ def filterDataForAnalysisPage(request):
     graph2x = filtered_data_2.iloc[:, 0].to_numpy()
     graph2y = filtered_data_2.iloc[:, 1].to_numpy()
     description2 = "The graph shows "+featureOnY+" amount(on Y) recorded in years between "+yearFrom+" to "+yearTo+"(on X)." + "NOTE: All the units are in mg/L, ml or Ha respectively.";
-
+    print("I am here 5")
         
     return Response({'graph1x':graph1x, 'graph1y':graph1y, 'graph2x':graph2x, 'graph2y':graph2y, 'description1':description1, 'description2':description2})
 
