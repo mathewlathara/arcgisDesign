@@ -58,11 +58,11 @@ ROOT_URLCONF = 'django_adminlte3.urls'
 ALLOWED_HOSTS=['*']
 ACCESS_CONTROL_ALLOW_ORIGIN = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
-    "https://api.tiles.mapbox.com",
-    "https://events.mapbox.com",
-    "http://127.0.0.1:8000"
-    ]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://api.tiles.mapbox.com",
+#     "https://events.mapbox.com",
+#     "http://127.0.0.1:8000"
+#     ]
 CORS_ALLOW_METHODS = [
 'DELETE',
 'GET',
