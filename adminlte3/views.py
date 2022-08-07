@@ -174,7 +174,7 @@ def filterpagefromindex(request, year):
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
     regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
-    return render(request, "adminlte/index1.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
+    return render(request, "adminlte/dexterity.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
 
 
 def logincontroller(request):
