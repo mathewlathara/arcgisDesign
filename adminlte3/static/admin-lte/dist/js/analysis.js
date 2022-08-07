@@ -164,7 +164,7 @@ function selectFeature1() {
     //     i = 0;
     //     console.log("Feature", f1);
     // }
-    dataColumns = ['Year', 'Month', 'Nitrogen_Kjeldahl',
+    dataColumns = ['Nitrogen_Kjeldahl',
         'TotalSuspendedSolids', 'Nitrate', 'Conductivity', 'DissolvedOxygen',
         'pH', 'TotalNitrogen', 'Nitrite', 'TotalPhosphorus', 'Chloride',
         '10mLandCover_AgriculturalExtraction', '10mLandCover_Anthropogenic',
