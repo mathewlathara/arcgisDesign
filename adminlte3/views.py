@@ -47,6 +47,8 @@ from keras.models import load_model, Model
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import LSTM
 
+
+
 # import geopandas as gpd
 # import shapefile
 
@@ -891,7 +893,7 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
   if station == "all":
     df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo))]
   else :
-    df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo))]# & (df['STATION'] == int(station))]
+    df = df[(df['Year'] >= int(yearFrom)) & (df['Year'] <= int(yearTo)) & (df['Station'] == (station))]
 
   onX = df[[feature, 'Year']].copy()
   
@@ -902,17 +904,18 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
   return df_grouped #.to_numpy()
 
 @api_view(('GET', 'POST'))
-def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX, featureOnY, data_type):
+# def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX, featureOnY, data_type):
+def filterDataForAnalysisPage(request):
     print("filterDataForAnalysisPage called.....")
-    # if request.GET['yearFrom']:
-    #     yearFrom = request.GET['yearFrom']
-    #     yearTo = request.GET['yearTo']
-    #     station = request.GET['station']
-    #     featureOnX = request.GET['feature1']
-    #     featureOnY = request.GET['feature2']
-    #     global data_type
-    #     data_type = request.GET['data_type']
-    #     print("I am here 1")
+    if request.GET['yearFrom']:
+        yearFrom = request.GET['yearFrom']
+        yearTo = request.GET['yearTo']
+        station = request.GET['station']
+        featureOnX = request.GET['feature1']
+        featureOnY = request.GET['feature2']
+        global data_type
+        data_type = request.GET['data_type']
+        print("I am here 1")
 
     if data_type == "historical":
         print("historical")
