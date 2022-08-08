@@ -261,11 +261,14 @@ $(document).ready(function () {
         console.log(sliderland_, sliderpopulation_, parseInt(sliderrain_[0]));
         // preidction var set
         var var_to_predict;
+        var param_name;
             if (document.getElementById('TP').checked) {
                 var_to_predict = 'TP';
+                param_name = 'Total_Phosphorus';
             }
             if (document.getElementById('TN').checked) {
                 var_to_predict = 'TN';
+                param_name = 'Total_Nitrogen';
             }
         $.ajax({
                 type: 'get',
@@ -278,13 +281,8 @@ $(document).ready(function () {
 
                 success: function (data) {
                     $('#predict').text('Get');
-                    console.log(data.status);
-                    console.log(data.hist_date);
-                    console.log(data.hist_param);
-                    console.log(data.fut_date);
-                    console.log(data.fut_param);
+                    console.log("status : ", data.status);
                     console.log(data.target_param);
-                    console.log(data.station_);
                     console.log(data.dataset_error);
 
                     if (data.dataset_error == null) {
@@ -297,7 +295,7 @@ $(document).ready(function () {
 
                         var elem = document.createElement('img');
                         elem.setAttribute('id', "img_plot");
-                        param_name = ((data.target_param).replace(" ", '_')).replace('(mg/L)', '').trim();
+                        // param_name = ((data.target_param).replace(" ", '_')).replace('(mg/L)', '').trim();
                         elem.setAttribute("src", 'static/admin-lte/dist/js/data/'+param_name+'__'+"pres.png");
                         elem.setAttribute("width", "100%");
                         document.getElementById("placeimage").appendChild(elem);
