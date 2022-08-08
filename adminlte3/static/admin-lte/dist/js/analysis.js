@@ -252,9 +252,11 @@ function plotFromCSV() {
 
     $.ajax({
         type: 'get',
+        url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo,
         // url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1 + "/" + f2 + "/" + station + "/" + data_type,
-        url: '/filterDataForAnalysisPage',
-        data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
+        // url: '/filterDataForAnalysisPage',
+        // data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
+        
         // contentType: false,
         // processData: false,
         // headers: { "X-CSRFToken": csrftoken },

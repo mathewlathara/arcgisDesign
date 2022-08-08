@@ -22,8 +22,9 @@ urlpatterns = [
     path('models', showMap),
     path('advanced', advanced, name='advanced'),
     path('getYearForAnalysisMap',getYearForAnalysisMap),
-    # path('filterDataForAnalysisPage/<str:yearFrom>/<str:yearTo>/<str:featureOnX>/<str:featureOnY>/<str:station>/<str:data_type>', filterDataForAnalysisPage),
-    path('filterDataForAnalysisPage', filterDataForAnalysisPage),
+    path('filterDataForAnalysisPage/<str:yearFrom>/<str:yearTo>/<str:featureOnX>/<str:featureOnY>/<str:station>/<str:data_type>', filterDataForAnalysisPage),
+    path('filterDataForAnalysisPage/<str:yearFrom>/<str:yearTo>', filterDataForAnalysisPage),
+    # path('filterDataForAnalysisPage', filterDataForAnalysisPage),
     path('map_ex/<str:year>', map_experiment, name="map_ex"),
     path('about', about, name="about"),
     
