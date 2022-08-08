@@ -1886,7 +1886,7 @@ def lstm(df_, predictVar, station_, model_path, year_strt, year_end, isTest):
         print("df_all.........................")
         df_all = pd.concat([df_hist, df_pred], ignore_index=True)
         print(df_all.columns)
-        df_2.to_csv("data/Latest_predictions/temp/"+station_+"predicted.csv")
+        # df_2.to_csv("data/Latest_predictions/temp/"+station_+"predicted.csv")
         df_2.to_csv("adminlte3/static/admin-lte/dist/js/data/" +
                     station_+"predicted.csv")
         print(df_2.head())
@@ -1928,7 +1928,7 @@ def getPredictionOutput(request, selected, station, yearFrom, yearTo):
     # station = request.GET['station']
     print(yearFrom, yearTo, selected, station)
     if selected == 'TP':
-        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav"
+        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
     else:
         model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav"
     print(model_path)
