@@ -2116,16 +2116,14 @@ def scenario_(df_, selected_para_, percentage_change_, isPhos_, station_, model_
     return predicted_results, target_param
 
 
-@api_view(('GET',))
-def getPrescribeOutput(request):
-    selected = (request.GET['selected'])
+def getPrescribeOutput(request, selected, land0, land1, population0, population1, rain0, rain1):
     # station = request.GET['station']
-    landmin = int(request.GET['landmin'])
-    landmax = int(request.GET['landmax'])
-    populationmin = int(request.GET['populationmin'])
-    populationmax = int(request.GET['populationmax'])
-    rainmin = int(request.GET['rainmin'])
-    rainmax = int(request.GET['rainmax'])
+    landmin = int(land0)
+    landmax = int(land1)
+    populationmin = int(population0)
+    populationmax = int(population1)
+    rainmin = int(rain0)
+    rainmax = int(rain1)
     print(selected,  landmin, landmax)
     percentages = [[landmin, landmax], [
         populationmin, populationmax], [rainmin, rainmax]]
@@ -2152,9 +2150,9 @@ def getPrescribeOutput(request):
         predicted_result, target_param = scenario_(
             df, selected_para, percentages, isPhos, "", model_path)
         print(predicted_result, target_param)
-        return Response({'status': 'got it', 'target_param': target_param})
+        return JsonResponse({'status': 'got it', 'target_param': target_param})
     except:
-        return Response({'error': "Some error occured, Try again."})
+        return JsonResponse({'error': "Some error occured, Try again."})
 
 
 def trial(request):

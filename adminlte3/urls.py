@@ -72,7 +72,8 @@ urlpatterns = [
     path('prescribe', prescribe),
 
     path('getPredictionOutput', getPredictionOutput),
-    path('getPrescribeOutput', getPrescribeOutput),
+    path('getPrescribeOutput/<str:selected>/<str:land0>/<str:land1>/<str:population0>/<str:population1>/<str:rain0>/<str:rain1>', getPrescribeOutput),
+    # path('getPrescribeOutput', getPrescribeOutput),
     path('trial/', trial)
 
 ]

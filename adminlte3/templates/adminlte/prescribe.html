@@ -269,9 +269,9 @@ $(document).ready(function () {
             }
         $.ajax({
                 type: 'get',
-                url: '/getPrescribeOutput',
-                data: {'selected': var_to_predict, 'landmin': parseInt(sliderland_[0]), 'landmax': parseInt(sliderland_[1]), 'populationmin':parseInt(sliderpopulation_[0]),
-                        'populationmax':parseInt(sliderpopulation_[1]),  'rainmin':parseInt(sliderrain_[0]), 'rainmax':parseInt(sliderrain_[1])},
+                url: '/getPrescribeOutput/'+var_to_predict+'/'+parseInt(sliderland_[0])+'/'+parseInt(sliderland_[1])+'/'+parseInt(sliderpopulation_[0])+'/'+parseInt(sliderpopulation_[1])+'/'+parseInt(sliderrain_[0])+'/'+parseInt(sliderrain_[0]),
+                // data: {'selected': var_to_predict, 'landmin': parseInt(sliderland_[0]), 'landmax': parseInt(sliderland_[1]), 'populationmin':parseInt(sliderpopulation_[0]),
+                //         'populationmax':parseInt(sliderpopulation_[1]),  'rainmin':parseInt(sliderrain_[0]), 'rainmax':parseInt(sliderrain_[1])},
                 // contentType: false,
                 // processData: false,
                 // headers: { "X-CSRFToken": csrftoken },
