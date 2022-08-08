@@ -1011,9 +1011,24 @@ def getGraphDataByYear(df, yearFrom, yearTo, station, feature):
   return df_grouped #.to_numpy()
 
 # @api_view(('GET', 'POST'))
-def filterDataForAnalysisPage(request, yearFrom, yearTo): #, station, featureOnX, featureOnY, data_type):
-# def filterDataForAnalysisPage(request):
+def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX_encoded, featureOnY_encoded, data_type):
     print("filterDataForAnalysisPage called.....")
+    encode_features = {'1':'Nitrogen Kjeldahl (mg/L)', '2':'Total Suspended Solids (mg/L)',
+        '3':'Nitrate (mg/L)', '4':'Conductivity (K)', '5':'Dissolved Oxygen (mg/L)', '6':'pH','7':
+        'Total Nitrogen (mg/L)','8': 'Nitrite (mg/L)','9': 'Total Phosphorus (mg/L)','10':
+        'Chloride (mg/L)','11':'Natural Land 10m (ha)','12':
+        'Anthropogenic Natural Land 10m (ha)','13': 'Anthropogenci Land 10m (ha)','14':
+        'Station','15': 'Date', '16':'Year', '17':'Agricultural Land 250m (ha)','18':
+        'Natural Land 250m (ha)','19':
+        'Population','20': 'Total Rain (mm) -14day Total','21':
+        'Total Rain (mm) -1day Total','22': 'Total Rain (mm) -28day Total','23':
+        'Total Rain (mm) -3day Total', '24':'Total Rain (mm) -56day Total','25':
+        'Total Rain (mm) -7day Total','26': 'Total Rain (mm) 0day Total'}
+    featureOnX = encode_features[featureOnX_encoded]
+    featureOnY = encode_features[featureOnY_encoded]
+
+
+# def filterDataForAnalysisPage(request):
     # if request.GET['yearFrom']:
     #     yearFrom = request.GET['yearFrom']
     #     yearTo = request.GET['yearTo']
@@ -1024,7 +1039,9 @@ def filterDataForAnalysisPage(request, yearFrom, yearTo): #, station, featureOnX
     #     data_type = request.GET['data_type']
     #     print("I am here 1")
 
-    print(yearFrom)
+    print(yearFrom, yearTo, station, featureOnX, featureOnY, data_type)
+    # featureOnX = featureOnX.replace('_', ' ')
+    # featureOnY = featureOnY.replace('_', ' ')
     if data_type == "historical":
         print("historical")
         df_new = pd.read_csv(
@@ -1052,9 +1069,15 @@ def filterDataForAnalysisPage(request, yearFrom, yearTo): #, station, featureOnX
     description2 = "The graph shows "+featureOnY + \
         " amount(on Y) recorded in years between "+yearFrom+" to "+yearTo + \
         "(on X)." + "NOTE: All the units are in mg/L, ml or Ha respectively."
-    print("I am here 5")
+    print("graph arrays === ", graph1x, graph1y)
+    print("type of arrays === ", type(graph1x), type(graph1y))
+    graph1x = np.array(graph1x).tolist()
+    graph1y = np.array(graph1y).tolist()
+    graph2x = np.array(graph2x).tolist()
+    graph2y = np.array(graph2y).tolist()
+    plot_graph = ({'graph1x': graph1x, 'graph1y': graph1y, 'graph2x': graph2x, 'graph2y': graph2y, 'description1': description1, 'description2': description2})
 
-    return Response({'graph1x': graph1x, 'graph1y': graph1y, 'graph2x': graph2x, 'graph2y': graph2y, 'description1': description1, 'description2': description2})
+    return JsonResponse(plot_graph)
 
 
 def advanced(request):

@@ -23,6 +23,18 @@ var dataColumns = ['Nitrogen Kjeldahl (mg/L)', 'Total Suspended Solids (mg/L)',
 'Total Rain (mm) -3day Total', 'Total Rain (mm) -56day Total',
 'Total Rain (mm) -7day Total', 'Total Rain (mm) 0day Total'];
 
+var encode_features = {'1':'Nitrogen Kjeldahl (mg/L)', '2':'Total Suspended Solids (mg/L)',
+'3':'Nitrate (mg/L)', '4':'Conductivity (K)', '5':'Dissolved Oxygen (mg/L)', '6':'pH','7':
+'Total Nitrogen (mg/L)','8': 'Nitrite (mg/L)','9': 'Total Phosphorus (mg/L)','10':
+'Chloride (mg/L)','11':'Natural Land 10m (ha)','12':
+'Anthropogenic Natural Land 10m (ha)','13': 'Anthropogenci Land 10m (ha)','14':
+'Station','15': 'Date', '16':'Year', '17':'Agricultural Land 250m (ha)','18':
+'Natural Land 250m (ha)','19':
+'Population','20': 'Total Rain (mm) -14day Total','21':
+'Total Rain (mm) -1day Total','22': 'Total Rain (mm) -28day Total','23':
+'Total Rain (mm) -3day Total', '24':'Total Rain (mm) -56day Total','25':
+'Total Rain (mm) -7day Total','26': 'Total Rain (mm) 0day Total'}
+
 function checkIfFilterButtonShouldenable() {
     var yearfromfrop = $("#yearFrom").val();
     var yeartooption = $("#yearTo").val();
@@ -242,6 +254,11 @@ async function getData() {
     }
 
 }
+// fetch key by value
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
 // fetching values from CSV file
 function plotFromCSV() {
     //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
@@ -249,11 +266,17 @@ function plotFromCSV() {
     // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
     console.log("csv selected: ", CSV);
     // window.location.href = '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1 + "/" + f2 + "/" + station + "/" + data_type;
+   
+    //encode features
+    console.log("before encoding === ", f1, f2);
+    var f1_encoded = getKeyByValue(encode_features, f1);
+    var f2_encoded = getKeyByValue(encode_features, f2);
+    console.log("after encoding === ", f1_encoded, f2_encoded);
 
     $.ajax({
         type: 'get',
-        url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo,
-        // url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1 + "/" + f2 + "/" + station + "/" + data_type,
+        // url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo,
+        url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1_encoded + "/" + f2_encoded + "/" + station + "/" + data_type,
         // url: '/filterDataForAnalysisPage',
         // data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
         
