@@ -1921,11 +1921,11 @@ def results_(y_test_, Y_pred, target_param, target_param_path, station_, isSave)
 
 
 @api_view(('GET',))
-def getPredictionOutput(request):
-    yearFrom = int(request.GET['yearFrom'])
-    yearTo = int(request.GET['yearTo'])
-    selected = (request.GET['selected'])
-    station = request.GET['station']
+def getPredictionOutput(request, selected, station, yearFrom, yearTo):
+    yearFrom = int(yearFrom)
+    yearTo = int(yearTo)
+    # selected = (request.GET['selected'])
+    # station = request.GET['station']
     print(yearFrom, yearTo, selected, station)
     if selected == 'TP':
         model_path = "ml_models/TotalPhosphorous-RF-11.sav"

@@ -182,8 +182,8 @@
             console.log(var_to_predict);
             $.ajax({
                 type: 'get',
-                url: '/getPredictionOutput',
-                data: { 'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected': var_to_predict, 'station': globalThis.station },
+                url: '/getPredictionOutput/'+var_to_predict+'/'+globalThis.station+'/'+parseInt(selected_years[0]) +'/'+parseInt(selected_years[1]),
+                // data: { 'yearFrom': parseInt(selected_years[0]), 'yearTo': parseInt(selected_years[1]), 'selected': var_to_predict, 'station': globalThis.station },
                 // contentType: false,
                 // processData: false,
                 // headers: { "X-CSRFToken": csrftoken },

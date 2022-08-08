@@ -71,6 +71,7 @@ urlpatterns = [
     path('new_predict', new_predict),
     path('prescribe', prescribe),
 
+    path('getPredictionOutput/<str:selected>/<str:station>/<str:yearFrom>/<str:yearTo>', getPredictionOutput),
     path('getPredictionOutput', getPredictionOutput),
     path('getPrescribeOutput/<str:selected>/<str:land0>/<str:land1>/<str:population0>/<str:population1>/<str:rain0>/<str:rain1>', getPrescribeOutput),
     # path('getPrescribeOutput', getPrescribeOutput),
