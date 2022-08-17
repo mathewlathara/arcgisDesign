@@ -132,6 +132,9 @@
 <script src="{% static 'admin-lte/assets/nouislider/dist/nouislider.js'%}"></script>
 
 <script>
+function eraseCache(){
+  window.location = window.location.href+'?eraseCache=true';
+}
 $(document).ready(function () {
     $('#TP').change(function()  {
         console.log("TP clicked")
@@ -243,6 +246,8 @@ $(document).ready(function () {
     });
 
     document.getElementById('predict').addEventListener('click', function () {
+        // erase cache
+        // eraseCache();
         // adding loader
         var spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'
         $('#predict').html(spinner);
@@ -281,6 +286,7 @@ $(document).ready(function () {
 
                 success: function (data) {
                     $('#predict').text('Get');
+                    // console.log(JSON.parse(response["status"]));
                     console.log("status : ", data.status);
                     console.log(data.target_param);
                     console.log(data.dataset_error);

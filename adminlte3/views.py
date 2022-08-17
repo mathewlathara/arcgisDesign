@@ -1928,9 +1928,12 @@ def getPredictionOutput(request, selected, station, yearFrom, yearTo):
     # station = request.GET['station']
     print(yearFrom, yearTo, selected, station)
     if selected == 'TP':
-        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
+        # model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
+        model_path = "ml_models/TotalPhosphorous-RF-11.sav"
     else:
-        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav"
+        # model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav"
+        model_path = "ml_models/TotalNitrogen-RF-10F.sav"
+
     print(model_path)
     print(type(yearFrom))
     print(type(yearTo))
@@ -2043,6 +2046,8 @@ def predict_(model_, X_test):
 
 
 def plotUserData(big_data_, selected_para, target_param, station_, percentages):
+    print("plotUserData called....")
+    print(big_data_, selected_para, target_param, station_, percentages)
     plt.figure(figsize=(20, 5))
 
     per_count = 0
@@ -2054,6 +2059,8 @@ def plotUserData(big_data_, selected_para, target_param, station_, percentages):
         plt.scatter(percentages[per_count], big_data_[
                     per_count].tolist(), color=color[per_count])
         per_count += 1
+        print("plotted ", param_)
+
 
     # naming the x axis
     plt.xlabel("% Change of selected parameter", fontsize='14')
@@ -2065,6 +2072,11 @@ def plotUserData(big_data_, selected_para, target_param, station_, percentages):
     plt.title(title, fontsize='14')
     plt.legend()  # loc='lower left')
     # function to show the plot
+    print("deleteing files...")
+    for f in glob.glob('adminlte3/static/admin-lte/dist/js/data/' + "/*.png"):
+        print("file deleted: ",os.remove(f))
+        os.remove(f)
+    os.remove('adminlte3/static/admin-lte/dist/js/data/Total_Phosphorus__pres.png')
     plt.savefig('adminlte3/static/admin-lte/dist/js/data/' +
                 (target_param.replace(" ", '_')).replace('(mg/L)', '')+'_'+"pres.png")
 #   plt.show()
@@ -2118,6 +2130,7 @@ def scenario_(df_, selected_para_, percentage_change_, isPhos_, station_, model_
 
 def getPrescribeOutput(request, selected, land0, land1, population0, population1, rain0, rain1):
     # station = request.GET['station']
+    print(selected, land0, land1, population0, population1, rain0, rain1)
     landmin = int(land0)
     landmax = int(land1)
     populationmin = int(population0)
