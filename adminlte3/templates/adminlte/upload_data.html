@@ -1,20 +1,29 @@
-{% extends 'adminlte/base.html' %}
+{% extends 'adminlte/new_dashboard_base.html' %}
 {% load static %}
 
 {% block content %}
 
-<div class="container-fluid">
-
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Upload console</h1>
+<div class="container-fluid m-4">
+    <div class="row">
+        <h1 class="h3 text-primary mb-0 ">Upload data</h1><br>
     </div>
     <div class="row">
-        <div id="card1" class="card border-primary col-lg-4 mb-3">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Upload data</h6>
+        <p class="mb-0 font-weight-light text-primary">Follow these 2 steps and get your predicted data with our model</p><br>
+    </div>
+    <div class="row">
+        <p class="font-weight-light text-secondary">More information related to this process</p>
+    </div>
+    <div class="row mb-5">
+        <div id="card1" class="card col-lg-5 mb-3 m-0 p-0 rounded-0">
+            <div class="card-header rounded-0" style="background-color: rgba(104,167,95,1);">
+                <div class="row">
+                <h6 class="h3 m-0 font-weight-bold text-white">1 </h6>
+                <h6 class="mt-1 ml-2 font-weight-bold text-white">Upload your data</h6>
+                </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="background-color: rgba(228,228,228,1);">
                 <!-- for phosphorus or nitrogen -->
+                <p class="font-weight-light text-secondary"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,</p>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input selectionradiobutton" type="radio" name="flexRadioDefault" value="tp" id="tpradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault1"> Total Phosphorus</label>
@@ -30,18 +39,46 @@
                     <label class="form-check-label" for="flexCheckDefault"> Visualize data on map</label>
                 </div>
 
-                <div class="text-center">
+                <div class="text-center mt-2">
                     <form id="fileInput">
                         {% csrf_token %}
                     <input type="file" id="imgupload" style="display:none" id="fileInput" name="fileInput"/>
-                    <span id="OpenImgUpload" style="cursor:pointer;"><img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-                            style="width: 10rem;" src="{% static 'admin-lte/assets/img/upload_data.png' %}"
-                            alt="..."></span>
+                    <span id="OpenImgUpload" style="cursor:pointer;"><button class="btn btn-outline-primary rounded">  <i class="fas fa-upload"></i> Upload area file  </button></span>
                         </form>
                 </div>
-                <p id="displayFileName" style="color:red; font-size:12px;">Click on the icon to upload the csv file</p>
+                <div class="text-center">
+                    <button class="mt-2 btn btn-secondary rounded-0" data-toggle="modal" data-target="#exampleModal"> CSV File Requirements <i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">CSV file requirements</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>The CSV file must contain columns:</p>
+                            <p class="mb-0 pb-0 text-primary font-weight-light">Phosphorus prediction:</p>
+                            <p class="text-secondary font-weight-light">pH, 250mLandCover_Natural (ha), DissolvedOxygen (mg/L), Total Rain (mm) -7day Total (mm)
+                            (Not Mandatory), Population, Nitrate (mg/L)(Not Mandatory),
+                            Chloride (mg/L), Nitrite (mg/L), TotalNitrogen (mg/L) (Not Mandatory), TotalSuspendedSolids (mg/L), Nitrogen_Kjeldahl (mg/L).
+                            </p>
+                            <p class="mb-0 pb-0 text-primary font-weight-light">Nitrogen prediction: </p>
+                            <p class="text-secondary font-weight-light">Month, pH, Population, 10mLandCover_Natural(Ha), 10mLandCover_AnthropogenicNatural(Ha), TotalSuspendedSolids (mg/L), Conductivity (K), TotalPhosphorus (mg/L), Chloride (mg/L), Nitrate (mg/L)
+                            </p>
+                            <p class="text-primary font-weight-light">Need help? Click here to download our spreadsheet template</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <p id="displayFileName" style="color:red; font-size:12px;"></p>
                 <p style="color:crimson" id="latitudelongitudemandatoryid">Note!! Latitude and Longitude columns are mandatory in excel sheet</p>
-                <label class="form-label font-weight-normal">
+                <!-- <label class="form-label font-weight-normal">
                     <p class="text-justify font-weight-normal">The CSV file must contain columns:
                     <ul >
                         <p id="tpParams" class="font-weight-normal"> Phosphorus prediction: 
@@ -53,11 +90,11 @@
                                 TotalSuspendedSolids (mg/L), Nitrogen_Kjeldahl
                                 (mg/L)
                         </p>
-                        <!-- <li>'Oxygen, Dissolved (% Saturation)'</li>
+                        <li>'Oxygen, Dissolved (% Saturation)'</li>
                         <li>'Depth, Sample (Field)'</li>
                         <li>'Nitrite'</li>
                         <li>'Nitrogen, Total Kjeldahl(TKN)'</li>
-                        <li>'Solids, Suspended (TSS)'</li> -->
+                        <li>'Solids, Suspended (TSS)'</li> 
                     </ul>
                     <ul >
                         <p id="tnParams" class="font-weight-normal"> Nitrogen prediction: 
@@ -67,13 +104,17 @@
                             TotalPhosphorus (mg/L), Chloride (mg/L), Nitrate
                             (mg/L)
                         </p>
-                        <!-- <li>'Chloride'</li>
+                         <li>'Chloride'</li>
                         <li>'Nitrite'</li>
-                        <li>'Nitrate'</li> -->
+                        <li>'Nitrate'</li>
                     </ul>
                     </p>
-                </label>
+                </label> -->
                 <!-- <p id="next1" class="text-right "><a href="#" class="link-primary" aria-disabled="true">Next</a></p> -->
+                <div class="mt-5 text-center">
+                    <p class="text-primary font-weight-light"> Get our spreadsheet template</p>
+                    <button class="btn btn-outline-primary rounded-pill">  <i class="fas fa-download"></i> Download </button>
+                </div>
                 <div class="d-flex flex-row-reverse">
                 <button id="next1" type="button" class="btn btn-link " disabled>Next</button>
                 <div class="spinner-border text-primary" role="status" id="uploaddataspinner">
@@ -82,7 +123,7 @@
                 </div>
             </div>
         </div>
-        <div id="card2" class="card col-lg-4 mb-4">
+        <!-- <div id="card2" class="card col-lg-4 mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">File Analytics</h6>
             </div>
@@ -95,7 +136,7 @@
                 <p style="color:slateblue">You file results will be shown here after uploading file.</p>
                 <p id="perfect" style="color: green; border:3px; border-style:solid; border-color:green;"></p>
 
-                <!-- <div class="custom-control custom-switch">
+                <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="nitrogen">
                     <label class="custom-control-label" for="nitrogen">Analyze for nitrogen</label>
                 </div>
@@ -106,7 +147,7 @@
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="bothelement">
                     <label class="custom-control-label" for="bothelement">Analyze for both elements</label>
-                </div> -->
+                </div> 
                 <ul id="missing_features" class="list-group">
 
                 </ul>
@@ -121,15 +162,19 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-        </div>
-        <div  id="card3" class="card col-lg-4 mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Results</h6>
+        </div> -->
+        <div  id="card3" class="card ml-3 col-lg-5 mb-3 m-0 p-0 rounded-0">
+            <div class="card-header rounded-0" style="background-color: rgba(104,167,95,1);">
+                <div class="row">
+                <h6 class="h3 m-0 font-weight-bold text-white">2 </h6>
+                <h6 class="mt-1 ml-2 font-weight-bold text-white">Predict</h6>
+                </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="background-color: rgba(228,228,228,1);">
                 <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
-                        src="{% static 'admin-lte/assets/img/result_icon_after_analysis.png' %}" alt="...">
+                    <p class="font-weight-light text-secondary">After processing your data, the result will be shown here</p>
+                    <!-- <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
+                        src="{% static 'admin-lte/assets/img/result_icon_after_analysis.png' %}" alt="..."> -->
                 </div>
                     <p style="color:slateblue" id="shape"></p>
                     <p style="color:slateblue" id="nullvalues"></p>
@@ -141,14 +186,14 @@
                 <p style="color: green;" id="modelprocesssuccessfulmessageid">The data was successfully analyzed by the model. Click on <b>Go to predictions</b> to see the detailed report of the analysis</p>
                 <p style="color:red" id="excelnotacceptedbymodelid">Model run was not successful. Check the number of columns of the excel sheet. The model accepts only excel with prescribed column conditions. All other cases will be rejected by the model. Try reuploading a new excel sheet with the said condition</p>
             </div>
-            <div class="card-footer text-center">
+            <!-- <div class="card-footer text-center">
                 <button id="runmodelid" class="btn btn-primary">Run model</button>
                 <button id="goToPredict" class="btn btn-success">Go to Predictions</button>
                 <button id="rerunmodeloferrorid" class="btn btn-danger">Re-do analysis</button>
                 <div class="spinner-border text-primary" role="status" id="modelpredictionspinner">
                     <span class="sr-only">Loading...</span>
                 </div>
-            </div
+            </div> -->
         </div>
     </div>
 </div>

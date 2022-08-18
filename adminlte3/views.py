@@ -1928,11 +1928,11 @@ def getPredictionOutput(request, selected, station, yearFrom, yearTo):
     # station = request.GET['station']
     print(yearFrom, yearTo, selected, station)
     if selected == 'TP':
-        # model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
-        model_path = "ml_models/TotalPhosphorous-RF-11.sav"
+        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
+        # model_path = "ml_models/TotalPhosphorous-RF-11.sav"
     else:
-        # model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav"
-        model_path = "ml_models/TotalNitrogen-RF-10F.sav"
+        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav"
+        # model_path = "ml_models/TotalNitrogen-RF-10F.sav"
 
     print(model_path)
     print(type(yearFrom))
@@ -2148,13 +2148,15 @@ def getPrescribeOutput(request, selected, land0, land1, population0, population1
         isPhos = True
         selected_para = [
             'Natural Land 250m (ha)', 'Population', 'Total Rain (mm) -7day Total']
-        model_path = "ml_models/TotalPhosphorous-RF-11.sav"
+        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
+        # model_path = "ml_models/TotalPhosphorous-RF-11.sav"
 
     else:
         isPhos = False
         selected_para = [
             'Natural Land 10m (ha)', 'Anthropogenic Natural Land 10m (ha)', 'Population']
-        model_path = "ml_models/TotalNitrogen-RF-10F.sav"
+        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav" #ml_models/
+        # model_path = "ml_models/TotalNitrogen-RF-10F.sav"
 
     print(model_path)
     print("in prescribe , shape of df passing is === ", df.shape)
