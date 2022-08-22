@@ -5,12 +5,11 @@
 <!-- <div class="container"> -->
     <div class=" ml-5 row">
         <h2 class="text-primary font-weight-normal">
-            Analyse our historical data
+          Analyze our historical data
         </h2>
     </div>
     <div class="ml-5 row no-gutters">
-        <p class="text-secondary font-weight-light">Instructions, which filters to select depending on the user’s intentions, knowledge, or tasks.<br>
-            Which are necessary, which no, specifically station is an extra filter but not mandatory.</p>
+        <p class="text-secondary font-weight-light">The DeX-Terity platform utilizes historical data to compare, analyze and visualize environmental and socioeconomic changes to the watersheds within our pilot region (Central Lake Ontario and Toronto and Region Conservation Areas). Explore the tool below to identify causal links between different indicators.</p>
     </div>
 
     <div class="row  p-5" style="background-color: rgba(245,244,244,1);">
@@ -18,34 +17,28 @@
             <div class="pl-2 row no-gutters"><label class="text-primary mb-2">From year*</label></div>
             <select class="p-3 pl-5 pr-5 form-select" name="year" id="yearFrom" style="border-radius: 20px;" aria-label="Default select example">
                 <option selected>Select from year</option>
-                
             </select>
             <div class="pl-2 row no-gutters "><label class="text-primary mb-2">Standard*</label></div>
             <select class="p-3 pl-5 pr-5 form-select" name="year" id="standardType" style="border-radius: 20px;" aria-label="Default select example">
                 <option selected>Select Standard</option>
-                
             </select>
-            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Station*</label></div>
-            <select class="p-3 pl-5 pr-5 form-select" name="station" id="station" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select Station</option>
-                
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Indicator 1*</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" name="" id="f1" style="max-width: 400px; border-radius: 20px;" aria-label="Default select example">
+                <option selected>On X-axis</option> 
             </select>
         </div>
         <div class="col-5 no-gutters col-centered">
             <div class="pl-2 row no-gutters"><label class="text-primary mb-2">To year*</label></div>
             <select class="p-3 pl-5 pr-5 form-select" name="year" id="yearTo" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select to year</option>
-                
+                <option selected>Select to year</option>     
             </select>
-            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Feature 1*</label></div>
-            <select class="p-3 pl-5 pr-5 form-select" name="" id="f1" style="max-width: 400px; border-radius: 20px;" aria-label="Default select example">
-                <option selected>On X-axis</option>
-                
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Station*</label></div>
+            <select class="p-3 pl-5 pr-5 form-select" name="station" id="station" style="border-radius: 20px;" aria-label="Default select example">
+                <option selected>Select Station</option>
             </select>
-            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Feature 2*</label></div>
+            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Indicator 2*</label></div>
             <select class="p-3 pl-5 pr-5 form-select" name="" id="f2" style="max-width: 400px;  border-radius: 20px;" aria-label="Default select example">
                 <option selected>On Y-axis</option>
-                
             </select>
         </div>
         <div class="d-flex align-items-star col-2">
@@ -55,7 +48,7 @@
         <div class="row">
             <p class="mt-2" id="showfilteroption" style="color: slateblue;"></p>
           
-            <div class="col-sm-6">
+            <div class="col-lg-6 w-50">
               <span>
                 <div class="mt-5" id="graph1">
           
@@ -67,7 +60,7 @@
                 </div>
               </span>
             </div>
-            <div class="col-sm-6">
+            <div class="col-lg-6 w-50">
               <span>
                 <div class="mt-5" id="graph2">
           
@@ -83,9 +76,6 @@
           
     </div>
     
-    <div class="row">
-      <button class="btn btn-primary" onclick="return senduserinfo();">Try it</button>
-    </div>
 
 
 <!-- </div> -->

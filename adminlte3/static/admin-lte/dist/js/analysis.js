@@ -301,7 +301,7 @@ function plotFromCSV() {
             type: 'scatter'
           };
           var layout1 = {
-            title: 'Year' + ' vs ' + f1,
+            title: 'Indicator 1: ' + f1,
             yaxis: {
                 showline: true,
                 zeroline: true,
@@ -319,7 +319,7 @@ function plotFromCSV() {
             },
           };
             var layout2 = {
-                title: 'Year' + ' vs ' + f2,
+                title: 'Indicator 2: ' + f2,
                 yaxis: {
                     showline: true,
                     zeroline: true,
