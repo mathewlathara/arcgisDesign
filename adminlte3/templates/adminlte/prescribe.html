@@ -3,6 +3,22 @@
 {% block extra_cssheader %}
 <link href="{% static 'admin-lte/assets/nouislider/dist/nouislider.css'%}" rel="stylesheet">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style>
+    .tooltipdiv {
+  display: block;
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  background: #fff;
+  color: #000;
+  padding: 5px;
+  text-align: center;
+  white-space: nowrap;
+}
+</style>
 
 {% endblock %}
 {% block content %}
@@ -190,17 +206,40 @@ $(document).ready(function () {
             globalThis.station = $(this).val();
         });
 
+    function addToolTips(sliderObject){
+        var tipHandles = sliderObject.getElementsByClassName("noUi-handle"),tooltips = [];
+        
+        // Add divs to the slider handles.
+        for (var i = 0; i < tipHandles.length; i++) {
+            tooltips[i] = document.createElement("div");
+            tooltips[i].setAttribute("class", "tooltipdiv");
+            tipHandles[i].appendChild(tooltips[i]);
+        }
+
+        // When the slider changes, write the value to the tooltips.
+        sliderObject.noUiSlider.on("update", function(values, handle, unencoded) {
+        // lower-handle = 0; upper-handle = 1
+        if (handle == 0){
+            tooltips[handle].innerHTML = unencoded[0] + '%';
+        }
+        else{
+            tooltips[handle].innerHTML = unencoded[1] + '%';
+        }
+        });
+
+
+    }
     noUiSlider.create(sliderland, {
         start: [-50, 50],
         step: 1,
         connect: true,
-        tooltips: [true, true],
+        // tooltips: [true, true],
         range: {
-            'min': -100,
-            '25%': -50,
-            '50%':0,
-            '75%':50,
-            'max': 100
+            'min': [-100, 1],
+            '25%': [-50, 1],
+            '50%':[0, 1],
+            '75%':[50, 1],
+            'max': [100, 1]
         },
         pips: {
             mode: 'range',
@@ -208,17 +247,18 @@ $(document).ready(function () {
 
         }
     });
+    addToolTips(sliderland);
     noUiSlider.create(sliderpopulation, {
         start: [-50, 50],
         step: 1,
         connect: true,
-        tooltips: [true, true],
+        // tooltips: [true, true],
         range: {
-            'min': -100,
-            '25%': -50,
-            '50%':0,
-            '75%':50,
-            'max': 100
+            'min': [-100, 1],
+            '25%': [-50, 1],
+            '50%':[0, 1],
+            '75%':[50, 1],
+            'max': [100, 1]
         },
         pips: {
             mode: 'range',
@@ -226,17 +266,18 @@ $(document).ready(function () {
 
         }
     });
+    addToolTips(sliderpopulation);
     noUiSlider.create(sliderrain, {
         start: [-50, 50],
         step: 1,
         connect: true,
-        tooltips: [true, true],
+        // tooltips: [true, true],
         range: {
-            'min': -100,
-            '25%': -50,
-            '50%':0,
-            '75%':50,
-            'max': 100
+            'min': [-100, 1],
+            '25%': [-50, 1],
+            '50%':[0, 1],
+            '75%':[50, 1],
+            'max': [100, 1]
         },
         pips: {
             mode: 'range',
@@ -244,7 +285,7 @@ $(document).ready(function () {
 
         }
     });
-
+    addToolTips(sliderrain);
     document.getElementById('predict').addEventListener('click', function () {
         // erase cache
         // eraseCache();

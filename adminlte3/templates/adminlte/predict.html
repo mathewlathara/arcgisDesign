@@ -3,7 +3,22 @@
 {% block extra_cssheader %}
 <link href="{% static 'admin-lte/assets/nouislider/dist/nouislider.css'%}" rel="stylesheet">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
+<style>
+    .tooltipdiv {
+  display: block;
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  background: #fff;
+  color: #000;
+  padding: 5px;
+  text-align: center;
+  white-space: nowrap;
+}
+</style>
 {% endblock %}
 {% block content %}
 
@@ -150,7 +165,7 @@
             start: [2025, 2045],
             step: 1,
             connect: true,
-            tooltips: [true, true],
+            // tooltips: [true, true],
             range: {
                 'min': 2022,
                 'max': 2050
@@ -159,10 +174,29 @@
             pips: {
                 mode: 'steps',
                 density: 3,
-
             }
 
         });
+        var tipHandles = slider.getElementsByClassName("noUi-handle"),tooltips = [];
+
+        // Add divs to the slider handles.
+        for (var i = 0; i < tipHandles.length; i++) {
+            tooltips[i] = document.createElement("div");
+            tooltips[i].setAttribute("class", "tooltipdiv");
+            tipHandles[i].appendChild(tooltips[i]);
+        }
+
+        // When the slider changes, write the value to the tooltips.
+        slider.noUiSlider.on("update", function(values, handle, unencoded) {
+        // lower-handle = 0; upper-handle = 1
+        if (handle == 0){
+            tooltips[handle].innerHTML = unencoded[0];
+        }
+        else{
+            tooltips[handle].innerHTML = unencoded[1];
+        }
+        });
+
         document.getElementById('predict').addEventListener('click', function () {
             var spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'
             $('#predict').html(spinner);
