@@ -46,6 +46,7 @@
 	<link href="{% static 'admin-lte/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 	<link href="{% static 'admin-lte/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet"
 		type="text/css">
+
 	<style>
 		body {
 			font-family: Poppins;
@@ -367,6 +368,7 @@
 						</p>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -513,6 +515,11 @@
 	<script src="https://js.arcgis.com/4.23/"></script>
 	<script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
 	<script src="{% static 'admin-lte/assets/js/arcgisjs/hotspotarcgis.js' %} "></script>
+
+	<script src="{% static 'admin-lte/assets/vendor/aos/aos.js' %}"></script>
+	<script src="{% static 'admin-lte/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+
 	<script>
 		var jsonpointfile = {{ jsonvalue| safe }};
 		$(document).ready(function () {
@@ -639,6 +646,10 @@
 		function handleResize() {
 			$("#hero").height($(window).height());
 		}
+
+		$(document).on('click', '.gotodatasources', function(){
+        window.location.href = '#testimonials';
+      });
 	</script>
 </body>
 
