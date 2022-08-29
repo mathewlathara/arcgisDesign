@@ -270,7 +270,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             renderer: openspacerendererselected,
             // popupTemplate: template,
             // opacity: 0.9,
-            title: "TRCA Landuse "+ yearselected +" demographics"
+            title: "TRCA Landuse " + yearselected + " demographics"
         });
 
         const ELCTRCARenderer1 = {
@@ -638,6 +638,10 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                 // openNav();
             }
         });
+
+        view1.surface.addEventListener("wheel", function (event) {
+            event.stopImmediatePropagation();
+        }, true);
 
     });
 }
