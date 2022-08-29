@@ -1585,6 +1585,8 @@ def describe(request, year):
                     filterhotspots["TotalNitrogen"].mean(), 2)
                 if phosphorusnumber > 0.05 or nitrogernnumber > 10:
                     stationiconlink = "hotspot.png"
+                else:
+                    stationiconlink = "normalregion.png"
             # print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber}")
         stationforloop = row[0]
         # masterdatafileduplicate = masterdatafileduplicate[(masterdatafileduplicate['DATE'] > yearslected + "-01-01") & (masterdatafileduplicate['DATE'] < yearslected + "-12-31") & (masterdatafileduplicate['STATION'] == row[0])].fillna(0)
@@ -1598,7 +1600,7 @@ def describe(request, year):
         # if avgphosphorus > 0.02 or avgnitrogen > 10:
         #     stationiconlink = "star.png"
         loopvalue = {"station": row[0], "latitude": row[1],
-                     "longitude": row[2], "stationiconlink": stationiconlink}
+                     "longitude": row[2], "stationiconlink": stationiconlink, "phosphorusnumber" : phosphorusnumber, "nitrogernnumber" : nitrogernnumber}
         json_return.append(loopvalue)
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
