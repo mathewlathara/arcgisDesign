@@ -270,7 +270,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             renderer: openspacerendererselected,
             // popupTemplate: template,
             // opacity: 0.9,
-            title: "TRCA Landuse "+ yearselected +" demographics"
+            title: "TRCA Landuse " + yearselected + " demographics"
         });
 
         const ELCTRCARenderer1 = {
@@ -340,6 +340,8 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         });
         map1.add(graphicsLayer);
 
+        // console.log(JSON.stringify(jsonpointfile));
+
         for (var i = 0; i < jsonpointfile.length; i++) {
             console.log(jsonpointfile[i].stationiconlink);
             const simpleMarkerSymbol = {
@@ -363,7 +365,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
 
             const popupTemplate = {
                 title: "{Name}",
-                content: "{Description}",
+                content: "<ul><li>Avg phosphorus: " + jsonpointfile[i].phosphorusnumber + "</li><li>Avg nitrogen: " + jsonpointfile[i].nitrogernnumber + "</li><li>Latitude: " + jsonpointfile[i].latitude + "</li><li>Longitude: " + jsonpointfile[i].longitude + "</li></ul>",
             }
 
             const attributes = {
@@ -638,6 +640,10 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                 // openNav();
             }
         });
+
+        view1.surface.addEventListener("wheel", function (event) {
+            event.stopImmediatePropagation();
+        }, true);
 
     });
 }
