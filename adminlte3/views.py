@@ -1375,7 +1375,7 @@ def prediction(request, radioitem):
         if modeloptionforphosphorusmodel == 0 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
-            model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-8.sav', 'rb'))
+            model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
             # model_xg_1 = pickle.load(open(r'ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
 
             test_df_ = test_df[['pH',	'250mLandCover_Natural (ha)',	'DissolvedOxygen (mg/L)',	'Total Rain (mm) -7day Total',	'Population',	'Nitrate (mg/L)',	'Chloride (mg/L)',	'Nitrite (mg/L)',	'TotalNitrogen (mg/L)',	'TotalSuspendedSolids (mg/L)',	'Nitrogen_Kjeldahl (mg/L)']]
