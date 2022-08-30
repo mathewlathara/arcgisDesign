@@ -435,6 +435,9 @@ def predictP(request):
 def upload_phosphorus_nitrogen(request):
     return render(request, "adminlte/upload_data.html")
 
+def new_upload_data(request):
+    return render(request, "adminlte/new_upload_data.html")
+
 
 def upload_file(request):
     context = {}
@@ -1372,12 +1375,10 @@ def prediction(request, radioitem):
         if modeloptionforphosphorusmodel == 0 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
-            model_xg_1 = pickle.load(
-                open(r'/home/disha/Downloads/TotalPhosphorous-RF-8.sav', 'rb'))
-            test_df_ = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
-                                'Population', 'Chloride',
-                                'Nitrite', 'TotalSuspendedSolids',
-                                'Nitrogen_Kjeldahl']]
+            model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-8.sav', 'rb'))
+            # model_xg_1 = pickle.load(open(r'ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
+
+            test_df_ = test_df[['pH',	'250mLandCover_Natural (ha)',	'DissolvedOxygen (mg/L)',	'Total Rain (mm) -7day Total',	'Population',	'Nitrate (mg/L)',	'Chloride (mg/L)',	'Nitrite (mg/L)',	'TotalNitrogen (mg/L)',	'TotalSuspendedSolids (mg/L)',	'Nitrogen_Kjeldahl (mg/L)']]
             sc = StandardScaler().fit(test_df_)
             test_df_ = sc.transform(test_df_)
             df_pred = model_xg_1.predict(test_df_)
@@ -1400,13 +1401,11 @@ def prediction(request, radioitem):
         if modeloptionforphosphorusmodel == 1 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-11"
             returnstatus = "success"
-            model = pickle.load(
-                open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
+            model = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
+            # model = pickle.load(open(r'ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
+
             print(test_df.columns)
-            test_df_ = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
-                                'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
-                                'Nitrite', 'TotalNitrogen', 'TotalSuspendedSolids',
-                                'Nitrogen_Kjeldahl']].copy()
+            test_df_ = test_df[['pH',	'250mLandCover_Natural (ha)',	'DissolvedOxygen (mg/L)',	'Total Rain (mm) -7day Total',	'Population',	'Nitrate (mg/L)',	'Chloride (mg/L)',	'Nitrite (mg/L)',	'TotalNitrogen (mg/L)',	'TotalSuspendedSolids (mg/L)',	'Nitrogen_Kjeldahl (mg/L)']].copy()
             sc = StandardScaler().fit(test_df_)
             test_df_ = sc.transform(test_df_)
             df_pred = model.predict(test_df_)
@@ -1431,10 +1430,10 @@ def prediction(request, radioitem):
         if radioitem == 'tn':
             modelselectedforanalysis = "TotalNitrogen-RF-10F"
             returnstatus = "success"
-            model = pickle.load(
-                open(r'/home/disha/Downloads/TotalNitrogen-RF-10.sav', 'rb'))
-            test_df_ = test_df[['Month', 'pH', 'Population', '10mLandCover_Natural', '10mLandCover_AnthropogenicNatural',
-                                'TotalSuspendedSolids', 'Conductivity', 'TotalPhosphorus', 'Chloride', 'Nitrate']]
+            model = pickle.load(open(r'/home/disha/Downloads/TotalNitrogen-RF-10.sav', 'rb'))
+            # model = pickle.load(open(r'ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
+
+            test_df_ = test_df[['Month','pH','Population','10mLandCover_Natural(ha)','10mLandCover_AnthropogenicNatural(ha)','TotalSuspendedSolids (mg/L)',	'Conductivity (K)',	'TotalPhosphorus (mg/L)','Chloride (mg/L)',	'Nitrate (mg/L)']]
             sc = StandardScaler().fit(test_df_)
             test_df_ = sc.transform(test_df_)
             df_pred = model.predict(test_df_)
