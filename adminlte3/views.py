@@ -1933,6 +1933,7 @@ def getPredictionOutput(request, selected, station, yearFrom, yearTo):
     # selected = (request.GET['selected'])
     # station = request.GET['station']
     print(yearFrom, yearTo, selected, station)
+    print("print type of station:::", type(station))
     if selected == 'TP':
         model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
         # model_path = "ml_models/TotalPhosphorous-RF-11.sav"

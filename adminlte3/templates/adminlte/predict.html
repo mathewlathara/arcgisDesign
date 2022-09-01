@@ -117,26 +117,7 @@
 <script src="{% static 'admin-lte/assets/nouislider/dist/nouislider.js'%}"></script>
 
 <script>
-    let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
-        6010800102, 6010800202, 6011100102, 6011100202, 6011100302,
-        6011100502, 6011100602, 6011100702, 6011100802, 6011200302,
-        6011200602, 6011600102, 6011600202, 6011600502, 6011600602, 988,
-        1328, 1329, 1330, 17002113602, 17002113702, 600010258, 600010708,
-        600013587, 6008000602, 6008000702, 6008200302, 6008300202,
-        6008300402, 6008300902, 6008301202, 6008301802, 6008301902,
-        6008310302, 6008310402, 6008500302, 6008500402, 6008501402,
-        6009400202, 6009700302, 6009700702, 6009701102, 6009701302,
-        6009701802, '6009701802', '6010400102', '6010400802', '6010402302',
-        '6010402502', '6010402602', '6010402702', '6010402802',
-        '6010402902', '6010403702', '6010700202', '7th Concession', '85',
-        'Annadale', 'Brock Ridge', 'CC005', 'Central 1', 'Central 10',
-        'Central 11', 'Central 12', 'Central 2', 'Central 3', 'Central 4',
-        'Central 5', 'Central 6', 'Central 7', 'Central 8', 'Central 9',
-        'East 1', 'East 10', 'East 11', 'East 12', 'East 2', 'East 3',
-        'East 4', 'East 5', 'East 6', 'East 7', 'East 8', 'East 9',
-        'FB003WM', 'PT001WM', 'Paulyn Park', 'Shoal Point', 'West 1',
-        'West 10', 'West 11', 'West 12', 'West 2', 'West 3', 'West 4',
-        'West 5', 'West 6', 'West 7', 'West 8', 'West 9'];
+    let stations = [6008310402, '6010700202', 'CC005', 6009400202, 6008301202, '6010402702', 6008501402, 6008310302, '6010402502', 6009701802, 6008300202, '6010403702', '6010402602', 6008500402, 6009701302, 6008000702, 'Shoal Point', '7th Concession', '6010402302', 6008500302, 6008301902, 6009700302, '6010402802', 'FB003WM', 'Brock Ridge', 6008000602, 'Paulyn Park', '6010402902', 6009700702, 6008300902, 6008301802, 6008200302, 6009701102, 'PT001WM', 6008300402, '6010400802'];
 
     $(document).ready(function () {
         var station;
@@ -147,7 +128,7 @@
             var selectboxreturn = "<option value='all' selected>Select Station ID</option>";
             $(stations).each((index, element) => {
                 // console.log(`current index : ${index} element : ${element}`)
-                selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
+                selectboxreturn += "<option value=" + element + ">" + element + "</option>";
             });
             return selectboxreturn;
         }
@@ -213,6 +194,7 @@
                 var_to_predict = 'TN';
             }
             console.log(var_to_predict);
+            console.log(typeof(globalThis.station));
             $.ajax({
                 type: 'get',
                 url: '/getPredictionOutput/'+var_to_predict+'/'+globalThis.station+'/'+parseInt(selected_years[0]) +'/'+parseInt(selected_years[1]),
