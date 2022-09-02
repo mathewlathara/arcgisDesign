@@ -1669,7 +1669,7 @@ def predict_(model_, X_test):
     return y_test_pred
 
 
-def plotUserData2(x1, y1, x2, y2, target_param, rmse, mse, r2, station_, path):
+def plotUserData2(x1, y1, x2, y2, target_param, station_, path):
     plt.figure(figsize=(20, 5))
 
     plt.plot(x1, y1, color='blue', label=target_param)
@@ -1684,11 +1684,7 @@ def plotUserData2(x1, y1, x2, y2, target_param, rmse, mse, r2, station_, path):
     plt.ylabel(target_param, fontsize='14')
 
     # giving a title to my graph
-    if rmse != "":
-        title = 'Year Vs '+target_param+" ("+str(station_)+")"+"[RMSE = "+str(
-            round(rmse, 3))+": MSE = "+str(round(mse, 3))+": R2 = "+str(round(r2, 2))+"]"
-    else:
-        title = 'Year Vs '+target_param+" ("+str(station_)+")"
+    title = 'Year Vs '+target_param+" ("+str(station_)+")"
     plt.title(title, fontsize='14')
     plt.legend()  # loc='lower left')
 
@@ -1733,7 +1729,6 @@ def lstm(df_, predictVar, station_, model_path, year_strt, year_end, isTest):
 
     # Getting last record value from historical dataframe
     last_col_val = df_.iloc[-1:]
-    #second_last_col_val = df_.iloc[-2]
 
     # Temporary dictionary to store the each year synthetic generated value until the data is stored in dataframe
     temp_dict = {}
@@ -1746,35 +1741,32 @@ def lstm(df_, predictVar, station_, model_path, year_strt, year_end, isTest):
     df_ = df_.drop(['Day', 'Year'], axis=1)
     if predictVar == 'TP':
         df_ = df_.drop('Month', axis=1)
-    # display(df_)
 
     Pickled_LR_Model = load_model(model_path)
 
     error_df = pd.DataFrame(columns=['Parameter', 'RMSE', 'MSE'])
-    if isTest == True:
-        if os.path.exists('data/Latest_predictions/'+str(station_)+'/Test') == False:
-            os.mkdir('data/Latest_predictions/'+str(station_)+'/Test')
 
-        if os.path.exists('data/Latest_predictions/'+str(station_)+'/Test/Individual_Params') == False:
-            os.mkdir('data/Latest_predictions/' +
-                     str(station_)+'/Test/Individual_Params')
+    # Looping over user selected years
+    temp_dict['Year'] = [year_ for year_ in range(year_strt, year_end+1)]
 
-        if os.path.exists('data/Latest_predictions/'+str(station_)+'/Test/Target_Param') == False:
-            os.mkdir('data/Latest_predictions/' +
-                     str(station_)+'/Test/Target_Param')
+    df_pred = pd.DataFrame(temp_dict)
 
-        for col in df_.iloc[:, :-1].columns:
-            X_train, X_test, y_train, y_test = train_test_split(
-                df_[['Date']], df_[[col]], test_size=0.33, shuffle=False)
-            # print(col)
-            df_train = pd.merge(
-                X_train, y_train, left_index=True, right_index=True)
-            df_train = df_train.rename(columns={'Date': 'ds', col: 'y'})
+    df_2 = pd.DataFrame(temp_dict)
+    df_2['Day'] = 31
+    df_2['Month'] = 12
+    df_2['Date'] = pd.to_datetime(df_2[["Year", "Month", "Day"]])
+    df_2 = df_2.drop(['Day', 'Year'], axis=1)
 
-            df_test = pd.merge(
-                X_test, y_test, left_index=True, right_index=True)
+    if predictVar == 'TP':
+        df_2 = df_2.drop('Month', axis=1)
 
-            X_test = X_test.rename(columns={'Date': 'ds'})
+    for col in df_.columns:
+        if col != 'Year' and col != target_param and col != 'Date':
+            X_train = df_[['Date']]
+            y_train = df_[[col]]
+
+            df_test = df_2
+            X_test = df_test[['Date']]
 
             scaler = MinMaxScaler(feature_range=(0, 1))
             X_train_2 = scaler.fit_transform(X_train)
@@ -1784,146 +1776,31 @@ def lstm(df_, predictVar, station_, model_path, year_strt, year_end, isTest):
 
             model = Sequential()
             model.add(LSTM(4, input_shape=(1, look_back)))
-            # look_back = 1
-            # batch_size = 1
 
-            # model = Sequential()
-            # model.add(LSTM(4, batch_input_shape=(batch_size, look_back,1), stateful=True, return_sequences=True))
-            # model.add(LSTM(4, batch_input_shape=(batch_size, look_back,1), stateful=True))
-            # model.add(LSTM(4, batch_input_shape=(batch_size, look_back, 1), stateful=True))
             model.add(Dense(1))
             model.compile(loss='mean_squared_error', optimizer='adam')
-            model.fit(X_train_2, y_train, epochs=100, batch_size=1, verbose=0)
+            model.fit(X_train_2, y_train, epochs=100,
+                        batch_size=1, verbose=0)
 
-            forecast = model.predict(X_test_2)
-            print(col, 'Parameter Prophet Metrics:')
-            mse, rmse, r2 = results_(
-                y_test, forecast, col, "", station_, False)
+            df_2[col] = model.predict(X_test_2)
 
-            error_df = error_df.append(
-                {'Parameter': col, 'RMSE': rmse, 'MSE': mse}, ignore_index=True)
-            plotUserData2(df_[['Date']], df_[[col]], X_test, forecast,
-                          col, rmse, mse, r2, station_, 'Test/Individual_Params/')
+            # plotUserData2(df_[['Date']], df_[[col]], df_2[['Date']], df_2[[col]], col,
+            #               "", "", "", station_, 'data/Latest_predictions/')
 
-        error_df.to_csv(BASEDIR+'Predicted_Charts/Prediction-Risk-Analysis/LSTM/' +
-                        str(station_)+'/Test/Individual_Params/error_metrics.csv', index=False)
-
-        X_train, X_test, y_train, y_test = train_test_split(df_.drop([target_param], axis=1),
-                                                            df_[[target_param]], test_size=0.33, shuffle=False)
-
-        # display(error_df)
-        test_dates = X_test[['Date']]
-        X_test = X_test.drop(['Date'], axis=1)
-        print(X_test.columns)
-        Y_pred = predict_(Pickled_LR_Model, X_test)
-        rf_train_mse, rf_train_rmse, r2 = results_(
-            y_test, Y_pred, target_param, target_param_path, station_, True)
-
-        plotUserData2(df_[['Date']], df_[[target_param]], test_dates, Y_pred, target_param,
-                      rf_train_rmse, rf_train_mse, r2, station_, 'Test/Target_Param/')
-    else:
-
-        # TO Save the Plotted the charts & Error Metrix
-        # if os.path.exists('data/Latest_predictions/temp/'+str(station_)+'/Predict') == False:
-        #   os.mkdir('data/Latest_predictions/temp/'+str(station_)+'/Predict')
-
-        # if os.path.exists('data/Latest_predictions/temp/'+str(station_)+'/Predict/Individual_Params') == False:
-        #   os.mkdir('data/Latest_predictions/temp/'+str(station_)+'/Predict/Individual_Params')
-
-        # if os.path.exists('data/Latest_predictions/temp'+str(station_)+'/Predict/Target_Param') == False:
-        #   os.mkdir('data/Latest_predictions/temp/'+str(station_)+'/Predict/Target_Param')
-
-        # Looping over user selected years
-        temp_dict['Year'] = [year_ for year_ in range(year_strt, year_end+1)]
-
-        df_pred = pd.DataFrame(temp_dict)
-
-        df_2 = pd.DataFrame(temp_dict)
-        df_2['Day'] = 31
-        df_2['Month'] = 12
-        df_2['Date'] = pd.to_datetime(df_2[["Year", "Month", "Day"]])
-        df_2 = df_2.drop(['Day', 'Year'], axis=1)
-
-        if predictVar == 'TP':
-            df_2 = df_2.drop('Month', axis=1)
-
-        for col in df_.columns:
-            if col != 'Year' and col != target_param and col != 'Date':
-                X_train = df_[['Date']]
-                y_train = df_[[col]]
-
-                df_test = df_2
-                X_test = df_test[['Date']]
-
-                scaler = MinMaxScaler(feature_range=(0, 1))
-                X_train_2 = scaler.fit_transform(X_train)
-                X_test_2 = scaler.fit_transform(X_test)
-
-                look_back = 1
-
-                model = Sequential()
-                model.add(LSTM(4, input_shape=(1, look_back)))
-
-                # batch_size = 1
-                # look_back = 1
-                # model = Sequential()
-                # model.add(LSTM(4, batch_input_shape=(batch_size, look_back), stateful=True, return_sequences=True))
-                # model.add(LSTM(4, batch_input_shape=(batch_size, look_back), stateful=True))
-                # model.add(LSTM(4, batch_input_shape=(batch_size, look_back), stateful=True))
-
-                model.add(Dense(1))
-                model.compile(loss='mean_squared_error', optimizer='adam')
-                model.fit(X_train_2, y_train, epochs=100,
-                          batch_size=1, verbose=0)
-
-                df_2[col] = model.predict(X_test_2)
-
-                plotUserData2(df_[['Date']], df_[[col]], df_2[['Date']], df_2[[col]], col,
-                              "", "", "", station_, 'data/Latest_predictions/')
-
-        dates = df_2[['Date']]
-        df_2 = df_2.drop(['Date'], axis=1)
-        Y_pred = predict_(Pickled_LR_Model, df_2)
-        # rf_train_mse, rf_train_rmse, train_acc, test_acc = results_(Pickled_LR_Model, X_train.drop(['Year'], axis=1), y_train,
-        #                                                             X_test.drop(['Year'], axis=1), y_test, Y_pred)
-
-        df_2[target_param] = Y_pred
-        df_pred[target_param] = Y_pred
-        print("df_all.........................")
-        df_all = pd.concat([df_hist, df_pred], ignore_index=True)
-        print(df_all.columns)
-        # df_2.to_csv("data/Latest_predictions/temp/"+station_+"predicted.csv")
-        df_2.to_csv("adminlte3/static/admin-lte/dist/js/data/" +
-                    station_+"predicted.csv")
-        print(df_2.head())
-        print(df_2.shape)
-        print(df_2.columns)
-        # print(y_test, Y_pred)
-        # display(df_2)
-
-        # bigdata = df_new.append(df_[(df_['Year']<year_strt)], ignore_index=True).sort_values(by=['Year'])
-        plotUserData2(df_[['Date']], df_[[target_param]], dates, df_2[target_param], target_param,
-                      "", "", "", station_, 'Predict/Target_Param/')
+    dates = df_2[['Date']]
+    df_2 = df_2.drop(['Date'], axis=1)
+    print(df_2)
+    Y_pred = predict_(Pickled_LR_Model, df_2)
+    
+    df_2[target_param] = Y_pred
+    df_pred[target_param] = Y_pred
+    df_all = pd.concat([df_hist, df_pred], ignore_index=True)
+    df_2.to_csv("adminlte3/static/admin-lte/dist/js/data/" +
+                station_+"predicted.csv")
+    
+    plotUserData2(df_[['Date']], df_[[target_param]], dates, df_2[target_param], target_param, station_, 'Predict/Target_Param/')
 
     return df_[['Date']], df_[[target_param]], dates, df_2[target_param], target_param, station_
-
-
-def results_(y_test_, Y_pred, target_param, target_param_path, station_, isSave):
-    # Calculating MSE and RMSE
-    rf_train_mse = mean_squared_error(y_test_, Y_pred)
-    rf_train_rmse = np.sqrt(rf_train_mse)
-    r2_ = r2_score(y_test_, Y_pred)*100
-    if isSave:
-        y_test_.to_csv(BASEDIR+"Predicted_Charts/Prediction-Risk-Analysis/LSTM/"+str(
-            station_)+"/Test/Target_Param/"+"test_"+target_param_path+".csv", index=False)
-        Y_pred = pd.DataFrame(Y_pred, columns=['Predicted '+target_param])
-        Y_pred.to_csv(BASEDIR+"Predicted_Charts/Prediction-Risk-Analysis/LSTM/"+str(station_) +
-                      "/Test/Target_Param/"+"predicted_"+target_param_path+".csv", index=False)
-    print("Mean squared error: %.2f" % rf_train_mse)
-    print("Root Mean Squared error: %.2f" % rf_train_rmse)
-    print('R2 Score: %.2f' % r2_)
-
-    return rf_train_mse, rf_train_rmse, r2_
 
 
 @api_view(('GET',))
@@ -1935,8 +1812,8 @@ def getPredictionOutput(request, selected, station, yearFrom, yearTo):
     print(yearFrom, yearTo, selected, station)
     print("print type of station:::", type(station))
     if selected == 'TP':
-        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
-        # model_path = "ml_models/TotalPhosphorous-RF-11.sav"
+        # model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
+        model_path = "ml_models/TotalPhosphorous-RF-11.sav"
     else:
         model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav"
         # model_path = "ml_models/TotalNitrogen-RF-10F.sav"

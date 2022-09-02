@@ -81,7 +81,7 @@
     <div class="row mt-3">
         <div class=" col-lg-6  p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary" id="param2"> 2. Select natural land<br></p>
-            <!-- <p class="text-secondary"> Further explanation </p> -->
+            <p class="text-secondary" id="subtext2">MODIS Natural land in hectares covers Broadleaf forests, Grasslands, Mixed forests, Permanent wetlands, Savannas, Water bodies, and Woddy savannas.</p>
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
             style="background-color: rgba(235,235,235,0.678);">
@@ -93,7 +93,7 @@
     <div class="row mt-3">
         <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary" id="param3"> 3. Select population</p>
-            <!-- <p class="text-secondary"> Further explanation </p> -->
+            <p class="text-secondary" id="subtext3">10698</p>
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
             style="background-color: rgba(235,235,235,0.678);">
@@ -105,7 +105,7 @@
     <div class="row mt-3">
         <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary" id="param4"> 4. Total Rain(mm) before 7 days</p>
-            <!-- <p class="text-secondary"> Further explanation </p> -->
+            <p class="text-secondary" id="subtext4"> Total Rain in millimetres (mm) before 7 days of water sample collection or test.</p>
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
             style="background-color: rgba(235,235,235,0.678);">
@@ -155,14 +155,20 @@ $(document).ready(function () {
     $('#TP').change(function()  {
         console.log("TP clicked")
         $('#param2').text('2. Select Natural Land');
+        $('#subtext2').text('MODIS Natural land in hectares covers Broadleaf forests, Grasslands, Mixed forests, Permanent wetlands, Savannas, Water bodies, and Woddy savannas.');
         $('#param3').text('3. Select Population');
+        $('#subtext3').text('10698');
         $('#param4').text('4. Total Rain (mm) Before 7 days');
+        $('#subtext4').text('Total Rain in millimetres (mm) before 7 days of water sample collection or test');
     });
     $('#TN').change(function()  {
         console.log("TN clicked")
         $('#param2').text('2. Select Natural Land');
+        $('#subtext2').text('TRCA Natural land in hectares covers forest, Successional forest, Meadow, Wetland & Beach/Bluff.');
         $('#param3').text('3. Select Anthropogenic Natural Land');
+        $('#subtext3').text('ELC Anthropogenic land in hectares covers Airport, Athletic field, Commercial, Crop field, Golf facility, High-Density Urban Residential, Industrial, & Institutional building.');
         $('#param4').text('4. Select Population');
+        $('#subtext4').text('10698');
     });
     let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
         6010800102, 6010800202, 6011100102, 6011100202, 6011100302,
