@@ -66,7 +66,29 @@
         </div>
     </div> -->
 
-    <div class="row p-5"></div>
+    <div class="row pt-1 pb-3">
+        <table class="table table-bordered">
+            <thead>
+              <tr >
+                <th scope="col"></th>
+                <th scope="col" id="th1">Total Phosphorus (mg/L)</th>
+                <th scope="col" id="th2">Natural Land (ha)</th>
+                <th scope="col" id="th3">Population</th>
+                <th scope="col" id="th4">Total Rain (mm) before 7 days
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Year 2020 Baseline value</th>
+                <td id="td1">0.064</td>
+                <td id="td2">47.68</td>
+                <td id="td3">10698</td>
+                <td id="td4">0</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
 
     <div class="row">
         <div class="row h3 text-primary ml-2">
@@ -93,7 +115,7 @@
     <div class="row mt-3">
         <div class="col-lg-6 p-2" style="background-color: rgba(228,228,228,1);">
             <p class="text-primary" id="param3"> 3. Select population</p>
-            <p class="text-secondary" id="subtext3">10698</p>
+            <p class="text-secondary" id="subtext3"></p>
         </div>
         <div class=" col-lg-6 pt-3 pb-5 d-flex justify-content-center"
             style="background-color: rgba(235,235,235,0.678);">
@@ -157,9 +179,18 @@ $(document).ready(function () {
         $('#param2').text('2. Select Natural Land');
         $('#subtext2').text('MODIS Natural land in hectares covers Broadleaf forests, Grasslands, Mixed forests, Permanent wetlands, Savannas, Water bodies, and Woddy savannas.');
         $('#param3').text('3. Select Population');
-        $('#subtext3').text('10698');
+        $('#subtext3').text('');
         $('#param4').text('4. Total Rain (mm) Before 7 days');
         $('#subtext4').text('Total Rain in millimetres (mm) before 7 days of water sample collection or test');
+
+        $('#th1').text('Total Phosphorus (mg/L)');
+        $('#th2').text('Natural Land (ha)');
+        $('#th3').text('Population');
+        $('#th4').text('Total Rain (mm) before 7 days');
+        $('#td1').text('0.064');
+        $('#td2').text('47.68');
+        $('#td3').text('10698');
+        $('#td4').text('0');
     });
     $('#TN').change(function()  {
         console.log("TN clicked")
@@ -168,7 +199,18 @@ $(document).ready(function () {
         $('#param3').text('3. Select Anthropogenic Natural Land');
         $('#subtext3').text('ELC Anthropogenic land in hectares covers Airport, Athletic field, Commercial, Crop field, Golf facility, High-Density Urban Residential, Industrial, & Institutional building.');
         $('#param4').text('4. Select Population');
-        $('#subtext4').text('10698');
+        $('#subtext4').text('');
+
+        // changing table values over radio select
+        $('#th1').text('Total Nitrogen (mg/L)');
+        $('#th2').text('Natural Land (ha)');
+        $('#th3').text('Anthropogenic Land (ha)');
+        $('#th4').text('Population');
+        $('#td1').text('1.44');
+        $('#td2').text('43153.02');
+        $('#td3').text('4770.85');
+        $('#td4').text('10698');
+
     });
     let stations = [28, 29, 30, 85, 3007703502, 6010400102, 6010400802, 6010700202,
         6010800102, 6010800202, 6011100102, 6011100202, 6011100302,

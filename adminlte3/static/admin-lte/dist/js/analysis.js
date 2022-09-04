@@ -15,7 +15,7 @@ var dataColumns = ['Nitrogen Kjeldahl (mg/L)', 'Total Suspended Solids (mg/L)',
 'Nitrate (mg/L)', 'Conductivity (K)', 'Dissolved Oxygen (mg/L)', 'pH',
 'Total Nitrogen (mg/L)', 'Nitrite (mg/L)', 'Total Phosphorus (mg/L)',
 'Chloride (mg/L)', 'Natural Land 10m (ha)',
-'Anthropogenic Natural Land 10m (ha)', 'Anthropogenci Land 10m (ha)',
+'Anthropogenic Natural Land 10m (ha)', 'Anthropogenic Land 10m (ha)',
 'Station', 'Date', 'Year', 'Agricultural Land 250m (ha)',
 'Natural Land 250m (ha)', 'Latitude', 'Longitude', 'Month',
 'Population', 'Total Rain (mm) -14day Total',
@@ -27,7 +27,7 @@ var encode_features = {'1':'Nitrogen Kjeldahl (mg/L)', '2':'Total Suspended Soli
 '3':'Nitrate (mg/L)', '4':'Conductivity (K)', '5':'Dissolved Oxygen (mg/L)', '6':'pH','7':
 'Total Nitrogen (mg/L)','8': 'Nitrite (mg/L)','9': 'Total Phosphorus (mg/L)','10':
 'Chloride (mg/L)','11':'Natural Land 10m (ha)','12':
-'Anthropogenic Natural Land 10m (ha)','13': 'Anthropogenci Land 10m (ha)','14':
+'Anthropogenic Natural Land 10m (ha)','13': 'Anthropogenic Land 10m (ha)','14':
 'Station','15': 'Date', '16':'Year', '17':'Agricultural Land 250m (ha)','18':
 'Natural Land 250m (ha)','19':
 'Population','20': 'Total Rain (mm) -14day Total','21':
@@ -112,7 +112,7 @@ $("#station").change(function () {
 });
 // feature on X
 function f1Selectbox() {
-    var selectboxreturn = "<option value='' selected>Select Feature 1</option>";
+    var selectboxreturn = "<option value='' selected>Select Indicator 1</option>";
     console.log("dataColumns in f1: ",dataColumns);
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
@@ -129,7 +129,8 @@ $("#f1").change(function () {
 });
 // feature on Y
 function f2Selectbox() {
-    var selectboxreturn = "<option value='' selected>Select Feature 2</option>";
+    console.log("this is changed");
+    var selectboxreturn = "<option value='' selected>Select Indicator 2</option>";
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
