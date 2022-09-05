@@ -200,7 +200,7 @@
                 <!-- <button id="goToPredict" class="btn btn-success">Go to Predictions</button> -->
                 <button id="DownloadResults" class="btn btn-outline-primary rounded-pill"><i class="fa fa-download"></i><span
                     style="padding-left:5px"><a href="{% static 'admin-lte/dist/js/data/recently_predicted.csv' %}" download="">Download result </a></span></button>          
-                <button id="visualize" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Visualize</button>
+                <button id="visualize" class="btn btn-primary" >Visualize</button>
                 <button id="rerunmodeloferrorid" class="btn btn-danger">Re-do analysis</button>
                 <div class="spinner-border text-primary" role="status" id="modelpredictionspinner">
                     <span class="sr-only">Loading...</span>
@@ -290,7 +290,7 @@
         $("#uploaddataspinner").hide();
         $("#fileanalysisspinner").hide();
         $("#runmodelid").hide();
-        // $('#visualize').hide();
+        $('#visualize').hide();
         $("#DownloadResults").hide();
         $("#modelpredictionspinner").hide();
         $("#modelprocesssuccessfulmessageid").hide();
@@ -587,8 +587,8 @@
                     };
                     var g1 = [trace1];
                     $('#graphspace').css("height","780px");
-                    Plotly.newPlot('visualizemodal', g1, layout1); 
-                    // Plotly.newPlot('textplot', g1, layout1); 
+                    // Plotly.newPlot('visualizemodal', g1, layout1); 
+                    Plotly.newPlot('textplot', g1, layout1); 
                 }
             });
         });
