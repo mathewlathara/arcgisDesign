@@ -1675,8 +1675,20 @@ def plotUserData2(x1, y1, x2, y2, target_param, station_, path):
     plt.plot(x1, y1, color='blue', label=target_param)
     plt.scatter(x1, y1, color='blue')
 
-    plt.plot(x2, y2, color='orange', label='Predicted '+target_param)
+    ######### Addon
     plt.scatter(x2, y2, color='orange')
+
+    new_row = pd.DataFrame({x2.columns.values[0]:pd.to_datetime(x1['Date'].tail(1), format = '%Y-%m-%d')})
+    x2 = pd.concat([new_row,x2.loc[:]], ignore_index=True)#).reset_index(drop=True)
+
+    new_row = pd.DataFrame({target_param:y1.iloc[-1:].values.flatten()})
+
+    if isinstance(y2, pd.DataFrame)==False:
+      y2 = pd.DataFrame(y2, columns=[target_param])
+    y2 = pd.concat([new_row,y2.loc[:]], ignore_index=True)#).reset_index(drop=True)
+    ######### Addon
+
+    plt.plot(x2, y2, color='orange', label='Predicted '+target_param)
 
     # naming the x axis
     plt.xlabel('Year', fontsize='14')
@@ -1956,13 +1968,11 @@ def plotUserData(big_data_, selected_para, target_param, station_, percentages):
     plt.title(title, fontsize='14')
     plt.legend()  # loc='lower left')
     # function to show the plot
-    print("deleteing files...")
-    for f in glob.glob('adminlte3/static/admin-lte/dist/js/data/' + "/*.png"):
-        print("file deleted: ",os.remove(f))
-        os.remove(f)
-    os.remove('adminlte3/static/admin-lte/dist/js/data/Total_Phosphorus__pres.png')
     plt.savefig('adminlte3/static/admin-lte/dist/js/data/' +
                 (target_param.replace(" ", '_')).replace('(mg/L)', '')+'_'+"pres.png")
+    os.remove('adminlte3/static/admin-lte/dist/js/data/prescribe.png')
+    plt.savefig('adminlte3/static/admin-lte/dist/js/data/prescribe.png')
+
 #   plt.show()
 
 
@@ -1976,6 +1986,8 @@ def runAllParams(df_, selected_para_, percentage_change_, Pickled_LR_Model):
 
 # Start Year should be > 2020
 def scenario_(df_, selected_para_, percentage_change_, isPhos_, station_, model_path):
+    print("inside scenario_")
+    print(selected_para_, percentage_change_, isPhos_, station_, model_path)
     target_param_path = ""
     if isPhos_ == True:
         target_param = "Total Phosphorus (mg/L)"
@@ -2022,8 +2034,7 @@ def getPrescribeOutput(request, selected, land0, land1, population0, population1
     rainmin = int(rain0)
     rainmax = int(rain1)
     print(selected,  landmin, landmax)
-    percentages = [[landmin, landmax], [
-        populationmin, populationmax], [rainmin, rainmax]]
+    percentages = [[landmin, landmax], [populationmin, populationmax], [rainmin, rainmax]]
     df = pd.read_csv(
         "https://raw.githubusercontent.com/DishaCoder/CSV/main/Predict-Prescribe-Data.csv")
 

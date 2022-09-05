@@ -140,15 +140,20 @@
         <button class="btn btn-primary rounded-pill pl-4 pr-4 " id="predict" onclick=""> Get </button>
     </div>
 
+
     <div class="row d-flex justify-content-center col-12 m-2" id="prediction_msg">
 
     </div>
 
-    <div class="row d-flex justify-content-center col-12 m-2 mb-5" id="placeimage">
-
-    </div>
+   
 
 
+</div>
+<div class="row d-flex justify-content-center col-12 mb-5" id="placeimage" style="height: 370px;">
+
+</div>
+<div class="row d-flex justify-content-center mt-4 mb-4">
+    <button class="btn btn-primary rounded-pill pl-4 pr-4 " id="pagereload" onClick="window.location.reload();"> Change Filters </button>
 </div>
 
 
@@ -174,6 +179,7 @@ function eraseCache(){
   window.location = window.location.href+'?eraseCache=true';
 }
 $(document).ready(function () {
+    $('#pagereload').hide();
     $('#TP').change(function()  {
         console.log("TP clicked")
         $('#param2').text('2. Select Natural Land');
@@ -366,7 +372,7 @@ $(document).ready(function () {
             }
         $.ajax({
                 type: 'get',
-                url: '/getPrescribeOutput/'+var_to_predict+'/'+parseInt(sliderland_[0])+'/'+parseInt(sliderland_[1])+'/'+parseInt(sliderpopulation_[0])+'/'+parseInt(sliderpopulation_[1])+'/'+parseInt(sliderrain_[0])+'/'+parseInt(sliderrain_[0]),
+                url: '/getPrescribeOutput/'+var_to_predict+'/'+parseInt(sliderland_[0])+'/'+parseInt(sliderland_[1])+'/'+parseInt(sliderpopulation_[0])+'/'+parseInt(sliderpopulation_[1])+'/'+parseInt(sliderrain_[0])+'/'+parseInt(sliderrain_[1]),
                 // data: {'selected': var_to_predict, 'landmin': parseInt(sliderland_[0]), 'landmax': parseInt(sliderland_[1]), 'populationmin':parseInt(sliderpopulation_[0]),
                 //         'populationmax':parseInt(sliderpopulation_[1]),  'rainmin':parseInt(sliderrain_[0]), 'rainmax':parseInt(sliderrain_[1])},
                 // contentType: false,
@@ -391,9 +397,11 @@ $(document).ready(function () {
                         var elem = document.createElement('img');
                         elem.setAttribute('id', "img_plot");
                         // param_name = ((data.target_param).replace(" ", '_')).replace('(mg/L)', '').trim();
-                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/'+param_name+'__'+"pres.png");
+                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/prescribe.png');
                         elem.setAttribute("width", "100%");
                         document.getElementById("placeimage").appendChild(elem);
+                        $('#predict').hide();
+                        $('#pagereload').show();
                     }
                     else {
                         console.log("in else");
