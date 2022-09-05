@@ -986,13 +986,14 @@ def map_experiment(request, year):
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
     regiondemographicrenderurl = ""
-    if yearslected == "2017":
+    yearslected = int(yearslected)
+    if yearslected >= 2014:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
-    elif yearslected == "2013":
+    elif yearslected >= 2009:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2013_trcashp/FeatureServer/0"
-    elif yearslected == "2007" or yearslected == "2008":
+    elif yearslected == 2007 or yearslected == 2008:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2007_2008_trcashp/FeatureServer/0"
-    elif yearslected == "2002":
+    elif yearslected < 2007:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2002_trcashp/FeatureServer/0"
     # print(json_return)
     # context = plotMap(featuresSelected)
@@ -1161,18 +1162,13 @@ def arcgisMapSoilDetailsAPI(request, stationid, dateselected):
         totalTOTHERwtd = masterdatafile["DSS_ClaySiltSand_TOTHERwtd"].unique()
         totalTSANDwtd = masterdatafile["DSS_ClaySiltSand_TSANDwtd"].unique()
         totalTSILTwtd = masterdatafile["DSS_ClaySiltSand_TSILTwtd"].unique()
-        totalTUNKNOWNwtd = masterdatafile["DSS_ClaySiltSand_TUNKNOWNwtd"].unique(
-        )
-        totalagricultural = masterdatafile["250mLandCover_Agricultural"].unique(
-        )
-        totalanthropogenic = masterdatafile["250mLandCover_Anthropogenic"].unique(
-        )
+        totalTUNKNOWNwtd = masterdatafile["DSS_ClaySiltSand_TUNKNOWNwtd"].unique()
+        totalagricultural = masterdatafile["250mLandCover_Agricultural"].unique()
+        totalanthropogenic = masterdatafile["250mLandCover_Anthropogenic"].unique()
         totalnatural = masterdatafile["250mLandCover_Natural"].unique()
-        totaldrainagebasinsqkm = masterdatafile["DrainageBasinArea_sqkm"].unique(
-        )
+        totaldrainagebasinsqkm = masterdatafile["DrainageBasinArea_sqkm"].unique()
         totalareasqkm = masterdatafile["LandAreaSqkm"].unique()
-        totalpopulation = masterdatafile["Population"].str.replace(
-            ',', '').fillna(masterdatafile["Population"])
+        totalpopulation = masterdatafile["Population"].str.replace(',', '').fillna(masterdatafile["Population"])
         latitude = masterdatafile["Latitude"].unique()
         longitude = masterdatafile["Longitude"].unique()
         longitudestring = str(longitude[0])
@@ -1607,14 +1603,15 @@ def describe(request, year):
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
     regiondemographicrenderurl = ""
-    if yearslected == "2017":
-        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
-    elif yearslected == "2013":
-        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2013_trcashp/FeatureServer/0"
-    elif yearslected == "2007" or yearslected == "2008":
-        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2007_2008_trcashp/FeatureServer/0"
-    elif yearslected == "2002":
-        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/habitat_2002_trcashp/FeatureServer/0"
+    yearslected = int(yearslected)
+    if yearslected >= 2017:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2017/FeatureServer/0"
+    elif yearslected >= 2013:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2013/FeatureServer/0"
+    elif yearslected >= 2007:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2007/FeatureServer/0"
+    elif yearslected >= 2002:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2002/FeatureServer/0"
     # print(json_return)
     # context = plotMap(featuresSelected)
     return render(request, "adminlte/describe.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
