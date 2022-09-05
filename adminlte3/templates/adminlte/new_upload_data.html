@@ -50,9 +50,9 @@
                     </form>
                 </div>
                 <div class="text-center">
-                    <button class="mt-2 btn btn-secondary rounded-0" data-toggle="modal" data-target="#exampleModal"> CSV File Requirements <i class="fas fa-chevron-right"></i></button>
+                    <button class="mt-2 btn btn-secondary rounded-0" data-toggle="modal" data-target="#example"> CSV File Requirements <i class="fas fa-chevron-right"></i></button>
                 </div>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -200,6 +200,7 @@
                 <!-- <button id="goToPredict" class="btn btn-success">Go to Predictions</button> -->
                 <button id="DownloadResults" class="btn btn-outline-primary rounded-pill"><i class="fa fa-download"></i><span
                     style="padding-left:5px"><a href="{% static 'admin-lte/dist/js/data/recently_predicted.csv' %}" download="">Download result </a></span></button>          
+                <button id="visualize" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Visualize</button>
                 <button id="rerunmodeloferrorid" class="btn btn-danger">Re-do analysis</button>
                 <div class="spinner-border text-primary" role="status" id="modelpredictionspinner">
                     <span class="sr-only">Loading...</span>
@@ -239,6 +240,27 @@
 <input id="modelshapeidafterprocess" type="hidden">
 
 
+<!-- graph modal -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Predicted Indicator</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="visualizemodal">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 {% endblock %}
 
@@ -249,6 +271,10 @@
 <!-- Core plugin JavaScript-->
 <script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 <script src="{% static 'admin-lte/bootstrap/js/sb-admin-2.min.js' %}"></script>
+
+<!-- plotly -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 <script>
     $(document).ready(function () {
         var predictVar = "";
@@ -260,6 +286,7 @@
         $("#uploaddataspinner").hide();
         $("#fileanalysisspinner").hide();
         $("#runmodelid").hide();
+        $('#visualize').hide();
         $("#DownloadResults").hide();
         $("#modelpredictionspinner").hide();
         $("#modelprocesssuccessfulmessageid").hide();
@@ -511,6 +538,7 @@
                     if(data.status == "success"){
                         $("#runmodelid").hide();
                         $("#DownloadResults").show();
+                        $("#visualize").show();
                         $("#predictionbeforedivid").hide();
                         $("#modelprocesssuccessfulmessageid").show();
                         sessionStorage.setItem('parameterselected',data.studydonefor);
@@ -527,6 +555,34 @@
                     $("#rerunmodeloferrorid").show();
                     alert("Unexpected error occured while running the model. Please try again.");
                     console.log("Error" + JSON.stringify(error));
+                }
+            });
+        });
+
+        $(document).on('click', '#visualize', function () {
+            $.ajax({
+                type:"GET",
+                url: '/trial',
+                success: function(data){
+                    console.log('trial checked');
+                    console.log(data.array);
+                    console.log(data.lastcol);
+                    var trace1 = {
+                        // x: data.graph1x,
+                        y: data.array,
+                        mode: 'lines'
+                    };
+                    var layout1 = {
+                        title: 'Predicted '+data.lastcol,
+                        yaxis: {
+                            title: data.lastcol,
+                        },
+                        xaxis: {
+                            title: 'Rows'
+                        },
+                    };
+                    var g1 = [trace1];
+                    Plotly.newPlot('visualizemodal', g1, layout1); 
                 }
             });
         });

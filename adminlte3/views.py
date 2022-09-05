@@ -2063,5 +2063,8 @@ def getPrescribeOutput(request, selected, land0, land1, population0, population1
 
 
 def trial(request):
-    print(request.GET['name'])
-    return HttpResponse(True)
+    df = pd.read_csv( "adminlte3/static/admin-lte/dist/js/data/recently_predicted.csv")
+    tosend = df.iloc[: , -1]
+    tosend = (np.array(tosend).tolist())
+    cols = df.columns
+    return JsonResponse({'array': tosend, 'lastcol':cols[-1]})
