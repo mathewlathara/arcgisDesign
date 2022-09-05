@@ -192,7 +192,7 @@
                     <p style="color:green" id="modelshapesuccess"></p>
                     <p style="color:goldenrod" id="modelshapewarn"></p>
                 </div>
-                <p style="color: green;" id="modelprocesssuccessfulmessageid">The data was successfully analyzed by the model. Click on <b>Go to predictions</b> to see the detailed report of the analysis</p>
+                <p style="color: green;" id="modelprocesssuccessfulmessageid">The data was successfully analyzed by the model.</p>
                 <p style="color:red" id="excelnotacceptedbymodelid">Model run was not successful. Check the number of columns of the excel sheet. The model accepts only excel with prescribed column conditions. All other cases will be rejected by the model. Try reuploading a new excel sheet with the said condition</p>
             </div>
             <div class="card-footer text-center" style="background-color: rgba(228,228,228,1);">
@@ -243,7 +243,7 @@
 <!-- graph modal -->
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="height: 750px; width: 100px;">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Predicted Indicator</h5>
@@ -286,7 +286,7 @@
         $("#uploaddataspinner").hide();
         $("#fileanalysisspinner").hide();
         $("#runmodelid").hide();
-        $('#visualize').hide();
+        // $('#visualize').hide();
         $("#DownloadResults").hide();
         $("#modelpredictionspinner").hide();
         $("#modelprocesssuccessfulmessageid").hide();
