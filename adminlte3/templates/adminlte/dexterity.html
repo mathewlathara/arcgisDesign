@@ -514,7 +514,6 @@
 	<script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
 	<script src="https://js.arcgis.com/4.23/"></script>
 	<script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
-	<script src="{% static 'admin-lte/assets/js/arcgisjs/hotspotarcgis.js' %} "></script>
 
 	<script src="{% static 'admin-lte/assets/vendor/aos/aos.js' %}"></script>
 	<script src="{% static 'admin-lte/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
@@ -530,7 +529,6 @@
 			var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
 			var loadingurl = "199.241.160.97";
 			loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
-			hotspotfunction(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
 			handleResize();
 			$(window).bind('resize', handleResize);
 
