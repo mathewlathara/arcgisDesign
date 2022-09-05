@@ -1824,7 +1824,7 @@ def getPredictionOutput(request, selected, station, yearFrom, yearTo):
         model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
         # model_path = "ml_models/TotalPhosphorous-RF-11.sav"
     else:
-        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav"
+        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10.sav"
         # model_path = "ml_models/TotalNitrogen-RF-10F.sav"
 
     print(model_path)
@@ -2047,7 +2047,7 @@ def getPrescribeOutput(request, selected, land0, land1, population0, population1
         isPhos = False
         selected_para = [
             'Natural Land 10m (ha)', 'Anthropogenic Natural Land 10m (ha)', 'Population']
-        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10F.sav" #ml_models/
+        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10.sav" #ml_models/
         # model_path = "ml_models/TotalNitrogen-RF-10F.sav"
 
     print(model_path)
