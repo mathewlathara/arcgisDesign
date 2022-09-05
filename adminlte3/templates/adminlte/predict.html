@@ -87,7 +87,7 @@
     </div>
 
     <div class="row d-flex justify-content-center mt-4">
-        <p class="text-secondary">Get your predicted results in CSV/EXCEL format</p>
+        <p class="text-secondary" id="downloadtext">Get your predicted results in CSV/EXCEL format</p>
     </div>
 
     <div class="row mb-5 d-flex justify-content-center mt-2">
@@ -119,6 +119,8 @@
     let stations = [6008310402, '6010700202', 'CC005', 6009400202, 6008301202, '6010402702', 6008501402, 6008310302, '6010402502', 6009701802, 6008300202, '6010403702', '6010402602', 6008500402, 6009701302, 6008000702, 'Shoal Point', '7th Concession', '6010402302', 6008500302, 6008301902, 6009700302, '6010402802', 'FB003WM', 'Brock Ridge', 6008000602, 'Paulyn Park', '6010402902', 6009700702, 6008300902, 6008301802, 6008200302, 6009701102, 'PT001WM', 6008300402, '6010400802'];
 
     $(document).ready(function () {
+        $('#download_btn').hide();
+        $('#downloadtext').hide();
         var station;
         var stationSelectbox = stationIdSelectbox();
         $("#station").html(stationSelectbox);
@@ -137,7 +139,6 @@
         });
 
 
-        document.getElementById("download_btn").disabled = true;
 
         var slider = document.getElementById('slider');
         var station_id;
@@ -250,6 +251,8 @@
                         document.getElementById("placeimage").appendChild(elem);
                         document.getElementById("download_btn").disabled = false;
                         document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/' + data.station_ + 'predicted.csv')
+                        $('#download_btn').show();
+                        $('#downloadtext').show();
                     }
                     else {
                         console.log("in else");
