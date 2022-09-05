@@ -243,7 +243,7 @@
 <!-- graph modal -->
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document" style="height: 750px; width: 1000px;">
+    <div class="modal-dialog modal-lg" role="document" style="height: 750px;" id="graphspace">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Predicted Indicator</h5>
@@ -260,6 +260,10 @@
       </div>
     </div>
   </div>
+
+  <div class="" id="textplot">
+          
+</div>
 
 
 {% endblock %}
@@ -286,7 +290,7 @@
         $("#uploaddataspinner").hide();
         $("#fileanalysisspinner").hide();
         $("#runmodelid").hide();
-        $('#visualize').hide();
+        // $('#visualize').hide();
         $("#DownloadResults").hide();
         $("#modelpredictionspinner").hide();
         $("#modelprocesssuccessfulmessageid").hide();
@@ -582,7 +586,9 @@
                         },
                     };
                     var g1 = [trace1];
+                    $('#graphspace').css("height","780px");
                     Plotly.newPlot('visualizemodal', g1, layout1); 
+                    // Plotly.newPlot('textplot', g1, layout1); 
                 }
             });
         });
