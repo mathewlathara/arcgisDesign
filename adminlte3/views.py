@@ -1961,7 +1961,7 @@ def plotUserData(big_data_, selected_para, target_param, station_, percentages):
     plt.ylabel(target_param, fontsize='14')
 
     # giving a title to my graph
-    title = "Selected Param. % Change Vs "+target_param+" ("+str(station_)+")"
+    title = "% Change Vs "+target_param+" ("+str(station_)+")"
     plt.title(title, fontsize='14')
     plt.legend()  # loc='lower left')
     # function to show the plot
