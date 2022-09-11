@@ -368,7 +368,7 @@
 						</p>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -504,19 +504,18 @@
 			</div>
 		</div>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-		crossorigin="anonymous"></script>
-	<script src="{% static 'admin-lte/assets/js/js_loginmodal/main.js' %}"></script>
-	<script src="{% static 'admin-lte/assets/js/js_loginmodal/placeholders.min.js' %}"></script>
 	<script src="{% static 'admin-lte/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'admin-lte/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="{% static 'admin-lte/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="{% static 'admin-lte/bootstrap/js/sb-admin-2.min.js' %}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js "></script>
 	<script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
 	<script src="https://js.arcgis.com/4.23/"></script>
 	<script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
-
-	<script src="{% static 'admin-lte/assets/vendor/aos/aos.js' %}"></script>
-	<script src="{% static 'admin-lte/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
 
 
 	<script>
@@ -532,7 +531,7 @@
 			handleResize();
 			$(window).bind('resize', handleResize);
 
-			var yearlist = ["2020", "2019", "2018", "2017", "2016"];
+			var yearlist = ["2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"];
 			yearselectbox = "<option value='' disabled selected>Select a year</option>";
 			for (let j = 0; j < yearlist.length; j++) {
 				if (yearlist[j] == "{{yearselected}}") {
@@ -645,9 +644,9 @@
 			$("#hero").height($(window).height());
 		}
 
-		$(document).on('click', '.gotodatasources', function(){
-        window.location.href = '#testimonials';
-      });
+		$(document).on('click', '.gotodatasources', function () {
+			window.location.href = '#testimonials';
+		});
 	</script>
 </body>
 

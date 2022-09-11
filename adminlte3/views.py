@@ -175,7 +175,16 @@ def filterpagefromindex(request, year):
         json_return.append(loopvalue)
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
-    regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
+    regiondemographicrenderurl = ""
+    yearslected = int(yearslected)
+    if yearslected >= 2017:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2017/FeatureServer/0"
+    elif yearslected >= 2013:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2013/FeatureServer/0"
+    elif yearslected >= 2007:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2007/FeatureServer/0"
+    elif yearslected >= 2002:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2002/FeatureServer/0"
     return render(request, "adminlte/dexterity.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
 
 
@@ -1470,7 +1479,9 @@ def download_predictedfile(request):
 
 
 def dextarity(request):
-    yearslected = "2017"
+    yearslected = "2020"
+    if yearslected == "":
+        yearslected = "2020"
     col_list = ["STATION", "Latitude", "Longitude",
                 "DATE", "TotalPhosphorus", "TotalNitrogen"]
     masterdatafile = pd.read_csv(
@@ -1493,19 +1504,20 @@ def dextarity(request):
     stationforloop = ""
     phosphorusnumber = 0
     nitrogernnumber = 0
-    loopvalue = ""
     for index, row in uniquecolumnfile.iterrows():
         if stationforloop != row[0]:
-            filterhotspots = uniquecolumnfile[(uniquecolumnfile["STATION"] == row[0])]
+            filterhotspots = uniquecolumnfile[(
+                uniquecolumnfile["STATION"] == row[0])]
             if(filterhotspots.count().STATION > 0):
-                phosphorusnumber = round(filterhotspots["TotalPhosphorus"].mean(), 2)
-                nitrogernnumber = round(filterhotspots["TotalNitrogen"].mean(), 2)
+                phosphorusnumber = round(
+                    filterhotspots["TotalPhosphorus"].mean(), 2)
+                nitrogernnumber = round(
+                    filterhotspots["TotalNitrogen"].mean(), 2)
                 if phosphorusnumber > 0.05 or nitrogernnumber > 10:
                     stationiconlink = "hotspot.png"
                 else:
                     stationiconlink = "normalregion.png"
-            print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber} stationlink -----> {stationiconlink}")
-            loopvalue = {"station": row[0], "latitude": row[1], "longitude": row[2], "stationiconlink": stationiconlink, "phosphorusnumber" : phosphorusnumber, "nitrogernnumber" : nitrogernnumber}
+            # print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber}")
         stationforloop = row[0]
         # masterdatafileduplicate = masterdatafileduplicate[(masterdatafileduplicate['DATE'] > yearslected + "-01-01") & (masterdatafileduplicate['DATE'] < yearslected + "-12-31") & (masterdatafileduplicate['STATION'] == row[0])].fillna(0)
         # print(f"{masterdatafileduplicate}")
@@ -1517,11 +1529,21 @@ def dextarity(request):
         # stationiconlink = "star.png"
         # if avgphosphorus > 0.02 or avgnitrogen > 10:
         #     stationiconlink = "star.png"
-        # print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber} station icon link ------> {stationiconlink}" )
+        loopvalue = {"station": row[0], "latitude": row[1],
+                     "longitude": row[2], "stationiconlink": stationiconlink, "phosphorusnumber" : phosphorusnumber, "nitrogernnumber" : nitrogernnumber}
         json_return.append(loopvalue)
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
-    regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/trca_landuse_naturalcover_2017shp/FeatureServer/0"
+    regiondemographicrenderurl = ""
+    yearslected = int(yearslected)
+    if yearslected >= 2017:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2017/FeatureServer/0"
+    elif yearslected >= 2013:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2013/FeatureServer/0"
+    elif yearslected >= 2007:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2007/FeatureServer/0"
+    elif yearslected >= 2002:
+        regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2002/FeatureServer/0"
     return render(request, "adminlte/dexterity.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
 
 
