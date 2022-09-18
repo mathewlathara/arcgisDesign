@@ -30,6 +30,10 @@
 	.my-float {
 		margin-top: 22px;
 	}
+	.carousel-control-next,
+	.carousel-control-prev /*, .carousel-indicators */ {
+		filter: invert(100%);
+	}
 </style>
 
 <head>
@@ -334,11 +338,6 @@
 		<div class="row text-center mt-5">
 			<div class="col col-lg-10 offset-lg-1">
 				<h1 class="gy-5 text-blue-primary m-5">Data Sources</h1>
-				<ol class="carousel-indicators">
-					<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-					<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-					<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-				</ol>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
 						<h6>CLCC Water Quality Data 1</h6>
