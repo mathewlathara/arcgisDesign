@@ -338,9 +338,56 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
 
         /* ----------------------------------   TRCA Durham region combined map --------------------------------------------*/
 
+        const TECADurhamRegionCombinedTemplate = {
+            // autocasts as new PopupTemplate()
+            title: "Region Demographics",
+            content: [
+                {
+                    // It is also possible to set the fieldInfos outside of the content
+                    // directly in the popupTemplate. If no fieldInfos is specifically set
+                    // in the content, it defaults to whatever may be set within the popupTemplate.
+                    type: "fields",
+                    fieldInfos: [
+                        {
+                            fieldName: "Station",
+                            label: "Station ID"
+                        },
+                        {
+                            fieldName: "Latitude",
+                            label: "Latitude",
+                        },
+                        {
+                            fieldName: "Longitude",
+                            label: "Longitude",
+                        },
+                        {
+                            fieldName: "Drnge_bsn",
+                            label: "Drainage basin",
+                        },
+                        {
+                            fieldName: "chl",
+                            label: "Avg. chloride",
+                        },
+                        {
+                            fieldName: "TP",
+                            label: "Total phosphorus",
+                        },
+                        {
+                            fieldName: "TN",
+                            label: "Total Nitrogen",
+                        },
+                        {
+                            fieldName: "Population",
+                            label: "Total Population",
+                        }
+                    ]
+                }
+            ]
+        };
+
         const TRCADurhamregioncombined = new FeatureLayer({
             url: trcadurhammapcombinedurl,
-            // popupTemplate: template,
+            popupTemplate: TECADurhamRegionCombinedTemplate,
             renderer: DurhamRenderer1,
             title: "TRCA-Durham Region",
             opacity: 0.1
