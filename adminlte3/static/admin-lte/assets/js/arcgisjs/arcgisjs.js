@@ -1,8 +1,8 @@
-function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring, yearselected) {
+function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring, yearselected, trcadurhammapcombinedurl) {
     require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend", "esri/widgets/Expand"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend, Expand) {
 
         esriConfig.apiKey = "AAPKfb2205b571aa464b8280e4e744e3bde7rK2eQbS-fVv05DUtFVJUqBVoJjMIQGIMHK7rqQR-In8y-qSZSmNtobECX3jGCzGG";
-
+        
         const template1 = {
             // autocasts as new PopupTemplate()
             title: "Demographics",
@@ -336,9 +336,68 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             title: "Ecological land classification"
         });
 
+        /* ----------------------------------   TRCA Durham region combined map --------------------------------------------*/
+
+        const TECADurhamRegionCombinedTemplate = {
+            // autocasts as new PopupTemplate()
+            title: "Region Demographics",
+            content: [
+                {
+                    // It is also possible to set the fieldInfos outside of the content
+                    // directly in the popupTemplate. If no fieldInfos is specifically set
+                    // in the content, it defaults to whatever may be set within the popupTemplate.
+                    type: "fields",
+                    fieldInfos: [
+                        {
+                            fieldName: "Station",
+                            label: "Station ID"
+                        },
+                        {
+                            fieldName: "Latitude",
+                            label: "Latitude",
+                        },
+                        {
+                            fieldName: "Longitude",
+                            label: "Longitude",
+                        },
+                        {
+                            fieldName: "Drnge_bsn",
+                            label: "Drainage basin",
+                        },
+                        {
+                            fieldName: "chl",
+                            label: "Avg. chloride",
+                        },
+                        {
+                            fieldName: "TP",
+                            label: "Total phosphorus",
+                        },
+                        {
+                            fieldName: "TN",
+                            label: "Total Nitrogen",
+                        },
+                        {
+                            fieldName: "Population",
+                            label: "Total Population",
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const TRCADurhamregioncombined = new FeatureLayer({
+            url: trcadurhammapcombinedurl,
+            popupTemplate: TECADurhamRegionCombinedTemplate,
+            renderer: DurhamRenderer1,
+            title: "TRCA-Durham Region",
+            opacity: 0.1
+        });
+
+        /* -------------------------------------------------------------------------------------------------------------- */
+
         const map1 = new Map({
             basemap: "gray-vector",
-            layers: [featureLayer1, induvidualLayers1, ELCTRCA1, CLOCALandcoverBase1, ECOLOGLANDClassificBase1, DurhamLayer1]
+            layers: [induvidualLayers1, ELCTRCA1, CLOCALandcoverBase1, ECOLOGLANDClassificBase1, TRCADurhamregioncombined]
         });
 
         const graphicsLayer = new GraphicsLayer({

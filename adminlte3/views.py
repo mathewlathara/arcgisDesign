@@ -177,6 +177,7 @@ def filterpagefromindex(request, year):
     json_return = json.dumps(json_return)
     regiondemographicrenderurl = ""
     yearslected = int(yearslected)
+    trcadurhammapcombinedurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/" + str(yearslected) + "_Data/FeatureServer/0"
     if yearslected >= 2017:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2017/FeatureServer/0"
     elif yearslected >= 2013:
@@ -185,7 +186,7 @@ def filterpagefromindex(request, year):
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2007/FeatureServer/0"
     elif yearslected >= 2002:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2002/FeatureServer/0"
-    return render(request, "adminlte/dexterity.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
+    return render(request, "adminlte/dexterity.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected, "trcadurhammapcombinedurl" : trcadurhammapcombinedurl})
 
 
 def logincontroller(request):
@@ -1538,6 +1539,7 @@ def dextarity(request):
     json_return = json.dumps(json_return)
     regiondemographicrenderurl = ""
     yearslected = int(yearslected)
+    trcadurhammapcombinedurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/" + str(yearslected) + "_Data/FeatureServer/0"
     if yearslected >= 2017:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2017/FeatureServer/0"
     elif yearslected >= 2013:
@@ -1546,7 +1548,7 @@ def dextarity(request):
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2007/FeatureServer/0"
     elif yearslected >= 2002:
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2002/FeatureServer/0"
-    return render(request, "adminlte/dexterity.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
+    return render(request, "adminlte/dexterity.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected, "trcadurhammapcombinedurl" : trcadurhammapcombinedurl})
 
 
 def in_dex(request):
