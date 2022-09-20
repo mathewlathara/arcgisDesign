@@ -267,8 +267,8 @@
     var jsonpointfile = {{ jsonvalue| safe }};
     $(document).ready(function () {
         var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
-        var loadingurl = "localhost:8000";
-        loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
+        var loadingurl = "199.241.160.97";
+        loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{ trcadurhammapcombinedurl| safe }}");
 
         var yearlist = ["2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"];
         yearselectbox = "<option value='' disabled selected>Select a year</option>";
