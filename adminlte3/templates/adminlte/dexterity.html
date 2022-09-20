@@ -65,6 +65,41 @@
 		.text-blue-primary {
 			color: #165DA9;
 		}
+
+		.box {
+			position: relative;
+			margin-left: 20px;
+		}
+		.box:before{
+			position: absolute;
+			left: -20px;
+			content: "";
+			height:20px;
+			width:20px;
+			margin-bottom:15px;
+			border:1px solid black;
+		}
+		.box.agricultural:before{
+			background-color:#3282bd;
+		}
+		.box.anthropogenic:before{
+			background-color:#A52A2A;
+		}
+		.box.natural:before{
+			background-color:#08B22B;
+		}
+		.box.water:before{
+			background-color:#00FFFF;
+		}
+		.box.urban:before{
+			background-color:#EBF90D;
+		}
+		.box.rural:before{
+			background-color:#0752F6;
+		}
+		.box.other:before{
+			background-color:#FB1102;
+		}
 	</style>
 
 </head>
@@ -251,7 +286,20 @@
 					style="font-size:10px; color:black;">Year:{{yearselected}}</span></i>
 		</a>
 	</section>
+
 	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+				<h5 class="text-primary">Legend</h5>
+				<div class='box agricultural'>Agricultural Land</div>
+				<div class='box anthropogenic'>Anthropogenic Land</div>
+				<div class='box natural'>Natural Land</div>
+				<div class='box water'>Surface Water Land</div>
+				<div class='box urban'>Urban Land</div>
+				<div class='box rural'>Rural Land</div>
+				<div class='box other'>Other</div>
+			</div>
+		</div>
 		<div class="row text-center">
 			<div class="col col-lg-10 offset-lg-1">
 				<h1 class="gy-5 text-primary m-5">Welcome to DeX-Terity!</h1>
