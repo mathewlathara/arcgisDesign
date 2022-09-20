@@ -45,6 +45,40 @@
         font-size: 36px;
         margin-left: 50px;
     }
+    .box {
+			position: relative;
+			margin-left: 20px;
+		}
+		.box:before{
+			position: absolute;
+			left: -20px;
+			content: "";
+			height:20px;
+			width:20px;
+			margin-bottom:15px;
+			border:1px solid black;
+		}
+		.box.agricultural:before{
+			background-color:#3282bd;
+		}
+		.box.anthropogenic:before{
+			background-color:#A52A2A;
+		}
+		.box.natural:before{
+			background-color:#08B22B;
+		}
+		.box.water:before{
+			background-color:#00FFFF;
+		}
+		.box.urban:before{
+			background-color:#EBF90D;
+		}
+		.box.rural:before{
+			background-color:#0752F6;
+		}
+		.box.other:before{
+			background-color:#FB1102;
+		}
 </style>
 {% endblock %}
 
@@ -129,6 +163,22 @@
 
 
 <div class="container mt-4 mb-5">
+    <div class="row">
+        <div class="col-lg-4">
+            <h5 class="text-primary">Legend</h5>
+            <div class='box agricultural'>Agricultural Land</div>
+            <div class='box anthropogenic'>Anthropogenic Land</div>
+            <div class='box natural'>Natural Land</div>
+            <div class='box water'>Surface Water Land</div>
+            <div class='box urban'>Urban Land</div>
+            <div class='box rural'>Rural Land</div>
+            <div class='box other'>Other</div>
+        </div>
+        <div class="col-lg-4">
+            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/hotspot.png' %}"> Hotspot</div>
+            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/normalregion.png' %}"> Normal</div>
+        </div>
+    </div>
     <div class="row">
         <h1 class="text-primary font-weight-bold">
             Data Platform
@@ -217,8 +267,8 @@
     var jsonpointfile = {{ jsonvalue| safe }};
     $(document).ready(function () {
         var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
-        var loadingurl = "localhost:8000";
-        loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{baseimgurl}}");
+        var loadingurl = "199.241.160.97";
+        loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{ trcadurhammapcombinedurl| safe }}");
 
         var yearlist = ["2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002"];
         yearselectbox = "<option value='' disabled selected>Select a year</option>";

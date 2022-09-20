@@ -1626,6 +1626,7 @@ def describe(request, year):
         json_return.append(loopvalue)
     print(f"Year selected: {yearslected}")
     json_return = json.dumps(json_return)
+    trcadurhammapcombinedurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/" + str(yearslected) + "_Data/FeatureServer/0"
     regiondemographicrenderurl = ""
     yearslected = int(yearslected)
     if yearslected >= 2017:
@@ -1638,7 +1639,7 @@ def describe(request, year):
         regiondemographicrenderurl = "https://services.arcgis.com/t0XyVE44waBIPBFr/arcgis/rest/services/Habitat_2002/FeatureServer/0"
     # print(json_return)
     # context = plotMap(featuresSelected)
-    return render(request, "adminlte/describe.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected})
+    return render(request, "adminlte/describe.html", {"jsonvalue": json_return, "regiondemographicrenderurl": regiondemographicrenderurl, "yearselected": yearslected, "trcadurhammapcombinedurl":trcadurhammapcombinedurl})
 
 
 def new_analysis(request):
