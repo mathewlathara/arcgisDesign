@@ -161,7 +161,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             // autocasts as new PopupTemplate()
             title: "Durham region, Year: " + yearselected,
             outFields: ["UniqueID"],
-            // content: durhamregCustomRegion1,
+            content: durhamregCustomRegion1,
             actions: [durhamAdditionalDetials1]
             // content: [
             //     {
@@ -363,18 +363,34 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                         {
                             fieldName: "Drnge_bsn",
                             label: "Drainage basin",
+                            format: {
+                                places: 3,
+                                digitSeparator: true
+                            }
                         },
                         {
                             fieldName: "chl",
                             label: "Avg. chloride",
+                            format: {
+                                places: 3,
+                                digitSeparator: true
+                            }
                         },
                         {
                             fieldName: "TP",
                             label: "Total phosphorus",
+                            format: {
+                                places: 3,
+                                digitSeparator: true
+                            }
                         },
                         {
                             fieldName: "TN",
                             label: "Total Nitrogen",
+                            format: {
+                                places: 3,
+                                digitSeparator: true
+                            }
                         },
                         {
                             fieldName: "Population",
@@ -389,7 +405,6 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             url: trcadurhammapcombinedurl,
             popupTemplate: TECADurhamRegionCombinedTemplate,
             renderer: DurhamRenderer1,
-            actions: [durhamAdditionalDetials1],
             title: "TRCA-Durham Region",
             opacity: 0.1
         });
