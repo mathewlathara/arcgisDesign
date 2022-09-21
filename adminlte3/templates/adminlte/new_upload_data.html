@@ -5,13 +5,10 @@
 
 <div class="container-fluid m-4">
     <div class="row">
-        <h1 class="h3 text-primary mb-0 ">Upload data</h1><br>
+        <h1 class="h3 text-primary mb-0 ">Upload user Data for DeX-Terity target prediction</h1><br>
     </div>
-    <div class="row">
+    <div class="row mb-4">
         <p class="mb-0 font-weight-light text-primary">Follow these 2 steps and get your predicted data with our model</p><br>
-    </div>
-    <div class="row">
-        <p class="font-weight-light text-secondary">More information related to this process</p>
     </div>
     <div class="row mb-5">
         <div id="card1" class="card col-lg-5 mb-3 m-0 p-0 rounded-0">
@@ -23,7 +20,9 @@
             </div>
             <div class="card-body" style="background-color: rgba(228,228,228,1);">
                 <!-- for phosphorus or nitrogen -->
-                <p class="font-weight-light text-secondary"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,</p>
+                <p class="font-weight-light text-secondary">Do you have additional water quality data from an
+                    area of interest? Upload to DeX-Terity today to forecast potential impacts of stressors on
+                    the watershed.</p>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input selectionradiobutton" type="radio" name="flexRadioDefault" value="tp" id="tpradiobtn" />
                     <label class="form-check-label" for="flexRadioDefault1"> Total Phosphorus</label>
@@ -304,9 +303,9 @@
 
 
         $('#OpenImgUpload').click(function () { 
-            if (sessionStorage.getItem('feature')){
-                var r = confirm("We already have your data and uploading data again will overwrite the old dataset.");
-            }
+            // if (sessionStorage.getItem('feature')){
+            //     var r = confirm("We already have your data and uploading data again will overwrite the old dataset.");
+            // }
             if (document.getElementById('tpradiobtn').checked){
                 predictVar = "TotalPhosphorus";
                 // document.getElementById('tpParams').style.color = "slateblue";
@@ -392,7 +391,7 @@
 
         $('#next1').click(function (){
             $("#uploaddataspinner").show();
-            $("#next1").hide();
+            document.getElementById("next1").disabled = true;
             $('#initialtext').hide();
            
             const feature_required_tp = ['pH',	'250mLandCover_Natural (ha)',	'DissolvedOxygen (mg/L)',	'Total Rain (mm) -7day Total',	'Population',	'Nitrate (mg/L)',	'Chloride (mg/L)',	'Nitrite (mg/L)',	'TotalNitrogen (mg/L)',	'TotalSuspendedSolids (mg/L)',	'Nitrogen_Kjeldahl (mg/L)'];
@@ -491,7 +490,7 @@
         });
         function next2(){
             $("#fileanalysisspinner").show();
-            $("#next2").hide();
+            $("#next1").hide();
             $("#excelnotacceptedbymodelid").hide();
            
             var radiosdefault = document.querySelector("input[type='radio'][name=flexRadioDefault]:checked").value;
@@ -571,6 +570,13 @@
                     console.log('trial checked');
                     console.log(data.array);
                     console.log(data.lastcol);
+                    var gt = "";
+                    if (data.lastcol == "TotalPhosphorus"){
+                        gt = "Total Phosphorus (mg/L)";
+                    }
+                    else{
+                        gt = "Total Nitrogen (mg/L)"
+                    }
                     var trace1 = {
                         // x: data.graph1x,
                         y: data.array,

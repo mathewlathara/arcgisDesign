@@ -183,7 +183,7 @@
             <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/normalregion.png' %}"> Normal</div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-5">
         <h1 class="text-primary font-weight-bold">
             Data Platform
         </h1>
@@ -202,21 +202,61 @@
             <li>Get information about specific stations</li>
         </ol>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-3">
         <h2 class="text-primary font-weight-normal">
-            Model Info, Important aspects.<br>
+            Model Information<br>
         </h2>
-    </div>
-    <div class="row">
+        <p class="text-secondary font-weight-light"> A machine learning model takes historical data 
+            as input to be trained, i.e. to find the hidden pattern in the data that relates 
+            inputs (features) to output (Target variable, e.g, Total Phosphorus load in water 
+            ). Train dataset is also called seen data as the data has been seen by the model 
+            while training and it tries to adjust the weights of all the input variables that 
+            help in predicting the target variable. Therefore the trained ML-based model can 
+            predict the target variables for unseen input data (i.e. Test or Future data).
+        </p>
         <p class="text-secondary font-weight-light">
-            <br>Outliers & Correlation charts of data will be here.
+            Random forest is a Supervised Machine Learning Algorithm that is 
+            used widely in Classification and Regression problems. It builds decision trees on 
+            different samples and takes their majority vote for classification and average in 
+            case of regression. 
+        </p>
+        <p class="text-secondary font-weight-light">
+            Here we have a regression problem as the target parameters to 
+            predict Total Phosphorus and Total Nitrogen are continuous values, hence the 
+            Random Forest Regressor model fits best to make the accurate prediction.
+        </p>
+        <p class="text-secondary font-weight-light">
+            R2 is a measure of the goodness of fit of a model. In regression, the 
+            R2 coefficient of determination is a statistical measure of how well the 
+            regression predictions approximate the real data points or how well the model 
+            has performed in predicting the desired results.            
         </p>
     </div>
-
+    <div class="row ml-5 mr-5">
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Target Indicator</th>
+                <th scope="col">Model Performance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Total Phosphorus (mg/L)</th>
+                <td>85%</td>
+              </tr>
+              <tr>
+                <th scope="row">Total Nitrogen (mg/L)</th>
+                <td>83%</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="row text-center mt-5">
 			<div class="col col-lg-10 offset-lg-1">
-				<h1 class="gy-5 text-blue-primary m-5">Data Sources</h1>
+				<h1 class="gy-5 text-primary m-5">Data Sources</h1>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
 						<h6>CLCC Water Quality Data 1</h6>
