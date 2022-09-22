@@ -476,6 +476,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             const popupTemplate = {
                 title: "{Name}",
                 content: "<ul><li>Avg phosphorus: " + jsonpointfile[i].phosphorusnumber + "</li><li>Avg nitrogen: " + jsonpointfile[i].nitrogernnumber + "</li><li>Latitude: " + jsonpointfile[i].latitude + "</li><li>Longitude: " + jsonpointfile[i].longitude + "</li></ul>",
+                featureNavigation : false
             }
 
             const attributes = {
@@ -722,6 +723,14 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             view: view1,
             content: legend1
         });
+
+        var searchelement = document.createElement('div');
+        searchelement.className = "esri-icon-search esri-widget--button esri-widget esri-interactive";
+        searchelement.addEventListener('click', function(evt){
+        //   console.log("clicked"); 
+          $('#searchYearOnMainMapHomeModal').modal('show');
+        })
+        view1.ui.add(searchelement, "top-right");
 
         view1.ui.add(legendbgExpand, "bottom-left");
 
