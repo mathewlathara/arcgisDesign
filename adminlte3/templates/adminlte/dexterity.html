@@ -496,7 +496,7 @@
 				<div class="modal-header">
 					<h4 class="modal-title">Station ID: <span id="stationdisplaymodalbox"></span><span>,
 							Year:{{yearselected}}</span></h4>
-					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -532,7 +532,7 @@
 					</div>
 				</div>
 				<div class="modal-footer justify-content-between">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -545,7 +545,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title">Search map</h4>
-					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -557,7 +557,7 @@
 					</select>
 				</div>
 				<div class="modal-footer justify-content-between">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-success" id="buttonIdSearchMap">Search</button>
 				</div>
 			</div>
@@ -585,7 +585,7 @@
 				return new bootstrap.Tooltip(tooltipTriggerEl)
 			});
 			var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
-			var loadingurl = "199.241.160.97";
+			var loadingurl = "localhost:8000";
 			loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{ trcadurhammapcombinedurl| safe }}");
 			handleResize();
 			$(window).bind('resize', handleResize);
