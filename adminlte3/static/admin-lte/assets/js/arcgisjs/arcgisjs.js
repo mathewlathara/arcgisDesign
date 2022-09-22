@@ -338,67 +338,96 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
 
         /* ----------------------------------   TRCA Durham region combined map --------------------------------------------*/
 
+        const durhamTRCAAdditionalDetials1 = {
+            title: "Show graphs",
+            id: "detail-this",
+            image: "/static/admin-lte/dist/img/adddetailsimg.png" // this section is for adding additional details button
+        };
+
+        function durhamregCustomRegion1(feature) {
+            var stationid = feature.graphic.attributes.Station;
+            const div = document.createElement("div");
+            console.log("I am here ------>" + JSON.stringify(stationid));
+            $("#stationid").val(stationid);
+            div.innerHTML = "<table class='table'>" +
+            "<thead><th></th><th></th></thead>" +
+            "<tbody>" +
+            "<tr><td>Station</td><td>" + feature.graphic.attributes.Station + "</td></tr>" +
+            "<tr><td>Latitude</td><td>" + feature.graphic.attributes.Latitude.toFixed(5) + "</td></tr>" +
+            "<tr><td>Longitude</td><td>" + feature.graphic.attributes.Longitude.toFixed(5) + "</td></tr>" +
+            "<tr><td>Drainage basin</td><td>" + feature.graphic.attributes.Drnge_bsn.toFixed(3) + "</td></tr>" +
+            "<tr><td>Avg. chloride</td><td>" + feature.graphic.attributes.chl.toFixed(3) + "</td></tr>" +
+            "<tr><td>Total phosphorus</td><td>" + feature.graphic.attributes.TP.toFixed(3) + "</td></tr>" +
+            "<tr><td>Total Nitrogen</td><td>" + feature.graphic.attributes.TN.toFixed(3) + "</td></tr>" +
+            "<tr><td>Total Population</td><td>" + feature.graphic.attributes.Population + "</td></tr>" +
+            "</tbody>"
+            "</table>";
+            return div;
+        }
+
         const TECADurhamRegionCombinedTemplate = {
             // autocasts as new PopupTemplate()
             title: "Region Demographics",
-            content: [
-                {
-                    // It is also possible to set the fieldInfos outside of the content
-                    // directly in the popupTemplate. If no fieldInfos is specifically set
-                    // in the content, it defaults to whatever may be set within the popupTemplate.
-                    type: "fields",
-                    fieldInfos: [
-                        {
-                            fieldName: "Station",
-                            label: "Station ID"
-                        },
-                        {
-                            fieldName: "Latitude",
-                            label: "Latitude",
-                        },
-                        {
-                            fieldName: "Longitude",
-                            label: "Longitude",
-                        },
-                        {
-                            fieldName: "Drnge_bsn",
-                            label: "Drainage basin",
-                            format: {
-                                places: 3,
-                                digitSeparator: true
-                            }
-                        },
-                        {
-                            fieldName: "chl",
-                            label: "Avg. chloride",
-                            format: {
-                                places: 3,
-                                digitSeparator: true
-                            }
-                        },
-                        {
-                            fieldName: "TP",
-                            label: "Total phosphorus",
-                            format: {
-                                places: 3,
-                                digitSeparator: true
-                            }
-                        },
-                        {
-                            fieldName: "TN",
-                            label: "Total Nitrogen",
-                            format: {
-                                places: 3,
-                                digitSeparator: true
-                            }
-                        },
-                        {
-                            fieldName: "Population",
-                            label: "Total Population",
-                        }
-                    ]
-                }
-            ]
+            outFields: ["*"],
+            content: durhamregCustomRegion1,
+            //     {
+            //         // It is also possible to set the fieldInfos outside of the content
+            //         // directly in the popupTemplate. If no fieldInfos is specifically set
+            //         // in the content, it defaults to whatever may be set within the popupTemplate.
+            //         type: "fields",
+            //         fieldInfos: [
+            //             {
+            //                 fieldName: "Station",
+            //                 label: "Station ID"
+            //             },
+            //             {
+            //                 fieldName: "Latitude",
+            //                 label: "Latitude",
+            //             },
+            //             {
+            //                 fieldName: "Longitude",
+            //                 label: "Longitude",
+            //             },
+            //             {
+            //                 fieldName: "Drnge_bsn",
+            //                 label: "Drainage basin",
+            //                 format: {
+            //                     places: 3,
+            //                     digitSeparator: true
+            //                 }
+            //             },
+            //             {
+            //                 fieldName: "chl",
+            //                 label: "Avg. chloride",
+            //                 format: {
+            //                     places: 3,
+            //                     digitSeparator: true
+            //                 }
+            //             },
+            //             {
+            //                 fieldName: "TP",
+            //                 label: "Total phosphorus",
+            //                 format: {
+            //                     places: 3,
+            //                     digitSeparator: true
+            //                 }
+            //             },
+            //             {
+            //                 fieldName: "TN",
+            //                 label: "Total Nitrogen",
+            //                 format: {
+            //                     places: 3,
+            //                     digitSeparator: true
+            //                 }
+            //             },
+            //             {
+            //                 fieldName: "Population",
+            //                 label: "Total Population",
+            //             }
+            //         ]
+            //     }
+            // ],
+            actions: [durhamTRCAAdditionalDetials1]
         };
 
         const TRCADurhamregioncombined = new FeatureLayer({
