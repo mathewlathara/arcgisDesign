@@ -440,9 +440,20 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
 
         /* -------------------------------------------------------------------------------------------------------------- */
 
+        /* -------------------------- Other landuse map combined of ELC, ELC-TRCA and CLOCA ------------------------------*/
+
+        const OtherLayersCombined = new FeatureLayer({
+            url: "https://services.arcgis.com/t0XyVE44waBIPBFr/ArcGIS/rest/services/Other/FeatureServer/0",
+            renderer : openspacerendererselected,
+            // popupTemplate: template,
+            title: "Ecological land classification"
+        });
+
+        /* --------------------------------------------------------------------------------------------------------------*/
+
         const map1 = new Map({
             basemap: "gray-vector",
-            layers: [induvidualLayers1, ELCTRCA1, CLOCALandcoverBase1, ECOLOGLANDClassificBase1, TRCADurhamregioncombined]
+            layers: [induvidualLayers1, TRCADurhamregioncombined, OtherLayersCombined]
         });
 
         const graphicsLayer = new GraphicsLayer({
