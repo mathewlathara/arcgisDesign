@@ -432,10 +432,11 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
 
         const TRCADurhamregioncombined = new FeatureLayer({
             url: trcadurhammapcombinedurl,
+            id : "TRCADurhamregioncombined",
             popupTemplate: TECADurhamRegionCombinedTemplate,
             renderer: DurhamRenderer1,
             title: "TRCA-Durham Region",
-            opacity: 0.1
+            opacity: 0.5
         });
 
         /* -------------------------------------------------------------------------------------------------------------- */
@@ -455,6 +456,13 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             basemap: "gray-vector",
             layers: [induvidualLayers1, TRCADurhamregioncombined, OtherLayersCombined]
         });
+
+        var ind = map1.layers.findIndex(layer => {
+            return layer.id === "TRCADurhamregioncombined";
+        });
+
+        // console.log(ind);
+        map1.layers.reorder(map1.layers.getItemAt(ind), map1.layers.length - 1);
 
         const graphicsLayer = new GraphicsLayer({
             title: "Station points"
