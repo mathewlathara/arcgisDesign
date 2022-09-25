@@ -119,6 +119,7 @@
                 </div>
                 <div class="d-flex flex-row-reverse">
                 <button id="next1" type="button" class="btn btn-link " disabled>Next</button>
+                <button id="reset" type="button" class="btn btn-link " onClick="window.location.reload();">Reset</button>
                 <div class="spinner-border text-primary" role="status" id="uploaddataspinner">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -297,6 +298,7 @@
         $("#excelnotacceptedbymodelid").hide();
         $("#latitudelongitudemandatoryid").hide();
         $("#rerunmodeloferrorid").hide();
+        $("#reset").hide();
         // document.getElementById("next1").disabled = false;
         // document.getElementById("next2").disabled = true;
 
@@ -388,8 +390,9 @@
                 }
             });
         });
-
+       
         $('#next1').click(function (){
+            $("#reset").show();
             $("#uploaddataspinner").show();
             document.getElementById("next1").disabled = true;
             $('#initialtext').hide();
