@@ -264,6 +264,7 @@
                 },
                 error: function (error) {
                     $('#predict').text('Predict');
+                    alert("Couldn't serve your request! Please try again.");
                     console.log("Error" + JSON.stringify(error));
                 }
             });
