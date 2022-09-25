@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from .views import index, result, about, upload_file, dashboard_m, yearlyBarChart, censusPieChart, \
     censusBarChart, upload, download_p, download_n, table_preview, predictN, showMap, \
@@ -43,7 +43,7 @@ urlpatterns = [
     path('Census-chart/', censusBarChart, name='Census-chart'),
     path('result/', result, name='result'),
     path('arcgisMapParametersDurhamRegion/<str:stationid>/<str:dateselected>', arcgisMapParametersDurhamRegion),
-    path("arcgisMapSoilDetailsAPI/<str:stationid>/<str:dateselected>", arcgisMapSoilDetailsAPI),
+    re_path(r"^arcgisMapSoilDetailsAPI/(?P<stationid>[\w|\W]+)/(?P<dateselected>[\w|\W]+)", arcgisMapSoilDetailsAPI),
     path("logincontroller/", logincontroller),
     path("addNewUser/", addNewUser),
     path("dashboard/", login_after),
