@@ -276,7 +276,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             renderer: openspacerendererselected,
             // popupTemplate: template,
             // opacity: 0.9,
-            title: "TRCA Landuse " + yearselected + " demographics"
+            title: "TRCA Habitat"
         });
 
         const ELCTRCARenderer1 = {
@@ -435,7 +435,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             id: "TRCADurhamregioncombined",
             popupTemplate: TECADurhamRegionCombinedTemplate,
             renderer: DurhamRenderer1,
-            title: "TRCA-Durham Region",
+            title: "Data " + yearselected,
             opacity: 0.5
         });
 
@@ -447,7 +447,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             url: "https://services.arcgis.com/t0XyVE44waBIPBFr/ArcGIS/rest/services/Other/FeatureServer/0",
             renderer : openspacerendererselected,
             // popupTemplate: template,
-            title: "Ecological land classification"
+            title: "Other Habitat"
         });
 
         /* --------------------------------------------------------------------------------------------------------------*/
