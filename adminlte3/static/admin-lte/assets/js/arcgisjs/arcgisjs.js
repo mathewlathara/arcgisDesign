@@ -544,6 +544,8 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         view1.popup.on("trigger-action", (event) => {
             // Execute the measureThis() function if the measure-this action is clicked
             if (event.action.id === "detail-this") {
+                $("#notdatafoundmodalrow").hide();
+                $(".graphclass").show();
                 var stationid = $("#stationid").val();
                 let stationidspacereplaced = stationid.split(" ").join("");
                 $.ajax({
@@ -568,6 +570,10 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                             $("#totalsamplingsitelatitudeid").html(data.latitude);
                             $("#totalsamplingsitelongitudeid").html(data.longitude);
                             $("#totalsqkmid").html(data.totalareasqkm[0] + " km");
+                            if(data.totalareasqkm[0] == ""){
+                                $(".graphclass").hide();
+                                $("#notdatafoundmodalrow").show();
+                            }
                             $("#drainagebasinid").html(data.totaldrainagebasinsqkm + " km");
                             $("#populationid").html(data.totalpopulation);
                             var listarrayvalue = [];
