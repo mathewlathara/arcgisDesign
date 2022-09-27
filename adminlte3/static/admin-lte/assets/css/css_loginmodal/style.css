@@ -455,7 +455,6 @@ x sigin/signup popup
 }
 
 .cd-signin-modal__bottom-message {
-  position: absolute;
   width: 100%;
   left: 0;
   /* bottom: -30; */
@@ -464,7 +463,7 @@ x sigin/signup popup
 }
 
 .cd-signin-modal__bottom-message a {
-  color: #FFF;
+  color: rgb(52, 57, 148);
   text-decoration: underline;
 }
 
