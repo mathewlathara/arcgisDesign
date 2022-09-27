@@ -545,9 +545,10 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             // Execute the measureThis() function if the measure-this action is clicked
             if (event.action.id === "detail-this") {
                 let stationid = $("#stationid").val();
+                let stationidspacereplaced = stationid.split(" ").join("");
                 $.ajax({
                     type: 'GET',
-                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/' + stationid + "/" + yearselected,
+                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/' + stationidspacereplaced + "/" + yearselected,
                     success: function (data) {
                         if (data.status === "success") {
                             $("#stationdisplaymodalbox").html(stationid);
