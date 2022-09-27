@@ -1153,11 +1153,13 @@ def arcgisMapSoilDetailsAPI(request, stationid, dateselected):
     #dateselected = request.GET.get('dateselected')
     if(stationid.startswith("0")):
         stationid = stationid[1:]
+    stationid = stationid.replace(" ", "")
     print(f"stationid----->{stationid}  dateselected------> {dateselected}")
     col_list = ["DATE", "DSS_ClaySiltSand_TCLAYwtd", "DSS_ClaySiltSand_TOTHERwtd", "DSS_ClaySiltSand_TSANDwtd", "DSS_ClaySiltSand_TSILTwtd", "DSS_ClaySiltSand_TUNKNOWNwtd", "STATION", "MeanTemp14dayMean", "MeanTemp1dayMean", "MeanTemp28dayMean", "MeanTemp3dayMean", "MeanTemp56dayMean", "MeanTemp7dayMean", "MeanTemp0dayMean",
                 "TotalRain14dayTotal", "TotalRain1dayTotal", "TotalRain28dayTotal", "TotalRain3dayTotal", "TotalRain56dayTotal", "TotalRain7dayTotal", "TotalRain0dayTotal", "250mLandCover_Agricultural", "250mLandCover_Anthropogenic", "250mLandCover_Natural", "DrainageBasinArea_sqkm", "LandAreaSqkm", "Population", "Latitude", "Longitude"]
     masterdatafile = pd.read_csv("MasterData-2022-03-27.csv", usecols=col_list, sep=",", dtype={"STATION": "string", "DATE": "string", "DSS_ClaySiltSand_TCLAYwtd": float, "DSS_ClaySiltSand_TOTHERwtd": float, "DSS_ClaySiltSand_TSILTwtd": float, "DSS_ClaySiltSand_TUNKNOWNwtd": float, "MeanTemp14dayMean": float, "MeanTemp1dayMean": float, "MeanTemp28dayMean": float, "MeanTemp3dayMean": float, "MeanTemp56dayMean": float, "MeanTemp7dayMean": float,
                                  "MeanTemp0dayMean": float, "TotalRain14dayTotal": float, "TotalRain1dayTotal": float, "TotalRain28dayTotal": float, "TotalRain3dayTotal": float, "TotalRain56dayTotal": float, "TotalRain7dayTotal": float, "TotalRain0dayTotal": float, "250mLandCover_Agricultural": float, "250mLandCover_Anthropogenic": float, "250mLandCover_Natural": float, "DrainageBasinArea_sqkm": float, "LandAreaSqkm": float, "Population": "string", "Latitude": float, "Longitude": float})
+    masterdatafile["STATION"] = masterdatafile["STATION"].str.replace(" ", "")
     masterdatafile.DATE = pd.to_datetime(
         masterdatafile.DATE, format='%b %d- %Y', infer_datetime_format=True)
     masterdatafile = masterdatafile[(masterdatafile['DATE'] > dateselected + "-01-01") & (masterdatafile['DATE']
