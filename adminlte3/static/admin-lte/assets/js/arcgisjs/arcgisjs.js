@@ -355,10 +355,10 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             "<tr><td>Station</td><td>" + feature.graphic.attributes.Station + "</td></tr>" +
             "<tr><td>Latitude</td><td>" + feature.graphic.attributes.Latitude.toFixed(5) + "</td></tr>" +
             "<tr><td>Longitude</td><td>" + feature.graphic.attributes.Longitude.toFixed(5) + "</td></tr>" +
-            "<tr><td>Drainage basin</td><td>" + feature.graphic.attributes.Drnge_bsn.toFixed(3) + "</td></tr>" +
-            "<tr><td>Avg. chloride</td><td>" + feature.graphic.attributes.chl.toFixed(3) + "</td></tr>" +
-            "<tr><td>Total phosphorus</td><td>" + feature.graphic.attributes.TP.toFixed(3) + "</td></tr>" +
-            "<tr><td>Total Nitrogen</td><td>" + feature.graphic.attributes.TN.toFixed(3) + "</td></tr>" +
+            "<tr><td>Drainage basin (sq. KM)</td><td>" + feature.graphic.attributes.Drnge_bsn.toFixed(3) + " sq. KM" + "</td></tr>" +
+            "<tr><td>Avg. chloride(mg/L)</td><td>" + feature.graphic.attributes.chl.toFixed(3) + " mg/L"+ "</td></tr>" +
+            "<tr><td>Total phosphorus(mg/L)</td><td>" + feature.graphic.attributes.TP.toFixed(3) + " mg/L" + "</td></tr>" +
+            "<tr><td>Total Nitrogen(mg/L)</td><td>" + feature.graphic.attributes.TN.toFixed(3) + " mg/L" + "</td></tr>" +
             "<tr><td>Total Population</td><td>" + feature.graphic.attributes.Population + "</td></tr>" +
             "</tbody>"
             "</table>";
@@ -544,10 +544,13 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         view1.popup.on("trigger-action", (event) => {
             // Execute the measureThis() function if the measure-this action is clicked
             if (event.action.id === "detail-this") {
-                let stationid = $("#stationid").val();
+                $("#notdatafoundmodalrow").hide();
+                $(".graphclass").show();
+                var stationid = $("#stationid").val();
+                let stationidspacereplaced = stationid.split(" ").join("");
                 $.ajax({
                     type: 'GET',
-                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/' + stationid + "/" + yearselected,
+                    url: 'http://' + urllayer + '/arcgisMapSoilDetailsAPI/' + stationidspacereplaced + "/" + yearselected,
                     success: function (data) {
                         if (data.status === "success") {
                             $("#stationdisplaymodalbox").html(stationid);
@@ -567,6 +570,10 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                             $("#totalsamplingsitelatitudeid").html(data.latitude);
                             $("#totalsamplingsitelongitudeid").html(data.longitude);
                             $("#totalsqkmid").html(data.totalareasqkm[0] + " km");
+                            if(data.totalareasqkm[0] == ""){
+                                $(".graphclass").hide();
+                                $("#notdatafoundmodalrow").show();
+                            }
                             $("#drainagebasinid").html(data.totaldrainagebasinsqkm + " km");
                             $("#populationid").html(data.totalpopulation);
                             var listarrayvalue = [];
