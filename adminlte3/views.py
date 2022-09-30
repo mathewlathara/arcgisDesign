@@ -1075,8 +1075,8 @@ def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX_enc
     graph1y = filtered_data_1.iloc[:, 1].to_numpy()
     print("I am here 4")
     description1 = "The graph shows "+featureOnX + \
-        " amount(on Y) recorded in years between "+yearFrom+" to "+yearTo + \
-        "(on X)." + "NOTE: All the units are in mg/L, ml or Ha respectively."
+        " amount recorded in years between "+yearFrom+" to "+yearTo + \
+        "."
 
     filtered_data_2 = getGraphDataByYear(
         df_new, yearFrom, yearTo, station, featureOnY)
@@ -1084,7 +1084,7 @@ def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX_enc
     graph2y = filtered_data_2.iloc[:, 1].to_numpy()
     description2 = "The graph shows "+featureOnY + \
         " amount(on Y) recorded in years between "+yearFrom+" to "+yearTo + \
-        "(on X)." + "NOTE: All the units are in mg/L, ml or Ha respectively."
+        "."
     print("graph arrays === ", graph1x, graph1y)
     print("type of arrays === ", type(graph1x), type(graph1y))
     graph1x = np.array(graph1x).tolist()

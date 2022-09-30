@@ -374,41 +374,55 @@
 		</div>
 	</div>
 
+	
+
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<div class="row text-center mt-5">
 			<div class="col col-lg-10 offset-lg-1">
 				<h1 class="gy-5 text-primary m-5">Data Sources</h1>
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<h6>CLCC Water Quality Data 1</h6>
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<h6>TRCA Water Quality Data</h6>
+								<p><img src="{% static 'admin-lte/assets/img/waterqtytrca.jpg' %}" style="width:350px;height:190px;"
+									class="testimonial-img" alt=""></p>
+								<p class="m-3">
+									<a class="btn btn-primary" href="https://data.trca.ca/dataset?tags=Quality" role="button">Read more</a>
+								</p>
+						</div>
+					<div class="carousel-item">
+						<h6>CLOCA Water Quality Data</h6>
 						<p><img class="img-fluid"
-								src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027.png' %}"></p>
+								src="{% static 'admin-lte/assets/img/clocawaterquality.jpg' %}" style="width:350px;height:190px;">
+						</p>
 						<p class="m-3">
-							<button class="btn btn-primary rounded-pill" type="button">
-								<h6 class="mx-3">Read more</h6>
-							</button>
+							<a class="btn btn-primary" href="https://open-data.cloca.com/" role="button">Read more</a>
 						</p>
 					</div>
 					<div class="carousel-item">
-						<h6>CLCC Water Quality Data 2</h6>
+						<h6>Provincial Water Quality Monitoring Network Data</h6>
 						<p><img class="img-fluid"
-								src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_b.png' %}">
+								src="{% static 'admin-lte/assets/img/provincialwaterqualitynetwork.jpg' %}" style="width:350px;height:190px;">
 						</p>
 						<p class="m-3">
-							<button class="btn btn-primary rounded-pill" type="button">
-								<h6 class="mx-3">Read more</h6>
-							</button>
+							<a class="btn btn-primary" href="https://data.ontario.ca/dataset/provincial-stream-water-quality-monitoring-network" role="button">Read more</a>
 						</p>
 					</div>
 					<div class="carousel-item">
-						<h6>CLCC Water Quality Data 3</h6>
+						<h6>Environment and Climate Change Canada</h6>
 						<p><img class="img-fluid"
-								src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png' %}">
+								src="{% static 'admin-lte/assets/img/environmentalclimatedata.jpg' %}" style="width:350px;height:190px;">
 						</p>
 						<p class="m-3">
-							<button class="btn btn-primary rounded-pill" type="button">
-								<h6 class="mx-3">Read more</h6>
-							</button>
+							<a class="btn btn-primary" href="https://www.canada.ca/en/environment-climate-change.html" role="button">Read more</a>
+						</p>
+					</div>
+					<div class="carousel-item">
+						<h6>Ontario Watershed Boundaries</h6>
+						<p><img class="img-fluid"
+								src="{% static 'admin-lte/assets/img/ontariowaterbodyboundaries.jpg' %}" style="width:350px;height:190px;">
+						</p>
+						<p class="m-3">
+							<a class="btn btn-primary" href="https://geohub.lio.gov.on.ca/maps/mnrf::ontario-watershed-boundaries-owb/explore?location=40.397199%2C-82.339420%2C2.74" role="button">Read more</a>
 						</p>
 					</div>
 				</div>

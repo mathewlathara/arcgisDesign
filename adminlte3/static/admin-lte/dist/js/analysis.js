@@ -367,7 +367,7 @@ function filterRows(row) {
     console.log("f2 ::", f2);
     console.log("station ::", station);
     console.log("row: ", row);
-    document.getElementById("showfilteroption").innerHTML = "Showing results for year from " + yearFrom + " to " + yearTo + ". " + f1 + " on X and " + f2 + " on Y for " + station + " station.";
+    document.getElementById("showfilteroption").innerHTML = "Showing results for year from " + yearFrom + " to " + yearTo + ". " + f1 + " as Indicator 1 and " + f2 + " as Indicator 2 for " + station + " station.";
 
     let i = 0;
     let j = 0;
@@ -580,7 +580,7 @@ function makePlotlyPH(x, y1) {
     };
 
     Plotly.newPlot("plot", traces, layout, config);
-    description = "The graph displays the pH amount noted in the selected years. pH level in the drinking water should be in the range of 6.5 to 8.5 as indicated in the graph." + note;
+    description = "The graph displays the pH amount noted in the selected years. pH level in the drinking water should be in the range of 6.5 to 8.5 as indicated in the graph.";
     document.getElementById('des1').innerHTML = description;
 }
 // nitrogen k
@@ -752,7 +752,7 @@ function makePlotlyxy1(x, y1) {
     };
 
     Plotly.newPlot("plot", traces, layout, config);
-    description = "The graph is plotted for " + f1 + " (on X) and " + f2 + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
+    description = "The graph is plotted for " + f1 + " and " + f2 + ". Hovering on the graph generates popup showing the values for two selected feature.";
     document.getElementById('des1').innerHTML = description;
 
 }
@@ -806,7 +806,7 @@ function makePlotlyxy2(x, y2) {
     };
 
     Plotly.newPlot("plot2", traces, layout, config);
-    description = "The graph is plotted for " + f1 + " (on X) and " + f2 + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
+    description = "The graph is plotted for " + f1 + " and " + f2 + ". Hovering on the graph generates popup showing the values for two selected feature." + note;
     document.getElementById('des2').innerHTML = description;
 
 }
@@ -860,7 +860,7 @@ function makePlotlyy1y2(y1, y2) {
     };
 
     Plotly.newPlot("plotInRow", traces, layout, config);
-    description = "The graph is plotted for " + f1 + " (on X) and " + f2 + " (on Y). Hovering on the graph generates popup showing the values for two selected feature." + note;
+    description = "The graph is plotted for " + f1 + " and " + f2 + ". Hovering on the graph generates popup showing the values for two selected feature." + note;
     document.getElementById('des3').innerHTML = description;
 
 }
