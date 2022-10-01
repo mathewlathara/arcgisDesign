@@ -1083,7 +1083,7 @@ def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX_enc
     graph2x = filtered_data_2.iloc[:, 0].to_numpy()
     graph2y = filtered_data_2.iloc[:, 1].to_numpy()
     description2 = "The graph shows "+featureOnY + \
-        " amount(on Y) recorded in years between "+yearFrom+" to "+yearTo + \
+        " amount recorded in years between "+yearFrom+" to "+yearTo + \
         "."
     print("graph arrays === ", graph1x, graph1y)
     print("type of arrays === ", type(graph1x), type(graph1y))
