@@ -83,6 +83,45 @@
         .carousel-control-prev /*, .carousel-indicators */ {
             filter: invert(100%);
         }
+
+        .carousel-control-next,
+	.carousel-control-prev /*, .carousel-indicators */ {
+		filter: invert(100%);
+	}
+
+	@media (max-width: 768px) {
+		.carousel-inner .carousel-item > div {
+			display: none;
+		}
+		.carousel-inner .carousel-item > div:first-child {
+			display: block;
+		}
+	}
+
+	.carousel-inner .carousel-item.active,
+	.carousel-inner .carousel-item-next,
+	.carousel-inner .carousel-item-prev {
+		display: flex;
+	}
+
+/* display 3 */
+	@media (min-width: 768px) {
+		
+		.carousel-inner .carousel-item-right.active,
+		.carousel-inner .carousel-item-next {
+		transform: translateX(33.333%);
+		}
+		
+		.carousel-inner .carousel-item-left.active, 
+		.carousel-inner .carousel-item-prev {
+		transform: translateX(-33.333%);
+		}
+	}
+
+	.carousel-inner .carousel-item-right,
+	.carousel-inner .carousel-item-left{ 
+	transform: translateX(0);
+	}
 </style>
 {% endblock %}
 
@@ -237,83 +276,84 @@
             has performed in predicting the desired results.            
         </p>
     </div>
-    <div class="row ml-5 mr-5">
-        <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Target Indicator</th>
-                <th scope="col">Model Performance</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Total Phosphorus (mg/L)</th>
-                <td>85%</td>
-              </tr>
-              <tr>
-                <th scope="row">Total Nitrogen (mg/L)</th>
-                <td>83%</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-    
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-		<div class="row text-center mt-5">
-			<div class="col col-lg-10 offset-lg-1">
-				<h1 class="gy-5 text-primary m-5">Data Sources</h1>
-					<div class="carousel-inner">
-						<div class="carousel-item active">
-							<h6>TRCA Water Quality Data</h6>
-								<p><img src="{% static 'admin-lte/assets/img/waterqtytrca.jpg' %}" style="width:350px;height:190px;"
-									class="testimonial-img" alt=""></p>
+
+    <div class="container text-center my-3">
+		<h1 class="gy-5 text-blue-primary m-5">Data Sources</h1>
+		<div class="row mx-auto my-auto">
+			<div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
+				<div class="carousel-inner w-100" role="listbox">
+					<div class="carousel-item active">
+						<div class="col-md-4">
+							<div class="card card-body">
+								<h6>CLCC Water Quality Data 1</h6>
+								<img class="img-fluid" src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png' %}">
 								<p class="m-3">
-									<a class="btn btn-primary" href="https://data.trca.ca/dataset?tags=Quality" target="_blank" role="button">Read more</a>
+									<button class="btn btn-primary rounded-pill" type="button">
+										<h6 class="mx-3">Read more</h6>
+									</button>
 								</p>
+							</div>
 						</div>
-					<div class="carousel-item">
-						<h6>CLOCA Water Quality Data</h6>
-						<p><img class="img-fluid"
-								src="{% static 'admin-lte/assets/img/clocawaterquality.jpg' %}" style="width:350px;height:190px;">
-						</p>
-						<p class="m-3">
-							<a class="btn btn-primary" href="https://open-data.cloca.com/" target="_blank" role="button">Read more</a>
-						</p>
 					</div>
 					<div class="carousel-item">
-						<h6>Provincial Water Quality Monitoring Network Data</h6>
-						<p><img class="img-fluid"
-								src="{% static 'admin-lte/assets/img/provincialwaterqualitynetwork.jpg' %}" style="width:350px;height:190px;">
-						</p>
-						<p class="m-3">
-							<a class="btn btn-primary" href="https://data.ontario.ca/dataset/provincial-stream-water-quality-monitoring-network" target="_blank" role="button">Read more</a>
-						</p>
+						<div class="col-md-4">
+							<div class="card card-body">
+								<h6>CLCC Water Quality Data 2</h6>
+								<img class="img-fluid" src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png' %}">
+								<p class="m-3">
+									<button class="btn btn-primary rounded-pill" type="button">
+										<h6 class="mx-3">Read more</h6>
+									</button>
+								</p>
+							</div>
+						</div>
 					</div>
 					<div class="carousel-item">
-						<h6>Environment and Climate Change Canada</h6>
-						<p><img class="img-fluid"
-								src="{% static 'admin-lte/assets/img/environmentalclimatedata.jpg' %}" style="width:350px;height:190px;">
-						</p>
-						<p class="m-3">
-							<a class="btn btn-primary" href="https://www.canada.ca/en/environment-climate-change.html" target="_blank" role="button">Read more</a>
-						</p>
+						<div class="col-md-4">
+							<div class="card card-body">
+								<h6>CLCC Water Quality Data 3</h6>
+								<img class="img-fluid" src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png' %}">
+								<p class="m-3">
+									<button class="btn btn-primary rounded-pill" type="button">
+										<h6 class="mx-3">Read more</h6>
+									</button>
+								</p>
+							</div>
+						</div>
 					</div>
 					<div class="carousel-item">
-						<h6>Ontario Watershed Boundaries</h6>
-						<p><img class="img-fluid"
-								src="{% static 'admin-lte/assets/img/ontariowaterbodyboundaries.jpg' %}" style="width:350px;height:190px;">
-						</p>
-						<p class="m-3">
-							<a class="btn btn-primary" href="https://geohub.lio.gov.on.ca/maps/mnrf::ontario-watershed-boundaries-owb/explore?location=40.397199%2C-82.339420%2C2.74" target="_blank" role="button">Read more</a>
-						</p>
+						<div class="col-md-4">
+							<div class="card card-body">
+								<h6>CLCC Water Quality Data 4</h6>
+								<img class="img-fluid" src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png' %}">
+								<p class="m-3">
+									<button class="btn btn-primary rounded-pill" type="button">
+										<h6 class="mx-3">Read more</h6>
+									</button>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<div class="col-md-4">
+							<div class="card card-body">
+								<h6>CLCC Water Quality Data 5</h6>
+								<img class="img-fluid" src="{% static 'admin-lte/assets/img/new_d/Screen_Shot_2022-06-15_at_1027_ca.png' %}">
+								<p class="m-3">
+									<button class="btn btn-primary rounded-pill" type="button">
+										<h6 class="mx-3">Read more</h6>
+									</button>
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
-				<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
 					<span class="sr-only">Previous</span>
 				</a>
-				<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next">
+					<span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</a>
 			</div>
@@ -341,6 +381,29 @@
 <script>
     var jsonpointfile = {{ jsonvalue| safe }};
     $(document).ready(function () {
+
+        $('#recipeCarousel').carousel({
+            interval: 10000
+        });
+
+        $('.carousel .carousel-item').each(function(){
+            var minPerSlide = 3;
+            var next = $(this).next();
+            if (!next.length) {
+            next = $(this).siblings(':first');
+            }
+            next.children(':first-child').clone().appendTo($(this));
+            
+            for (var i=0;i<minPerSlide;i++) {
+                next=next.next();
+                if (!next.length) {
+                    next = $(this).siblings(':first');
+                }
+                
+                next.children(':first-child').clone().appendTo($(this));
+            }
+        });
+
         var regionrenderurl = "{{regiondemographicrenderurl|safe}}";
         var loadingurl = "199.241.160.97";
         loadmapvalues(1, jsonpointfile, loadingurl, regionrenderurl, "{{yearselected}}", "{{ trcadurhammapcombinedurl| safe }}");
