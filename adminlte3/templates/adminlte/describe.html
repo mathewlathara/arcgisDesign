@@ -2,6 +2,7 @@
 {% load static %}
 {% block extra_cssheader %}
 <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 <style>
     html,
     body,
@@ -170,20 +171,20 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <span style="font-weight: bold;">Sampling site : </span><span id="totalsamplingsitelatitudeid"
-                            style="font-weight: bold;"></span><span style="font-weight: bold;">&#176;N</span><span
-                            id="totalsamplingsitelongitudeid" style="font-weight: bold; padding-left:5px; "></span><span
-                            style="font-weight: bold;">&#176;W</span><br>
-                        <span style="font-weight: bold;">Total sq.km : </span><span id="totalsqkmid"
-                            style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
-                        <span style="font-weight: bold;">Drainage basin : </span><span id="drainagebasinid"
-                            style="font-weight: bold;"></span><sup style="font-weight: bold;">2</sup><br>
-                        <span style="font-weight: bold;">Population : </span><span id="populationid"
-                            style="font-weight: bold;"></span>
+                            style="font-weight: bold; font-family: Poppins;"></span><span style="font-weight: bold; font-family: Poppins;">&#176;N</span><span
+                            id="totalsamplingsitelongitudeid" style="font-weight: bold; padding-left:5px; font-family: Poppins; "></span><span
+                            style="font-weight: bold; font-family: Poppins;">&#176;W</span><br>
+                        <span style="font-weight: bold; font-family: Poppins;">Total sq.km : </span><span id="totalsqkmid"
+                            style="font-weight: bold; font-family: Poppins;"></span><sup style="font-weight: bold; font-family: Poppins;">2</sup><br>
+                        <span style="font-weight: bold; font-family: Poppins;">Drainage basin : </span><span id="drainagebasinid"
+                            style="font-weight: bold; font-family: Poppins;"></span><sup style="font-weight: bold; font-family: Poppins;">2</sup><br>
+                        <span style="font-weight: bold; font-family: Poppins;">Population : </span><span id="populationid"
+                            style="font-weight: bold; font-family: Poppins;"></span>
                     </div>
                 </div>
                 <div class="row" id="notdatafoundmodalrow">
                     <div class="col-lg-12">
-                        <p style="color:red">No data available for this station to plot charts.</p>
+                        <p style="color:red; font-family: Poppins;">No data available for this station to plot charts.</p>
                     </div>
                 </div>
                 <div class="row graphclass">
@@ -213,22 +214,22 @@
 <div class="container mt-4 mb-5">
     <div class="row">
         <div class="col-lg-4">
-            <h5 class="text-primary">Legend</h5>
-            <div class='box agricultural'>Agricultural Land</div>
-            <div class='box anthropogenic'>Anthropogenic Land</div>
-            <div class='box natural'>Natural Land</div>
-            <div class='box water'>Surface Water Land</div>
-            <div class='box urban'>Urban Land</div>
-            <div class='box rural'>Rural Land</div>
-            <div class='box other'>Other</div>
+            <h5 class="text-primary" style="font-family: Poppins;">Legend</h5>
+            <div class='box agricultural' style="font-family: Poppins;">Agricultural Land</div>
+            <div class='box anthropogenic' style="font-family: Poppins;">Anthropogenic Land</div>
+            <div class='box natural' style="font-family: Poppins;">Natural Land</div>
+            <div class='box water' style="font-family: Poppins;">Surface Water Land</div>
+            <div class='box urban' style="font-family: Poppins;">Urban Land</div>
+            <div class='box rural' style="font-family: Poppins;">Rural Land</div>
+            <div class='box other' style="font-family: Poppins;">Other</div>
         </div>
         <div class="col-lg-4">
             <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/hotspot.png' %}"> Hotspot</div>
             <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/normalregion.png' %}"> Normal</div>
         </div>
     </div>
-    <div class="row mt-5">
-        <h1 class="text-primary font-weight-bold">
+    <div class="row">
+        <h1 class="text-primary font-weight-bold" style="font-family: Poppins;">
             Data Platform
         </h1>
     </div>
@@ -236,11 +237,11 @@
         <h2 class="text-primary font-weight-normal">
             Map Tool
         </h2>
-        <p class="text-secondary font-weight-light">
+        <p class="text-secondary font-weight-light" style="font-family: Poppins;">
             Learn about our pilot region using data from the Central Lake Ontario Conservation Area (CLOCA)
             and the Toronto and Region Conservation Authority (TRCA).
         </p>
-        <ol class="font-weight-light">
+        <ol class="font-weight-light" style="font-family: Poppins;">
             <li>Select year for navigation</li>
             <li>Explore layers on the map</li>
             <li>Get information about specific stations</li>
@@ -274,18 +275,26 @@
             R2 coefficient of determination is a statistical measure of how well the 
             regression predictions approximate the real data points or how well the model 
             has performed in predicting the desired results.            
-        </p>
+    <div class="row mt-5">
+        <h2 class="text-primary font-weight-normal" style="font-family: Poppins;">
+            Model Info, Important aspects.<br>
+        </h2>
     </div>
+    <!-- <div class="row">
+        <p class="text-secondary font-weight-light" style="font-family: Poppins;">
+            <br>Outliers & Correlation charts of data will be here.
+        </p>
+    </div> -->
 
     <div class="container text-center my-3">
-		<h1 class="gy-5 text-blue-primary m-5">Data Sources</h1>
+		<h1 class="gy-5 text-blue-primary m-5" style="font-family: Poppins;">Data Sources</h1>
 		<div class="row mx-auto my-auto">
 			<div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
 				<div class="carousel-inner w-100" role="listbox">
 					<div class="carousel-item active">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6>TRCA Water Quality Data</h6>
+								<h6 style="font-family: Poppins;">CLCC Water Quality Data 1</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/waterqtytrca.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://data.trca.ca/dataset?tags=Quality','_blank')">
@@ -298,7 +307,7 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6>CLOCA Water Quality Data</h6>
+								<h6 style="font-family: Poppins;">CLCC Water Quality Data 2</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/clocawaterquality.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://open-data.cloca.com/','_blank')">
@@ -311,7 +320,7 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6>Provincial Water Quality Monitoring Network Data</h6>
+								<h6 style="font-family: Poppins;">CLCC Water Quality Data 3</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/provincialwaterqualitynetwork.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://data.ontario.ca/dataset/provincial-stream-water-quality-monitoring-network','_blank')">
@@ -324,7 +333,7 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6>Environment and Climate Change Canada</h6>
+								<h6 style="font-family: Poppins;">CLCC Water Quality Data 4</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/environmentalclimatedata.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://www.canada.ca/en/environment-climate-change.html','_blank')">
@@ -337,7 +346,7 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6>Ontario Watershed Boundaries</h6>
+								<h6 style="font-family: Poppins;">CLCC Water Quality Data 5</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/ontariowaterbodyboundaries.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://geohub.lio.gov.on.ca/maps/mnrf::ontario-watershed-boundaries-owb/explore?location=40.397199%2C-82.339420%2C2.74','_blank')">
