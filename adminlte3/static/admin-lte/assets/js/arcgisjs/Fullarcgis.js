@@ -494,7 +494,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
 
             const popupTemplate = {
                 title: "{Name}",
-                content: "<ul><li>Avg phosphorus: " + jsonpointfile[i].phosphorusnumber + "</li><li>Avg nitrogen: " + jsonpointfile[i].nitrogernnumber + "</li><li>Latitude: " + jsonpointfile[i].latitude + "</li><li>Longitude: " + jsonpointfile[i].longitude + "</li></ul>",
+                // content: "<ul><li>Avg phosphorus: " + jsonpointfile[i].phosphorusnumber + "</li><li>Avg nitrogen: " + jsonpointfile[i].nitrogernnumber + "</li><li>Latitude: " + jsonpointfile[i].latitude + "</li><li>Longitude: " + jsonpointfile[i].longitude + "</li></ul>",
                 featureNavigation : false
             }
 
@@ -508,6 +508,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                 attributes: attributes,
                 popupTemplate: popupTemplate
             });
+            
             graphicsLayer.add(pointGraphic);
         }
 
@@ -515,7 +516,19 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             container: "viewDiv",
             map: map1,
             center: [-79.0911306275, 43.8299554612],
-            zoom: 9
+            zoom: 9,
+            popup: {
+                defaultPopupTemplateEnabled: false,
+                dockEnabled: true,
+                closeButton: false,
+                dockOptions: {
+                  buttonEnabled: true,
+                  breakpoint: true
+                },
+                visibleElements: {
+                    featureNavigation: false
+                }
+            }
         });
 
         function piechart(xvalues, yvalues, colorneeded, displaytext) {
@@ -752,7 +765,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         //     content: legend1
         // });
 
-        view1.ui.add(legendbgExpand, "bottom-left");
+        // view1.ui.add(legendbgExpand, "bottom-left");
 
         view1.when(() => {
             const layerList = new LayerList({
