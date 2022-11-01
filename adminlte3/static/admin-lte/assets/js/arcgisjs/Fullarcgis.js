@@ -740,15 +740,17 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         });
 
-        const legend1 = new Legend({
-            view: view1,
-            style: "card"
-        });
+        /* ---------------------- Commented the arcgis legend for the demographics attribute -----------------------*/
 
-        const legendbgExpand = new Expand({
-            view: view1,
-            content: legend1
-        });
+        // const legend1 = new Legend({
+        //     view: view1,
+        //     style: "card"
+        // });
+
+        // const legendbgExpand = new Expand({
+        //     view: view1,
+        //     content: legend1
+        // });
 
         view1.ui.add(legendbgExpand, "bottom-left");
 

@@ -740,15 +740,17 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             }
         });
 
-        const legend1 = new Legend({
-            view: view1,
-            style: "card"
-        });
+        /* ---------------------- Commented the arcgis legend for the demographics attribute -----------------------*/
+        
+        // const legend1 = new Legend({
+        //     view: view1,
+        //     style: "card"
+        // });
 
-        const legendbgExpand = new Expand({
-            view: view1,
-            content: legend1
-        });
+        // const legendbgExpand = new Expand({
+        //     view: view1,
+        //     content: legend1
+        // });
 
         var searchelement = document.createElement('div');
         searchelement.className = "esri-icon-search esri-widget--button esri-widget esri-interactive";
