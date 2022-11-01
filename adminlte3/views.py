@@ -89,7 +89,7 @@ def index(request):
                     filterhotspots["TotalPhosphorus"].mean(), 2)
                 nitrogernnumber = round(
                     filterhotspots["TotalNitrogen"].mean(), 2)
-                if phosphorusnumber > 0.05 or nitrogernnumber > 10:
+                if phosphorusnumber > 0.02 or nitrogernnumber > 10:
                     stationiconlink = "hotspot.png"
             # print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber}")
         stationforloop = row[0]
@@ -154,7 +154,7 @@ def filterpagefromindex(request, year):
                     filterhotspots["TotalPhosphorus"].mean(), 2)
                 nitrogernnumber = round(
                     filterhotspots["TotalNitrogen"].mean(), 2)
-                if phosphorusnumber > 0.05 or nitrogernnumber > 10:
+                if phosphorusnumber > 0.02 or nitrogernnumber > 10:
                     stationiconlink = "hotspot.png"
                 else:
                     stationiconlink = "normalregion.png"
@@ -973,7 +973,7 @@ def map_experiment(request, year):
                     filterhotspots["TotalPhosphorus"].mean(), 2)
                 nitrogernnumber = round(
                     filterhotspots["TotalNitrogen"].mean(), 2)
-                if phosphorusnumber > 0.05 or nitrogernnumber > 10:
+                if phosphorusnumber > 0.02 or nitrogernnumber > 10:
                     stationiconlink = "hotspot.png"
             # print(f"stationid-----> {row[0]} nitrogen ----> {nitrogernnumber}  phosphrusnumber -----> {phosphorusnumber}")
         stationforloop = row[0]
@@ -1516,7 +1516,7 @@ def dextarity(request):
                     filterhotspots["TotalPhosphorus"].mean(), 2)
                 nitrogernnumber = round(
                     filterhotspots["TotalNitrogen"].mean(), 2)
-                if phosphorusnumber > 0.05 or nitrogernnumber > 10:
+                if phosphorusnumber > 0.02 or nitrogernnumber > 10:
                     stationiconlink = "hotspot.png"
                 else:
                     stationiconlink = "normalregion.png"
@@ -1605,7 +1605,7 @@ def describe(request, year):
                     filterhotspots["TotalPhosphorus"].mean(), 2)
                 nitrogernnumber = round(
                     filterhotspots["TotalNitrogen"].mean(), 2)
-                if phosphorusnumber > 0.05 or nitrogernnumber > 10:
+                if phosphorusnumber > 0.02 or nitrogernnumber > 10:
                     stationiconlink = "hotspot.png"
                 else:
                     stationiconlink = "normalregion.png"
