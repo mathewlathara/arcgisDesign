@@ -1,5 +1,5 @@
 function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring, yearselected, trcadurhammapcombinedurl) {
-    require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend", "esri/widgets/Expand"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend, Expand) {
+    require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/LayerList", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/widgets/Legend", "esri/widgets/Expand", "esri/PopupTemplate"], function (esriConfig, Map, MapView, FeatureLayer, LayerList, Graphic, GraphicsLayer, Legend, Expand, PopupTemplate) {
 
         esriConfig.apiKey = "AAPKfb2205b571aa464b8280e4e744e3bde7rK2eQbS-fVv05DUtFVJUqBVoJjMIQGIMHK7rqQR-In8y-qSZSmNtobECX3jGCzGG";
         
@@ -465,7 +465,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         map1.layers.reorder(map1.layers.getItemAt(ind), map1.layers.length - 1);
 
         const graphicsLayer = new GraphicsLayer({
-            title: "Station points"
+            title: "Station points",
         });
         map1.add(graphicsLayer);
 
@@ -492,11 +492,14 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                 latitude: jsonpointfile[i].latitude
             };
 
-            const popupTemplate = {
+            const popupTemplate = new PopupTemplate({
                 title: "{Name}",
-                content: "<ul><li>Avg phosphorus: " + jsonpointfile[i].phosphorusnumber + "</li><li>Avg nitrogen: " + jsonpointfile[i].nitrogernnumber + "</li><li>Latitude: " + jsonpointfile[i].latitude + "</li><li>Longitude: " + jsonpointfile[i].longitude + "</li></ul>",
-                featureNavigation : false
-            }
+                content: "<ul><li>Avg phosphorus: " + jsonpointfile[i].phosphorusnumber + "</li><li>Avg nitrogen: " + jsonpointfile[i].nitrogernnumber + "</li><li>Latitude: " + jsonpointfile[i].latitude + "</li><li>Longitude: " + jsonpointfile[i].longitude + "</li></ul>"
+            });
+
+            popupTemplate.visibleElements = {
+                closeButton: false
+              };
 
             const attributes = {
                 Name: "Station name: " + jsonpointfile[i].station,
@@ -506,7 +509,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                 geometry: point,
                 symbol: simpleMarkerSymbol,
                 attributes: attributes,
-                popupTemplate: popupTemplate
+                popupTemplate: popupTemplate,
             });
             graphicsLayer.add(pointGraphic);
         }
@@ -515,7 +518,19 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             container: "viewDiv",
             map: map1,
             center: [-79.0911306275, 43.8299554612],
-            zoom: 9
+            zoom: 9,
+            popup: {
+                defaultPopupTemplateEnabled: false,
+                dockEnabled: true,
+                closeButton: false,
+                dockOptions: {
+                  buttonEnabled: true,
+                  breakpoint: true
+                },
+                visibleElements: {
+                    featureNavigation: false
+                }
+            }
         });
 
         function piechart(xvalues, yvalues, colorneeded, displaytext) {
@@ -760,7 +775,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         })
         view1.ui.add(searchelement, "top-right");
 
-        view1.ui.add(legendbgExpand, "bottom-left");
+        // view1.ui.add(legendbgExpand, "bottom-left");
 
         view1.when(() => {
             const layerList = new LayerList({
