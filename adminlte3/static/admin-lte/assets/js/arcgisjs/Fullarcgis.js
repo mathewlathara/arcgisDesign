@@ -276,7 +276,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             renderer: openspacerendererselected,
             // popupTemplate: template,
             // opacity: 0.9,
-            title: "TRCA Habitat"
+            title: "TRCA jurisdiction"
         });
 
         const ELCTRCARenderer1 = {
@@ -447,7 +447,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
             url: "https://services.arcgis.com/t0XyVE44waBIPBFr/ArcGIS/rest/services/Other/FeatureServer/0",
             renderer : openspacerendererselected,
             // popupTemplate: template,
-            title: "Other Habitat"
+            title: "CLOCA jurisdiction"
         });
 
         /* --------------------------------------------------------------------------------------------------------------*/
@@ -465,7 +465,7 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
         map1.layers.reorder(map1.layers.getItemAt(ind), map1.layers.length - 1);
 
         const graphicsLayer = new GraphicsLayer({
-            title: "Station points"
+            title: "Monitoring stations"
         });
         map1.add(graphicsLayer);
 
