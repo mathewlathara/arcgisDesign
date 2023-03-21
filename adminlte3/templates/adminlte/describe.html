@@ -35,6 +35,13 @@
         transition: 0.3s;
     }
 
+    .mx-3 {
+    	margin-right: 0.5rem!important;
+    	margin-left: 0.5rem!important;
+		margin-top: 0.5rem!important;
+		margin-bottom: 0.5rem!important;
+	}
+
     .sidenav a:hover {
         color: #f1f1f1;
     }
@@ -214,18 +221,20 @@
 <div class="container mt-4 mb-5">
     <div class="row">
         <div class="col-lg-4">
-            <h5 class="text-primary" style="font-family: Poppins;">Legend</h5>
-            <div class='box agricultural' style="font-family: Poppins;">Agricultural Land</div>
-            <div class='box anthropogenic' style="font-family: Poppins;">Anthropogenic Land</div>
-            <div class='box natural' style="font-family: Poppins;">Natural Land</div>
-            <div class='box water' style="font-family: Poppins;">Surface Water Land</div>
-            <div class='box urban' style="font-family: Poppins;">Urban Land</div>
-            <div class='box rural' style="font-family: Poppins;">Rural Land</div>
-            <div class='box other' style="font-family: Poppins;">Other</div>
+            <h5 class="text-primary" style="font-family: Poppins;">Legend <span id="showmoreoption" style="cursor:pointer; color:black; font-size:13px"><u>Show more</u></span>
+                <span id="hidemoreoption" style="cursor:pointer; color:black; font-size:13px"><u>Hide more</u></span></h5>
+                <p class="showlegend" style="font-size:12px">The DeX-Terity map shows seven major land use types:</p>
+            <div class='box agricultural showlegend' style="font-family: Poppins;">Agricultural Land</div>
+            <div class='box anthropogenic showlegend' style="font-family: Poppins;">Anthropogenic Land</div>
+            <div class='box natural showlegend' style="font-family: Poppins;">Natural Land</div>
+            <div class='box water showlegend' style="font-family: Poppins;">Surface Water Land</div>
+            <div class='box urban showlegend' style="font-family: Poppins;">Urban Land</div>
+            <div class='box rural showlegend' style="font-family: Poppins;">Rural Land</div>
+            <div class='box other showlegend' style="font-family: Poppins;">Other</div>
         </div>
         <div class="col-lg-4">
-            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/hotspot.png' %}"> Hotspot</div>
-            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/normalregion.png' %}"> Normal</div>
+            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/hotspot.png' %}"> Above Threshold</div>
+            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/normalregion.png' %}"> Below Threshold</div>
         </div>
     </div>
     <div class="row">
@@ -275,11 +284,11 @@
             R2 coefficient of determination is a statistical measure of how well the 
             regression predictions approximate the real data points or how well the model 
             has performed in predicting the desired results.            
-    <div class="row mt-5">
+    <!-- <div class="row mt-5">
         <h2 class="text-primary font-weight-normal" style="font-family: Poppins;">
             Model Info, Important aspects.<br>
         </h2>
-    </div>
+    </div> -->
     <!-- <div class="row">
         <p class="text-secondary font-weight-light" style="font-family: Poppins;">
             <br>Outliers & Correlation charts of data will be here.
@@ -393,6 +402,21 @@
 
         $('#recipeCarousel').carousel({
             interval: 10000
+        });
+
+        $(".showlegend").hide();
+		$("#hidemoreoption").hide();
+
+        $(document).on('click', '#showmoreoption', function () {
+            $('.showlegend').show();
+            $("#showmoreoption").hide();
+            $("#hidemoreoption").show();
+        });
+
+        $(document).on('click', '#hidemoreoption', function () {
+            $('.showlegend').hide();
+            $("#showmoreoption").show();
+            $("#hidemoreoption").hide();
         });
 
         $('.carousel .carousel-item').each(function(){
