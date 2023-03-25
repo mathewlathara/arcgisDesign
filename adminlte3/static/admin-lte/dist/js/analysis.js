@@ -12,28 +12,30 @@ var station;
 document.getElementById('getValue').disabled = true;
 var CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/Predict-Prescribe-Data.csv";
 var dataColumns = ['Nitrogen Kjeldahl (mg/L)', 'Total Suspended Solids (mg/L)',
-'Nitrate (mg/L)', 'Conductivity (K)', 'Dissolved Oxygen (mg/L)', 'pH',
-'Total Nitrogen (mg/L)', 'Nitrite (mg/L)', 'Total Phosphorus (mg/L)',
-'Chloride (mg/L)', 'Natural Land 10m (ha)',
-'Anthropogenic Natural Land 10m (ha)', 'Anthropogenic Land 10m (ha)',
-'Station', 'Date', 'Year', 'Agricultural Land 250m (ha)',
-'Natural Land 250m (ha)', 'Latitude', 'Longitude', 'Month',
-'Population', 'Total Rain (mm) -14day Total',
-'Total Rain (mm) -1day Total', 'Total Rain (mm) -28day Total',
-'Total Rain (mm) -3day Total', 'Total Rain (mm) -56day Total',
-'Total Rain (mm) -7day Total', 'Total Rain (mm) 0day Total'];
+    'Nitrate (mg/L)', 'Conductivity (K)', 'Dissolved Oxygen (mg/L)', 'pH',
+    'Total Nitrogen (mg/L)', 'Nitrite (mg/L)', 'Total Phosphorus (mg/L)',
+    'Chloride (mg/L)', 'Natural Land 10m (ha)',
+    'Anthropogenic Natural Land 10m (ha)', 'Anthropogenic Land 10m (ha)',
+    'Station', 'Date', 'Year', 'Agricultural Land 250m (ha)',
+    'Natural Land 250m (ha)', 'Latitude', 'Longitude', 'Month',
+    'Population', 'Total Rain (mm) -14day Total',
+    'Total Rain (mm) -1day Total', 'Total Rain (mm) -28day Total',
+    'Total Rain (mm) -3day Total', 'Total Rain (mm) -56day Total',
+    'Total Rain (mm) -7day Total', 'Total Rain (mm) 0day Total'];
 
-var encode_features = {'1':'Nitrogen Kjeldahl (mg/L)', '2':'Total Suspended Solids (mg/L)',
-'3':'Nitrate (mg/L)', '4':'Conductivity (K)', '5':'Dissolved Oxygen (mg/L)', '6':'pH','7':
-'Total Nitrogen (mg/L)','8': 'Nitrite (mg/L)','9': 'Total Phosphorus (mg/L)','10':
-'Chloride (mg/L)','11':'Natural Land 10m (ha)','12':
-'Anthropogenic Natural Land 10m (ha)','13': 'Anthropogenic Land 10m (ha)','14':
-'Station','15': 'Date', '16':'Year', '17':'Agricultural Land 250m (ha)','18':
-'Natural Land 250m (ha)','19':
-'Population','20': 'Total Rain (mm) -14day Total','21':
-'Total Rain (mm) -1day Total','22': 'Total Rain (mm) -28day Total','23':
-'Total Rain (mm) -3day Total', '24':'Total Rain (mm) -56day Total','25':
-'Total Rain (mm) -7day Total','26': 'Total Rain (mm) 0day Total'}
+var encode_features = {
+    '1': 'Nitrogen Kjeldahl (mg/L)', '2': 'Total Suspended Solids (mg/L)',
+    '3': 'Nitrate (mg/L)', '4': 'Conductivity (K)', '5': 'Dissolved Oxygen (mg/L)', '6': 'pH', '7':
+        'Total Nitrogen (mg/L)', '8': 'Nitrite (mg/L)', '9': 'Total Phosphorus (mg/L)', '10':
+        'Chloride (mg/L)', '11': 'Natural Land 10m (ha)', '12':
+        'Anthropogenic Natural Land 10m (ha)', '13': 'Anthropogenic Land 10m (ha)', '14':
+        'Station', '15': 'Date', '16': 'Year', '17': 'Agricultural Land 250m (ha)', '18':
+        'Natural Land 250m (ha)', '19':
+        'Population', '20': 'Total Rain (mm) -14day Total', '21':
+        'Total Rain (mm) -1day Total', '22': 'Total Rain (mm) -28day Total', '23':
+        'Total Rain (mm) -3day Total', '24': 'Total Rain (mm) -56day Total', '25':
+        'Total Rain (mm) -7day Total', '26': 'Total Rain (mm) 0day Total'
+}
 
 function checkIfFilterButtonShouldenable() {
     var yearfromfrop = $("#yearFrom").val();
@@ -44,7 +46,7 @@ function checkIfFilterButtonShouldenable() {
     var yaxisfill = $("#f2").val();
 
     if (yearfromfrop !== "" && yeartooption !== "" && standardoption !== "" && stationidfill !== "" && xaxisfill !== "" && yaxisfill !== "") {
-        $("#getValue").prop("disabled",false);
+        $("#getValue").prop("disabled", false);
     }
 }
 
@@ -113,7 +115,7 @@ $("#station").change(function () {
 // feature on X
 function f1Selectbox() {
     var selectboxreturn = "<option value='' selected>Select Indicator 1</option>";
-    console.log("dataColumns in f1: ",dataColumns);
+    console.log("dataColumns in f1: ", dataColumns);
     $(dataColumns).each((index, element) => {
         // console.log(`current index : ${index} element : ${element}`)
         selectboxreturn += "<option value='" + element + "'>" + element + "</option>";
@@ -213,10 +215,10 @@ function selectFeature1() {
 // check if year is present in custom data
 function historicaldata() {
     console.log("Historical Data selected");
-    if (document.getElementById('historicaldata').checked){
+    if (document.getElementById('historicaldata').checked) {
         globalThis.data_type = "historical";
-         globalThis.CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
-         document.getElementById('getValue').disabled = false;
+        globalThis.CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+        document.getElementById('getValue').disabled = false;
     }
 }
 function customdata() {
@@ -262,98 +264,104 @@ function getKeyByValue(object, value) {
 
 // fetching values from CSV file
 function plotFromCSV() {
-    //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
-    const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
-    // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
-    console.log("csv selected: ", CSV);
-    // window.location.href = '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1 + "/" + f2 + "/" + station + "/" + data_type;
-   
-    //encode features
-    console.log("before encoding === ", f1, f2);
-    var f1_encoded = getKeyByValue(encode_features, f1);
-    var f2_encoded = getKeyByValue(encode_features, f2);
-    console.log("after encoding === ", f1_encoded, f2_encoded);
 
-    $.ajax({
-        type: 'get',
-        // url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo,
-        url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1_encoded + "/" + f2_encoded + "/" + station + "/" + data_type,
-        // url: '/filterDataForAnalysisPage',
-        // data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
-        
-        // contentType: false,
-        // processData: false,
-        // headers: { "X-CSRFToken": csrftoken },
+    if (yearFrom <= yearTo) {
+        //const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/df_top_10.csv";
+        const CSV = "https://raw.githubusercontent.com/DishaCoder/CSV/main/WMS_dataset.csv";
+        // const CSV = "static/admin-lte/assets/uploaded_data/user_uploaded_csv_file.csv";
+        console.log("csv selected: ", CSV);
+        // window.location.href = '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1 + "/" + f2 + "/" + station + "/" + data_type;
 
-        success: function (data) {
-          console.log(data.graph1x);
-          console.log(data.graph1y);
-          console.log(data.graph2x);
-          console.log(data.graph2y);
-          console.log(data.error);
-          var trace1 = {
-            x: data.graph1x,
-            y: data.graph1y,
-            type: 'scatter'
-          };
-          var trace2 = {
-            x: data.graph2x,
-            y: data.graph2y,
-            type: 'scatter'
-          };
-          var layout1 = {
-            title: 'Indicator 1: ' + f1,
-            yaxis: {
-                showline: true,
-                zeroline: true,
-                zerolinewidth: 2,
-                autotick: true,
-                // autorange: true,
-                title: f1,
+        //encode features
+        console.log("before encoding === ", f1, f2);
+        var f1_encoded = getKeyByValue(encode_features, f1);
+        var f2_encoded = getKeyByValue(encode_features, f2);
+        console.log("after encoding === ", f1_encoded, f2_encoded);
+
+        $.ajax({
+            type: 'get',
+            // url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo,
+            url: '/filterDataForAnalysisPage/' + yearFrom + "/" + yearTo + "/" + f1_encoded + "/" + f2_encoded + "/" + station + "/" + data_type,
+            // url: '/filterDataForAnalysisPage',
+            // data: {'yearFrom': yearFrom, 'yearTo': yearTo, "feature1":f1, 'feature2':f2, 'station':station, 'data_type':data_type},
+
+            // contentType: false,
+            // processData: false,
+            // headers: { "X-CSRFToken": csrftoken },
+
+            success: function (data) {
+                console.log(data.graph1x);
+                console.log(data.graph1y);
+                console.log(data.graph2x);
+                console.log(data.graph2y);
+                console.log(data.error);
+                var trace1 = {
+                    x: data.graph1x,
+                    y: data.graph1y,
+                    type: 'scatter'
+                };
+                var trace2 = {
+                    x: data.graph2x,
+                    y: data.graph2y,
+                    type: 'scatter'
+                };
+                var layout1 = {
+                    title: 'Indicator 1: ' + f1,
+                    yaxis: {
+                        showline: true,
+                        zeroline: true,
+                        zerolinewidth: 2,
+                        autotick: true,
+                        // autorange: true,
+                        title: f1,
+                    },
+                    xaxis: {
+                        showline: true,
+                        title: "Years",
+                        tickmode: 'linear',
+                        zeroline: true,
+                        zerolinewidth: 2,
+                    },
+                };
+                var layout2 = {
+                    title: 'Indicator 2: ' + f2,
+                    yaxis: {
+                        showline: true,
+                        zeroline: true,
+                        zerolinewidth: 2,
+                        autotick: true,
+                        // autorange: true,
+                        title: f2,
+                    },
+                    xaxis: {
+                        showline: true,
+                        title: "Years",
+                        tickmode: 'linear',
+                        zeroline: true,
+                        zerolinewidth: 2,
+                    },
+                };
+                var g1 = [trace1];
+                var g2 = [trace2];
+                Plotly.newPlot('graph1', g1, layout1);
+                Plotly.newPlot('graph2', g2, layout2);
+                document.getElementById('des1').innerHTML = data.description1;
+                document.getElementById('des2').innerHTML = data.description2;
             },
-            xaxis: {
-                showline: true,
-                title: "Years",
-                tickmode: 'linear',
-                zeroline: true,
-                zerolinewidth: 2,
-            },
-          };
-            var layout2 = {
-                title: 'Indicator 2: ' + f2,
-                yaxis: {
-                    showline: true,
-                    zeroline: true,
-                    zerolinewidth: 2,
-                    autotick: true,
-                    // autorange: true,
-                    title: f2,
-                },
-                xaxis: {
-                    showline: true,
-                    title: "Years",
-                    tickmode: 'linear',
-                    zeroline: true,
-                    zerolinewidth: 2,
-                },
-            };
-          var g1 = [trace1];
-          var g2 = [trace2];
-          Plotly.newPlot('graph1', g1, layout1); 
-          Plotly.newPlot('graph2', g2, layout2);
-          document.getElementById('des1').innerHTML = data.description1;
-          document.getElementById('des2').innerHTML = data.description2;
-        },
-        error: function (error) {
-            console.log("Error" + JSON.stringify(error));
-        }
-     });
+            error: function (error) {
+                console.log("Error" + JSON.stringify(error));
+            }
+        });
 
-    d3.csv(CSV, function (rows) {
-        console.log(rows);
-        console.log("Data Columns = ", rows.columns);
-        processData(rows);
-    });
+
+        d3.csv(CSV, function (rows) {
+            console.log(rows);
+            console.log("Data Columns = ", rows.columns);
+            processData(rows);
+        });
+    } else {
+        alert("The From year cannot be greater than To year");
+    }
 }
 
 // filtering data according to user input
@@ -1082,7 +1090,7 @@ $("#mapyearselect").change(function () {
     $.ajax({
         type: 'get',
         url: '/getYearForAnalysisMap',
-        data: { 'year': mapYear, 'data_type':data_type },
+        data: { 'year': mapYear, 'data_type': data_type },
         // contentType: false,
         // processData: false,
         headers: { "X-CSRFToken": csrftoken },
@@ -1097,11 +1105,11 @@ $("#mapyearselect").change(function () {
 });
 
 
-function senduserinfo(){
+function senduserinfo() {
     console.log('senduserinfo');
     var name = 'disha';
     var age = '23';
-    var url = '/trial?name='+name+'&age='+age;
+    var url = '/trial?name=' + name + '&age=' + age;
     alert(url);
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
