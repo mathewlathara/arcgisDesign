@@ -260,15 +260,11 @@
         <h2 class="text-primary font-weight-normal">
             Model Information<br>
         </h2>
-        <p class="text-secondary font-weight-light"> A machine learning model takes historical data 
-            as input to be trained, i.e. to find the hidden pattern in the data that relates 
-            inputs (features) to output (Target variable, e.g, Total Phosphorus load in water 
-            ). Train dataset is also called seen data as the data has been seen by the model 
-            while training and it tries to adjust the weights of all the input variables that 
-            help in predicting the target variable. Therefore the trained ML-based model can 
-            predict the target variables for unseen input data (i.e. Test or Future data).
+        <p class="text-secondary font-weight-light"> DeX-Terity uses machine learning modelling to predict 
+            target variables of interest (e.g., Total Phosphorus or Total Nitrogen). By using historical data, 
+            our models are ‘trained’ to find relationships between input variables and target variables of interest.
         </p>
-        <p class="text-secondary font-weight-light">
+        <!-- <p class="text-secondary font-weight-light">
             Random forest is a Supervised Machine Learning Algorithm that is 
             used widely in Classification and Regression problems. It builds decision trees on 
             different samples and takes their majority vote for classification and average in 
@@ -283,7 +279,7 @@
             R2 is a measure of the goodness of fit of a model. In regression, the 
             R2 coefficient of determination is a statistical measure of how well the 
             regression predictions approximate the real data points or how well the model 
-            has performed in predicting the desired results.            
+            has performed in predicting the desired results.             -->
     <!-- <div class="row mt-5">
         <h2 class="text-primary font-weight-normal" style="font-family: Poppins;">
             Model Info, Important aspects.<br>
@@ -303,7 +299,7 @@
 					<div class="carousel-item active">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6 style="font-family: Poppins;">CLCC Water Quality Data 1</h6>
+								<h6 style="font-family: Poppins;">TRCA Water Quality Data</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/waterqtytrca.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://data.trca.ca/dataset?tags=Quality','_blank')">
@@ -316,7 +312,7 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6 style="font-family: Poppins;">CLCC Water Quality Data 2</h6>
+								<h6 style="font-family: Poppins;">CLOCA Water Quality Data</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/clocawaterquality.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://open-data.cloca.com/','_blank')">
@@ -329,7 +325,7 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6 style="font-family: Poppins;">CLCC Water Quality Data 3</h6>
+								<h6 style="font-family: Poppins;">Provincial Water Quality Monitoring Network Data</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/provincialwaterqualitynetwork.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://data.ontario.ca/dataset/provincial-stream-water-quality-monitoring-network','_blank')">
@@ -342,10 +338,10 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6 style="font-family: Poppins;">CLCC Water Quality Data 4</h6>
+								<h6 style="font-family: Poppins;">Environment and Climate Change Canada</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/environmentalclimatedata.jpg' %}" style="height:190px;">
 								<p class="m-3">
-									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://www.canada.ca/en/environment-climate-change.html','_blank')">
+									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://open.canada.ca/data/en/dataset/51dbf91e-509c-437b-ab9e-eca6d0bf6fa8','_blank')">
 										<h6 class="mx-3">Learn more</h6>
 									</button>
 								</p>
@@ -355,7 +351,7 @@
 					<div class="carousel-item">
 						<div class="col-md-4">
 							<div class="card card-body">
-								<h6 style="font-family: Poppins;">CLCC Water Quality Data 5</h6>
+								<h6 style="font-family: Poppins;">Ontario Watershed Boundaries</h6>
 								<img class="img-fluid" src="{% static 'admin-lte/assets/img/ontariowaterbodyboundaries.jpg' %}" style="height:190px;">
 								<p class="m-3">
 									<button class="btn btn-primary rounded-pill" type="button" onclick="window.open('https://geohub.lio.gov.on.ca/maps/mnrf::ontario-watershed-boundaries-owb/explore?location=40.397199%2C-82.339420%2C2.74','_blank')">
