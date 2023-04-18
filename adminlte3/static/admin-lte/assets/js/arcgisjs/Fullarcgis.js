@@ -229,7 +229,9 @@ function loadmapvalues(filtertype, jsonpointfile, urllayer, jsonprocessedstring,
                 createFillSymbol("Surface Water Land", "#00FFFF"),
                 createFillSymbol("Urban Land", "#EBF90D"),
                 createFillSymbol("Rural Land", "#0752F6"),
-                createFillSymbol("Other", "#FB1102")
+                createFillSymbol("Other", "#FB1102"),
+                createFillSymbol("Wetland", "#00FFFF"),
+                createFillSymbol("Other Land", "#FB1102")
                 // createFillSymbol("Institutional", "#EBF90D"),
                 // createFillSymbol("Roads", "#FB1102"),
                 // createFillSymbol("Lacustrine", "#05FBDC"),

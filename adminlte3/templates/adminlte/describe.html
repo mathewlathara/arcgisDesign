@@ -224,11 +224,11 @@
             <h5 class="text-primary" style="font-family: Poppins;">Legend <span id="showmoreoption" style="cursor:pointer; color:black; font-size:13px"><u>Show more</u></span>
                 <span id="hidemoreoption" style="cursor:pointer; color:black; font-size:13px"><u>Hide more</u></span></h5>
                 <p class="showlegend" style="font-size:12px">The DeX-Terity map shows seven major land use types:</p>
-				<div><img class="img-fluid showlegend" src="{% static 'admin-lte/dist/img/dexteritybar.svg' %}"></div>
+				<div class="pop-over-container-hoverdemographictbl" style="cursor:pointer;"><img class="img-fluid showlegend" src="{% static 'admin-lte/dist/img/dexteritybar.svg' %}"></div>
         </div>
         <div class="col-lg-4">
-            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/hotspot.png' %}"> Above Threshold</div>
-            <div><img class="img-fluid" src="{% static 'admin-lte/dist/img/normalregion.png' %}"> Below Threshold</div>
+            <div class="pop-over-container-abthreshold" style="cursor:pointer;"><img class="img-fluid" src="{% static 'admin-lte/dist/img/hotspot.png' %}"> Above Threshold</div>
+				<div class="pop-over-container-belowthreshold" style="cursor:pointer;"><img class="img-fluid" src="{% static 'admin-lte/dist/img/normalregion.png' %}"> Below Threshold</div>
         </div>
     </div>
     <div class="row">
@@ -389,6 +389,30 @@
 <script>
     var jsonpointfile = {{ jsonvalue| safe }};
     $(document).ready(function () {
+
+        $('.pop-over-container-abthreshold').popover({
+            content: "This pin represents a location of interest where nutrient levels have been detected to be greater than those outlined by Ontario Drinking Water Quality standards (>0.02 mg/L phosphorus OR >10 mg/L nitrogen)",
+            trigger: "hover",
+            placement: "top",
+            
+        });
+
+        $('.pop-over-container-belowthreshold').popover({
+            content: "This pin represents a location of interest where nutrient levels have been detected to be equal or lesser than those outlined by Ontario Drinking Water Quality standards (<=0.02 mg/L phosphorus AND <=10 mg/L nitrogen)",
+            trigger: "hover",
+            placement: "top",
+            
+        });
+
+        var hoverdemographictable = "<div><table class='table table-bordered' style='font-size: 11px;'><thead><tr><th>Land</th><th>Details</th></tr></thead><tbody><tr><td>Agricultural</td><td>Agriculture land, Crop land, Grass land, pasture land, etc</td></tr><tr><td>Anthropogenic</td><td>Airport, Athletic, Commercial, Golf facility, Industrial, etc</td></tr><tr><td>Natural</td><td>Natural forests, Coniferous forests, Mixed forests, Savannas, etc</td></tr><tr><td>Surface Water</td><td>Meadow marsh, Swamps, Fens, Aquatic, Beach, etc</td></tr><tr><td>Urban</td><td>Urban residential</td></tr></tr><tr><td>Rural</td><td>Rural residential</td></tr></tr><tr><td>Other</td><td>Aggregated land, Vacant land, Plantation, etc</td></tr></tbody></table></div>"
+
+        $('.pop-over-container-hoverdemographictbl').popover({
+            content: hoverdemographictable,
+            html : true,
+            trigger: "hover",
+            placement: "top",
+            sanitize: false
+        });
 
         $('#recipeCarousel').carousel({
             interval: 10000
