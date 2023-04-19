@@ -83,7 +83,7 @@
     </div>
 
     <div class="row d-flex justify-content-center mt-4">
-        <p class="text-secondary" id="notebeforedownload"><b>NOTE:</b> The above graph represents the historical data with a blue line and predicted results with an orange line. The varible predicted results from the selected year range from X to Y. </p>
+        <p class="text-secondary" id="notebeforedownload"><b>NOTE:</b> The below graph represents the historical data with a blue line and predicted results with an orange line. The <span id="predictedvariable"></span> predicted results from the selected year range from <span id="yearfrompredicted"></span> to <span id="yeartopredicted"></span>. </p>
     </div>
 
     <div class="row d-flex justify-content-center col-12 m-2" id="placeimage" style="height: 370px;">
@@ -258,6 +258,9 @@
                         $('#download_btn').show();
                         $('#downloadtext').show();
                         $("#notebeforedownload").show();
+                        $("#predictedvariable").html(var_to_predict);
+                        $("#yearfrompredicted").html(selected_years[0]);
+                        $("#yeartopredicted").html(selected_years[1]);
                     }
                     else {
                         console.log("in else");
