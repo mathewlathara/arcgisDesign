@@ -3,97 +3,108 @@
 {% block content %}
 
 <!-- <div class="container"> -->
-    <div class=" ml-5 row">
-        <h2 class="text-primary font-weight-normal">
-          Analyze our historical data
-        </h2>
-    </div>
-    <div class="ml-5 row no-gutters">
-        <p class="text-secondary font-weight-light">The DeX-Terity platform utilizes historical data to compare, analyze and visualize environmental and socioeconomic changes to the watersheds within our pilot region (Central Lake Ontario and Toronto and Region Conservation Areas). Explore the tool below to identify causal links between different indicators.</p>
-    </div>
+<div class=" ml-5 row">
+  <h2 class="text-primary font-weight-normal">
+    Analyze our historical data
+  </h2>
+</div>
+<div class="ml-5 row no-gutters">
+  <p class="text-secondary font-weight-light">The DeX-Terity platform utilizes historical data to compare, analyze and
+    visualize environmental and socioeconomic changes to the watersheds within our pilot region (Central Lake Ontario
+    and Toronto and Region Conservation Areas). Explore the tool below to identify causal links between different
+    indicators.</p>
+</div>
 
-    <div class="row  p-5" style="background-color: rgba(245,244,244,1);">
-        <div class="col-5 no-gutters col-centered">
-            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">From year*</label></div>
-            <select class="p-3 pl-5 pr-5 form-select" name="year" id="yearFrom" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select from year</option>
-            </select>
-            <div class="pl-2 row no-gutters ">
-              <label class="text-primary mb-2">Standard*</label>
-              <i class="ml-1 mt-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="ODWQS - Ontario drinking water quality standards, WHO - World Health Organization"></i>
-            </div>
-            <select class="p-3 pl-5 pr-5 form-select" name="year" id="standardType" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select Standard</option>
-            </select>
-            <div class="pl-2 row no-gutters">
-              <label class="text-primary mb-2">Indicator 1*</label>
-              <i class="ml-1 mt-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="Note:  In some indicators, minus(-) sign denotes that the sample is taken before mentioned days."></i>
-            </div>
-            <select class="p-3 pl-5 pr-5 form-select" name="" id="f1" style="max-width: 400px; border-radius: 20px;" aria-label="Default select example">
-                <option selected>On X-axis</option> 
-            </select>
-        </div>
-        <div class="col-5 no-gutters col-centered">
-            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">To year*</label></div>
-            <select class="p-3 pl-5 pr-5 form-select" name="year" id="yearTo" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select to year</option>     
-            </select>
-            <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Station*</label></div>
-            <select class="p-3 pl-5 pr-5 form-select" name="station" id="station" style="border-radius: 20px;" aria-label="Default select example">
-                <option selected>Select Station</option>
-            </select>
-            <div class="pl-2 row no-gutters">
-              <label class="text-primary mb-2">Indicator 2*</label>
-              <i class="ml-1 mt-2 fas fa-xs fa-info-circle" data-toggle="popover" data-content="Note: In some indicators, minus(-) sign denotes that the sample is taken before mentioned days."></i>
-            </div>
-            <select class="p-3 pl-5 pr-5 form-select" name="" id="f2" style="max-width: 400px;  border-radius: 20px;" aria-label="Default select example">
-                <option selected>On Y-axis</option>
-            </select>
-        </div>
-        <div class="d-flex align-items-star col-2">
-            <button class=" pl-5 pr-5  btn btn-primary rounded-pill align-self-center" id="getValue" onclick="return plotFromCSV();">Filter</button>
-        </div>
-
-        <div class="row mt-5"> 
-          <span> <p class="pl-2 mt-2 ml-4 text-center text-primary" id="showfilteroption"></p></span>         
-            <div class="col-lg-5 w-50">
-              <span>
-                <div class="mt-2 " id="graph1">
-          
-                </div>
-              </span>
-              <span class="align-middle">
-                <div class="mt-2 " id="checkifdes1haszero">
-                  <p class="text-justify font-weight-light" style="color:red"></p>
-                </div>
-              </span>
-              <span class="align-middle">
-                <div class="mt-2 " id="des1">
-                  <p class="text-justify font-weight-light"></p>
-                </div>
-              </span>
-            </div>
-            <div class="col-lg-5 w-50">
-              <span>
-                <div class="mt-2" id="graph2">
-          
-                </div>
-              </span>
-              <span class="align-middle">
-                <div class="mt-2" id="checkifdes2haszero">
-                  <p class="text-justify font-weight-light" style="color:red"></p>
-                </div>
-              </span>
-              <span class="align-middle">
-                <div class="mt-2" id="des2">
-                  <p class="text-justify font-weight-light"></p>
-                </div>
-              </span>
-            </div>
-          </div>
-          
+<div class="row  p-5" style="background-color: rgba(245,244,244,1);">
+  <div class="col-5 no-gutters col-centered">
+    <div class="pl-2 row no-gutters"><label class="text-primary mb-2">From year*</label></div>
+    <select class="p-3 pl-5 pr-5 form-select" name="year" id="yearFrom" style="border-radius: 20px;"
+      aria-label="Default select example">
+      <option selected>Select from year</option>
+    </select>
+    <div class="pl-2 row no-gutters ">
+      <label class="text-primary mb-2">Standard*</label>
+      <i class="ml-1 mt-2 fas fa-xs fa-info-circle" data-toggle="popover"
+        data-content="ODWQS - Ontario drinking water quality standards, WHO - World Health Organization"></i>
     </div>
-    
+    <select class="p-3 pl-5 pr-5 form-select" name="year" id="standardType" style="border-radius: 20px;"
+      aria-label="Default select example">
+      <option selected>Select Standard</option>
+    </select>
+    <div class="pl-2 row no-gutters">
+      <label class="text-primary mb-2">Indicator 1*</label>
+      <i class="ml-1 mt-2 fas fa-xs fa-info-circle" data-toggle="popover"
+        data-content="Note:  In some indicators, minus(-) sign denotes that the sample is taken before mentioned days."></i>
+    </div>
+    <select class="p-3 pl-5 pr-5 form-select" name="" id="f1" style="max-width: 400px; border-radius: 20px;"
+      aria-label="Default select example">
+      <option selected>On X-axis</option>
+    </select>
+  </div>
+  <div class="col-5 no-gutters col-centered">
+    <div class="pl-2 row no-gutters"><label class="text-primary mb-2">To year*</label></div>
+    <select class="p-3 pl-5 pr-5 form-select" name="year" id="yearTo" style="border-radius: 20px;"
+      aria-label="Default select example">
+      <option selected>Select to year</option>
+    </select>
+    <div class="pl-2 row no-gutters"><label class="text-primary mb-2">Station*</label></div>
+    <select class="p-3 pl-5 pr-5 form-select" name="station" id="station" style="border-radius: 20px;"
+      aria-label="Default select example">
+      <option selected>Select Station</option>
+    </select>
+    <div class="pl-2 row no-gutters">
+      <label class="text-primary mb-2">Indicator 2*</label>
+      <i class="ml-1 mt-2 fas fa-xs fa-info-circle" data-toggle="popover"
+        data-content="Note: In some indicators, minus(-) sign denotes that the sample is taken before mentioned days."></i>
+    </div>
+    <select class="p-3 pl-5 pr-5 form-select" name="" id="f2" style="max-width: 400px;  border-radius: 20px;"
+      aria-label="Default select example">
+      <option selected>On Y-axis</option>
+    </select>
+  </div>
+  <div class="d-flex align-items-star col-2">
+    <button class=" pl-5 pr-5  btn btn-primary rounded-pill align-self-center" id="getValue"
+      onclick="return plotFromCSV();">Filter</button>
+  </div>
+
+  <div class="row mt-5">
+    <span>
+      <p class="pl-2 mt-2 ml-4 text-center text-primary" id="showfilteroption"></p>
+    </span>
+    <div class="col-lg-5 w-50">
+      <span>
+        <div class="mt-2 " id="graph1">
+
+        </div>
+      </span>
+      <span class="align-middle">
+        <div class="mt-2 " id="des1">
+          <p class="text-justify font-weight-light"></p>
+        </div>
+      </span>
+    </div>
+    <div class="col-lg-5 w-50">
+      <span>
+        <div class="mt-2" id="graph2">
+
+        </div>
+      </span>
+      <span class="align-middle">
+        <div class="mt-2" id="des2">
+          <p class="text-justify font-weight-light"></p>
+        </div>
+      </span>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-lg-12 w-50">
+        <p style="font-size: 12px; color: #FF5733;" id="messageofdatasetgrowthinmissingyear"></p>
+    </div>
+  </div>
+
+</div>
+
 
 
 <!-- </div> -->
@@ -120,21 +131,21 @@
 <script src="https://js.arcgis.com/4.23/"></script>
 <script src="{% static 'admin-lte/assets/js/arcgisjs/arcgisjs.js' %} "></script>
 <script>
-$(document).ready(function() {
+  $(document).ready(function () {
     $('[data-toggle="popover"]').popover({
-      trigger : 'hover'
+      trigger: 'hover'
     });
-});
+  });
 
-let stations = ['6009701102', '6008200302', '6008000602', '6008000702',
-       '6009701802', '6008310302', '6008301802', '6008310402',
-       '6008300902', '6008500402', '6008300402', '6008500302',
-       '6008301202', '6008501402', '6009400202', '6008300202',
-       '6008301902', '6009701302', '6010403702', '6009700302',
-       '6010402702', '6010700202', '6009700702', '6010402502',
-       '6010400802', 'PT001WM', '6010402902', 'FB003WM', '6010402302',
-       'Paulyn Park', '7th Concession', '6010402602', 'CC005',
-       '6010402802', 'Shoal Point', 'Brock Ridge'];
+  let stations = ['6009701102', '6008200302', '6008000602', '6008000702',
+    '6009701802', '6008310302', '6008301802', '6008310402',
+    '6008300902', '6008500402', '6008300402', '6008500302',
+    '6008301202', '6008501402', '6009400202', '6008300202',
+    '6008301902', '6009701302', '6010403702', '6009700302',
+    '6010402702', '6010700202', '6009700702', '6010402502',
+    '6010400802', 'PT001WM', '6010402902', 'FB003WM', '6010402302',
+    'Paulyn Park', '7th Concession', '6010402602', 'CC005',
+    '6010402802', 'Shoal Point', 'Brock Ridge'];
   $(document).ready(function () {
     plotFromCSV();
     // let year1 = document.getElementById('yearFrom');
@@ -160,7 +171,7 @@ let stations = ['6009701102', '6008200302', '6008000602', '6008000702',
     $("#f2").html(f2selectbox);
     $("#mapyearselect").html(mapselectdropdown);
     csrftoken = document.cookie.split('=')[1];
-    data = {'yearFrom':yearFrom.value, 'yearTo':yearTo.value, 'f1':f1.value, 'f2':f2.value};
+    data = { 'yearFrom': yearFrom.value, 'yearTo': yearTo.value, 'f1': f1.value, 'f2': f2.value };
     console.log("data.....", data);
     // $('#getValue').click(function(){
     //   $.ajax({

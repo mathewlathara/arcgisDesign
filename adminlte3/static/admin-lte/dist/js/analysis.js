@@ -347,25 +347,7 @@ function plotFromCSV() {
                 Plotly.newPlot('graph2', g2, layout2);
                 document.getElementById('des1').innerHTML = data.description1;
                 document.getElementById('des2').innerHTML = data.description2;
-
-                if(data.checkif1yisempty == ""){
-                    document.getElementById('checkifdes1haszero').style.display = 'none';
-                }else{
-                    document.getElementById('checkifdes1haszero').style.display = 'block';
-                    document.getElementById('checkifdes1haszero').style.color = 'orange';
-                    document.getElementById('checkifdes1haszero').style.fontSize = '12px';
-                    document.getElementById('checkifdes1haszero').innerHTML = data.checkif1yisempty;
-                }
-
-                if(data.checkif2yisempty == ""){
-                    document.getElementById('checkifdes2haszero').style.display = 'none';
-                }else{
-                    document.getElementById('checkifdes2haszero').style.display = 'block';
-                    document.getElementById('checkifdes2haszero').style.color = 'orange';
-                    document.getElementById('checkifdes2haszero').style.fontSize = '12px';
-                    document.getElementById('checkifdes2haszero').innerHTML = data.checkif2yisempty;
-                }
-
+                document.getElementById('messageofdatasetgrowthinmissingyear').innerHTML = data.messageofdatasetgrowthinmissingyear;
             },
             error: function (error) {
                 console.log("Error" + JSON.stringify(error));

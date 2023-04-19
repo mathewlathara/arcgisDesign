@@ -1088,23 +1088,15 @@ def filterDataForAnalysisPage(request, yearFrom, yearTo, station, featureOnX_enc
     print("graph 1 arrays === ", graph1x, graph1y)
     print("graph 2 arrays === ", graph2x, graph2y)
     print("type of arrays === ", type(graph1x), type(graph1y))
-    checkif1yisemptyflag, checkif2yisemptyflag = "", ""
-    oneyisempty = np.array(graph1y)
-    twoyisempty = np.array(graph2y)
-    if np.any(oneyisempty == 0):
-        checkif1yisemptyflag = "&#9888; The DeX-Terity dataset continues to grow. The graph above displays the "+ featureOnX +" recorded in years between ["+ yearFrom +" - "+ yearTo +" years]." + \
+
+    messageofdatasetgrowthinmissingyear = "&#9888; The DeX-Terity dataset continues to grow. The graph above displays the "+ featureOnX +" and " + featureOnY + " recorded in years between ["+ yearFrom +" - "+ yearTo +" years]." + \
         " Only the years that have recorded values are shown."
-    if np.any(twoyisempty == 0):
-        checkif2yisemptyflag = "&#9888; The DeX-Terity dataset continues to grow. The graph above displays the "+ featureOnY +" recorded in years between ["+ yearFrom +" - "+ yearTo +" years]." + \
-        " Only the years that have recorded values are shown."
-    
-    print("checkif1yisemptyflag ===,  checkif2yisemptyflag ===== ", checkif1yisemptyflag, checkif2yisemptyflag)
 
     graph1x = np.array(graph1x).tolist()
     graph1y = np.array(graph1y).tolist()
     graph2x = np.array(graph2x).tolist()
     graph2y = np.array(graph2y).tolist()
-    plot_graph = ({'graph1x': graph1x, 'graph1y': graph1y, 'graph2x': graph2x, 'graph2y': graph2y, 'description1': description1, 'description2': description2, 'checkif1yisempty' : checkif1yisemptyflag, 'checkif2yisempty' : checkif2yisemptyflag})
+    plot_graph = ({'graph1x': graph1x, 'graph1y': graph1y, 'graph2x': graph2x, 'graph2y': graph2y, 'description1': description1, 'description2': description2, 'messageofdatasetgrowthinmissingyear' : messageofdatasetgrowthinmissingyear})
 
     return JsonResponse(plot_graph)
 
