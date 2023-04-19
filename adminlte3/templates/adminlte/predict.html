@@ -82,6 +82,10 @@
 
     </div>
 
+    <div class="row d-flex justify-content-center mt-4">
+        <p class="text-secondary" id="notebeforedownload"><b>NOTE:</b> The above graph represents the historical data with a blue line and predicted results with an orange line. The varible predicted results from the selected year range from X to Y. </p>
+    </div>
+
     <div class="row d-flex justify-content-center col-12 m-2" id="placeimage" style="height: 370px;">
         
     </div>
@@ -121,6 +125,7 @@
     $(document).ready(function () {
         $('#download_btn').hide();
         $('#downloadtext').hide();
+        $("#notebeforedownload").hide();
         var station;
         var stationSelectbox = stationIdSelectbox();
         $("#station").html(stationSelectbox);
@@ -252,6 +257,7 @@
                         document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/' + data.station_ + 'predicted.csv')
                         $('#download_btn').show();
                         $('#downloadtext').show();
+                        $("#notebeforedownload").show();
                     }
                     else {
                         console.log("in else");
