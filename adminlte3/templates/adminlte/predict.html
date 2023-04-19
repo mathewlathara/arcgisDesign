@@ -258,9 +258,30 @@
                         $('#download_btn').show();
                         $('#downloadtext').show();
                         $("#notebeforedownload").show();
-                        $("#predictedvariable").html(var_to_predict);
-                        $("#yearfrompredicted").html(selected_years[0]);
-                        $("#yeartopredicted").html(selected_years[1]);
+                        if(var_to_predict == "TP"){
+                            $("#predictedvariable").html("Total phosphorus");   
+                        }else if(var_to_predict == "TN"){
+                            $("#predictedvariable").html("Total nitrogen");   
+                        }
+                        var processedfromselectedyear = "";
+                        var processedtoselectedyear = "";
+                        let pointPosition1 = selected_years[0].indexOf('.');
+                        let pointPosition2 = selected_years[1].indexOf('.');
+                        let selectedfromyear = "";
+                        let selectedtoyear = "";
+                        // If the point is found, remove all the text to the right of it
+                        if (pointPosition1 !== -1) {
+                            selectedfromyear = selected_years[0].substring(0, pointPosition1 + 1);
+                        }else{
+                            selectedfromyear = selected_years[0];
+                        }
+                        if (pointPosition2 !== -1) {
+                            selectedtoyear = selected_years[1].substring(0, pointPosition2 + 1);
+                        }else{
+                            selectedtoyear = selected_years[1];
+                        }
+                        $("#yearfrompredicted").html(selectedfromyear);
+                        $("#yeartopredicted").html(selectedtoyear);
                     }
                     else {
                         console.log("in else");
