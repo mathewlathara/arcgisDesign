@@ -417,7 +417,7 @@ def predictP(request):
         param_dict = {}
         print(parameters)
         model = pickle.load(
-            open(r'/home/disha/Downloads/forest_reg.sav', 'rb'))
+            open(r'/home/ubuntu/Downloads/forest_reg.sav', 'rb'))
         phosphorus = model.predict(parameters)
         print(phosphorus[0])
         return parameters, phosphorus
@@ -436,7 +436,7 @@ def predictP(request):
         parameters = [[o2, depth, n, nk, tss]]
         print(parameters)
         model = pickle.load(
-            open(r'/home/disha/Downloads/TotalPhosphorous_XG_87.sav', 'rb'))
+            open(r'/home/ubuntu/Downloads/TotalPhosphorous_XG_87.sav', 'rb'))
         phosphorus = model.predict(parameters)
         print(phosphorus[0])
         return parameters, phosphorus
@@ -476,7 +476,7 @@ def upload_file(request):
             df_p = df_p.dropna()
             df_p.to_csv("df_p.csv", index=False)
             model = pickle.load(
-                open(r'/home/disha/Downloads/TotalPhosphorous_XG_87.sav', 'rb'))
+                open(r'/home/ubuntu/Downloads/TotalPhosphorous_XG_87.sav', 'rb'))
             phosphorus = np.round(model.predict(df_p), 2)
             phosphorus = pd.DataFrame(phosphorus)
             phosphorus.columns = ['Phosphorus']
@@ -492,7 +492,7 @@ def upload_file(request):
             df_n = pd.concat([df_n, phosphorus.reindex(df_n.index)], axis=1)
             df_n = df_n.dropna()
             model_n = pickle.load(
-                open(r'/home/disha/Downloads/TotalNitrogen-RF.sav', 'rb'))
+                open(r'/home/ubuntu/Downloads/TotalNitrogen-RF.sav', 'rb'))
             nitrogen = np.round(model_n.predict(df_n), 2)
             nitrogen = pd.DataFrame(nitrogen)
             nitrogen.columns = ["Nitrogen"]
@@ -596,7 +596,7 @@ def upload(request):
 
             if selectedModel == "Random Forest 16F":
                 model = pickle.load(
-                    open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
+                    open(r'/home/ubuntu/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
                 print(test_df.columns)
                 test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                                    'Total Rain (mm) -7day Total', 'Population', 'Nitrate', 'Chloride',
@@ -623,7 +623,7 @@ def upload(request):
 
             elif selectedModel == "XGBoost 5F":  # XGBoost 5F
                 model_xg_1 = pickle.load(
-                    open(r'/home/disha/Downloads/TotalPhosphorous-RF-8F.sav', 'rb'))
+                    open(r'/home/ubuntu/Downloads/TotalPhosphorous-RF-8F.sav', 'rb'))
                 test_df = test_df[['pH', '250mLandCover_Natural', 'DissolvedOxygen',
                                    'Population', 'Chloride',
                                    'Nitrite', 'TotalSuspendedSolids',
@@ -649,7 +649,7 @@ def upload(request):
 
             elif selectedModel == "XGBoost 19F":
                 model_cv = pickle.load(
-                    open(r'/home/disha/Downloads/TotalPhosphorous-XG-19F.sav', 'rb'))
+                    open(r'/home/ubuntu/Downloads/TotalPhosphorous-XG-19F.sav', 'rb'))
                 df_pred = model_cv.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
@@ -718,7 +718,7 @@ def predictN(request):
 
             if selectedModel == "Random Forest":
                 model = pickle.load(
-                    open(r'/home/disha/Downloads/TotalNitrogen-RF-10F.sav', 'rb'))
+                    open(r'/home/ubuntu/Downloads/TotalNitrogen-RF-10F.sav', 'rb'))
                 df_pred = model.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
@@ -740,7 +740,7 @@ def predictN(request):
 
             elif selectedModel == "Cross Validation":
                 model_xg_1 = pickle.load(
-                    open(r'/home/disha/Downloads/TotalNitrogen-SVR.sav', 'rb'))
+                    open(r'/home/ubuntu/Downloads/TotalNitrogen-SVR.sav', 'rb'))
                 df_pred = model_xg_1.predict(test_df)
                 df_pred = pd.DataFrame(df_pred)
                 df_pred.to_csv("pred.csv", index=False)
@@ -1388,7 +1388,7 @@ def prediction(request, radioitem):
         if modeloptionforphosphorusmodel == 0 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-8F"
             returnstatus = "success"
-            model_xg_1 = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
+            model_xg_1 = pickle.load(open(r'/home/ubuntu/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
             # model_xg_1 = pickle.load(open(r'ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
 
             test_df_ = test_df[['pH',	'250mLandCover_Natural (ha)',	'DissolvedOxygen (mg/L)',	'Total Rain (mm) -7day Total',	'Population',	'Nitrate (mg/L)',	'Chloride (mg/L)',	'Nitrite (mg/L)',	'TotalNitrogen (mg/L)',	'TotalSuspendedSolids (mg/L)',	'Nitrogen_Kjeldahl (mg/L)']]
@@ -1415,7 +1415,7 @@ def prediction(request, radioitem):
         if modeloptionforphosphorusmodel == 1 and radioitem == 'tp':
             modelselectedforanalysis = "TotalPhosphorus-RF-11"
             returnstatus = "success"
-            model = pickle.load(open(r'/home/disha/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
+            model = pickle.load(open(r'/home/ubuntu/Downloads/TotalPhosphorous-RF-11.sav', 'rb'))
             # model = pickle.load(open(r'ml_models/TotalPhosphorous-RF-11.sav', 'rb'))
 
             print(test_df.columns)
@@ -1445,7 +1445,7 @@ def prediction(request, radioitem):
         if radioitem == 'tn':
             modelselectedforanalysis = "TotalNitrogen-RF-10F"
             returnstatus = "success"
-            model = pickle.load(open(r'/home/disha/Downloads/TotalNitrogen-RF-10.sav', 'rb'))
+            model = pickle.load(open(r'/home/ubuntu/Downloads/TotalNitrogen-RF-10.sav', 'rb'))
             # model = pickle.load(open(r'ml_models/TotalNitrogen-RF-10F.sav', 'rb'))
 
             test_df_ = test_df[['Month','pH','Population','10mLandCover_Natural(ha)','10mLandCover_AnthropogenicNatural(ha)','TotalSuspendedSolids (mg/L)',	'Conductivity (K)',	'TotalPhosphorus (mg/L)','Chloride (mg/L)',	'Nitrate (mg/L)']]
@@ -1853,10 +1853,10 @@ def getPredictionOutput(request, selected, station, yearFrom, yearTo):
     print(yearFrom, yearTo, selected, station)
     print("print type of station:::", type(station))
     if selected == 'TP':
-        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
+        model_path = "/home/ubuntu/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
         # model_path = "ml_models/TotalPhosphorous-RF-11.sav"
     else:
-        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10.sav"
+        model_path = "/home/ubuntu/Downloads/TotalNitrogen-RF-10.sav"
         # model_path = "ml_models/TotalNitrogen-RF-10F.sav"
 
     print(model_path)
@@ -2072,14 +2072,14 @@ def getPrescribeOutput(request, selected, land0, land1, population0, population1
         isPhos = True
         selected_para = [
             'Natural Land 250m (ha)', 'Population', 'Total Rain (mm) -7day Total']
-        model_path = "/home/disha/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
+        model_path = "/home/ubuntu/Downloads/TotalPhosphorous-RF-11.sav" #ml_models/
         # model_path = "ml_models/TotalPhosphorous-RF-11.sav"
 
     else:
         isPhos = False
         selected_para = [
             'Natural Land 10m (ha)', 'Anthropogenic Natural Land 10m (ha)', 'Population']
-        model_path = "/home/disha/Downloads/TotalNitrogen-RF-10.sav" #ml_models/
+        model_path = "/home/ubuntu/Downloads/TotalNitrogen-RF-10.sav" #ml_models/
         # model_path = "ml_models/TotalNitrogen-RF-10F.sav"
 
     print(model_path)
