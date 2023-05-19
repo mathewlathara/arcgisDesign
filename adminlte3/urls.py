@@ -6,8 +6,7 @@ from .views import index, result, about, upload_file, dashboard_m, yearlyBarChar
     logincontroller, addNewUser, login_after, loginUsingUserCredentials, filterpagefromindex, upload_phosphorus_nitrogen, save_file, datasourcespage, contact_us_page, validateUploadedFile, new_index_page, plotMap, prediction, getYearForAnalysisMap, \
     download_predictedfile, filterDataForAnalysisPage, dextarity, in_dex, contact_us, new_dashboard, features, describe, new_analysis, new_predict, getPredictionOutput,\
     prescribe, getPrescribeOutput,trial, new_upload_data
-from django.views.generic import TemplateView
-from django.conf.urls import include, url
+
 urlpatterns = [
     # path('', home, name='home'),
     # path('result', result, name='result'),
