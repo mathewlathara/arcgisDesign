@@ -252,11 +252,11 @@
                     var g1 = [trace1];
                     //   Plotly.newPlot('predicted_plot', g1, layout1); 
                     if (data.dataset_error == null) {
-                        setTimeout(function() { }, 3600);
+                        var nocache = new Date().getTime();
                         console.log("in ifff");
                         var elem = document.createElement('img');
                         elem.setAttribute('id', "img_plot");
-                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + data.station_ + '.png');
+                        elem.setAttribute("src", 'static/admin-lte/dist/js/data/' + data.station_ + '.png?' + nocache);
                         elem.setAttribute("width", "100%");
                         document.getElementById("placeimage").appendChild(elem);
                         document.getElementById('download_link').setAttribute('href', 'static/admin-lte/dist/js/data/' + data.station_ + 'predicted.csv')
@@ -289,7 +289,7 @@
                         $("#yeartopredicted").html(selectedtoyear);
                     }
                     else {
-                        setTimeout(function() { }, 1000);
+                        var nocache = new Date().getTime();
                         console.log("in else");
                         var elem = document.createElement('p');
                         elem.setAttribute('id', "img_plot");
