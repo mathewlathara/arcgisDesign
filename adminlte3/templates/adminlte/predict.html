@@ -184,6 +184,9 @@
         });
 
         document.getElementById('predict').addEventListener('click', function () {
+            $("#placeimage").empty();
+            $("#notebeforedownload").hide();
+            $("#downloadtext").hide();
             var spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'
             $('#predict').html(spinner);
             if (document.getElementById('img_plot')){
