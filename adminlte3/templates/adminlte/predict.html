@@ -187,6 +187,7 @@
             $("#placeimage").empty();
             $("#notebeforedownload").hide();
             $("#downloadtext").hide();
+            $("#download_btn").hide();
             var spinner = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'
             $('#predict').html(spinner);
             if (document.getElementById('img_plot')){
@@ -251,6 +252,7 @@
                     var g1 = [trace1];
                     //   Plotly.newPlot('predicted_plot', g1, layout1); 
                     if (data.dataset_error == null) {
+                        setTimeout(function() { }, 3600);
                         console.log("in ifff");
                         var elem = document.createElement('img');
                         elem.setAttribute('id', "img_plot");
@@ -287,6 +289,7 @@
                         $("#yeartopredicted").html(selectedtoyear);
                     }
                     else {
+                        setTimeout(function() { }, 1000);
                         console.log("in else");
                         var elem = document.createElement('p');
                         elem.setAttribute('id', "img_plot");
