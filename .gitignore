@@ -46,6 +46,7 @@ Thumbs.db
 #################
 .coverage
 coverage.xml
+*venv
 
 /adminlte3/static/admin-lte/dist/js/node_modules
 /.static
