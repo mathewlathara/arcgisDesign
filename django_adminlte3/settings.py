@@ -59,6 +59,7 @@ ROOT_URLCONF = 'django_adminlte3.urls'
 ALLOWED_HOSTS=['*']
 ACCESS_CONTROL_ALLOW_ORIGIN = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # CORS_ALLOWED_ORIGINS = [
 #     "https://api.tiles.mapbox.com",
 #     "https://events.mapbox.com",
